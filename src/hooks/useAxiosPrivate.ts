@@ -1,6 +1,6 @@
 import { InternalAxiosRequestConfig } from 'axios';
 import { useEffect } from 'react';
-import axios, { axiosPrivate } from '../libs/axios';
+import axios, { axiosPrivate } from '../lib/axios';
 
 const useAxiosPrivate = () => {
 	const refresh = async () => {
