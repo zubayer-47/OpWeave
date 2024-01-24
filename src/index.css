@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600&family=Inter:wght@500;600&family=Poppins:wght@500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --color-primary: 15 23 42;
+        --color-light-text: 226 232 240;
+        --color-dark-text: 15 23 42;
+        --color-dark-muted-text: 148 163 184;
+        --color-light-muted-text: 51 65 85;
+        --color-ring: 24 117 255;
+        --color-border: 62 72 88;
+        --color-nav-selected: 28 35 52;
+    }
+}
+
+@layer components {
+    .title {
+        @apply dark:text-light text-dark text-2xl tracking-wider font-Poppins font-semibold
+    }
+
+    .muted {
+        @apply dark:text-dark-muted text-light-muted font-DM-Sans font-medium
+    }
+}
