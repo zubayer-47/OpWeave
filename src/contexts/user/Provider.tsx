@@ -1,9 +1,9 @@
+import { isAxiosError } from 'axios';
 import { Dispatch, createContext, useEffect, useReducer } from 'react';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate';
 import userReducer from './reducer';
 import { initUserState } from './state';
 import { UserActionType, UserStateType } from './types';
-import { isAxiosError } from 'axios';
 
 export const UserContext = createContext({
 	state: {} as UserStateType,
@@ -40,6 +40,7 @@ const UserProvider: React.FC<{ children: React.ReactNode }> = ({
 						// Do something with this error...
 					} else {
 						console.error(error);
+						console.log('error :', error);
 					}
 				}
 			})();

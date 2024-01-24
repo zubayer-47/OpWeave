@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600&family=Inter:wght@500;600&family=Poppins:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500;9..40,600&family=Inter:wght@300;500;600&family=Poppins:wght@500; 600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -12,17 +12,43 @@
         --color-dark-muted-text: 148 163 184;
         --color-light-muted-text: 51 65 85;
         --color-ring: 24 117 255;
-        --color-border: 62 72 88;
+        --color-dark-border: 62 72 88;
+        --color-light-border: 225 231 239;
         --color-nav-selected: 28 35 52;
+        --color-dark-post: 30 41 59;
     }
 }
 
 @layer components {
+    .flex-group {
+        @apply flex items-center gap-3
+    }
+
     .title {
         @apply dark:text-light text-dark text-2xl tracking-wider font-Poppins font-semibold
     }
 
     .muted {
         @apply dark:text-dark-muted text-light-muted font-DM-Sans font-medium
+    }
+
+    .nav-link {
+        @apply flex bg-nav-selected border dark:border-dark-border border-light-border rounded-lg
+    }
+
+    .inactive-nav-link {
+        @apply bg-transparent border-none
+    }
+
+    .profile {
+        @apply w-12 h-12 object-cover rounded-full ring-2 ring-ring/80 ring-offset-2 ring-offset-primary
+    }
+
+    .post {
+        @apply dark:bg-dark-post bg-light-border border dark:border-dark-border border-light-border rounded-lg
+    }
+
+    .button {
+        @apply bg-ring text-light title text-base px-2.5 py-1 rounded-md
     }
 }
