@@ -10,7 +10,7 @@ import profile from '../assets/profile.webp';
 
 const Nav = () => {
 	return (
-		<div className='col-span-3 bg-transparent h-full my-2'>
+		<div className='col-span-3 mr-16 bg-transparent h-full py-2 border-r dark:border-dark-border border-light-border'>
 			<div className='flex items-center gap-2'>
 				<img className='w-14 h-14' src={logo} alt='OpWeave Logo' />
 				<h1 className='title'>OpWeave</h1>
@@ -28,9 +28,9 @@ const Nav = () => {
 				</div>
 			</div>
 
-			<nav className='2xl:pr-28 mt-10'>
+			<nav className='2xl:pr-24 mt-10'>
 				<div>
-					<div className='flex flex-col gap-5'>
+					<div className='flex flex-col gap-3'>
 						<NavLink
 							to='/'
 							className={({ isActive }) =>
