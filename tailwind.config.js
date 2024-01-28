@@ -14,6 +14,12 @@ export default {
 				'light-border': 'rgb(var(--color-light-border) / <alpha-value>)',
 				'nav-selected': 'rgb(var(--color-nav-selected) / <alpha-value>)',
 				'dark-post': 'rgb(var(--color-dark-post) / <alpha-value>)',
+				lighten: 'rgb(var(--color-lighten) / <alpha-value>)',
+
+				overlay: 'rgb(var(--color-overlay)',
+			},
+			spacing: {
+				102: '46rem',
 			},
 		},
 
@@ -23,5 +29,5 @@ export default {
 			Poppins: '"Poppins", sans-serif',
 		},
 	},
-	plugins: [require('tailwind-scrollbar')],
+	plugins: [require('tailwind-scrollbar')({ nocompatible: true })],
 };
