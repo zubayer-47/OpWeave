@@ -13,7 +13,7 @@ const Post = () => {
 				<div className='flex-group'>
 					<img className='profile' src={profile} alt='profile picture' />
 					<div>
-						<h1 className='title text-lg'>A B M Zubayer</h1>
+						<h1 className='title '>A B M Zubayer</h1>
 						<span className='muted'>@zubayerjs</span>
 					</div>
 				</div>

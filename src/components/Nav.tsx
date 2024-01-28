@@ -7,13 +7,16 @@ import userIcon from '../assets/icons/user.svg';
 import usersIcon from '../assets/icons/users.svg';
 import logo from '../assets/opweave.svg';
 import profile from '../assets/profile.webp';
+import useController from '../hooks/useController';
 
 const Nav = () => {
+	const { openPostModal } = useController();
+
 	return (
 		<div className='col-span-3 mr-16 bg-transparent h-full py-2 border-r dark:border-dark-border border-light-border'>
 			<div className='flex items-center gap-2'>
 				<img className='w-14 h-14' src={logo} alt='OpWeave Logo' />
-				<h1 className='title'>OpWeave</h1>
+				<h1 className='title text-2xl'>OpWeave</h1>
 			</div>
 
 			<div className='flex items-center gap-3 mt-10'>
@@ -23,7 +26,7 @@ const Nav = () => {
 					alt='profile picture'
 				/>
 				<div>
-					<h1 className='title text-lg'>A B M Zubayer</h1>
+					<h1 className='title '>A B M Zubayer</h1>
 					<span className='muted'>@zubayerjs</span>
 				</div>
 			</div>
@@ -40,7 +43,7 @@ const Nav = () => {
 							}
 						>
 							<img src={homeIcon} alt='Home icon' />
-							<h1 className='title text-lg pt-1'>Home</h1>
+							<h1 className='title  pt-1'>Home</h1>
 						</NavLink>
 						<NavLink
 							to='/explore'
@@ -51,11 +54,11 @@ const Nav = () => {
 							}
 						>
 							<img src={exploreIcon} alt='Home icon' />
-							<h1 className='title text-lg pt-1'>Explore</h1>
+							<h1 className='title  pt-1'>Explore</h1>
 						</NavLink>
 
 						<NavLink
-							to='/notification'
+							to='/notifications'
 							className={({ isActive }) =>
 								`flex items-stretch p-3 gap-5 nav-link ${
 									isActive ? '' : 'inactive-nav-link'
@@ -63,7 +66,7 @@ const Nav = () => {
 							}
 						>
 							<img src={bellIcon} alt='Home icon' />
-							<h1 className='title text-lg pt-1'>Notification</h1>
+							<h1 className='title  pt-1'>Notifications</h1>
 						</NavLink>
 
 						<NavLink
@@ -75,7 +78,7 @@ const Nav = () => {
 							}
 						>
 							<img src={usersIcon} alt='Home icon' />
-							<h1 className='title text-lg pt-1'>Communities</h1>
+							<h1 className='title  pt-1'>Communities</h1>
 						</NavLink>
 
 						<NavLink
@@ -87,7 +90,7 @@ const Nav = () => {
 							}
 						>
 							<img src={bookmarkIcon} alt='Home icon' />
-							<h1 className='title text-lg pt-1'>Bookmarks</h1>
+							<h1 className='title  pt-1'>Bookmarks</h1>
 						</NavLink>
 
 						<NavLink
@@ -99,8 +102,15 @@ const Nav = () => {
 							}
 						>
 							<img src={userIcon} alt='Home icon' />
-							<h1 className='title text-lg pt-1'>Profile</h1>
+							<h1 className='title  pt-1'>Profile</h1>
 						</NavLink>
+
+						<button
+							className='title button py-3.5 mt-5'
+							onClick={openPostModal}
+						>
+							Create Post
+						</button>
 					</div>
 				</div>
 			</nav>

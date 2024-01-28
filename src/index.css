@@ -16,6 +16,10 @@
         --color-light-border: 225 231 239;
         --color-nav-selected: 28 35 52;
         --color-dark-post: 30 41 59;
+
+        --color-lighten: 203 221 255;
+
+        --color-overlay: rgba(0, 0, 0, 0.66)
     }
 }
 
@@ -25,7 +29,7 @@
     }
 
     .title {
-        @apply dark:text-light text-dark text-2xl tracking-wider font-Poppins font-semibold
+        @apply dark:text-light text-dark text-lg tracking-wider font-Poppins font-semibold
     }
 
     .muted {
@@ -49,7 +53,15 @@
     }
 
     .button {
-        @apply bg-ring text-light title text-base px-2.5 py-1 rounded-md
+        @apply bg-ring text-light title hover:bg-ring/80 text-base px-2.5 py-1 rounded-md
+    }
+
+    .button-decline {
+        @apply button bg-lighten hover:bg-lighten/80 text-dark text-sm py-1.5 px-3
+    }
+
+    .icon {
+        @apply text-dark-muted stroke-1 block
     }
 
 }
