@@ -1,9 +1,9 @@
 import { InternalAxiosRequestConfig } from 'axios';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import axios, { axiosPrivate } from '../libs/axios';
 
 const useAxiosPrivate = () => {
-	const refresh = async () => {
+	const refresh = useCallback(async () => {
 		try {
 			const res = await axios.get(`/ur/refresh`, {
 				withCredentials: true,
@@ -17,7 +17,7 @@ const useAxiosPrivate = () => {
 			 */
 			return error;
 		}
-	};
+	}, []);
 
 	useEffect(() => {
 		const conf = (config: InternalAxiosRequestConfig) => {
@@ -33,6 +33,7 @@ const useAxiosPrivate = () => {
 			if (error.message !== 'canceled') {
 				const prevRequest = error?.config;
 				const { status, data } = error.response;
+				console.log('data :', data);
 				if (status === 403 && !prevRequest?.sent) {
 					prevRequest.sent = true;
 					const newAccessToken = await refresh();
