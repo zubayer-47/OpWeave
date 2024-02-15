@@ -10,9 +10,11 @@ const RootLayout = ({ children }: PropsWithChildren) => {
 	} = useController();
 	return (
 		<>
-			<div className='container mx-auto grid grid-cols-12 gap-2 px-10 h-screen overflow-hidden'>
-				<Nav />
-				<div className='col-span-6 mr-16'>{children}</div>
+			<Nav />
+			<div className='container mx-auto grid grid-cols-12 gap-2 px-20 pt-28 h-screen overflow-hidden'>
+				<div className='col-span-8 h-full px-28 overflow-y-auto scrollbar-none'>
+					{children}
+				</div>
 				<CommunitySuggestions />
 			</div>
 			{isPostModalOpen ? <CreatePost isModal /> : null}
