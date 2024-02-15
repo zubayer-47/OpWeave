@@ -5,6 +5,7 @@ export default {
 		extend: {
 			colors: {
 				primary: 'rgb(var(--color-primary) / <alpha-value>)',
+				secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
 				light: 'rgb(var(--color-light-text) / <alpha-value>)',
 				dark: 'rgb(var(--color-dark-text) / <alpha-value>)',
 				'dark-muted': 'rgb(var(--color-dark-muted-text) / <alpha-value>)',
@@ -20,6 +21,18 @@ export default {
 			},
 			spacing: {
 				102: '46rem',
+			},
+			boxShadow: {
+				'3xl': '0px 5px 24.4px -19px #F8FAFC',
+			},
+			keyframes: {
+				'navlink-open': {
+					'0%, 100%': { transform: 'rotate(-2deg)' },
+					'50%': { transform: 'rotate(3deg)' },
+				},
+			},
+			animation: {
+				'navlink-open': 'navlink-open 1s ease-in-out forwards',
 			},
 		},
 

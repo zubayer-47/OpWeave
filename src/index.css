@@ -7,14 +7,17 @@
 @layer base {
     :root {
         --color-primary: 15 23 42;
+        --color-secondary: 28 35 52;
         --color-light-text: 226 232 240;
         --color-dark-text: 15 23 42;
         --color-dark-muted-text: 148 163 184;
         --color-light-muted-text: 51 65 85;
-        --color-ring: 24 117 255;
+        --color-ring: 41 120 234;
+        /* --color-ring: 24 117 255; */
         --color-dark-border: 62 72 88;
         --color-light-border: 225 231 239;
-        --color-nav-selected: 28 35 52;
+        /* --color-nav-selected: 28 35 52; */
+        --color-nav-selected: 13 124 255;
         --color-dark-post: 30 41 59;
 
         --color-lighten: 203 221 255;
@@ -37,15 +40,15 @@
     }
 
     .nav-link {
-        @apply flex bg-nav-selected border dark:border-dark-border border-light-border rounded-lg
+        @apply flex items-center px-4 py-2.5 gap-3 bg-nav-selected/10 text-nav-selected font-Poppins font-medium text-base rounded-full
     }
 
     .inactive-nav-link {
-        @apply bg-transparent border-none
+        @apply bg-transparent text-dark-muted
     }
 
     .profile {
-        @apply w-12 h-12 object-cover rounded-full ring-2 ring-ring/80 ring-offset-2 ring-offset-primary
+        @apply size-12 object-cover rounded-full
     }
 
     .post {
@@ -64,4 +67,7 @@
         @apply text-dark-muted stroke-1 block
     }
 
+    .transition-custom {
+        /* @apply */
+    }
 }

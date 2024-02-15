@@ -22,11 +22,14 @@ const CreatePost: FC<Props> = ({ isModal = false }) => {
 
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);
 	const wrapperRef = useRef<HTMLDivElement>(null);
+	const postCommunityRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		if (isModal) {
 			setFocused(true);
 			wrapperRef.current?.focus();
+			console.log('first');
+			if (postCommunityRef.current) postCommunityRef.current.hidden = false;
 		}
 	}, [isModal]);
 
@@ -34,6 +37,7 @@ const CreatePost: FC<Props> = ({ isModal = false }) => {
 		const handleClickOutside = (event: MouseEvent) => {
 			if (!wrapperRef.current?.contains(event.target as Node | null)) {
 				wrapperRef.current?.blur();
+				if (postCommunityRef.current) postCommunityRef.current.hidden = true;
 				setFocused(false);
 			}
 		};
@@ -53,7 +57,11 @@ const CreatePost: FC<Props> = ({ isModal = false }) => {
 
 	const onFocus = useCallback(() => {
 		setFocused(true);
-		textAreaRef.current?.focus();
+
+		if (textAreaRef?.current && postCommunityRef?.current) {
+			textAreaRef.current?.focus();
+			postCommunityRef.current.hidden = false;
+		}
 	}, []);
 
 	return (
@@ -85,47 +93,47 @@ const CreatePost: FC<Props> = ({ isModal = false }) => {
 						/>
 						<div>
 							<h1 className='title '>A B M Zubayer</h1>
-							{!isFocused ? null : (
-								<>
-									<span className='title text-sm font-DM-Sans font-medium text-dark-muted'>
-										Post to:{' '}
-									</span>
-									<select
-										onClick={() => {
-											// wrapperRef.current?.focus();
-											// setFocused(true);
-										}}
-										name='community-selection'
-										className='cursor-pointer outline-none bg-transparent border border-dark-border rounded-full py-0.5 px-2 title text-sm font-DM-Sans font-medium  text-dark-muted'
+							{/* {!isFocused ? null : ( */}
+							<div ref={postCommunityRef} hidden>
+								<span className='title text-sm font-DM-Sans font-medium text-dark-muted'>
+									Post to:{' '}
+								</span>
+								<select
+									onClick={() => {
+										// wrapperRef.current?.focus();
+										// setFocused(true);
+									}}
+									name='community-selection'
+									className='cursor-pointer outline-none bg-transparent border border-dark-border rounded-full py-0.5 px-2 title text-sm font-DM-Sans font-medium  text-dark-muted'
+								>
+									<option
+										value='dev'
+										className='title font-DM-Sans font-medium  text-dark-muted text-sm bg-primary'
+										defaultValue='dev'
 									>
-										<option
-											value='dev'
-											className='title font-DM-Sans font-medium  text-dark-muted text-sm bg-primary'
-											defaultValue='dev'
-										>
-											Dev community
-										</option>
-										<option
-											value='vibe'
-											className='title font-DM-Sans font-medium  text-dark-muted text-sm bg-primary'
-										>
-											Vibe community
-										</option>
-										<option
-											value='news'
-											className='title font-DM-Sans font-medium  text-dark-muted text-sm bg-primary'
-										>
-											News community
-										</option>
-										<option
-											value='b'
-											className='title font-DM-Sans font-medium  text-dark-muted text-sm bg-primary'
-										>
-											Bias community
-										</option>
-									</select>
-								</>
-							)}
+										Dev community
+									</option>
+									<option
+										value='vibe'
+										className='title font-DM-Sans font-medium  text-dark-muted text-sm bg-primary'
+									>
+										Vibe community
+									</option>
+									<option
+										value='news'
+										className='title font-DM-Sans font-medium  text-dark-muted text-sm bg-primary'
+									>
+										News community
+									</option>
+									<option
+										value='b'
+										className='title font-DM-Sans font-medium  text-dark-muted text-sm bg-primary'
+									>
+										Bias community
+									</option>
+								</select>
+							</div>
+							{/* )} */}
 						</div>
 					</div>
 
