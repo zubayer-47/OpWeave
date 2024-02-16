@@ -16,13 +16,13 @@
         /* --color-ring: 24 117 255; */
         --color-dark-border: 62 72 88;
         --color-light-border: 225 231 239;
-        /* --color-nav-selected: 28 35 52; */
         --color-nav-selected: 13 124 255;
         --color-dark-post: 30 41 59;
 
         --color-lighten: 203 221 255;
 
-        --color-overlay: rgba(0, 0, 0, 0.66)
+        --color-overlay: rgba(0, 0, 0, 0.66);
+        --color-sub-modal: 12 20 39;
     }
 }
 

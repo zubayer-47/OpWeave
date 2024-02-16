@@ -4,7 +4,10 @@ import profile from '../../../assets/profile.webp';
 
 export const NotificationItem = () => {
 	return (
-		<div className='hover:bg-nav-selected transition-all p-5 flex justify-between items-center rounded-2xl'>
+		<Link
+			to={'/'}
+			className='hover:bg-secondary transition-all p-5 flex justify-between items-center rounded-2xl'
+		>
 			<div className='flex justify-center gap-5'>
 				<Link to='/'>
 					<img
@@ -24,13 +27,13 @@ export const NotificationItem = () => {
 			<button>
 				<MoreHorizontal className='text-light' />
 			</button>
-		</div>
+		</Link>
 	);
 };
 
 export const NotificationActionableItem = () => {
 	return (
-		<div className='hover:bg-nav-selected transition-all p-5 flex justify-between items-center rounded-2xl'>
+		<div className='hover:bg-secondary transition-all p-5 flex justify-between items-center rounded-2xl'>
 			<div className='flex justify-center gap-5'>
 				<Link to='/'>
 					<img

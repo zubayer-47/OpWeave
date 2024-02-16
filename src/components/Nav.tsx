@@ -2,6 +2,7 @@ import { Bell, ChevronDown, Compass, Home, Mail } from 'lucide-react';
 import { NavLink, useLocation } from 'react-router-dom';
 import logo from '../assets/opweave.webp';
 import profile from '../assets/profile.webp';
+import SubModal from './Modals/SubModal';
 
 const navLinks = [
 	{ path: '/', label: 'Home', Icon: Home },
@@ -19,17 +20,18 @@ const Nav = () => {
 	// console.log('activeItem :', activeItem);
 
 	return (
-		<nav className='absolute w-full h-[76px] grid items-center bg-primary z-10 shadow-3xl'>
+		<nav className='absolute w-full h-[4.75rem] grid items-center bg-primary z-10 shadow-3xl px-10'>
 			<div className='flex justify-between items-center'>
 				<div className='flex items-center'>
 					<img src={logo} className='profile' alt='OpWeave logo' />
 					<input type='search' name='search' />
 				</div>
 
-				<div className='flex items-center gap-8'>
+				<div className='flex items-center gap-5'>
 					<div className='flex items-center gap-4'>
 						{navLinks.map(({ Icon, label, path }) => (
 							<NavLink
+								key={path}
 								to={path}
 								className={({ isActive }) =>
 									`nav-link transition-all duration-200 ${
@@ -51,15 +53,17 @@ const Nav = () => {
 						))}
 					</div>
 
-					<div className='flex items-center gap-3'>
-						<img
-							className='profile ring-2 ring-ring/80 ring-offset-2 ring-offset-primary'
-							src={profile}
-							alt='user profile'
-						/>
+					<span className='w-1 bg-dark-muted/25 h-10 rounded-full'></span>
+
+					<button
+						type='button'
+						className='flex items-center gap-3 hover:bg-secondary px-3 py-1.5 rounded-2xl transition-colors relative'
+					>
+						<img className='profile' src={profile} alt='user profile' />
 						<h1 className='title'>A B M Zubayer</h1>
 						<ChevronDown className='text-dark-muted' />
-					</div>
+						<SubModal />
+					</button>
 				</div>
 			</div>
 		</nav>
