@@ -9,19 +9,20 @@ interface Props extends PropsWithChildren {
 }
 
 const PermissionWrapper = ({ permission, children, links = false }: Props) => {
-	// debugger;
-	console.log('permission :', permission);
 	const { state } = useAuth();
-	console.log('state :', state);
-
 	const right = state.user?.rights;
-	// console.log('right :', right);
+
+	// 100 permission code means it's a public route
+	if (!right && permission === 100) {
+		return children;
+	}
 
 	const hasRight = Array.isArray(permission)
-		? permission.includes(right!)
+		? permission.includes(right as number)
 		: right === permission;
 
 	console.log('hasRight :', hasRight);
+
 	if (!hasRight) {
 		return links ? null : <AccessDenied />;
 	}
