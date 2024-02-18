@@ -56,6 +56,10 @@
         @apply dark:bg-dark-post bg-light-border border dark:border-dark-border border-light-border rounded-lg
     }
 
+    .auth {
+        @apply h-fit w-102 mx-2 my-auto md:m-auto dark:bg-secondary shadow-sub-modal py-7 px-14 rounded-xl
+    }
+
     .button {
         @apply bg-nav-selected hover:bg-nav-selected/80 title text-base font-DM-Sans px-2.5 py-1 rounded-md transition-colors
     }
@@ -83,5 +87,9 @@
 
     .badge-text {
         @apply title text-xs absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+    }
+
+    .link {
+        @apply title font-DM-Sans text-sm text-nav-selected hover:underline hover:underline-offset-4
     }
 }

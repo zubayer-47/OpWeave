@@ -62,7 +62,7 @@ const ForgetPass: FC<Props> = ({ setIsForgetPass }) => {
 	};
 
 	return (
-		<div className='h-fit w-102 mx-2 my-auto md:m-auto shadow-xl bg-white p-7 rounded-xl'>
+		<div className='auth animate-auth-switch'>
 			<button
 				onClick={() => setIsForgetPass(false)}
 				type='button'

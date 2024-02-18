@@ -38,10 +38,10 @@ const LoginPage: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 	};
 
 	return (
-		<div className='h-fit w-102 mx-2 my-auto md:m-auto shadow-xl bg-white p-7 rounded-xl'>
+		<div className='auth animate-auth-switch'>
 			<div className='text-center space-y-2'>
-				<h1 className='text-2xl font-bold tracking-wide'>Login Account</h1>
-				<p className='text-sm text-gray-500'>
+				<h1 className='title text-xl font-Inter'>Log In</h1>
+				<p className='title text-xs text-dark-muted font-Inter'>
 					Hey, Enter Your Details to Login Your Account
 				</p>
 			</div>
@@ -51,7 +51,8 @@ const LoginPage: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 					{state.authError?.message}
 				</p>
 			)}
-			<form onSubmit={onSubmit} className='mt-5 space-y-2'>
+
+			<form onSubmit={onSubmit} className='mt-5 grid gap-3'>
 				<Input
 					name='username'
 					handler={handleInput}
@@ -71,15 +72,15 @@ const LoginPage: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 					isLoading={state.authLoading}
 					isRequired
 				/>
+
 				<button
 					type='button'
+					className='link w-fit mb-3'
 					onClick={() => setIsForgetPass(true)}
-					className='pb-5'
 				>
 					Forgot Password?
 				</button>
 
-				<br />
 				<Button
 					title='Login Account'
 					type='submit'
@@ -88,7 +89,9 @@ const LoginPage: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 			</form>
 
 			<p className='text-center mt-5'>
-				<span className='text-gray-600 font-light'>Don't Have an Account?</span>{' '}
+				<span className='title font-DM-Sans text-sm'>
+					Don't Have an Account?
+				</span>{' '}
 				<button
 					type='button'
 					onClick={() => {
@@ -100,7 +103,7 @@ const LoginPage: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 
 						setIsLogin(false);
 					}}
-					className='font-bold'
+					className='link'
 				>
 					Register Now
 				</button>

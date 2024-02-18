@@ -29,7 +29,7 @@ const Button = ({
 			// 		? 'bg-transparent text-nav-selected hover:underline'
 			// 		: 'bg-nav-selected text-light'
 			// }`}
-			className={`button px-4 py-2 ${
+			className={`button px-4 py-2 w-fit ${
 				(isLoading || isDisabled) && 'opacity-60'
 			} ${
 				transparent
