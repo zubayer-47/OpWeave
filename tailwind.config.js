@@ -17,6 +17,7 @@ export default {
 				'dark-post': 'rgb(var(--color-dark-post) / <alpha-value>)',
 				lighten: 'rgb(var(--color-lighten) / <alpha-value>)',
 				subModal: 'rgb(var(--color-sub-modal) / <alpha-value>)',
+				cRed: 'rgb(var(--color-red) / <alpha-value>)',
 
 				overlay: 'rgb(var(--color-overlay)',
 			},
@@ -25,7 +26,7 @@ export default {
 			},
 			boxShadow: {
 				'3xl': '0px 5px 24.4px -19px #F8FAFC',
-				'sub-modal': '0px 4px 24px -15px #F8FAFC',
+				'sub-modal': '0px 2px 24px -15px #F8FAFC',
 			},
 			keyframes: {
 				'navlink-open': {

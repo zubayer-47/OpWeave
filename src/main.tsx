@@ -4,6 +4,7 @@ import { HashRouter } from 'react-router-dom';
 import App from './App.tsx';
 import ErrorBoundary from './components/errors/ErrorBoundary.tsx';
 import ControllerProvider from './contexts/controller/Provider.tsx';
+import ModalProvider from './contexts/modal/Provider.tsx';
 import UserProvider from './contexts/user/Provider.tsx';
 import './index.css';
 
@@ -13,7 +14,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 			<HashRouter>
 				<UserProvider>
 					<ControllerProvider>
-						<App />
+						<ModalProvider>
+							<App />
+						</ModalProvider>
 					</ControllerProvider>
 				</UserProvider>
 			</HashRouter>
