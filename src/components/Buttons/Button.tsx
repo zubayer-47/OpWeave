@@ -22,12 +22,19 @@ const Button = ({
 	return (
 		<button
 			type={type}
-			className={`px-4 p-2 rounded-lg outline-none tracking-wide ${
+			// className={`px-4 p-2 rounded-lg outline-none tracking-wide ${
+			// 	(isLoading || isDisabled) && 'opacity-60'
+			// } ${
+			// 	transparent
+			// 		? 'bg-transparent text-nav-selected hover:underline'
+			// 		: 'bg-nav-selected text-light'
+			// }`}
+			className={`button px-4 py-2 ${
 				(isLoading || isDisabled) && 'opacity-60'
 			} ${
 				transparent
-					? 'bg-transparent text-indigo-500 hover:underline'
-					: 'bg-indigo-500 text-white'
+					? 'bg-transparent text-nav-selected border border-nav-selected hover:bg-nav-selected hover:text-light'
+					: 'bg-nav-selected text-light'
 			}`}
 			onClick={handler}
 			disabled={isLoading || isDisabled}

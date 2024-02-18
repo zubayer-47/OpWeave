@@ -14,7 +14,7 @@ const Auth = () => {
 
 	console.log('isLoggedIn :', isLoggedIn);
 	return (
-		<>
+		<div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
 			{isLoggedIn && <Navigate to='/' />}
 
 			{!isLogin ? (
@@ -24,7 +24,7 @@ const Auth = () => {
 			) : (
 				<ForgetPass setIsForgetPass={setIsForgetPass} />
 			)}
-		</>
+		</div>
 	);
 };
 

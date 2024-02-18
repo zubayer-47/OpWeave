@@ -38,7 +38,7 @@ const LoginPage: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 	};
 
 	return (
-		<div className='h-fit max-w-102 mx-2 my-auto md:m-auto shadow-xl bg-white p-7 rounded-xl'>
+		<div className='h-fit w-102 mx-2 my-auto md:m-auto shadow-xl bg-white p-7 rounded-xl'>
 			<div className='text-center space-y-2'>
 				<h1 className='text-2xl font-bold tracking-wide'>Login Account</h1>
 				<p className='text-sm text-gray-500'>

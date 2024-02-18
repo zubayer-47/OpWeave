@@ -6,7 +6,7 @@ import {
 	LucideIcon,
 	Mail,
 } from 'lucide-react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import PermissionWrapper from '../Routes/PermissionWrapper';
 import logo from '../assets/opweave.webp';
 import profile from '../assets/profile.webp';
@@ -48,6 +48,7 @@ const navLinks: NavLinkType[] = [
 const Nav = () => {
 	// const { state } = useAuth();
 	const location = useLocation();
+	const navigate = useNavigate();
 	const pathname = location.pathname;
 	// console.log('pathname :', pathname);
 	const { updateModal } = useModal();
@@ -55,7 +56,11 @@ const Nav = () => {
 	const activeItem = navLinks.find((link) => link.path === pathname);
 	// console.log('activeItem :', activeItem);
 
-	const handleLoginModal = () => updateModal(true);
+	const handleLoginModal = () => {
+		updateModal(true);
+
+		navigate('/auth', { state: { from: location } });
+	};
 
 	return (
 		<nav className='absolute w-full h-[4.75rem] grid items-center bg-primary z-10 shadow-3xl px-10'>
@@ -131,7 +136,7 @@ const Nav = () => {
 						<PermissionWrapper permission={UserRight.FREE} links>
 							<button
 								type='button'
-								className='button px-7 py-2.5 flex items-center gap-2'
+								className='button px-7 py-2.5'
 								onClick={handleLoginModal}
 							>
 								Log In

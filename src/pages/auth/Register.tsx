@@ -73,11 +73,11 @@ const RegisterPage: FC<Props> = ({ setIsLogin }) => {
 		form.credentials;
 
 	return (
-		<div className='h-fit max-w-102 mx-2 my-auto md:m-auto shadow-xl bg-white p-7 rounded-xl'>
+		<div className='h-fit w-102 mx-2 my-auto md:m-auto dark:bg-secondary shadow-sub-modal border dark:border-dark-border p-7 rounded-xl'>
 			<div className=''>
-				<div className='text-center space-y-2'>
-					<h1 className='text-2xl font-bold tracking-wide'>Registration</h1>
-					<p className='text-sm text-gray-500'>
+				<div className='text-center space-y-1'>
+					<h1 className='title text-xl font-Inter'>Registration</h1>
+					<p className='title text-xs text-dark-muted font-Inter'>
 						Hey, Enter Your Details to Register Account
 					</p>
 				</div>
@@ -192,13 +192,13 @@ const RegisterPage: FC<Props> = ({ setIsLogin }) => {
 				</form>
 
 				<p className='text-center mt-5'>
-					<span className='text-gray-600 font-light'>
+					<span className='title font-DM-Sans text-sm'>
 						Already Have an Account?
 					</span>{' '}
 					<button
 						type='button'
 						onClick={() => setIsLogin(true)}
-						className='font-bold'
+						className='title font-DM-Sans text-sm text-nav-selected hover:underline hover:underline-offset-4'
 					>
 						Login Now
 					</button>

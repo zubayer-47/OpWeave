@@ -22,6 +22,7 @@ export default {
 				overlay: 'rgb(var(--color-overlay)',
 			},
 			spacing: {
+				100: '28rem',
 				102: '46rem',
 			},
 			boxShadow: {

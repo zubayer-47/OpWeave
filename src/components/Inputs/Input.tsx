@@ -1,5 +1,5 @@
+import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
-import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { InputType } from '../../types/custom';
 
 type InputProp = {
@@ -31,7 +31,7 @@ const Input = ({
 			{showLabel && (
 				<label
 					htmlFor={name}
-					className={`capitalize font-semibold text-sm  text-slate-600 ${
+					className={`title text-sm font-Inter text-dark-muted ${
 						!isRequired ? '' : "after:content-['*'] after:text-red-500"
 					}`}
 				>
@@ -41,7 +41,9 @@ const Input = ({
 			<input
 				type={type}
 				name={name}
-				className='w-full p-3 rounded-lg bg-transparent outline-none tracking-wider border border-indigo-200'
+				id={name}
+				// className='w-full p-3 rounded-lg bg-transparent outline-none tracking-wider border border-indigo-200'
+				className='block w-full p-3 text-sm text-dark rounded-lg outline-none border focus:border-nav-selected dark:bg-secondary dark:border-dark-border dark:placeholder-dark-muted dark:text-light dark:focus:border-blue-500 transition-all'
 				placeholder={hint}
 				value={value || ''}
 				onChange={handler}
@@ -78,38 +80,41 @@ export const PasswordInput = ({
 			{showLabel && (
 				<label
 					htmlFor={name}
-					className={`capitalize font-semibold text-sm  text-slate-600 ${
+					className={`title text-sm font-Inter text-dark-muted ${
 						!isRequired ? '' : "after:content-['*'] after:text-red-500"
 					}`}
 				>
 					{hint}
 				</label>
 			)}
-			<div
-				className={`flex items-stretch border rounded-lg ${
-					!notMatched ? 'border-indigo-200' : 'border-red-500'
-				}`}
-			>
+			<div className='relative'>
+				{!value ? null : (
+					<div className='absolute inset-y-0 end-0 flex items-center pe-3'>
+						<button type='button' onClick={onVisible}>
+							{show ? (
+								<EyeOff className='w-5 h-5 stroke-1 dark:text-dark-muted' />
+							) : (
+								<Eye className='w-5 h-5 stroke-1 dark:text-dark-muted' />
+							)}
+						</button>
+					</div>
+				)}
+
 				<input
 					type={show ? 'text' : 'password'}
 					name={name}
-					className={`flex-1 p-3 bg-transparent outline-none tracking-wider`}
+					id={name}
+					className={`block w-full px-3 py-2.5 pe-10 text-sm text-dark rounded-lg focus:outline-none border focus:border-nav-selected dark:bg-secondary dark:placeholder-dark-muted dark:text-light dark:focus:border-blue-500 ${
+						!notMatched ? 'dark:border-dark-border' : 'border-red-500'
+					}`}
 					placeholder={hint}
 					value={value || ''}
 					onChange={handler}
 					disabled={isLoading}
 					required={isRequired}
 				/>
-				{!value ? null : (
-					<button type='button' className='p-2' onClick={onVisible}>
-						{show ? (
-							<FiEyeOff className='w-5 h-5 stroke-1 text-indigo-300' />
-						) : (
-							<FiEye className='w-5 h-5 stroke-1 text-indigo-300' />
-						)}
-					</button>
-				)}
 			</div>
+
 			{!error ? null : (
 				<p className='ml-2 text-sm text-red-400 tracking-wide'>{error}</p>
 			)}
