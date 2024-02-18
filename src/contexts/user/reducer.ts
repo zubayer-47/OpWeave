@@ -15,6 +15,7 @@ const userReducer = (
 		case 'SET_AUTH': {
 			const userInfo = action.payload;
 			return {
+				...state,
 				authLoading: false,
 				isLoggedIn: true,
 				user: {
