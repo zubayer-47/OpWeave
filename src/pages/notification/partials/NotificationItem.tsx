@@ -6,12 +6,12 @@ export const NotificationItem = () => {
 	return (
 		<Link
 			to={'/'}
-			className='hover:bg-secondary transition-all p-5 flex justify-between items-center rounded-2xl'
+			className='hover:bg-light-border dark:hover:bg-dark-secondary transition-all p-5 flex justify-between items-center rounded-2xl'
 		>
 			<div className='flex justify-center gap-5'>
 				<Link to='/'>
 					<img
-						className='profile ring-2 ring-ring/80 ring-offset-2 ring-offset-primary'
+						className='profile'
 						src={profile}
 						alt="A B M Zubayer's profile"
 					/>
@@ -25,7 +25,7 @@ export const NotificationItem = () => {
 			</div>
 
 			<button>
-				<MoreHorizontal className='text-light' />
+				<MoreHorizontal className='text-light-text' />
 			</button>
 		</Link>
 	);
@@ -33,11 +33,11 @@ export const NotificationItem = () => {
 
 export const NotificationActionableItem = () => {
 	return (
-		<div className='hover:bg-secondary transition-all p-5 flex justify-between items-center rounded-2xl'>
+		<div className='hover:bg-light-border dark:hover:bg-dark-secondary transition-all p-5 flex justify-between items-center rounded-2xl'>
 			<div className='flex justify-center gap-5'>
 				<Link to='/'>
 					<img
-						className='profile ring-2 ring-ring/80 ring-offset-2 ring-offset-primary'
+						className='profile'
 						src={profile}
 						alt="A B M Zubayer's profile"
 					/>
@@ -49,7 +49,7 @@ export const NotificationActionableItem = () => {
 					<span className='title text-sm text-dark-muted'>3s ago</span>
 
 					<div className='flex items-center gap-3 mt-3'>
-						<button className='button text-light text-sm py-1.5 px-3'>
+						<button className='button text-light-text text-sm py-1.5 px-3'>
 							Accept
 						</button>
 						<button className='button-decline'>Decline</button>
@@ -58,7 +58,7 @@ export const NotificationActionableItem = () => {
 			</div>
 
 			<button>
-				<MoreHorizontal className='text-light' />
+				<MoreHorizontal className='text-light-text' />
 			</button>
 		</div>
 	);

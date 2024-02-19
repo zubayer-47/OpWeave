@@ -27,14 +27,14 @@ const Button = ({
 			// } ${
 			// 	transparent
 			// 		? 'bg-transparent text-nav-selected hover:underline'
-			// 		: 'bg-nav-selected text-light'
+			// 		: 'bg-nav-selected text-light-text'
 			// }`}
 			className={`button px-4 py-2 w-fit ${
 				(isLoading || isDisabled) && 'opacity-60'
 			} ${
 				transparent
-					? 'bg-transparent text-nav-selected border border-nav-selected hover:bg-nav-selected hover:text-light'
-					: 'bg-nav-selected text-light'
+					? 'bg-transparent text-nav-selected border border-nav-selected hover:bg-nav-selected hover:text-light-text'
+					: 'bg-nav-selected text-light-text'
 			}`}
 			onClick={handler}
 			disabled={isLoading || isDisabled}

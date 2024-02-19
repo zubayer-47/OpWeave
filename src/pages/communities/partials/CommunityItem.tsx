@@ -3,7 +3,7 @@ import profile from '../../../assets/profile2.jpg';
 
 const CommunityItem = () => {
 	return (
-		<div className='bg-dark-post border border-dark-border rounded-xl flex justify-between items-start px-5 py-5 transition-custom'>
+		<div className='bg-dark-post border border-dark-border rounded-xl flex justify-between items-start px-5 py-5'>
 			<div className='flex items-center gap-3'>
 				<button>
 					<img

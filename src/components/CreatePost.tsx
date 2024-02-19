@@ -67,7 +67,9 @@ const CreatePost: FC<Props> = ({ isModal = false }) => {
 	return (
 		<div
 			className={`${
-				isModal ? 'fixed inset-0 bg-primary/75 flex justify-center' : ''
+				isModal
+					? 'fixed inset-0 bg-light-bg dark:bg-dark-bg/75 flex justify-center'
+					: ''
 			}`}
 		>
 			{isModal ? (
@@ -87,15 +89,15 @@ const CreatePost: FC<Props> = ({ isModal = false }) => {
 				<div className='flex justify-between items-start'>
 					<div className='flex items-center gap-3'>
 						<img
-							className='profile ring-2 ring-ring/80 ring-offset-2 ring-offset-primary'
+							className='profile ring-2 ring-ring/80 ring-offset-2 ring-offset-light-bg dark:ring-offset-dark-bg'
 							src={profile}
 							alt='profile picture'
 						/>
 						<div>
-							<h1 className='title '>A B M Zubayer</h1>
+							<h1 className='title'>A B M Zubayer</h1>
 							{/* {!isFocused ? null : ( */}
 							<div ref={postCommunityRef} hidden>
-								<span className='title text-sm font-DM-Sans font-medium text-dark-muted'>
+								<span className='title text-sm font-DM-Sans font-medium text-light-muted dark:text-dark-muted'>
 									Post to:{' '}
 								</span>
 								<select
@@ -104,30 +106,30 @@ const CreatePost: FC<Props> = ({ isModal = false }) => {
 										// setFocused(true);
 									}}
 									name='community-selection'
-									className='cursor-pointer outline-none bg-transparent border border-dark-border rounded-full py-0.5 px-2 title text-sm font-DM-Sans font-medium  text-dark-muted'
+									className='cursor-pointer outline-none bg-transparent border border-light-muted/70 dark:border-dark-border rounded-full py-0.5 px-2 title text-sm font-DM-Sans font-medium text-light-muted dark:text-dark-muted'
 								>
 									<option
 										value='dev'
-										className='title font-DM-Sans font-medium  text-dark-muted text-sm bg-primary'
+										className='title font-DM-Sans font-medium  text-light-muted dark:text-dark-muted text-sm bg-light-bg dark:bg-dark-bg'
 										defaultValue='dev'
 									>
 										Dev community
 									</option>
 									<option
 										value='vibe'
-										className='title font-DM-Sans font-medium  text-dark-muted text-sm bg-primary'
+										className='title font-DM-Sans font-medium  text-light-muted dark:text-dark-muted text-sm bg-light-bg dark:bg-dark-bg'
 									>
 										Vibe community
 									</option>
 									<option
 										value='news'
-										className='title font-DM-Sans font-medium  text-dark-muted text-sm bg-primary'
+										className='title font-DM-Sans font-medium  text-light-muted dark:text-dark-muted text-sm bg-light-bg dark:bg-dark-bg'
 									>
 										News community
 									</option>
 									<option
 										value='b'
-										className='title font-DM-Sans font-medium  text-dark-muted text-sm bg-primary'
+										className='title font-DM-Sans font-medium  text-light-muted dark:text-dark-muted text-sm bg-light-bg dark:bg-dark-bg'
 									>
 										Bias community
 									</option>
@@ -158,7 +160,7 @@ const CreatePost: FC<Props> = ({ isModal = false }) => {
 
 				{!isFocused ? null : (
 					<div className='absolute right-0 left-0 bottom-3 space-y-3'>
-						<hr className='border-dark-border' />
+						<hr className='border border-light-border dark:border-dark-border' />
 
 						<div className='flex justify-between items-stretch px-4'>
 							<div className='flex items-center gap-4'>
@@ -173,8 +175,8 @@ const CreatePost: FC<Props> = ({ isModal = false }) => {
 								</button>
 							</div>
 							<button
-								className='title button text-sm px-4 py-2 disabled:bg-ring/50 disabled:text-light/70'
-								disabled
+								className='title button text-sm text-light-text px-4 py-2 disabled:bg-nav-selected/80 disabled:text-light-text/80'
+								disabled={!text}
 							>
 								Post
 							</button>

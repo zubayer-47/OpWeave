@@ -1,11 +1,11 @@
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, Users2 } from 'lucide-react';
 import bookmark from '../assets/icons/bookmark.svg';
 import comment from '../assets/icons/comment.svg';
 import heart from '../assets/icons/love.svg';
 import share from '../assets/icons/share.svg';
-import users from '../assets/icons/users.svg';
 import profile from '../assets/profile.webp';
 import { trunc } from '../libs/helpers';
+('lucide-react');
 
 const Post = () => {
 	return (
@@ -14,21 +14,21 @@ const Post = () => {
 				<div className='flex-group'>
 					<img className='profile' src={profile} alt='profile picture' />
 					<div>
-						<h1 className='title '>A B M Zubayer</h1>
+						<h1 className='title'>A B M Zubayer</h1>
 						<span className='muted'>@zubayerjs</span>
 					</div>
 				</div>
 
 				<div className='flex flex-col items-end'>
 					<div className='flex-group'>
-						<img className='size-6' src={users} alt='community icon' />
+						<Users2 className='icon size-6' />
 						<button className='title text-sm'>dev community</button>
 					</div>
 
 					<div className='flex-group'>
 						<button className='button'>Join</button>
 						<button>
-							<MoreHorizontal className='text-light' />
+							<MoreHorizontal className='text-light-text' />
 						</button>
 					</div>
 				</div>

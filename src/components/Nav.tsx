@@ -42,7 +42,6 @@ const navLinks: NavLinkType[] = [
 		permission: permissions.all,
 	},
 	{ path: '/chat', label: 'Chat', Icon: Mail, permission: permissions.all },
-	{ path: '/auth', label: 'Auth', Icon: Mail, permission: permissions.all },
 ];
 
 const Nav = () => {
@@ -63,7 +62,7 @@ const Nav = () => {
 	};
 
 	return (
-		<nav className='absolute w-full h-[4.75rem] grid items-center bg-primary z-10 shadow-3xl px-10'>
+		<nav className='absolute w-full h-[4.75rem] grid items-center bg-light-modal dark:bg-dark-bg z-10 drop-shadow-md dark:shadow-3xl px-10'>
 			<div className='flex justify-between items-center'>
 				<div className='flex items-center gap-5'>
 					<Link to='/'>
@@ -73,7 +72,7 @@ const Nav = () => {
 					<form>
 						<label
 							htmlFor='search'
-							className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white'
+							className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-light-text'
 						>
 							Search
 						</label>
@@ -98,7 +97,7 @@ const Nav = () => {
 							<input
 								type='search'
 								name='search'
-								className='block w-full px-3 py-2.5 ps-10 text-sm text-dark rounded-lg focus:outline-none border focus:border-nav-selected dark:bg-secondary dark:border-dark-border dark:placeholder-dark-muted dark:text-light dark:focus:border-blue-500'
+								className='block w-full px-3 py-2.5 ps-10 text-sm text-dark-text rounded-lg focus:outline-none border focus:border-nav-selected dark:bg-dark-secondary dark:border-dark-border dark:placeholder-dark-muted dark:text-light-text dark:focus:border-blue-500'
 								placeholder='Search'
 								required
 							/>
@@ -108,29 +107,29 @@ const Nav = () => {
 
 				<div className='flex items-center gap-5'>
 					<div className='flex items-center gap-4'>
-						{navLinks.map(({ Icon, label, path }) => (
-							// <PermissionWrapper key={path} permission={permission} links>
-							<NavLink
-								to={path}
-								className={({ isActive }) =>
-									`nav-link transition-all duration-200 ${
-										!isActive && 'inactive-nav-link block p-0'
-									}`
-								}
-							>
-								<Icon
-									// size={28}
-									className={`${
-										activeItem?.path === path
-											? 'size-6 text-nav-selected'
-											: 'size-7 text-dark-muted'
-									}`}
-								/>
-								<span className='animate-navlink-open'>
-									{activeItem?.path === path ? label : null}
-								</span>
-							</NavLink>
-							// </PermissionWrapper>
+						{navLinks.map(({ Icon, label, path, permission }) => (
+							<PermissionWrapper key={path} permission={permission} links>
+								<NavLink
+									to={path}
+									className={({ isActive }) =>
+										`nav-link transition-all duration-200 ${
+											!isActive && 'inactive-nav-link block p-0'
+										}`
+									}
+								>
+									<Icon
+										// size={28}
+										className={`${
+											activeItem?.path === path
+												? 'size-6 text-nav-selected'
+												: 'size-7 text-dark-muted'
+										}`}
+									/>
+									<span className='animate-navlink-open'>
+										{activeItem?.path === path ? label : null}
+									</span>
+								</NavLink>
+							</PermissionWrapper>
 						))}
 
 						<PermissionWrapper permission={UserRight.FREE} links>
@@ -151,7 +150,7 @@ const Nav = () => {
 						<span className='w-1 bg-dark-muted/25 h-10 rounded-full'></span>
 						<button
 							type='button'
-							className='flex items-center gap-3 hover:bg-secondary px-3 py-1.5 rounded-2xl transition-colors relative'
+							className='flex items-center gap-3 hover:bg-dark-secondary px-3 py-1.5 rounded-2xl transition-colors relative'
 						>
 							<img className='profile' src={profile} alt='user profile' />
 							<h1 className='title'>A B M Zubayer</h1>

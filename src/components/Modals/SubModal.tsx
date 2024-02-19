@@ -4,10 +4,10 @@ import profile from '../../assets/profile.webp';
 
 const SubModal = () => {
 	return (
-		<div className='absolute top-24 right-14 w-full md:w-96 bg-subModal p-3 shadow-sub-modal rounded-2xl divide-y divide-dark-muted/50'>
+		<div className='absolute top-24 right-14 w-full md:w-96 bg-dark-subModal p-3 shadow-sub-modal rounded-2xl divide-y divide-dark-muted/50'>
 			<button
 				type='button'
-				className='flex items-center gap-3 px-4 py-2 hover:bg-light/10 w-full rounded-xl transition-colors mb-3'
+				className='flex items-center gap-3 px-4 py-2 hover:bg-light-bg/10 w-full rounded-xl transition-colors mb-3'
 			>
 				<img className='profile' src={profile} alt='' />
 

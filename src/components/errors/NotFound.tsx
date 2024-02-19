@@ -31,12 +31,12 @@ const NotFound = () => (
 		{/* <div className='p-3' /> */}
 		<main className='flex-1 page_body pb-3'>
 			<div className='mx-3 md:mx-0 select-none overflow-hidden'>
-				<p className='mb-2 text-5xl text-cst-red'>404</p>
-				<p className='flex items-center mb-3 text-3xl font-bold text-cst-secondary-light'>
+				<p className='mb-2 text-5xl text-red-500'>404</p>
+				<p className='flex items-center mb-3 text-3xl font-bold text-light-text dark:text-dark-text'>
 					<span>Page not found</span>
 					<span className='ml-1'>:(</span>
 				</p>
-				<p className='text-gray-300'>
+				<p className='title text-base'>
 					Opps! the page you are looking for does&apos;t exist
 				</p>
 				<GoHome />

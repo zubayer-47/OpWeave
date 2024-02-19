@@ -6,21 +6,24 @@
 
 @layer base {
     :root {
-        --color-primary: 15 23 42;
-        --color-secondary: 28 35 52;
-        --color-light-text: 226 232 240;
-        --color-dark-text: 15 23 42;
+        /* dark */
+        --color-dark-primary: 15 23 42;
+        --color-dark-secondary: 28 35 52;
         --color-dark-muted-text: 148 163 184;
-        --color-light-muted-text: 51 65 85;
-        --color-ring: 41 120 234;
-        /* --color-ring: 24 117 255; */
         --color-dark-border: 62 72 88;
-        --color-light-border: 225 231 239;
-        --color-nav-selected: 13 124 255;
         --color-dark-post: 30 41 59;
 
+        /* light */
+        --color-light-primary: 248 250 252;
+        --color-light-modal: 240 244 249;
+        --color-light-text: 226 232 240;
+        --color-light-muted-text: 51 65 85;
+        --color-light-border: 225 231 239;
         --color-lighten: 203 221 255;
 
+        /* others */
+        --color-ring: 41 120 234;
+        --color-nav-selected: 13 124 255;
         --color-overlay: rgba(0, 0, 0, 0.66);
         --color-sub-modal: 12 20 39;
         --color-red: 252 49 49;
@@ -28,57 +31,8 @@
 }
 
 @layer components {
-    .flex-group {
-        @apply flex items-center gap-3
-    }
-
-    .title {
-        @apply dark:text-light text-dark text-lg tracking-wider font-Poppins font-semibold
-    }
-
-    .muted {
-        @apply dark:text-dark-muted text-light-muted font-DM-Sans font-medium
-    }
-
-    .nav-link {
-        @apply flex items-center px-4 py-2.5 gap-3 bg-nav-selected/10 text-nav-selected font-Poppins font-medium text-base rounded-full
-    }
-
-    .inactive-nav-link {
-        @apply bg-transparent text-dark-muted
-    }
-
-    .profile {
-        @apply size-12 object-cover rounded-full
-    }
-
-    .post {
-        @apply dark:bg-dark-post bg-light-border border dark:border-dark-border border-light-border rounded-lg
-    }
-
     .auth {
-        @apply h-fit w-102 mx-2 my-auto md:m-auto dark:bg-secondary shadow-sub-modal py-7 px-14 rounded-xl
-    }
-
-    .button {
-        @apply bg-nav-selected hover:bg-nav-selected/80 title text-base font-DM-Sans px-2.5 py-1 rounded-md transition-colors
-    }
-
-    .button-decline {
-        @apply button bg-lighten hover:bg-lighten/80 text-dark text-sm py-1.5 px-3
-    }
-
-    .icon {
-        @apply size-7 text-dark-muted
-        /* @apply text-dark-muted stroke-1 block */
-    }
-
-    .transition-custom {
-        /* @apply */
-    }
-
-    .subModal-item {
-        @apply w-full flex justify-between items-center px-4 py-2.5 hover:bg-light/10 rounded-xl
+        @apply h-fit max-w-full mx-2 my-auto md:m-auto bg-light-modal dark:bg-dark-secondary border border-light-border dark:border-dark-border drop-shadow-md dark:shadow-sub-modal py-7 px-14 rounded-xl
     }
 
     .badge {
@@ -89,7 +43,57 @@
         @apply title text-xs absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
     }
 
+    .button {
+        @apply bg-nav-selected hover:bg-nav-selected/80 title text-light-text text-base px-2.5 py-1 rounded-md transition-colors
+    }
+
+    .button-decline {
+        @apply button bg-lighten hover:bg-lighten/80 text-dark-text text-sm py-1.5 px-3
+    }
+
+    .flex-group {
+        @apply flex items-center gap-3
+    }
+
+    .icon {
+        @apply size-7 text-light-muted dark:text-dark-muted
+        /* @apply text-dark-muted stroke-1 block */
+    }
+
+    .inactive-nav-link {
+        @apply bg-transparent text-dark-muted
+    }
+
     .link {
         @apply title font-DM-Sans text-sm text-nav-selected hover:underline hover:underline-offset-4
+    }
+
+    .muted {
+        @apply text-light-muted dark:text-dark-muted text-base font-DM-Sans font-medium
+    }
+
+    .nav-link {
+        @apply flex items-center px-4 py-2.5 gap-3 bg-nav-selected/10 text-nav-selected font-Poppins font-medium text-base rounded-full
+    }
+
+
+    .profile {
+        @apply size-12 object-cover rounded-full
+    }
+
+    .post {
+        @apply bg-light-modal dark:bg-dark-post border border-light-border dark:border-dark-border rounded-lg
+    }
+
+    .subModal-item {
+        @apply w-full flex justify-between items-center px-4 py-2.5 hover:bg-light-bg/10 rounded-xl
+    }
+
+    .sub-title {
+        @apply title text-xs text-light-muted/70 dark:text-dark-muted font-Inter
+    }
+
+    .title {
+        @apply dark:text-light-text text-dark-text text-lg tracking-wider font-Poppins font-semibold
     }
 }
