@@ -66,16 +66,14 @@ const ForgetPass: FC<Props> = ({ setIsForgetPass }) => {
 			<button
 				onClick={() => setIsForgetPass(false)}
 				type='button'
-				className='-ml-2 flex items-center text-indigo-600 hover:text-indigo-600/60'
+				className='-ml-2 flex items-center text-nav-selected hover:text-nav-selected/80'
 			>
-				<FiChevronLeft className='w-7 h-7' />
-				<span className='text-lg font-bold'>Login</span>
+				<FiChevronLeft className='w-7 h-7 text-inherit' />
+				<span className='title text-inherit font-Inter'>Login</span>
 			</button>
-			<div className='mt-8 space-y-2'>
-				<h1 className='text-2xl font-bold tracking-wide'>Forgot Password?</h1>
-				<p className='text-sm text-gray-500'>
-					Enter email address to recover account
-				</p>
+			<div className='mt-8 mb-5 space-y-2'>
+				<h1 className='title text-xl font-Inter'>Forgot Password?</h1>
+				<p className='sub-title'>Enter email address to recover account</p>
 			</div>
 
 			{!forgetState.error ? (
@@ -91,7 +89,7 @@ const ForgetPass: FC<Props> = ({ setIsForgetPass }) => {
 				</p>
 			)}
 
-			<form onSubmit={onSubmit} className=''>
+			<form onSubmit={onSubmit}>
 				<Input
 					name='email'
 					type='email'

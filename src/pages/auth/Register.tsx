@@ -72,14 +72,11 @@ const RegisterPage: FC<Props> = ({ setIsLogin }) => {
 	const { email, fullname, password, username, confirmPassword } =
 		form.credentials;
 
-	console.log('first');
 	return (
 		<div className='auth animate-auth-switch'>
 			<div className='text-center space-y-1'>
 				<h1 className='title text-xl font-Inter'>Sign Up</h1>
-				<p className='title text-xs text-dark-muted font-Inter'>
-					Hey, Enter Your Details to Create Account
-				</p>
+				<p className='sub-title'>Hey, Enter Your Details to Create Account</p>
 			</div>
 
 			{!state.authError ? null : (

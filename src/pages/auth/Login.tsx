@@ -41,7 +41,7 @@ const LoginPage: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 		<div className='auth animate-auth-switch'>
 			<div className='text-center space-y-2'>
 				<h1 className='title text-xl font-Inter'>Log In</h1>
-				<p className='title text-xs text-dark-muted font-Inter'>
+				<p className='sub-title'>
 					Hey, Enter Your Details to Login Your Account
 				</p>
 			</div>
