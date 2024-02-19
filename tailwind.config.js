@@ -4,21 +4,42 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				primary: 'rgb(var(--color-primary) / <alpha-value>)',
-				secondary: 'rgb(var(--color-secondary) / <alpha-value>)',
-				light: 'rgb(var(--color-light-text) / <alpha-value>)',
-				dark: 'rgb(var(--color-dark-text) / <alpha-value>)',
-				'dark-muted': 'rgb(var(--color-dark-muted-text) / <alpha-value>)',
-				'light-muted': 'rgb(var(--color-light-muted-text) / <alpha-value>)',
-				ring: 'rgb(var(--color-ring) / <alpha-value>)',
-				'dark-border': 'rgb(var(--color-dark-border) / <alpha-value>)',
-				'light-border': 'rgb(var(--color-light-border) / <alpha-value>)',
-				'nav-selected': 'rgb(var(--color-nav-selected) / <alpha-value>)',
-				'dark-post': 'rgb(var(--color-dark-post) / <alpha-value>)',
-				lighten: 'rgb(var(--color-lighten) / <alpha-value>)',
-				subModal: 'rgb(var(--color-sub-modal) / <alpha-value>)',
-				cRed: 'rgb(var(--color-red) / <alpha-value>)',
+				// 'dark-primary': 'rgb(var(--color-dark-primary) / <alpha-value>)',
+				// 'dark-secondary': 'rgb(var(--color-dark-secondary) / <alpha-value>)',
+				// dark: 'rgb(var(--color-dark-text) / <alpha-value>)',
+				// 'dark-muted': 'rgb(var(--color-dark-muted-text) / <alpha-value>)',
+				// 'dark-border': 'rgb(var(--color-dark-border) / <alpha-value>)',
+				// 'light-border': 'rgb(var(--color-light-border) / <alpha-value>)',
+				// 'dark-post': 'rgb(var(--color-dark-post) / <alpha-value>)',
+				// subModal: 'rgb(var(--color-sub-modal) / <alpha-value>)',
+				// 'light-muted': 'rgb(var(--color-light-muted-text) / <alpha-value>)',
+				// 'light-modal': 'rgb(var(--color-light-modal) / <alpha-value>)',
 
+				// dark
+				dark: {
+					bg: 'rgb(var(--color-dark-primary) / <alpha-value>)',
+					text: 'rgb(var(--color-dark-text) / <alpha-value>)',
+					secondary: 'rgb(var(--color-dark-secondary) / <alpha-value>)',
+					muted: 'rgb(var(--color-dark-muted-text) / <alpha-value>)',
+					border: 'rgb(var(--color-dark-border) / <alpha-value>)',
+					post: 'rgb(var(--color-dark-post) / <alpha-value>)',
+					subModal: 'rgb(var(--color-sub-modal) / <alpha-value>)',
+				},
+
+				// light
+				light: {
+					text: 'rgb(var(--color-light-text) / <alpha-value>)',
+					bg: 'rgb(var(--color-light-primary) / <alpha-value>)',
+					border: 'rgb(var(--color-light-border) / <alpha-value>)',
+					muted: 'rgb(var(--color-light-muted-text) / <alpha-value>)',
+					modal: 'rgb(var(--color-light-modal) / <alpha-value>)',
+				},
+
+				// others
+				ring: 'rgb(var(--color-ring) / <alpha-value>)',
+				'nav-selected': 'rgb(var(--color-nav-selected) / <alpha-value>)',
+				lighten: 'rgb(var(--color-lighten) / <alpha-value>)',
+				cRed: 'rgb(var(--color-red) / <alpha-value>)',
 				overlay: 'rgb(var(--color-overlay)',
 			},
 			spacing: {
@@ -37,10 +58,10 @@ export default {
 				},
 				'auth-switch': {
 					'0%': {
-						transform: 'translateX(20%)',
-						transition: 'all .4s',
+						transform: 'translateX(0%)',
+						// transition: 'all .4s',
 					},
-					// '20%': { transform: 'translateX(0%)' },
+					'20%': { transform: 'translateX(1%)' },
 					'100%': { transform: 'translateX(0%)' },
 				},
 				// 'auth-switch': {
