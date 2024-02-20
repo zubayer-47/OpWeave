@@ -187,7 +187,11 @@ const RegisterPage: FC<Props> = ({ setIsLogin }) => {
 				<span className='title font-DM-Sans text-sm'>
 					Already Have an Account?
 				</span>{' '}
-				<button type='button' onClick={() => setIsLogin(true)} className='link'>
+				<button
+					type='button'
+					onClick={() => setIsLogin(false)}
+					className='link'
+				>
 					Login Now
 				</button>
 			</p>

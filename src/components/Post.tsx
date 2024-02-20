@@ -1,7 +1,6 @@
-import { MoreHorizontal, Users2 } from 'lucide-react';
+import { Heart, MoreHorizontal, Users2 } from 'lucide-react';
 import bookmark from '../assets/icons/bookmark.svg';
 import comment from '../assets/icons/comment.svg';
-import heart from '../assets/icons/love.svg';
 import share from '../assets/icons/share.svg';
 import profile from '../assets/profile.webp';
 import { trunc } from '../libs/helpers';
@@ -28,7 +27,7 @@ const Post = () => {
 					<div className='flex-group'>
 						<button className='button'>Join</button>
 						<button>
-							<MoreHorizontal className='text-light-text' />
+							<MoreHorizontal className='text-dark-text dark:text-light-text' />
 						</button>
 					</div>
 				</div>
@@ -46,7 +45,8 @@ const Post = () => {
 
 			<div className='flex items-center justify-between'>
 				<div className='flex items-center gap-3'>
-					<img src={heart} className='size-10' alt='like post icon' />
+					{/* <img src={heart} className='size-10' alt='like post icon' /> */}
+					<Heart className='size-8 text-light-muted dark:text-dark-muted' />
 					<img src={comment} className='size-10' alt='comment on post icon' />
 					<img src={share} className='size-9' alt='share post icon' />
 				</div>

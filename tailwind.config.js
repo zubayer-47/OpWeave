@@ -64,6 +64,14 @@ export default {
 					'20%': { transform: 'translateX(1%)' },
 					'100%': { transform: 'translateX(0%)' },
 				},
+				'submodal-open': {
+					'0%': {
+						right: '-20%',
+						// transition: 'all .4s',
+					},
+					'80%': { right: '4.5rem' },
+					'100%': { right: '3rem' },
+				},
 				// 'auth-switch': {
 				// 	'0%': { transform: 'scale(1)' },
 				// 	'20%': { transform: 'scale(.7)' },
@@ -74,6 +82,7 @@ export default {
 			animation: {
 				'navlink-open': 'navlink-open 1s ease-in-out forwards',
 				'auth-switch': 'auth-switch .5s ease-in-out forwards',
+				'submodal-open': 'submodal-open .4s ease-in-out forwards',
 			},
 		},
 

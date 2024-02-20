@@ -79,7 +79,7 @@ const Nav = () => {
 						<div className='relative'>
 							<div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>
 								<svg
-									className='size-4 dark:text-dark-muted'
+									className='size-4 text-light-muted/40 dark:text-dark-muted'
 									aria-hidden='true'
 									xmlns='http://www.w3.org/2000/svg'
 									fill='none'
@@ -112,8 +112,8 @@ const Nav = () => {
 								<NavLink
 									to={path}
 									className={({ isActive }) =>
-										`nav-link transition-all duration-200 ${
-											!isActive && 'inactive-nav-link block p-0'
+										`transition-all duration-200 ${
+											!isActive ? 'inactive-nav-link block' : 'nav-link'
 										}`
 									}
 								>
@@ -122,7 +122,7 @@ const Nav = () => {
 										className={`${
 											activeItem?.path === path
 												? 'size-6 text-nav-selected'
-												: 'size-7 text-dark-muted'
+												: 'size-7 text-light-muted dark:text-dark-muted'
 										}`}
 									/>
 									<span className='animate-navlink-open'>
@@ -148,15 +148,19 @@ const Nav = () => {
 						links
 					>
 						<span className='w-1 bg-dark-muted/25 h-10 rounded-full'></span>
-						<button
-							type='button'
-							className='flex items-center gap-3 hover:bg-dark-secondary px-3 py-1.5 rounded-2xl transition-colors relative'
-						>
-							<img className='profile' src={profile} alt='user profile' />
-							<h1 className='title'>A B M Zubayer</h1>
-							<ChevronDown className='text-dark-muted' />
-						</button>
-						<SubModal />
+						<div className='group'>
+							<button
+								type='button'
+								className='flex items-center gap-3 hover:bg-light-muted/10 dark:hover:bg-dark-secondary px-3 py-1.5 rounded-2xl transition-colors relative'
+							>
+								<img className='profile' src={profile} alt='user profile' />
+								<h1 className='title'>A B M Zubayer</h1>
+								<ChevronDown className='text-dark-muted' />
+							</button>
+							<div className='group-focus-within:block group-focus-within:animate-submodal-open hidden absolute top-24 -right-1/2 w-full md:w-96 dark:shadow-sub-modal bg-light-modal dark:bg-dark-subModal p-3 rounded-2xl divide-y divide-dark-muted/50'>
+								<SubModal />
+							</div>
+						</div>
 					</PermissionWrapper>
 				</div>
 			</div>

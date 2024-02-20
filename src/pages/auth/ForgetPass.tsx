@@ -14,9 +14,10 @@ type ForgetStateType = {
 
 interface Props {
 	setIsForgetPass: BooleanSetStateType;
+	setIsLogin: BooleanSetStateType;
 }
 
-const ForgetPass: FC<Props> = ({ setIsForgetPass }) => {
+const ForgetPass: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 	const [forgetState, setForgetState] = useState<ForgetStateType>({
 		email: '',
 		loading: false,
@@ -64,7 +65,10 @@ const ForgetPass: FC<Props> = ({ setIsForgetPass }) => {
 	return (
 		<div className='auth animate-auth-switch'>
 			<button
-				onClick={() => setIsForgetPass(false)}
+				onClick={() => {
+					setIsLogin(false);
+					setIsForgetPass(false);
+				}}
 				type='button'
 				className='-ml-2 flex items-center text-nav-selected hover:text-nav-selected/80'
 			>

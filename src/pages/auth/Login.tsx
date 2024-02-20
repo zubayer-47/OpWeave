@@ -76,7 +76,12 @@ const LoginPage: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 				<button
 					type='button'
 					className='link w-fit mb-3'
-					onClick={() => setIsForgetPass(true)}
+					onClick={() => {
+						if (typeof setIsLogin === 'function') {
+							setIsLogin(true);
+						}
+						setIsForgetPass(true);
+					}}
 				>
 					Forgot Password?
 				</button>
@@ -101,7 +106,7 @@ const LoginPage: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 							return;
 						}
 
-						setIsLogin(false);
+						setIsLogin(true);
 					}}
 					className='link'
 				>

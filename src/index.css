@@ -40,7 +40,7 @@
     }
 
     .badge-text {
-        @apply title text-xs absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+        @apply title text-light-text dark:text-dark-text text-xs absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
     }
 
     .button {
@@ -61,7 +61,7 @@
     }
 
     .inactive-nav-link {
-        @apply bg-transparent text-dark-muted
+        @apply bg-transparent text-light-muted dark:text-dark-muted
     }
 
     .link {

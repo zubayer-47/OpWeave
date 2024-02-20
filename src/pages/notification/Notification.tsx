@@ -8,16 +8,13 @@ const Notification = () => {
 		<div className='py-5 h-screen'>
 			<div className='flex justify-between items-center'>
 				<h1 className='title text-2xl'>Notifications</h1>
-				<select data-te-select-init>
-					<option value='1'>One</option>
-					<option value='2'>Two</option>
-					<option value='3'>Three</option>
-					<option value='4'>Four</option>
-					<option value='5'>Five</option>
-					<option value='6'>Six</option>
-					<option value='7'>Seven</option>
-					<option value='8'>Eight</option>
-				</select>
+				<div className='flex justify-center items-center gap-2'>
+					<span className='title text-sm'>Sort By</span>
+					<select className='bg-light-muted/10 dark:bg-dark-muted/20 rounded-md p-2 outline-none title text-sm font-medium'>
+						<option value='title'>Title</option>
+						<option value='date'>Date</option>
+					</select>
+				</div>
 			</div>
 			<div className='mt-10 space-y-5'>
 				<NotificationItem />

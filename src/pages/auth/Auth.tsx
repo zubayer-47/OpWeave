@@ -27,11 +27,14 @@ const Auth = () => {
 		<div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
 			<div className='w-102'>
 				{!isLogin ? (
-					<Register setIsLogin={setIsLogin} />
-				) : !isForgetPass ? (
 					<Login setIsLogin={setIsLogin} setIsForgetPass={setIsForgetPass} />
+				) : !isForgetPass ? (
+					<Register setIsLogin={setIsLogin} />
 				) : (
-					<ForgetPass setIsForgetPass={setIsForgetPass} />
+					<ForgetPass
+						setIsLogin={setIsLogin}
+						setIsForgetPass={setIsForgetPass}
+					/>
 				)}
 			</div>
 		</div>

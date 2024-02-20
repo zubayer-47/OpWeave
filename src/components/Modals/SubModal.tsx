@@ -1,15 +1,24 @@
 import { Bell, Bolt, LogOut, Mail, User2, Users2 } from 'lucide-react';
+import { memo, useEffect } from 'react';
 import profile from '../../assets/profile.webp';
 ('lucide-react');
 
 const SubModal = () => {
+	useEffect(() => {
+		console.log('mounted');
+
+		return () => {
+			console.log('unmounted');
+		};
+	}, []);
+
 	return (
-		<div className='absolute top-24 right-14 w-full md:w-96 bg-dark-subModal p-3 shadow-sub-modal rounded-2xl divide-y divide-dark-muted/50'>
+		<>
 			<button
 				type='button'
-				className='flex items-center gap-3 px-4 py-2 hover:bg-light-bg/10 w-full rounded-xl transition-colors mb-3'
+				className='flex items-center gap-3 px-4 py-2 hover:bg-light-muted/10 dark:hover:bg-light-bg/10 w-full rounded-xl transition-colors mb-3'
 			>
-				<img className='profile' src={profile} alt='' />
+				<img className='profile' src={profile} alt='profile image' />
 
 				<div className='flex flex-col justify-start items-start'>
 					<h1 className='title'>A B M Zubayer</h1>
@@ -18,12 +27,12 @@ const SubModal = () => {
 			</button>
 
 			<div className='flex flex-col gap-2 py-3'>
-				<button className='subModal-item justify-start gap-4'>
+				<button className='subModal-item justify-start gap-4 hover:bg-light-muted/10 dark:hover:bg-dark-secondary'>
 					<User2 className='icon' />
 					<h1 className='title font-medium text-base'>Profile</h1>
 				</button>
 
-				<button className='subModal-item'>
+				<button className='subModal-item hover:bg-light-muted/10 dark:hover:bg-dark-secondary'>
 					<p className='flex items-center gap-4'>
 						<Bell className='icon' />
 						<h1 className='title font-medium text-base'>Notifications</h1>
@@ -34,7 +43,7 @@ const SubModal = () => {
 					</p>
 				</button>
 
-				<button className='subModal-item'>
+				<button className='subModal-item hover:bg-light-muted/10 dark:hover:bg-dark-secondary'>
 					<p className='flex items-center gap-4'>
 						<Mail className='icon' />
 						<h1 className='title font-medium text-base'>Messages</h1>
@@ -45,27 +54,27 @@ const SubModal = () => {
 					</p>
 				</button>
 
-				<button className='subModal-item justify-start gap-4'>
+				<button className='subModal-item justify-start gap-4 hover:bg-light-muted/10 dark:hover:bg-dark-secondary'>
 					<Users2 className='icon' />
 					<h1 className='title font-medium text-base'>Communities</h1>
 				</button>
 
-				<button className='subModal-item justify-start gap-4'>
+				<button className='subModal-item justify-start gap-4 hover:bg-light-muted/10 dark:hover:bg-dark-secondary'>
 					<Bolt className='icon' />
 					<h1 className='title font-medium text-base'>Settings</h1>
 				</button>
 			</div>
 
 			<div className='pt-3'>
-				<button className='subModal-item justify-start gap-4'>
+				<button className='subModal-item justify-start gap-4 hover:bg-light-muted/10 dark:hover:bg-dark-secondary'>
 					<LogOut className='icon' />
-					<h1 className='title font-medium text-base'>Settings</h1>
+					<h1 className='title font-medium text-base'>Log Out</h1>
 				</button>
 			</div>
-
-			{/* <hr className='border-x-2 border-dark-muted/50' /> */}
-		</div>
+		</>
 	);
 };
 
-export default SubModal;
+const Memoized = memo(SubModal);
+
+export default Memoized;

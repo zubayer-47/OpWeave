@@ -25,38 +25,39 @@ const Input = ({
 	isRequired = false,
 	showLabel = false,
 	error = '',
-}: InputProp) => {
-	return (
-		<div className='bg-transparent flex-1'>
-			{showLabel && (
-				<label
-					htmlFor={name}
-					className={`title text-sm font-Inter text-light-muted dark:text-dark-muted ${
-						!isRequired ? '' : "after:content-['*'] after:text-red-500"
-					}`}
-				>
-					{hint}
-				</label>
-			)}
-			<input
-				type={type}
-				name={name}
-				id={name}
-				// className='w-full p-3 rounded-lg bg-transparent outline-none tracking-wider border border-indigo-200'
-				className='block w-full p-3 text-sm rounded-lg outline-none border focus:border-nav-selected dark:bg-dark-secondary dark:border-dark-border dark:placeholder-dark-muted text-dark-text dark:text-light-text dark:focus:border-blue-500 transition-all'
-				placeholder={hint}
-				value={value || ''}
-				onChange={handler}
-				autoComplete='off'
-				disabled={isLoading}
-				required={isRequired}
-			/>
-			{!error ? null : (
-				<p className='ml-2 text-sm text-red-400 tracking-wide'>{error}</p>
-			)}
-		</div>
-	);
-};
+}: InputProp) => (
+	<div className='bg-transparent flex-1'>
+		{showLabel && (
+			<label
+				htmlFor={name}
+				className={`title text-sm font-Inter text-light-muted dark:text-dark-muted ${
+					!isRequired ? '' : "after:content-['*'] after:text-red-500"
+				}`}
+			>
+				{hint}
+			</label>
+		)}
+		<input
+			type={type}
+			name={name}
+			id={name}
+			// className='w-full p-3 rounded-lg bg-transparent outline-none tracking-wider border border-indigo-200'
+			className={`block w-full p-3 text-sm rounded-lg outline-none border focus:border-nav-selected dark:bg-dark-secondary dark:border-dark-border dark:placeholder-dark-muted text-dark-text dark:text-light-text dark:focus:border-blue-500 transition-all ${
+				!!error && 'border-cRed'
+			}`}
+			placeholder={hint}
+			value={value || ''}
+			onChange={handler}
+			autoComplete='off'
+			disabled={isLoading}
+			required={isRequired}
+		/>
+
+		{!error ? null : (
+			<p className='ml-2 text-sm text-cRed tracking-wide'>{error}</p>
+		)}
+	</div>
+);
 
 export default Input;
 
@@ -80,7 +81,7 @@ export const PasswordInput = ({
 			{showLabel && (
 				<label
 					htmlFor={name}
-					className={`title text-sm font-Inter text-dark-muted ${
+					className={`title text-sm font-Inter text-light-muted dark:text-dark-muted  ${
 						!isRequired ? '' : "after:content-['*'] after:text-red-500"
 					}`}
 				>

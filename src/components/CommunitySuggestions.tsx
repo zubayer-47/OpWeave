@@ -2,7 +2,7 @@ import CommunityList from './CommunityList';
 
 const CommunitySuggestions = () => {
 	return (
-		<div className='col-span-4 my-10 py-3 h-3/5 bg-dark-secondary border dark:border-dark-border rounded-3xl flex flex-col relative overflow-hidden'>
+		<div className='col-span-4 my-10 py-3 h-3/5 bg-light-modal dark:bg-dark-secondary border dark:border-dark-border rounded-3xl flex flex-col relative overflow-hidden'>
 			<h1 className='title text-2xl px-4'>Suggested Communities</h1>
 
 			<div className='flex flex-col gap-0 mt-5'>

@@ -6,7 +6,7 @@ export const NotificationItem = () => {
 	return (
 		<Link
 			to={'/'}
-			className='hover:bg-light-border dark:hover:bg-dark-secondary transition-all p-5 flex justify-between items-center rounded-2xl'
+			className='hover:bg-light-muted/10 dark:hover:bg-dark-secondary transition-all p-5 flex justify-between items-center rounded-2xl'
 		>
 			<div className='flex justify-center gap-5'>
 				<Link to='/'>
@@ -33,7 +33,7 @@ export const NotificationItem = () => {
 
 export const NotificationActionableItem = () => {
 	return (
-		<div className='hover:bg-light-border dark:hover:bg-dark-secondary transition-all p-5 flex justify-between items-center rounded-2xl'>
+		<div className='hover:bg-light-muted/10 dark:hover:bg-dark-secondary transition-all p-5 flex justify-between items-center rounded-2xl'>
 			<div className='flex justify-center gap-5'>
 				<Link to='/'>
 					<img
