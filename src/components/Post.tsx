@@ -27,7 +27,7 @@ const Post = () => {
 					<div className='flex-group'>
 						<button className='button'>Join</button>
 						<button>
-							<MoreHorizontal className='text-dark-text dark:text-light-text' />
+							<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary transition-colors' />
 						</button>
 					</div>
 				</div>

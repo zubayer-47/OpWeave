@@ -1,6 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import PermissionWrapper from './Routes/PermissionWrapper';
 import EmptyScreen from './components/EmptyScreen';
+import NotFound from './components/errors/NotFound';
 import { UserRight } from './contexts/user/types';
 import AuthLayout from './layouts/AuthLayout';
 import RootLayout from './layouts/RootLayout';
@@ -52,6 +53,8 @@ function App() {
 			<Route path='auth' element={<AuthLayout />}>
 				<Route index element={<Auth />} />
 			</Route>
+
+			<Route path='*' element={<NotFound />} />
 		</Routes>
 		// </RootLayout>
 	);

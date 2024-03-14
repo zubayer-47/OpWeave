@@ -12,7 +12,10 @@ import logo from '../assets/opweave.webp';
 import profile from '../assets/profile.webp';
 import { UserRight } from '../contexts/user/types';
 import useModal from '../hooks/useModal';
-import SubModal from './Modals/SubModal';
+import Input from './Inputs/Input';
+// import SubModal from './Modals/SubModal';
+
+// const LazySubModal = lazy(() => import('./Modals/SubModal'));
 
 type NavLinkType = {
 	path: string;
@@ -62,7 +65,7 @@ const Nav = () => {
 	};
 
 	return (
-		<nav className='absolute w-full h-[4.75rem] grid items-center bg-light-modal dark:bg-dark-bg z-10 drop-shadow-md dark:shadow-3xl px-10'>
+		<nav className='absolute w-full h-[4.75rem] grid items-center dark:bg-dark-hover z-10 dark:shadow-nav px-10'>
 			<div className='flex justify-between items-center'>
 				<div className='flex items-center gap-5'>
 					<Link to='/'>
@@ -94,12 +97,13 @@ const Nav = () => {
 									/>
 								</svg>
 							</div>
-							<input
+							<Input
 								type='search'
 								name='search'
-								className='block w-full px-3 py-2.5 ps-10 text-sm text-dark-text rounded-lg focus:outline-none border focus:border-nav-selected dark:bg-dark-secondary dark:border-dark-border dark:placeholder-dark-muted dark:text-light-text dark:focus:border-blue-500'
-								placeholder='Search'
-								required
+								handler={() => console.log('first')}
+								hint='Search'
+								isRequired
+								value={''}
 							/>
 						</div>
 					</form>
@@ -122,12 +126,10 @@ const Nav = () => {
 										className={`${
 											activeItem?.path === path
 												? 'size-6 text-nav-selected'
-												: 'size-7 text-light-muted dark:text-dark-muted'
+												: 'size-7 dark:text-inherit'
 										}`}
 									/>
-									<span className='animate-navlink-open'>
-										{activeItem?.path === path ? label : null}
-									</span>
+									<span>{activeItem?.path === path ? label : null}</span>
 								</NavLink>
 							</PermissionWrapper>
 						))}
@@ -157,9 +159,8 @@ const Nav = () => {
 								<h1 className='title'>A B M Zubayer</h1>
 								<ChevronDown className='text-dark-muted' />
 							</button>
-							<div className='group-focus-within:block group-focus-within:animate-submodal-open hidden absolute top-24 -right-1/2 w-full md:w-96 dark:shadow-sub-modal bg-light-modal dark:bg-dark-subModal p-3 rounded-2xl divide-y divide-dark-muted/50'>
-								<SubModal />
-							</div>
+
+							{/* <LazySubModal /> */}
 						</div>
 					</PermissionWrapper>
 				</div>

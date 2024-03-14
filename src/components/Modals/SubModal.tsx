@@ -1,19 +1,11 @@
 import { Bell, Bolt, LogOut, Mail, User2, Users2 } from 'lucide-react';
-import { memo, useEffect } from 'react';
+import { memo } from 'react';
 import profile from '../../assets/profile.webp';
 ('lucide-react');
 
 const SubModal = () => {
-	useEffect(() => {
-		console.log('mounted');
-
-		return () => {
-			console.log('unmounted');
-		};
-	}, []);
-
 	return (
-		<>
+		<div className='group-focus-within:block group-focus-within:animate-submodal-open absolute top-24 right-12 w-full md:w-96 dark:shadow-sub-modal bg-light-modal dark:bg-dark-subModal p-3 rounded-2xl divide-y divide-dark-muted/50'>
 			<button
 				type='button'
 				className='flex items-center gap-3 px-4 py-2 hover:bg-light-muted/10 dark:hover:bg-light-bg/10 w-full rounded-xl transition-colors mb-3'
@@ -35,7 +27,7 @@ const SubModal = () => {
 				<button className='subModal-item hover:bg-light-muted/10 dark:hover:bg-dark-secondary'>
 					<p className='flex items-center gap-4'>
 						<Bell className='icon' />
-						<h1 className='title font-medium text-base'>Notifications</h1>
+						<span className='title font-medium text-base'>Notifications</span>
 					</p>
 
 					<p className='badge'>
@@ -46,7 +38,7 @@ const SubModal = () => {
 				<button className='subModal-item hover:bg-light-muted/10 dark:hover:bg-dark-secondary'>
 					<p className='flex items-center gap-4'>
 						<Mail className='icon' />
-						<h1 className='title font-medium text-base'>Messages</h1>
+						<span className='title font-medium text-base'>Messages</span>
 					</p>
 
 					<p className='badge'>
@@ -71,7 +63,7 @@ const SubModal = () => {
 					<h1 className='title font-medium text-base'>Log Out</h1>
 				</button>
 			</div>
-		</>
+		</div>
 	);
 };
 

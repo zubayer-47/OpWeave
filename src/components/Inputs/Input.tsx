@@ -42,9 +42,12 @@ const Input = ({
 			name={name}
 			id={name}
 			// className='w-full p-3 rounded-lg bg-transparent outline-none tracking-wider border border-indigo-200'
-			className={`block w-full p-3 text-sm rounded-lg outline-none border focus:border-nav-selected dark:bg-dark-secondary dark:border-dark-border dark:placeholder-dark-muted text-dark-text dark:text-light-text dark:focus:border-blue-500 transition-all ${
+			className={`block w-full px-3 py-2.5 ps-10 text-sm text-dark-text rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all ${
 				!!error && 'border-cRed'
 			}`}
+			// className={`block w-full p-3 text-sm rounded-lg outline-none border focus:border-nav-selected dark:bg-dark-secondary dark:border-dark-border dark:placeholder-dark-muted text-dark-text dark:text-light-text dark:focus:border-blue-500 transition-all ${
+			// 	!!error && 'border-cRed'
+			// }`}
 			placeholder={hint}
 			value={value || ''}
 			onChange={handler}
