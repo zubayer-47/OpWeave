@@ -13,6 +13,7 @@ import profile from '../assets/profile.webp';
 import { UserRight } from '../contexts/user/types';
 import useModal from '../hooks/useModal';
 import Input from './Inputs/Input';
+import SubModal from './Modals/SubModal';
 // import SubModal from './Modals/SubModal';
 
 // const LazySubModal = lazy(() => import('./Modals/SubModal'));
@@ -116,7 +117,7 @@ const Nav = () => {
 								<NavLink
 									to={path}
 									className={({ isActive }) =>
-										`transition-all duration-200 ${
+										`transition-all duration-200 relative ${
 											!isActive ? 'inactive-nav-link block' : 'nav-link'
 										}`
 									}
@@ -129,6 +130,18 @@ const Nav = () => {
 												: 'size-7 dark:text-inherit'
 										}`}
 									/>
+
+									{path === '/notifications' && (
+										<span className='absolute -top-1.5 right-0 bg-red rounded-full size-4 dark:text-light-primary text-xs flex justify-center items-center overflow-hidden'>
+											3
+										</span>
+									)}
+
+									{path === '/chat' && (
+										<span className='absolute -top-1.5 -right-1.5 bg-red rounded-full size-4 dark:text-light-primary text-xs flex justify-center items-center overflow-hidden'>
+											3
+										</span>
+									)}
 									<span>{activeItem?.path === path ? label : null}</span>
 								</NavLink>
 							</PermissionWrapper>
@@ -160,7 +173,7 @@ const Nav = () => {
 								<ChevronDown className='text-dark-muted' />
 							</button>
 
-							{/* <LazySubModal /> */}
+							<SubModal />
 						</div>
 					</PermissionWrapper>
 				</div>

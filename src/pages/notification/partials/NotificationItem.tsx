@@ -6,7 +6,7 @@ export const NotificationItem = () => {
 	return (
 		<Link
 			to={'/'}
-			className='hover:bg-light-muted/10 dark:hover:bg-dark-secondary transition-all p-5 flex justify-between items-center rounded-2xl'
+			className='dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all p-5 flex justify-between items-center rounded-2xl'
 		>
 			<div className='flex justify-center gap-5'>
 				<Link to='/'>
@@ -25,7 +25,7 @@ export const NotificationItem = () => {
 			</div>
 
 			<button>
-				<MoreHorizontal className='text-light-text' />
+				<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary' />
 			</button>
 		</Link>
 	);
@@ -33,7 +33,7 @@ export const NotificationItem = () => {
 
 export const NotificationActionableItem = () => {
 	return (
-		<div className='hover:bg-light-muted/10 dark:hover:bg-dark-secondary transition-all p-5 flex justify-between items-center rounded-2xl'>
+		<div className='dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all p-5 flex justify-between items-center rounded-2xl'>
 			<div className='flex justify-center gap-5'>
 				<Link to='/'>
 					<img
@@ -58,7 +58,7 @@ export const NotificationActionableItem = () => {
 			</div>
 
 			<button>
-				<MoreHorizontal className='text-light-text' />
+				<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary' />
 			</button>
 		</div>
 	);

@@ -75,7 +75,7 @@
     }
 
     .badge-text {
-        @apply title dark:text-light-primary text-xs absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+        @apply title dark:text-light-primary text-xs flex justify-center items-center w-full h-full
     }
 
     .button {
@@ -83,7 +83,7 @@
     }
 
     .button-decline {
-        @apply button bg-blue-secondary hover:bg-blue-secondary/80 dark:text-light-primary text-sm py-1.5 px-3
+        @apply button bg-blue-secondary/90 hover:bg-blue-secondary/80 dark:text-dark-primary text-sm py-1.5 px-3
     }
 
     .flex-group {
@@ -120,7 +120,7 @@
     }
 
     .subModal-item {
-        @apply w-full flex justify-between items-center px-4 py-2.5 hover:bg-normal-primary/15 rounded-xl
+        @apply w-full flex justify-between items-center px-4 py-2.5 dark:hover:bg-normal-primary/15 rounded-xl
     }
 
     .sub-title {
@@ -148,3 +148,8 @@
 .community_suggestions_btn:hover {
     opacity: .1;
 }
+
+/* .submodal {
+    background: #495565;
+    opacity: 0.1;
+} */

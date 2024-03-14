@@ -88,11 +88,7 @@ const CreatePost: FC<Props> = ({ isModal = false }) => {
 			>
 				<div className='flex justify-between items-start'>
 					<div className='flex items-center gap-3'>
-						<img
-							className='profile ring-2 ring-ring/80 ring-offset-2 ring-offset-light-bg dark:ring-offset-dark-bg'
-							src={profile}
-							alt='profile picture'
-						/>
+						<img className='profile' src={profile} alt='profile picture' />
 						<div>
 							<h1 className='title'>A B M Zubayer</h1>
 							{/* {!isFocused ? null : ( */}
