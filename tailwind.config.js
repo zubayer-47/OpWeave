@@ -4,52 +4,70 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				// 'dark-primary': 'rgb(var(--color-dark-primary) / <alpha-value>)',
-				// 'dark-secondary': 'rgb(var(--color-dark-secondary) / <alpha-value>)',
-				// dark: 'rgb(var(--color-dark-text) / <alpha-value>)',
-				// 'dark-muted': 'rgb(var(--color-dark-muted-text) / <alpha-value>)',
-				// 'dark-border': 'rgb(var(--color-dark-border) / <alpha-value>)',
-				// 'light-border': 'rgb(var(--color-light-border) / <alpha-value>)',
-				// 'dark-post': 'rgb(var(--color-dark-post) / <alpha-value>)',
-				// subModal: 'rgb(var(--color-sub-modal) / <alpha-value>)',
-				// 'light-muted': 'rgb(var(--color-light-muted-text) / <alpha-value>)',
-				// 'light-modal': 'rgb(var(--color-light-modal) / <alpha-value>)',
+				// dark: {
+				// 	bg: 'rgb(var(--color-dark-primary) / <alpha-value>)',
+				// 	text: 'rgb(var(--color-dark-text) / <alpha-value>)',
+				// 	secondary: 'rgb(var(--color-dark-secondary) / <alpha-value>)',
+				// 	muted: 'rgb(var(--color-dark-muted-text) / <alpha-value>)',
+				// 	border: 'rgb(var(--color-dark-border) / <alpha-value>)',
+				// 	post: 'rgb(var(--color-dark-post) / <alpha-value>)',
+				// 	subModal: 'rgb(var(--color-sub-modal) / <alpha-value>)',
+				// },
+
+				// light: {
+				// 	text: 'rgb(var(--color-light-text) / <alpha-value>)',
+				// 	bg: 'rgb(var(--color-light-primary) / <alpha-value>)',
+				// 	border: 'rgb(var(--color-light-border) / <alpha-value>)',
+				// 	muted: 'rgb(var(--color-light-muted-text) / <alpha-value>)',
+				// 	modal: 'rgb(var(--color-light-modal) / <alpha-value>)',
+				// },
 
 				// dark
 				dark: {
-					bg: 'rgb(var(--color-dark-primary) / <alpha-value>)',
-					text: 'rgb(var(--color-dark-text) / <alpha-value>)',
-					secondary: 'rgb(var(--color-dark-secondary) / <alpha-value>)',
-					muted: 'rgb(var(--color-dark-muted-text) / <alpha-value>)',
-					border: 'rgb(var(--color-dark-border) / <alpha-value>)',
-					post: 'rgb(var(--color-dark-post) / <alpha-value>)',
-					subModal: 'rgb(var(--color-sub-modal) / <alpha-value>)',
+					primary: 'rgb(var(--color-primary-dark) / <alpha-value>)',
+					hover: 'rgb(var(--color-primary-dark-hover) / <alpha-value>)',
+					active: 'rgb(var(--color-primary-dark-active) / <alpha-value>)',
+					border: 'rgb(var(--color-primary-dark-border) / <alpha-value>)',
+					muted: 'rgb(var(--color-primary-dark-muted) / <alpha-value>)',
 				},
 
 				// light
 				light: {
-					text: 'rgb(var(--color-light-text) / <alpha-value>)',
-					bg: 'rgb(var(--color-light-primary) / <alpha-value>)',
-					border: 'rgb(var(--color-light-border) / <alpha-value>)',
-					muted: 'rgb(var(--color-light-muted-text) / <alpha-value>)',
-					modal: 'rgb(var(--color-light-modal) / <alpha-value>)',
+					primary: 'rgb(var(--color-light) / <alpha-value>)',
+					lighter: 'rgb(var(--color-primary-lighter) / <alpha-value>)',
+					hover: 'rgb(var(--color-primary-light-hover) / <alpha-value>)',
+					active: 'rgb(var(--color-primary-light-active) / <alpha-value>)',
 				},
 
-				// others
-				ring: 'rgb(var(--color-ring) / <alpha-value>)',
+				// normal
+				normal: {
+					primary: 'rgb(var(--color-primary-normal) / <alpha-value>)',
+					hover: 'rgb(var(--color-primary-normal-hover) / <alpha-value>)',
+					active: 'rgb(var(--color-primary-normal-active) / <alpha-value>)',
+				},
+
+				red: 'rgb(var(--color-red) / <alpha-value>)',
+
+				blue: {
+					primary: 'rgb(var(--color-blue) / <alpha-value>)',
+					secondary: 'rgb(var(--color-blue-secondary) / <alpha-value>)',
+				},
 				'nav-selected': 'rgb(var(--color-nav-selected) / <alpha-value>)',
-				lighten: 'rgb(var(--color-lighten) / <alpha-value>)',
-				cRed: 'rgb(var(--color-red) / <alpha-value>)',
-				overlay: 'rgb(var(--color-overlay)',
+
+				// others
+				// ring: 'rgb(var(--color-ring) / <alpha-value>)',
+				// 'nav-selected': 'rgb(var(--color-nav-selected) / <alpha-value>)',
+				// lighten: 'rgb(var(--color-lighten) / <alpha-value>)',
+				// cRed: 'rgb(var(--color-red) / <alpha-value>)',
+				// overlay: 'rgb(var(--color-overlay)',
 			},
 			spacing: {
 				100: '28rem',
 				102: '46rem',
 			},
 			boxShadow: {
-				'3xl': '0px 5px 24.4px -19px #F8FAFC',
-				// 'sub-modal': '0px 2px 24px -15px #F8FAFC',
-				'sub-modal': '0px 4px 10px 4px #262F40',
+				nav: '0px 5px 24.4px -19px #F8FAFC',
+				auth: '0px 4px 10px 4px #262F40',
 			},
 			keyframes: {
 				'navlink-open': {

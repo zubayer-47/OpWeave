@@ -6,49 +6,84 @@
 
 @layer base {
     :root {
-        /* dark */
-        --color-dark-primary: 15 23 42;
-        --color-dark-secondary: 28 35 52;
-        --color-dark-muted-text: 148 163 184;
-        --color-dark-border: 62 72 88;
-        --color-dark-post: 30 41 59;
 
-        /* light */
-        --color-light-primary: 248 250 252;
+        /*? new colors */
+
+        --color-primary-dark: 35 41 49;
+        --color-primary-dark-hover: 25 29 35;
+        --color-primary-dark-active: 11 13 15;
+        --color-primary-dark-border: 62 72 88;
+        --color-primary-dark-muted: 148 163 184;
+
+        --color-primary-lighter: 185 192 203;
+        --color-primary-light-hover: 171 180 192;
+        --color-primary-light-active: 154 165 180;
+
+        --color-primary-normal: 100 116 139;
+        --color-primary-normal-hover: 85 99 118;
+        --color-primary-normal-active: 73 85 101;
+
+        /** partials */
+        --color-red: 252 49 49;
+        --color-light: 226 232 240;
+        /* --color-blue for auth button bg*/
+        --color-blue: 24 117 255;
+        /* --color-blue-secondary for notification's decline/delete button bg*/
+        --color-blue-secondary: 203 221 255;
+
+        /* --color-nav-selected is used for nav selection links and it'd be 10% opacity of its main color */
+        --color-nav-selected: 13 124 255;
+
+        /*? new colors */
+
+
+
+        /*? dark */
+        /* --color-dark-primary: 15 23 42; */
+        /* --color-dark-primary: 25 29 35;
+        --color-dark-secondary: 35 41 49;
+        --color-dark-muted-text: 148 163 184; */
+        /* --color-dark-border: 62 72 88; */
+        /* --color-dark-border: 62 70 82; */
+        /* --color-dark-post: 30 41 59; */
+        /* --color-dark-post: 35 41 49; */
+
+        /*? light */
+        /* --color-light-primary: 248 250 252;
         --color-light-modal: 240 244 249;
         --color-light-text: 226 232 240;
         --color-light-muted-text: 51 65 85;
         --color-light-border: 225 231 239;
-        --color-lighten: 203 221 255;
+        --color-lighten: 203 221 255; */
 
-        /* others */
-        --color-ring: 41 120 234;
+        /*? others */
+        /* --color-ring: 41 120 234;
         --color-nav-selected: 13 124 255;
         --color-overlay: rgba(0, 0, 0, 0.66);
         --color-sub-modal: 12 20 39;
-        --color-red: 252 49 49;
+        --color-red: 252 49 49; */
     }
 }
 
 @layer components {
     .auth {
-        @apply h-fit max-w-full mx-2 my-auto md:m-auto bg-light-modal dark:bg-dark-secondary border border-light-border dark:border-dark-border drop-shadow-md dark:shadow-sub-modal py-7 px-14 rounded-xl
+        @apply h-fit max-w-full mx-2 my-auto md:m-auto dark:bg-dark-primary border dark:border-dark-border drop-shadow-md dark:shadow-auth py-7 px-14 rounded-xl
     }
 
     .badge {
-        @apply bg-cRed size-5 rounded-full overflow-hidden relative
+        @apply bg-red size-5 rounded-full overflow-hidden relative
     }
 
     .badge-text {
-        @apply title text-light-text dark:text-dark-text text-xs absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+        @apply title dark:text-light-primary text-xs absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
     }
 
     .button {
-        @apply bg-nav-selected hover:bg-nav-selected/80 title text-light-text text-base px-2.5 py-1 rounded-md transition-colors
+        @apply bg-blue-primary/70 hover:bg-blue-primary/80 title dark:text-light-primary text-base font-normal font-DM-Sans px-2.5 py-1 rounded-md transition-colors
     }
 
     .button-decline {
-        @apply button bg-lighten hover:bg-lighten/80 text-dark-text text-sm py-1.5 px-3
+        @apply button bg-blue-secondary hover:bg-blue-secondary/80 dark:text-light-primary text-sm py-1.5 px-3
     }
 
     .flex-group {
@@ -56,44 +91,60 @@
     }
 
     .icon {
-        @apply size-7 text-light-muted dark:text-dark-muted
+        @apply size-7 dark:text-dark-muted
         /* @apply text-dark-muted stroke-1 block */
     }
 
     .inactive-nav-link {
-        @apply bg-transparent text-light-muted dark:text-dark-muted
+        @apply bg-transparent dark:text-dark-muted
     }
 
     .link {
-        @apply title font-DM-Sans text-sm text-nav-selected hover:underline hover:underline-offset-4
+        @apply title font-DM-Sans text-sm text-blue-primary hover:underline hover:underline-offset-4
     }
 
     .muted {
-        @apply text-light-muted dark:text-dark-muted text-base font-DM-Sans font-medium
+        @apply dark:text-dark-muted text-base font-DM-Sans font-medium
     }
 
     .nav-link {
-        @apply flex items-center px-4 py-2.5 gap-3 bg-nav-selected/10 text-nav-selected font-Poppins font-medium text-base rounded-full
+        @apply flex items-center px-4 py-2.5 gap-3 dark:bg-nav-selected/10 dark:text-nav-selected font-Poppins font-medium text-base rounded-full
     }
 
-
     .profile {
-        @apply size-12 object-cover rounded-full
+        @apply size-9 object-cover rounded-full
     }
 
     .post {
-        @apply bg-light-modal dark:bg-dark-post border border-light-border dark:border-dark-border rounded-lg
+        @apply dark:bg-dark-primary border dark:border-dark-border rounded-lg
     }
 
     .subModal-item {
-        @apply w-full flex justify-between items-center px-4 py-2.5 hover:bg-light-bg/10 rounded-xl
+        @apply w-full flex justify-between items-center px-4 py-2.5 hover:bg-normal-primary/15 rounded-xl
     }
 
     .sub-title {
-        @apply title text-xs text-light-muted/70 dark:text-dark-muted font-Inter
+        @apply title text-xs dark:text-dark-muted font-Inter
     }
 
     .title {
-        @apply dark:text-light-text text-dark-text text-lg tracking-wider font-Poppins font-semibold
+        @apply dark:text-light-primary/90 text-base tracking-wider font-Poppins font-semibold
     }
+}
+
+/* custom css */
+.community_suggestions {
+    background: linear-gradient(206.2deg, #363F4D -6%, #232931 83.51%);
+    /* opacity: 0.7; */
+    border-radius: 18px;
+}
+
+.community_suggestions_btn {
+    background: linear-gradient(90deg, #495565 0%, #93ABCB 100%);
+    opacity: 0.15;
+    transition: all 150ms;
+}
+
+.community_suggestions_btn:hover {
+    opacity: .1;
 }
