@@ -2,7 +2,6 @@ import { Route, Routes } from 'react-router-dom';
 import PermissionWrapper from './Routes/PermissionWrapper';
 import EmptyScreen from './components/EmptyScreen';
 import NotFound from './components/errors/NotFound';
-import { UserRight } from './contexts/user/types';
 import AuthLayout from './layouts/AuthLayout';
 import RootLayout from './layouts/RootLayout';
 import Auth from './pages/auth/Auth';
@@ -10,21 +9,37 @@ import Bookmarks from './pages/bookmarks/Bookmarks';
 import Communities from './pages/communities/Communities';
 import Home from './pages/home/Home';
 import Notification from './pages/notification/Notification';
+import { permissions } from './types/custom';
 
 function App() {
 	return (
-		// <RootLayout>
 		<Routes>
 			<Route path='/' element={<RootLayout />}>
-				<Route index element={<Home />} />
+				<Route
+					index
+					element={
+						<PermissionWrapper
+							permission={permissions.all}
+							children={<Notification />}
+						/>
+					}
+				/>
 
-				<Route path='explore' element={<EmptyScreen />} />
+				<Route
+					path='explore'
+					element={
+						<PermissionWrapper
+							permission={permissions.all}
+							children={<EmptyScreen />}
+						/>
+					}
+				/>
 				<Route
 					path='notifications'
 					element={
 						<PermissionWrapper
-							permission={[UserRight.ADMIN, UserRight.MODER, UserRight.USER]}
-							children={<Notification />}
+							permission={permissions.all}
+							children={<Home />}
 						/>
 					}
 				/>
@@ -32,7 +47,7 @@ function App() {
 					path='communities'
 					element={
 						<PermissionWrapper
-							permission={[UserRight.ADMIN, UserRight.MODER, UserRight.USER]}
+							permission={permissions.all}
 							children={<Communities />}
 						/>
 					}
@@ -41,13 +56,14 @@ function App() {
 					path='bookmarks'
 					element={
 						<PermissionWrapper
-							permission={[UserRight.ADMIN, UserRight.MODER, UserRight.USER]}
+							permission={permissions.all}
 							children={<Bookmarks />}
 						/>
 					}
 				/>
 				<Route path='chat' element={<EmptyScreen />} />
 				<Route path='profile' element={<EmptyScreen />} />
+				<Route path='settings' element={<EmptyScreen />} />
 			</Route>
 
 			<Route path='auth' element={<AuthLayout />}>
