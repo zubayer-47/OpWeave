@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react';
 import AccessDenied from '../components/AccessDenied';
+import { Unauthorized } from '../components/errors/NotFound';
 import { UserRight } from '../contexts/user/types';
 import useAuth from '../hooks/useAuth';
 
@@ -21,7 +22,11 @@ const PermissionWrapper = ({ permission, children, links = false }: Props) => {
 		? permission.includes(right as number)
 		: right === permission;
 
-	console.log('hasRight :', hasRight);
+	// console.log('hasRight :', hasRight);
+
+	if (!hasRight && !state.user) {
+		return links ? null : <Unauthorized />;
+	}
 
 	if (!hasRight) {
 		return links ? null : <AccessDenied />;
