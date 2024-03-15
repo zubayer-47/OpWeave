@@ -6,12 +6,14 @@ import {
 	LucideIcon,
 	Mail,
 } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import PermissionWrapper from '../Routes/PermissionWrapper';
 import logo from '../assets/opweave.webp';
 import profile from '../assets/profile.webp';
 import { UserRight } from '../contexts/user/types';
 import useModal from '../hooks/useModal';
+import { permissions } from '../types/custom';
 import Input from './Inputs/Input';
 import SubModal from './Modals/SubModal';
 // import SubModal from './Modals/SubModal';
@@ -23,12 +25,6 @@ type NavLinkType = {
 	label: string;
 	Icon: LucideIcon;
 	permission: UserRight[] | UserRight;
-};
-
-const permissions = {
-	all: [UserRight.ADMIN, UserRight.MODER, UserRight.USER],
-	user: UserRight.USER,
-	mod: UserRight.MODER,
 };
 
 const navLinks: NavLinkType[] = [
@@ -53,8 +49,37 @@ const Nav = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const pathname = location.pathname;
-	// console.log('pathname :', pathname);
+
+	const dropdownRef = useRef<HTMLDivElement>(null);
+	const btnRef = useRef<HTMLButtonElement>(null);
+
 	const { updateModal } = useModal();
+
+	useEffect(() => {
+		const elem = dropdownRef.current;
+		const btnElem = btnRef.current;
+
+		function clickListener(e: MouseEvent) {
+			if (elem && !elem.contains(e.target as Node)) {
+				elem?.classList.remove('active');
+				console.log('first', e.target);
+				return;
+			}
+		}
+
+		function btnClickListener() {
+			if (elem?.contains(btnElem)) {
+				elem.classList.toggle('active');
+			}
+		}
+
+		document.addEventListener('click', clickListener);
+		btnElem?.addEventListener('click', btnClickListener);
+		return () => {
+			document.removeEventListener('click', clickListener);
+			btnElem?.removeEventListener('click', btnClickListener);
+		};
+	}, []);
 
 	const activeItem = navLinks.find((link) => link.path === pathname);
 	// console.log('activeItem :', activeItem);
@@ -163,14 +188,17 @@ const Nav = () => {
 						links
 					>
 						<span className='w-1 bg-dark-muted/25 h-10 rounded-full'></span>
-						<div className='group'>
+						<div ref={dropdownRef} className='dropdown relative'>
 							<button
+								ref={btnRef}
 								type='button'
-								className='flex items-center gap-3 hover:bg-light-muted/10 dark:hover:bg-dark-secondary px-3 py-1.5 rounded-2xl transition-colors relative'
+								className='px-4 py-2 dark:hover:bg-normal-primary/15 w-full rounded-xl transition-colors dropdown-btn'
 							>
-								<img className='profile' src={profile} alt='user profile' />
-								<h1 className='title'>A B M Zubayer</h1>
-								<ChevronDown className='text-dark-muted' />
+								<div className='pointer-events-none flex items-center gap-3'>
+									<img className='profile' src={profile} alt='user profile' />
+									<h1 className='title'>A B M Zubayer</h1>
+									<ChevronDown className='text-dark-muted' />
+								</div>
 							</button>
 
 							<SubModal />
