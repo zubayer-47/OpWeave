@@ -149,7 +149,15 @@
     opacity: .1;
 }
 
-/* .submodal {
-    background: #495565;
-    opacity: 0.1;
-} */
+.dropdown-item {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+    transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+}
+
+.dropdown.active>.dropdown-btn+.dropdown-item {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}

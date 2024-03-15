@@ -16,7 +16,7 @@ const Notification = () => {
 					</select>
 				</div>
 			</div>
-			<div className='py-10 space-y-5'>
+			<div className='py-5 space-y-5'>
 				<NotificationItem />
 				<NotificationItem />
 				<NotificationItem />

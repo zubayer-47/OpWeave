@@ -1,6 +1,7 @@
 import { MoreHorizontal } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import profile from '../../../assets/profile.webp';
+import HorizontalMore from '../../../components/Buttons/HorizontalMore';
 
 export const NotificationItem = () => {
 	return (
@@ -20,13 +21,13 @@ export const NotificationItem = () => {
 					<Link to='/' className='title'>
 						A B M Zubayer
 					</Link>
-					<span className='title text-sm text-dark-muted'>3s ago</span>
+					<span className='title font-normal text-sm text-dark-muted'>
+						3s ago
+					</span>
 				</div>
 			</div>
 
-			<button>
-				<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary' />
-			</button>
+			<HorizontalMore />
 		</Link>
 	);
 };

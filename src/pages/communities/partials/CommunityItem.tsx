@@ -1,29 +1,30 @@
-import { MoreHorizontal } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import profile from '../../../assets/profile2.jpg';
+import HorizontalMore from '../../../components/Buttons/HorizontalMore';
 
 const CommunityItem = () => {
 	return (
-		<div className='bg-dark-post border border-dark-border rounded-xl flex justify-between items-start px-5 py-5'>
-			<div className='flex items-center gap-3'>
-				<button>
+		<div className='dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all p-5 flex justify-between items-center rounded-2xl'>
+			<div className='flex justify-center items-center gap-5'>
+				<Link to='/'>
 					<img
 						className='profile size-14'
 						src={profile}
 						alt='community profile'
 					/>
-				</button>
+				</Link>
 				<div>
-					<button className='title'>
+					<Link to='/' className='title'>
 						Dev Community
 						{/* <span className='not-sr-only hover:sr-only'>Settings</span> */}
-					</button>
-					<p className='title muted text-sm'>this is community bio</p>
+					</Link>
+					<p className='title font-normal text-sm text-dark-muted'>
+						this is community bio
+					</p>
 				</div>
 			</div>
 
-			<button>
-				<MoreHorizontal className='text-dark-muted' />
-			</button>
+			<HorizontalMore />
 		</div>
 	);
 };

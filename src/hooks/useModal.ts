@@ -3,7 +3,7 @@ import { ModalContext } from '../contexts/modal/Provider';
 
 export default function useModal() {
 	const context = useContext(ModalContext);
-	console.log('context :', context);
+	// console.log('context :', context);
 	if (!context) throw new Error('useModal must be used within a ModalProvider');
 
 	const { dispatch } = context;
