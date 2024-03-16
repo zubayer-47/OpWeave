@@ -4,7 +4,7 @@ import HorizontalMore from '../../../components/Buttons/HorizontalMore';
 
 const CommunityItem = () => {
 	return (
-		<div className='dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all p-5 flex justify-between items-center rounded-2xl'>
+		<div className='snap-center dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all p-5 flex justify-between items-center rounded-2xl'>
 			<div className='flex justify-center items-center gap-5'>
 				<Link to='/'>
 					<img
