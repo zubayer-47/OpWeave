@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom';
 
-export const GoHome = () => (
+type GoHomeProps = {
+	label: string;
+	path?: string;
+};
+
+export const GoHome = ({ label, path = '/' }: GoHomeProps) => (
 	<Link
-		to='/'
+		to={path}
 		className='inline-block mt-8 px-3 py-2 text-sm bg-nav-selected font-DM-Sans font-semibold rounded-md'
 	>
-		Go to Home
+		{label}
 	</Link>
 );
 
@@ -15,7 +20,7 @@ export const Unauthorized = () => (
 		<p className='flex items-center mb-3 text-3xl font-bold text-light-lighter dark:text-dark-text'>
 			Unauthorized!
 		</p>
-		<GoHome />
+		<GoHome label='Login' path='/auth' />
 	</div>
 );
 
@@ -30,7 +35,7 @@ const NotFound = () => (
 			<p className='title text-sm text-light-lighter'>
 				Opps! the page you are looking for does&apos;t exist
 			</p>
-			<GoHome />
+			<GoHome label='Go to Home' />
 		</div>
 	</main>
 );

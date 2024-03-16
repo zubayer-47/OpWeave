@@ -15,19 +15,21 @@ const RootLayout = () => {
 
 	const { state } = useAuth();
 
-	const right = state?.user?.rights;
+	const right = state.user?.rights;
 
 	return (
 		<>
 			<Nav />
 			<div
-				className={`container mx-auto px-20 pt-20 h-screen overflow-hidden grid ${
-					right === UserRight.FREE || !state.user
-						? 'grid-cols-1'
-						: 'grid-cols-12'
-				}`}
+				className={`container mx-auto px-20 pt-20 h-screen overflow-hidden grid grid-cols-12`}
 			>
-				<div className='col-span-8 h-full px-28 overflow-y-auto scrollbar-none'>
+				<div
+					className={`h-full px-28 overflow-y-auto scrollbar-none ${
+						!state.user || right === UserRight.FREE
+							? 'col-span-full'
+							: 'col-span-8'
+					}`}
+				>
 					<Outlet />
 				</div>
 				<PermissionWrapper links permission={permissions.all}>

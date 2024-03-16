@@ -22,7 +22,7 @@ const AuthModal = () => {
 			{!isForgetPass ? (
 				<Login setIsForgetPass={setIsForgetPass} />
 			) : (
-				<ForgetPass setIsForgetPass={setIsForgetPass} />
+				<ForgetPass setIsLogin={setIsLogin} setIsForgetPass={setIsForgetPass} />
 			)}
 		</ModalBox>
 	);

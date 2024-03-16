@@ -67,7 +67,7 @@
 
 @layer components {
     .auth {
-        @apply h-fit max-w-full mx-2 my-auto md:m-auto dark:bg-dark-primary border dark:border-dark-border drop-shadow-md dark:shadow-auth py-7 px-14 rounded-xl
+        @apply h-fit max-w-full mx-2 my-auto md:m-auto dark:bg-dark-primary border dark:border-dark-border dark:shadow-auth py-7 px-14 rounded-xl
     }
 
     .badge {

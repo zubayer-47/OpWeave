@@ -1,6 +1,6 @@
 import { PropsWithChildren } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import AccessDenied from '../components/AccessDenied';
-import { Unauthorized } from '../components/errors/NotFound';
 import { UserRight } from '../contexts/user/types';
 import useAuth from '../hooks/useAuth';
 
@@ -12,6 +12,7 @@ interface Props extends PropsWithChildren {
 const PermissionWrapper = ({ permission, children, links = false }: Props) => {
 	const { state } = useAuth();
 	const right = state.user?.rights;
+	const location = useLocation();
 
 	// 100 permission code means it's a public route
 	if (!right && permission === 100) {
@@ -25,7 +26,7 @@ const PermissionWrapper = ({ permission, children, links = false }: Props) => {
 	// console.log('hasRight :', hasRight);
 
 	if (!hasRight && !state.user) {
-		return links ? null : <Unauthorized />;
+		return links ? null : <Navigate to={'/auth'} state={{ from: location }} />;
 	}
 
 	if (!hasRight) {

@@ -20,7 +20,7 @@ function App() {
 					element={
 						<PermissionWrapper
 							permission={permissions.all}
-							children={<Notification />}
+							children={<Home />}
 						/>
 					}
 				/>
@@ -39,7 +39,7 @@ function App() {
 					element={
 						<PermissionWrapper
 							permission={permissions.all}
-							children={<Home />}
+							children={<Notification />}
 						/>
 					}
 				/>
@@ -61,9 +61,33 @@ function App() {
 						/>
 					}
 				/>
-				<Route path='chat' element={<EmptyScreen />} />
-				<Route path='profile' element={<EmptyScreen />} />
-				<Route path='settings' element={<EmptyScreen />} />
+				<Route
+					path='chat'
+					element={
+						<PermissionWrapper
+							permission={permissions.all}
+							children={<EmptyScreen />}
+						/>
+					}
+				/>
+				<Route
+					path='profile'
+					element={
+						<PermissionWrapper
+							permission={permissions.all}
+							children={<EmptyScreen />}
+						/>
+					}
+				/>
+				<Route
+					path='settings'
+					element={
+						<PermissionWrapper
+							permission={permissions.all}
+							children={<EmptyScreen />}
+						/>
+					}
+				/>
 			</Route>
 
 			<Route path='auth' element={<AuthLayout />}>
