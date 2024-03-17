@@ -136,7 +136,6 @@
 .community_suggestions {
     background: linear-gradient(206.2deg, #363F4D -6%, #232931 83.51%);
     /* opacity: 0.7; */
-    border-radius: 18px;
 }
 
 .community_suggestions_btn {

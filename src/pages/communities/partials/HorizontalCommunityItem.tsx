@@ -1,15 +1,14 @@
 import { Link } from 'react-router-dom';
 import profile from '../../../assets/profile2.jpg';
-import HorizontalMore from '../../../components/Buttons/HorizontalMore';
 import { Community } from './FavCommunities';
 
-const CommunityItem = ({ avatar, bio, name }: Partial<Community>) => {
+const HorizontalCommunityItem = ({ avatar, bio, name }: Partial<Community>) => {
 	return (
-		<div className='snap-center dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all p-5 flex justify-between items-center rounded-2xl'>
-			<div className='flex justify-center items-center gap-5'>
+		<div className='snap-start w-full community_suggestions rounded-2xl dark:hover:opacity-80 border dark:border-dark-border transition-all p-2 col-span-1 select-none'>
+			<div className='space-y-4'>
 				<Link to='/'>
 					<img
-						className='profile size-14'
+						className='profile rounded-t-md rounded-b-none w-full h-28 object-cover'
 						src={avatar || profile}
 						alt='community profile'
 					/>
@@ -24,10 +23,8 @@ const CommunityItem = ({ avatar, bio, name }: Partial<Community>) => {
 					</p>
 				</div>
 			</div>
-
-			<HorizontalMore />
 		</div>
 	);
 };
 
-export default CommunityItem;
+export default HorizontalCommunityItem;
