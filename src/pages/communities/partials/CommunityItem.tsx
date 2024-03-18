@@ -10,6 +10,7 @@ const CommunityItem = ({ avatar, bio, name }: Partial<Community>) => {
 				<Link to='/'>
 					<img
 						className='profile size-14'
+						// src={avatar || 'https://loremflickr.com/640/480/nature'}
 						src={avatar || profile}
 						alt='community profile'
 					/>

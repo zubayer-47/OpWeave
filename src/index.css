@@ -130,7 +130,23 @@
     .title {
         @apply dark:text-light-primary/90 text-base tracking-wider font-Poppins font-semibold
     }
+
+
+    /* .horizontal-scroll-container {
+        @apply flex overflow-x-auto snap-x;
+        white-space: nowrap;
+    }
+
+    .content-item {
+        @apply flex-shrink-0 snap-center;
+        width: 200px;
+        margin: 10px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+    } */
 }
+
 
 /* custom css */
 .community_suggestions {

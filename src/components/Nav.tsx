@@ -62,7 +62,9 @@ const Nav = () => {
 		function clickListener(e: MouseEvent) {
 			if (elem && !elem.contains(e.target as Node)) {
 				elem?.classList.remove('active');
-				console.log('first', e.target);
+				// TODO: every time clicking any portion of document, it'll call this method. fix it
+				// console.log('first', e.target);
+
 				return;
 			}
 		}

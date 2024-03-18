@@ -4,7 +4,7 @@ import { Community } from './FavCommunities';
 
 const HorizontalCommunityItem = ({ avatar, bio, name }: Partial<Community>) => {
 	return (
-		<div className='snap-start w-full community_suggestions rounded-2xl dark:hover:opacity-80 border dark:border-dark-border transition-all p-2 col-span-1 select-none'>
+		<div className='snap-center min-w-72 community_suggestions rounded-2xl dark:hover:opacity-80 border dark:border-dark-border transition-all p-2 select-none'>
 			<div className='space-y-4'>
 				<Link to='/'>
 					<img

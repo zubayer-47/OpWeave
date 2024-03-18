@@ -1,6 +1,6 @@
 import { MoreHorizontal } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import logo from '../assets/profile2.jpg';
+import profile from '../assets/profile2.jpg';
 
 const CommunityList = () => {
 	return (
@@ -9,7 +9,12 @@ const CommunityList = () => {
 			className='flex justify-between items-center hover:dark:bg-dark-bg px-4 transition-all'
 		>
 			<div className='flex justify-start items-center gap-2'>
-				<img className='profile size-10' src={logo} alt='Community logo' />
+				<img
+					className='profile size-10'
+					// src='https://loremflickr.com/640/480/nature'
+					src={profile}
+					alt='Community logo'
+				/>
 				<div>
 					<button className='title text-base leading-4 font-normal block'>
 						Dev Community
