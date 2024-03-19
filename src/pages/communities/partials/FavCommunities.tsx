@@ -33,13 +33,15 @@ const FavCommunities = () => {
 
 				setCommunities(data);
 
-				console.log(track.value === 'prev', currentPage !== 0);
+				// console.log(track.value === 'prev', currentPage !== 0);
+				const scrollWidth = scrollContainerRef.current!.scrollWidth;
 
-				if (track.value === 'prev' && currentPage !== 0) {
-					const scrollWidth = scrollContainerRef.current!.scrollWidth;
-					console.log('scrollWidth :', scrollWidth);
-					setScrollPosition(scrollWidth);
-				}
+				setScrollPosition(0);
+
+				// if (track.value === 'prev' && currentPage !== 0) {
+				// 	console.log('scrollWidth :', scrollWidth);
+				// 	setScrollPosition(scrollWidth);
+				// }
 			} catch (error) {
 				console.log(error);
 			}
