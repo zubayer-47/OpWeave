@@ -1,14 +1,15 @@
 // import { Navigation, Pagination } from 'swiper/modules';
 // import { Swiper } from 'swiper/react';
-import CommunityItem from './partials/CommunityItem';
-import FavCommunities from './partials/FavCommunities';
+import HorizontalScroll from '../../components/TestScroll';
 
 const Communities = () => {
 	return (
 		<div className='py-5 h-screen space-y-8'>
-			<FavCommunities />
+			{/* <FavCommunities /> */}
 
-			<div className='py-5 space-y-5'>
+			<HorizontalScroll />
+
+			{/* <div className='py-5 space-y-5'>
 				<h1 className='title text-2xl'>Your Communities</h1>
 				<CommunityItem />
 				<CommunityItem />
@@ -22,8 +23,8 @@ const Communities = () => {
 				<CommunityItem />
 				<CommunityItem />
 				<CommunityItem />
-				<CommunityItem />F T
-			</div>
+				<CommunityItem />F T TT
+			</div> */}
 		</div>
 	);
 };
