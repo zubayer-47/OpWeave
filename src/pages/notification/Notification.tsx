@@ -1,12 +1,11 @@
-import {
-	NotificationActionableItem,
-	NotificationItem,
-} from './partials/NotificationItem';
+import data from '../../../data.json';
+import PartialNotifications from './partials/PartialNotifications';
 
 const Notification = () => {
+	// console.log(data);
 	return (
 		<div className='py-5 h-screen'>
-			<div className='flex justify-between items-center'>
+			{/* <div className='flex justify-between items-center'>
 				<h1 className='title text-2xl'>Notifications</h1>
 				<div className='flex justify-center items-center gap-2'>
 					<span className='title text-sm'>Sort By</span>
@@ -15,25 +14,27 @@ const Notification = () => {
 						<option value='date'>Date</option>
 					</select>
 				</div>
-			</div>
-			<div className='py-5 space-y-5'>
+			</div> */}
+			<div className='py-5 space-y-5 relative'>
+				<PartialNotifications list={data} />
+
+				{/* <NotificationItem />
+				<NotificationItem />
+				<NotificationItem />
+				<NotificationItem />
+				<NotificationItem /> */}
+				{/* <NotificationActionableItem />
+				<NotificationActionableItem />
+				<NotificationActionableItem /> */}
+				{/* <NotificationItem />
 				<NotificationItem />
 				<NotificationItem />
 				<NotificationItem />
 				<NotificationItem />
 				<NotificationItem />
 				<NotificationActionableItem />
-				<NotificationActionableItem />
-				<NotificationActionableItem />
 				<NotificationItem />
-				<NotificationItem />
-				<NotificationItem />
-				<NotificationItem />
-				<NotificationItem />
-				<NotificationItem />
-				<NotificationActionableItem />
-				<NotificationItem />
-				<NotificationItem />
+				<NotificationItem /> */}
 			</div>
 		</div>
 	);
