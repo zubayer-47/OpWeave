@@ -1,20 +1,19 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
-import HorizontalMore from '../../../components/Buttons/HorizontalMore';
+import list from '../../../../data.json';
 const THRESHOLD = 15;
 
-interface Notification {
-	id: string | number;
-	text: string;
-	avatar: string;
-	timestamps: string;
-}
+// interface Notification {
+// 	id: string | number;
+// 	text: string;
+// 	avatar: string;
+// 	timestamps: string;
+// }
 
-type Props = {
-	list: Notification[];
-};
+// type Props = {
+// 	list: Notification[];
+// };
 
-const PartialNotifications = ({ list }: Props) => {
+const PartialNotifications = () => {
 	// const [start, setStart] = useState(0);
 	// const [end, setEnd] = useState(THRESHOLD);
 
@@ -23,8 +22,8 @@ const PartialNotifications = ({ list }: Props) => {
 		end: THRESHOLD,
 	});
 
-	const topElement = useRef<HTMLDivElement | null>(null);
-	const bottomElement = useRef<HTMLDivElement | null>(null);
+	const topElement = useRef<HTMLLIElement | null>(null);
+	const bottomElement = useRef<HTMLLIElement | null>(null);
 	const observerRef = useRef<IntersectionObserver>();
 	const prevStateRef = useRef(state);
 
@@ -141,6 +140,8 @@ const PartialNotifications = ({ list }: Props) => {
 		[state, list]
 	);
 
+	console.log(updatedList);
+
 	/**
 	 * times: start , end
 	 * 1st: 	0 	,  15
@@ -152,13 +153,11 @@ const PartialNotifications = ({ list }: Props) => {
 	const lastIndex = updatedList.length - 1;
 
 	return (
-		// <ul
-		// 	style={{ position: 'relative' }}
-		// 	className='max-w-[40rem] w-full h-full flex flex-col gap-10 overflow-y-auto mx-auto'
-		// 	// className='py-5 space-y-5'
-		// >
-
-		<>
+		<ul
+			style={{ position: 'relative' }}
+			className='max-w-[40rem] w-full h-screen flex flex-col gap-10 overflow-y-auto mx-auto'
+			// className='py-5 space-y-5'
+		>
 			{updatedList.map((item, index) => {
 				// const top = index + state.start + 'px';
 				const top = 195 * (index + state.start) + 'px';
@@ -170,36 +169,18 @@ const PartialNotifications = ({ list }: Props) => {
 					// 	{item.text}
 					// </li>
 
-					<div
+					<li
 						key={item.id}
 						style={{ top }}
 						ref={refVal}
 						id={id}
-						className='dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all p-5 flex justify-between items-center rounded-2xl'
+						className='absolute w-full py-20 bg-rose-500 title'
 					>
-						<div className='flex justify-center gap-5'>
-							<Link to='/'>
-								<img
-									className='profile'
-									src={item.avatar}
-									alt="A B M Zubayer's profile"
-								/>
-							</Link>
-							<div className='flex flex-col'>
-								<Link to='/' className='title'>
-									{item.text}
-								</Link>
-								<span className='title font-normal text-sm text-dark-muted'>
-									{item.timestamps}
-								</span>
-							</div>
-						</div>
-
-						<HorizontalMore />
-					</div>
+						{item.text}
+					</li>
 				);
 			})}
-		</>
+		</ul>
 	);
 };
 

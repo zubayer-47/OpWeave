@@ -1,4 +1,3 @@
-import data from '../../../data.json';
 import PartialNotifications from './partials/PartialNotifications';
 
 const Notification = () => {
@@ -16,7 +15,7 @@ const Notification = () => {
 				</div>
 			</div> */}
 			<div className='py-5 space-y-5 relative'>
-				<PartialNotifications list={data} />
+				<PartialNotifications />
 
 				{/* <NotificationItem />
 				<NotificationItem />
