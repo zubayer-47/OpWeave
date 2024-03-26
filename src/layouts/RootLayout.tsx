@@ -24,8 +24,7 @@ const RootLayout = () => {
 				className={`container mx-auto px-20 pt-20 h-screen overflow-hidden grid grid-cols-12`}
 			>
 				<div
-					// className={`h-full px-28 overflow-y-auto scrollbar-none ${
-					className={`h-full px-28 scrollbar-none ${
+					className={`h-full px-28 overflow-y-auto ${
 						!state.user || right === UserRight.FREE
 							? 'col-span-full'
 							: 'col-span-8'
