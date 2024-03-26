@@ -26,8 +26,8 @@ const RootLayout = () => {
 				<div
 					className={`h-full px-28 overflow-y-auto ${
 						!state.user || right === UserRight.FREE
-							? 'col-span-full'
-							: 'col-span-8'
+							? 'col-span-8'
+							: 'col-span-full'
 					}`}
 				>
 					<Outlet />
@@ -38,6 +38,10 @@ const RootLayout = () => {
 			</div>
 			{isPostModalOpen ? <CreatePost isModal /> : null}
 		</>
+
+		// <div>
+		// 	<Outlet />
+		// </div>
 	);
 };
 
