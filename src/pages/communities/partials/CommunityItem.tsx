@@ -5,7 +5,7 @@ import { Community } from './FavCommunities';
 
 const CommunityItem = ({ avatar, bio, name }: Partial<Community>) => {
 	return (
-		<div className='snap-center dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all p-5 flex justify-between items-center rounded-2xl'>
+		<div className='snap-center dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all p-5 flex justify-between items-center rounded-2xl relative'>
 			<div className='flex justify-center items-center gap-5'>
 				<Link to='/'>
 					<img
@@ -27,6 +27,8 @@ const CommunityItem = ({ avatar, bio, name }: Partial<Community>) => {
 			</div>
 
 			<HorizontalMore />
+
+			<div className='absolute right-3 bottom-0'>div</div>
 		</div>
 	);
 };
