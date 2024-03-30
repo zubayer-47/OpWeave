@@ -8,7 +8,7 @@ import Auth from './pages/auth/Auth';
 import Bookmarks from './pages/bookmarks/Bookmarks';
 import Communities from './pages/communities/Communities';
 import Home from './pages/home/Home';
-import PartialNotifications from './pages/notification/partials/PartialNotifications';
+import Notification from './pages/notification/Notification';
 import { permissions } from './types/custom';
 
 function App() {
@@ -39,7 +39,7 @@ function App() {
 					element={
 						<PermissionWrapper
 							permission={permissions.all}
-							children={<PartialNotifications />}
+							children={<Notification />}
 						/>
 					}
 				/>

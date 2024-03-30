@@ -1,7 +1,10 @@
-import PartialNotifications from './partials/PartialNotifications';
+import {
+	NotificationActionableItem,
+	NotificationItem,
+} from './partials/NotificationItem';
 
 const Notification = () => {
-	// console.log(data);
+	// console.log({ data });
 	return (
 		<div className='py-5 h-screen'>
 			{/* <div className='flex justify-between items-center'>
@@ -15,25 +18,25 @@ const Notification = () => {
 				</div>
 			</div> */}
 			<div className='py-5 space-y-5 relative'>
-				<PartialNotifications />
+				{/* <PartialNotifications items={data} /> */}
 
-				{/* <NotificationItem />
-				<NotificationItem />
-				<NotificationItem />
-				<NotificationItem />
-				<NotificationItem /> */}
-				{/* <NotificationActionableItem />
-				<NotificationActionableItem />
-				<NotificationActionableItem /> */}
-				{/* <NotificationItem />
 				<NotificationItem />
 				<NotificationItem />
 				<NotificationItem />
 				<NotificationItem />
 				<NotificationItem />
 				<NotificationActionableItem />
+				<NotificationActionableItem />
+				<NotificationActionableItem />
 				<NotificationItem />
-				<NotificationItem /> */}
+				<NotificationItem />
+				<NotificationItem />
+				<NotificationItem />
+				<NotificationItem />
+				<NotificationItem />
+				<NotificationActionableItem />
+				<NotificationItem />
+				<NotificationItem />
 			</div>
 		</div>
 	);

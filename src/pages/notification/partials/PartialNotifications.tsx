@@ -1,187 +1,82 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import list from '../../../../data.json';
-const THRESHOLD = 15;
+import axios from 'axios';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
-// interface Notification {
-// 	id: string | number;
-// 	text: string;
-// 	avatar: string;
-// 	timestamps: string;
-// }
+interface Item {
+	// Define the properties of your items here
+	id: string;
+	text: string;
+	avatar: string;
+	timestamps: string;
+	// ... other properties
+}
 
-// type Props = {
-// 	list: Notification[];
-// };
+const MyComponent: React.FC = () => {
+	const [items, setItems] = useState<Item[]>([]);
+	const [hasMore, setHasMore] = useState(true);
+	const [page, setPage] = useState(1);
+	const [isLoading, setIsLoading] = useState(false);
+	const scrollRef = useRef<HTMLDivElement>(null);
 
-const PartialNotifications = () => {
-	// const [start, setStart] = useState(0);
-	// const [end, setEnd] = useState(THRESHOLD);
-
-	const [state, setState] = useState({
-		start: 0,
-		end: THRESHOLD,
-	});
-
-	const topElement = useRef<HTMLLIElement | null>(null);
-	const bottomElement = useRef<HTMLLIElement | null>(null);
-	const observerRef = useRef<IntersectionObserver>();
-	const prevStateRef = useRef(state);
+	const fetchItems = async () => {
+		console.log(scrollRef.current);
+		setIsLoading(true);
+		try {
+			const response = await axios.get<Item[]>(
+				`https://65218ee4a4199548356d5dc5.mockapi.io/api/v1/notifications?page=${page}&limit=15`
+			);
+			const newItems = response.data;
+			setItems([...items, ...newItems]);
+			setHasMore(newItems.length === 15); // Assuming 15 items per page
+			setPage(page + 1);
+		} catch (error) {
+			console.error(error);
+			// Handle errors gracefully, e.g., display an error message
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
 	useEffect(() => {
-		initiateScrollObserver();
+		fetchItems();
 	}, []);
 
-	useEffect(() => {
-		const prevState = prevStateRef.current;
-
-		if (prevState.end !== state.end || prevState.start !== state.start) {
-			initiateScrollObserver();
-		}
-	}, [state.end, state.start]);
-
-	const updateState = useCallback(
-		(newStart: number, newEnd: number) => {
-			const { start, end } = state;
-
-			if (start !== newStart || end !== newEnd) {
-				resetObservation();
-
-				setState((prev) => {
-					prevStateRef.current = prev;
-
-					return {
-						start: newStart,
-						end: newEnd,
-					};
-				});
+	const handleScroll = () => {
+		if (scrollRef.current) {
+			const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+			if (scrollTop + clientHeight >= scrollHeight - 100) {
+				// Adjust threshold as needed
+				fetchItems();
 			}
-		},
-		[state]
-	);
-
-	const callback = useCallback(
-		(entries: IntersectionObserverEntry[]) => {
-			entries.forEach((entry) => {
-				const listLength = list.length;
-				const { start, end } = state;
-				// Scroll Down
-				// We make increments and decrements in 10s
-				if (entry.isIntersecting && entry.target.id === 'bottom') {
-					// console.log('end :', end);
-					const maxStartIndex = listLength - 1 - THRESHOLD; // Maximum index value `start` can take
-					// console.log('maxStartIndex :', maxStartIndex);
-					const maxEndIndex = listLength; // Maximum index value `end` can take
-					// console.log('maxEndIndex :', maxEndIndex);
-					const newEnd = end + 10 <= maxEndIndex ? end + 10 : maxEndIndex;
-					const newStart = end - 5 <= maxStartIndex ? end - 5 : maxStartIndex;
-
-					// console.log({ newStart, newEnd });
-					updateState(newStart, newEnd);
-				}
-				// Scroll up
-				if (entry.isIntersecting && entry.target.id === 'top') {
-					const newEnd =
-						end === THRESHOLD
-							? THRESHOLD
-							: end - 10 > THRESHOLD
-							? end - 10
-							: THRESHOLD;
-					const newStart = start === 0 ? 0 : start - 10 > 0 ? start - 10 : 0;
-					updateState(newStart, newEnd);
-				}
-			});
-		},
-		[state, list.length, updateState]
-	);
-
-	const initiateScrollObserver = useCallback(() => {
-		const options = {
-			root: null,
-			rootMargin: '0px',
-			threshold: 0.1,
-		};
-
-		observerRef.current = new IntersectionObserver(callback, options);
-
-		if (topElement.current) {
-			observerRef.current.observe(topElement.current);
-			// console.log(topElement.current, 'top');
 		}
-		if (bottomElement.current) {
-			// console.log(bottomElement.current, 'bottom');
-			observerRef.current.observe(bottomElement.current);
-		}
-	}, [callback]);
-
-	/**
-	 *
-	 * * I have to know the length count of list;
-	 */
-
-	const resetObservation = () => {
-		if (!observerRef.current || !bottomElement.current || !topElement.current)
-			return;
-
-		observerRef.current.unobserve(bottomElement.current);
-		observerRef.current.unobserve(topElement.current);
-
-		topElement.current = null;
-		bottomElement.current = null;
 	};
-
-	const getReference = (index: number, isLastIndex: boolean) => {
-		if (index === 0) return topElement;
-		if (isLastIndex) return bottomElement;
-		return null;
-	};
-
-	const updatedList = useMemo(
-		() => list.slice(state.start, state.end),
-		[state, list]
-	);
-
-	console.log(updatedList);
-
-	/**
-	 * times: start , end
-	 * 1st: 	0 	,  15
-	 * 2nd: 	10 	,  25 	// gap -> 15
-	 * 3nd: 	20 	,  35 	// gap -> 15
-	 * 4nd: 	28 	,  44 	// because of 30 is greater than 28 and 28 + 15 = 43 and in this case we could have more than 15 in last page
-	 */
-
-	const lastIndex = updatedList.length - 1;
 
 	return (
-		<ul
-			style={{ position: 'relative' }}
-			className='max-w-[40rem] w-full h-screen flex flex-col gap-10 overflow-y-auto mx-auto'
-			// className='py-5 space-y-5'
+		<div
+			ref={scrollRef}
+			onScroll={handleScroll}
+			className='overflow-y-auto h-screen'
 		>
-			{updatedList.map((item, index) => {
-				// const top = index + state.start + 'px';
-				const top = 195 * (index + state.start) + 'px';
-
-				const refVal = getReference(index, index === lastIndex);
-				const id = index === 0 ? 'top' : index === lastIndex ? 'bottom' : '';
-				return (
-					// <li className='' key={item.id} style={{ top }} ref={refVal} id={id}>
-					// 	{item.text}
-					// </li>
-
-					<li
-						key={item.id}
-						style={{ top }}
-						ref={refVal}
-						id={id}
-						className='absolute w-full py-20 bg-rose-500 title'
-					>
+			<InfiniteScroll
+				dataLength={items.length}
+				next={fetchItems}
+				hasMore={hasMore}
+				loader={isLoading ? <h4>Loading...</h4> : null}
+				endMessage={
+					<p style={{ textAlign: 'center' }}>
+						<b>Yay! You have seen it all</b>
+					</p>
+				}
+				scrollableTarget={scrollRef.current as ReactNode}
+			>
+				{items.map((item) => (
+					<div key={item.id} className='list'>
 						{item.text}
-					</li>
-				);
-			})}
-		</ul>
+					</div>
+				))}
+			</InfiniteScroll>
+		</div>
 	);
 };
 
-export default PartialNotifications;
+export default MyComponent;
