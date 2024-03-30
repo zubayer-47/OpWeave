@@ -16,7 +16,6 @@ const RootLayout = () => {
 	const { state } = useAuth();
 
 	const right = state.user?.rights;
-
 	return (
 		<>
 			<Nav />
@@ -24,10 +23,10 @@ const RootLayout = () => {
 				className={`container mx-auto px-20 pt-20 h-screen overflow-hidden grid grid-cols-12`}
 			>
 				<div
-					className={`h-full px-28 overflow-y-auto ${
+					className={`h-full px-28 overflow-y-auto scrollbar-none ${
 						!state.user || right === UserRight.FREE
-							? 'col-span-8'
-							: 'col-span-full'
+							? 'col-span-full'
+							: 'col-span-8'
 					}`}
 				>
 					<Outlet />

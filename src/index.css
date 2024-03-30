@@ -131,6 +131,9 @@
         @apply dark:text-light-primary/90 text-base tracking-wider font-Poppins font-semibold
     }
 
+    .list {
+        @apply w-72 mx-auto h-32 p-10 bg-rose-400 my-10
+    }
 
     /* .horizontal-scroll-container {
         @apply flex overflow-x-auto snap-x;
