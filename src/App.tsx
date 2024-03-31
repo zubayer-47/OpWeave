@@ -2,11 +2,12 @@ import { Route, Routes } from 'react-router-dom';
 import PermissionWrapper from './Routes/PermissionWrapper';
 import EmptyScreen from './components/EmptyScreen';
 import NotFound from './components/errors/NotFound';
-import AuthLayout from './layouts/AuthLayout';
+import CenterLayout from './layouts/CenterLayout';
 import RootLayout from './layouts/RootLayout';
 import Auth from './pages/auth/Auth';
 import Bookmarks from './pages/bookmarks/Bookmarks';
 import Communities from './pages/communities/Communities';
+import Community from './pages/community/Community';
 import Home from './pages/home/Home';
 import Notification from './pages/notification/Notification';
 import { permissions } from './types/custom';
@@ -52,6 +53,7 @@ function App() {
 						/>
 					}
 				/>
+
 				<Route
 					path='bookmarks'
 					element={
@@ -90,8 +92,33 @@ function App() {
 				/>
 			</Route>
 
-			<Route path='auth' element={<AuthLayout />}>
-				<Route index element={<Auth />} />
+			<Route
+				path='auth'
+				element={
+					<CenterLayout className='w-full h-screen px-20 pt-20 overflow-hidden' />
+				}
+			>
+				<Route
+					index
+					element={
+						<PermissionWrapper
+							children={<Auth />}
+							permission={permissions.free}
+						/>
+					}
+				/>
+			</Route>
+
+			<Route element={<CenterLayout scroll className='pt-20' />}>
+				<Route
+					path='communities/:id'
+					element={
+						<PermissionWrapper
+							permission={permissions.all}
+							children={<Community />}
+						/>
+					}
+				/>
 			</Route>
 
 			<Route path='*' element={<NotFound />} />
