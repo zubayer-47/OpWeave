@@ -1,14 +1,7 @@
 import { signal } from '@preact/signals-react';
 import { useEffect, useRef, useState } from 'react';
+import { Community } from '../../../types/custom';
 import HorizontalCommunityItem from './HorizontalCommunityItem';
-
-export type Community = {
-	id: string;
-	name: string;
-	avatar: string;
-	bio: string;
-	createdAt: Date;
-};
 
 const FavCommunities = () => {
 	const track = signal<'prev' | 'next' | ''>('');
@@ -34,7 +27,7 @@ const FavCommunities = () => {
 				setCommunities(data);
 
 				// console.log(track.value === 'prev', currentPage !== 0);
-				const scrollWidth = scrollContainerRef.current!.scrollWidth;
+				// const scrollWidth = scrollContainerRef.current!.scrollWidth;
 
 				setScrollPosition(0);
 
