@@ -1,12 +1,28 @@
-import { Link } from 'react-router-dom';
+import clsx from 'clsx';
+import { ReactNode } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import profile from '../../assets/profile2.jpg';
-import Button from '../../components/Buttons/Button';
 import HorizontalMore from '../../components/Buttons/HorizontalMore';
 import Hr from '../../components/Hr';
-import Post from '../../components/Post';
-import OutletLayout from '../../layouts/OutletLayout';
+import useQuery from '../../hooks/useQuery';
+import Info from './profile/Info';
+import Members from './profile/Members';
+import Photos from './profile/Photos';
+import Posts from './profile/Posts';
+import Videos from './profile/Videos';
 
 const Community = () => {
+	const query = useQuery();
+	const params = useParams();
+
+	let content: ReactNode;
+	if (!query.get('sec')) content = <Posts />;
+	else if (query.get('sec') === 'posts') content = <Posts />;
+	else if (query.get('sec') === 'info') content = <Info />;
+	else if (query.get('sec') === 'photos') content = <Photos />;
+	else if (query.get('sec') === 'videos') content = <Videos />;
+	else if (query.get('sec') === 'members') content = <Members />;
+
 	return (
 		<div className='mt-28'>
 			<div className='flex items-center justify-between px-14'>
@@ -26,75 +42,66 @@ const Community = () => {
 				<HorizontalMore />
 			</div>
 
-			<div className='flex justify-start items-center gap-20 mt-10 mb-2 px-14'>
-				<button type='button' className='title'>
+			<div className='flex justify-start items-center gap-20 mt-10 mb-0.5 px-14'>
+				<Link
+					to={`/communities/${params.id}?sec=posts`}
+					type='button'
+					className={clsx(
+						'title transition-all',
+						query.get('sec') === 'posts' &&
+							'border-b-[3px] rounded-sm px-3 border-blue-primary'
+					)}
+				>
 					Posts
-				</button>
-				<button type='button' className='title'>
+				</Link>
+				<Link
+					to={`/communities/${params.id}?sec=info`}
+					type='button'
+					className={clsx(
+						'title transition-all',
+						query.get('sec') === 'info' &&
+							'border-b-[3px] rounded-sm px-3 border-blue-primary'
+					)}
+				>
 					Info
-				</button>
-				<button type='button' className='title'>
+				</Link>
+				<Link
+					to={`/communities/${params.id}?sec=photos`}
+					type='button'
+					className={clsx(
+						'title transition-all',
+						query.get('sec') === 'photos' &&
+							'border-b-[3px] rounded-sm px-3 border-blue-primary'
+					)}
+				>
 					Photos
-				</button>
-				<button type='button' className='title'>
+				</Link>
+				<Link
+					to={`/communities/${params.id}?sec=videos`}
+					type='button'
+					className={clsx(
+						'title transition-all',
+						query.get('sec') === 'videos' &&
+							'border-b-[3px] rounded-sm px-3 border-blue-primary'
+					)}
+				>
 					Videos
-				</button>
-				<button type='button' className='title'>
+				</Link>
+				<Link
+					to={`/communities/${params.id}?sec=members`}
+					type='button'
+					className={clsx(
+						'title transition-all',
+						query.get('sec') === 'members' &&
+							'border-b-[3px] rounded-sm px-3 border-blue-primary'
+					)}
+				>
 					Members
-				</button>
+				</Link>
 			</div>
 			<Hr />
 
-			<div className='grid grid-cols-2 gap-20 px-20 mt-10'>
-				<div className='flex flex-col gap-10'>
-					<Post />
-					<Post />
-					<Post />
-				</div>
-
-				<div>
-					<OutletLayout title='About' sub='Developer Community'>
-						<p className='title text-sm font-normal font-Inter px-4'>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
-							error animi blanditiis unde facilis sapiente aliquid, dolor
-							perferendis odio beatae nisi ducimus earum suscipit fugit quis
-							recusandae laudantium? Saepe delectus sed reprehenderit a dolore,
-							iste suscipit laboriosam voluptate, vitae illum repellendus
-							necessitatibus harum magni amet maxime esse, aliquam debitis.
-							Dicta?
-						</p>
-
-						<div className='flex items-center gap-4 pl-5 pr-4'>
-							<div className='flex items-center'>
-								<span className='size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'></span>
-								<span className='size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'></span>
-								<span className='size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'></span>
-								<span className='size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'></span>
-								<span className='size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'></span>
-								<span className='size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'></span>
-								<span className='title text-sm font-normal text-light-primary/70 pl-1'>
-									+200
-								</span>
-							</div>
-
-							<Link
-								to='/'
-								className='text-blue-primary underline underline-offset-2 font-Poppins text-sm'
-							>
-								Members
-							</Link>
-						</div>
-						<div className='flex items-center gap-5 px-4 my-5'>
-							<Button title='Create Post' />
-							<Button
-								title='Info'
-								transparent
-								className='outlet_btn hover:opacity-70 border-none px-8 transition-all'
-							/>
-						</div>
-					</OutletLayout>
-				</div>
-			</div>
+			{content}
 		</div>
 	);
 };
