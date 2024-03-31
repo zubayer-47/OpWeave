@@ -6,7 +6,7 @@ const CommunityList = () => {
 	return (
 		<Link
 			to='/'
-			className='flex justify-between items-center hover:dark:bg-dark-bg px-4 transition-all'
+			className='flex justify-between items-center hover:dark:bg-dark-bg transition-all px-4'
 		>
 			<div className='flex justify-start items-center gap-2'>
 				<img

@@ -23,7 +23,7 @@ const CommunityItem = ({
 	return (
 		<div className='snap-center dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all p-5 flex justify-between items-center rounded-2xl relative'>
 			<div className='flex justify-center items-center gap-5'>
-				<Link to='/'>
+				<Link to='/communities/123'>
 					<img
 						className='profile size-14'
 						// src={avatar || 'https://loremflickr.com/640/480/nature'}
@@ -32,7 +32,7 @@ const CommunityItem = ({
 					/>
 				</Link>
 				<div>
-					<Link to='/' className='title'>
+					<Link to='/communities/123' className='title'>
 						{name || 'Dev Community'}
 						{/* <span className='not-sr-only hover:sr-only'>Settings</span> */}
 					</Link>

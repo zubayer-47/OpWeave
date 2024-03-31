@@ -2,6 +2,7 @@ import { Bell, Compass } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import profile from '../../../assets/profile.webp';
 import HorizontalMore from '../../../components/Buttons/HorizontalMore';
+import Hr from '../../../components/Hr';
 
 type Props = {
 	id: string;
@@ -57,7 +58,7 @@ export const NotificationItem = ({
 						<Compass className='text-light-primary' strokeWidth={1.5} />
 						<h3 className='title text-sm font-normal'>More Option</h3>
 					</button>
-					<hr className='border-t-2 dark:border-dark-border' />
+					<Hr />
 					<button
 						onClick={handleClose}
 						className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
