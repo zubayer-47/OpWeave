@@ -1,8 +1,9 @@
 import { MoreHorizontal } from 'lucide-react';
+type Props = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-const HorizontalMore = () => {
+const HorizontalMore = (props: Props) => {
 	return (
-		<button>
+		<button {...props}>
 			<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary' />
 		</button>
 	);
