@@ -94,9 +94,7 @@ function App() {
 
 			<Route
 				path='auth'
-				element={
-					<CenterLayout className='w-full h-screen px-20 pt-20 overflow-hidden' />
-				}
+				element={<CenterLayout className='px-20 pt-20 overflow-hidden' />}
 			>
 				<Route
 					index
@@ -109,7 +107,7 @@ function App() {
 				/>
 			</Route>
 
-			<Route element={<CenterLayout scroll className='pt-20' />}>
+			<Route element={<CenterLayout scroll className='pt-20 px-20' />}>
 				<Route
 					path='communities/:id'
 					element={

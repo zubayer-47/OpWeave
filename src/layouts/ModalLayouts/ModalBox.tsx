@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { FC } from 'react';
 
 interface ModalBoxProps {
@@ -20,7 +21,7 @@ const ModalBox: FC<ModalBoxProps> = ({
 				onClick={onClose}
 				className={` fixed inset-0 ${!overlyBg ? '' : overlyBg}`}
 			></button>
-			<div className={`relative my-6 mx-auto ${classes}`}>{children}</div>
+			<div className={clsx('relative my-6 mx-auto', classes)}>{children}</div>
 		</div>
 	);
 };

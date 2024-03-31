@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { Image, MapPin, Smile, X } from 'lucide-react';
 import {
 	ChangeEventHandler,
@@ -66,11 +67,10 @@ const CreatePost: FC<Props> = ({ isModal = false }) => {
 
 	return (
 		<div
-			className={`${
-				isModal
-					? 'fixed inset-0 bg-light-bg dark:bg-dark-bg/75 flex justify-center'
-					: ''
-			}`}
+			className={clsx(
+				isModal &&
+					'fixed inset-0 bg-light-bg dark:bg-dark-bg/75 flex justify-center'
+			)}
 		>
 			{isModal ? (
 				<button
@@ -82,9 +82,10 @@ const CreatePost: FC<Props> = ({ isModal = false }) => {
 				ref={wrapperRef}
 				tabIndex={0}
 				onFocus={onFocus}
-				className={`post h-fit px-4 py-6 relative ${
-					isModal ? 'max-w-102 w-full mx-2 my-10' : ''
-				}`}
+				className={clsx(
+					'post h-fit px-4 py-6 relative',
+					isModal && 'max-w-102 w-full mx-2 my-10'
+				)}
 			>
 				<div className='flex justify-between items-start'>
 					<div className='flex items-center gap-3'>
@@ -148,9 +149,10 @@ const CreatePost: FC<Props> = ({ isModal = false }) => {
 					value={text}
 					cols={10}
 					rows={isFocused ? 10 : 0}
-					className={`title text-base h-fit w-full resize rounded-md bg-transparent font-medium outline-none transition-all mt-5 ${
+					className={clsx(
+						'title text-base h-fit w-full resize rounded-md bg-transparent font-medium outline-none transition-all mt-5',
 						isFocused ? 'mb-10' : 'mb-0'
-					}`}
+					)}
 					placeholder='Your opinion...'
 				></textarea>
 

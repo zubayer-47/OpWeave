@@ -45,7 +45,7 @@ const Community = () => {
 			</div>
 			<Hr />
 
-			<div className='grid grid-cols-2 gap-20 px-36 mt-10'>
+			<div className='grid grid-cols-2 gap-20 px-20 mt-10'>
 				<div className='flex flex-col gap-10'>
 					<Post />
 					<Post />
