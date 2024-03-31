@@ -157,6 +157,11 @@
     /* opacity: 0.7; */
 }
 
+.outlet_btn {
+    background: linear-gradient(90deg, #3d4755 0%, #2b3644 100%);
+    /* opacity: 0.15; */
+}
+
 .community_suggestions_btn {
     background: linear-gradient(90deg, #495565 0%, #93ABCB 100%);
     opacity: 0.15;
