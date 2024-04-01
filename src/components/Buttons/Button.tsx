@@ -1,49 +1,78 @@
 import clsx from 'clsx';
 import { RefreshCw } from 'lucide-react';
-import { ButtonHTMLAttributes } from 'react';
 
-type BtnProp = ButtonHTMLAttributes<HTMLButtonElement> & {
-	title: string;
-	transparent?: boolean;
-	isDisabled?: boolean;
-	isLoading?: boolean;
+type ButtonProps = {
+	text: string;
+	type?: 'button' | 'submit' | 'reset';
+	variant?: 'primary' | 'secondary' | 'outline' | 'transparent';
+	onClick?: () => void;
+	disabled?: boolean;
+	className?: string;
+	icon?: React.ReactNode;
+	size?: 'small' | 'medium' | 'large';
+	fullWidth?: boolean;
+	isLoading?: boolean; // Added isLoading prop
 };
 
-const Button = ({
-	title,
-	transparent,
-	isDisabled,
-	isLoading,
+const Button: React.FC<ButtonProps> = ({
+	text,
+	type = 'button',
+	variant = 'primary',
+	onClick,
+	disabled,
 	className,
-	...props
-}: BtnProp) => (
-	<button
-		type='button'
-		// className={`px-4 p-2 rounded-lg outline-none tracking-wide ${
-		// 	(isLoading || isDisabled) && 'opacity-60'
-		// } ${
-		// 	transparent
-		// 		? 'bg-transparent text-nav-selected hover:underline'
-		// 		: 'bg-nav-selected text-light-text'
-		// }`}
-		className={clsx(
-			'button px-4 py-2 w-fit',
-			(isLoading || isDisabled) && 'opacity-60',
-			transparent
-				? 'bg-transparent text-light-primary border dark:border-dark-border hover:bg-transparent'
-				: 'bg-nav-selected text-light-text',
-			className
-		)}
-		disabled={isLoading || isDisabled}
-		{...props}
-	>
-		<span className='flex items-center'>
-			<span>{title}</span>
-			{!isLoading ? null : (
-				<RefreshCw className='ml-2 w-5 h-5 stroke-2 text-white animate-spin' />
-			)}
-		</span>
-	</button>
-);
+	icon,
+	size = 'medium',
+	fullWidth,
+	isLoading = false, // Default to false
+}) => {
+	const baseClasses =
+		'inline-flex items-center justify-center rounded-md font-Poppins font-medium focus:outline-none dark:focus:ring-2 dark:focus:ring-blue-primary/70 dark:focus:ring-offset-2 dark:focus:ring-offset-dark-primary';
+	const variantClasses = {
+		primary: 'bg-blue-primary text-light-primary hover:bg-blue-primary/80',
+		outline:
+			'border border-dark-border text-light-primary hover:bg-dark-primary',
+		secondary: 'button-decline',
+		transparent:
+			'bg-transparent text-light-primary border dark:border-dark-border hover:bg-transparent',
+	};
+
+	const sizeClasses = {
+		small: 'px-3 py-2 text-sm',
+		medium: 'px-4 py-2 text-base',
+		large: 'px-6 py-3 text-lg',
+	};
+
+	const classes = clsx(
+		baseClasses,
+		variantClasses[variant],
+		sizeClasses[size],
+		'w-fit',
+		{
+			'opacity-50 cursor-not-allowed': disabled || isLoading, // Disable button when loading
+			'w-full': fullWidth,
+		},
+		'transition-colors',
+		className
+	);
+
+	return (
+		<button
+			type={type}
+			className={classes}
+			onClick={onClick}
+			disabled={disabled || isLoading}
+		>
+			{icon && <span className='mr-2'>{icon}</span>}
+			<span>{text}</span>
+			{isLoading ? (
+				<span className='flex items-center'>
+					<RefreshCw className='ml-2 w-5 h-5 stroke-2 text-white animate-spin' />
+					{/* You can add a loading spinner here if needed */}
+				</span>
+			) : null}
+		</button>
+	);
+};
 
 export default Button;
