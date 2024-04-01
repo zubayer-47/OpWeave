@@ -114,9 +114,9 @@ const ForgetPass: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 
 				<br />
 				<Button
-					title='Send Mail'
-					type='submit'
+					text='Send Mail'
 					isLoading={forgetState.loading}
+					type='submit'
 				/>
 			</form>
 		</div>

@@ -1,6 +1,5 @@
 import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from '../../components/Buttons/Button';
 import Input, { PasswordInput } from '../../components/Inputs/Input';
 import useAuth from '../../hooks/useAuth';
 import useModal from '../../hooks/useModal';
@@ -85,11 +84,17 @@ const LoginPage: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 				>
 					Forgot Password?
 				</button>
-
+				{/* 
 				<Button
 					title='Login Account'
 					type='submit'
 					isLoading={state.authLoading}
+				/> */}
+
+				<Button
+					text='Login Account'
+					isLoading={state.authLoading}
+					type='submit'
 				/>
 			</form>
 

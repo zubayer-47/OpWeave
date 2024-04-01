@@ -180,7 +180,7 @@ const RegisterPage: FC<Props> = ({ setIsLogin }) => {
 					notMatched={!!confirmPassword && password !== confirmPassword}
 				/>
 
-				<Button title='Register' type='submit' isLoading={state.authLoading} />
+				<Button text='Register' isLoading={state.authLoading} type='submit' />
 			</form>
 
 			<p className='text-center mt-5'>
