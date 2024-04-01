@@ -14,6 +14,7 @@ import profile from '../assets/profile.webp';
 import { UserRight } from '../contexts/user/types';
 import useModal from '../hooks/useModal';
 import { permissions } from '../types/custom';
+import Button from './Buttons/Button';
 import Input from './Inputs/Input';
 import SubModal from './Modals/SubModal';
 // import SubModal from './Modals/SubModal';
@@ -175,13 +176,7 @@ const Nav = () => {
 						))}
 
 						<PermissionWrapper permission={UserRight.FREE} links>
-							<button
-								type='button'
-								className='button px-7 py-2.5'
-								onClick={handleLoginModal}
-							>
-								Log In
-							</button>
+							<Button text='Log In' onClick={handleLoginModal} />
 						</PermissionWrapper>
 					</div>
 

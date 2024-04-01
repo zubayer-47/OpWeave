@@ -4,6 +4,7 @@ import comment from '../assets/icons/comment.svg';
 import share from '../assets/icons/share.svg';
 import profile from '../assets/profile.webp';
 import { trunc } from '../libs/helpers';
+import Button from './Buttons/Button';
 ('lucide-react');
 
 const Post = () => {
@@ -21,12 +22,14 @@ const Post = () => {
 				<div className='flex flex-col items-end'>
 					<div className='flex-group'>
 						<Users2 className='icon size-6' />
-						<button className='title text-sm'>dev community</button>
+						<button type='button' className='title text-sm'>
+							dev community
+						</button>
 					</div>
 
 					<div className='flex-group'>
-						<button className='button'>Join</button>
-						<button>
+						<Button text='Join' size='small' className='!py-1.5' />
+						<button type='button'>
 							<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary transition-colors' />
 						</button>
 					</div>
