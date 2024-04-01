@@ -46,11 +46,10 @@ const Posts = () => {
 						</Link>
 					</div>
 					<div className='flex items-center gap-5 px-4 my-5'>
-						<Button title='Create Post' />
+						<Button text='Create Post' />
 						<Button
-							title='Info'
-							transparent
-							className='outlet_btn hover:opacity-70 border-none px-8 transition-all'
+							text='Info'
+							className='outlet_btn hover:opacity-70 border-none px-12 transition-all'
 						/>
 					</div>
 				</OutletLayout>
