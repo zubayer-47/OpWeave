@@ -10,6 +10,7 @@ import Communities from './pages/communities/Communities';
 import Community from './pages/community/Community';
 import Home from './pages/home/Home';
 import Notification from './pages/notification/Notification';
+import UserProfile from './pages/userProfile/UserProfile';
 import { permissions } from './types/custom';
 
 function App() {
@@ -73,15 +74,6 @@ function App() {
 					}
 				/>
 				<Route
-					path='profile'
-					element={
-						<PermissionWrapper
-							permission={permissions.all}
-							children={<EmptyScreen />}
-						/>
-					}
-				/>
-				<Route
 					path='settings'
 					element={
 						<PermissionWrapper
@@ -114,6 +106,15 @@ function App() {
 						<PermissionWrapper
 							permission={permissions.all}
 							children={<Community />}
+						/>
+					}
+				/>
+				<Route
+					path='profile'
+					element={
+						<PermissionWrapper
+							permission={permissions.all}
+							children={<UserProfile />}
 						/>
 					}
 				/>

@@ -23,6 +23,8 @@ const Community = () => {
 	else if (query.get('sec') === 'videos') content = <Videos />;
 	else if (query.get('sec') === 'members') content = <Members />;
 
+	const navLinkStyles = 'border-b-[3px] rounded-sm px-3 border-blue-primary';
+
 	return (
 		<div className='mt-28'>
 			<div className='flex items-center justify-between px-14'>
@@ -48,8 +50,7 @@ const Community = () => {
 					type='button'
 					className={clsx(
 						'title transition-all',
-						query.get('sec') === 'posts' &&
-							'border-b-[3px] rounded-sm px-3 border-blue-primary'
+						query.get('sec') === 'posts' && navLinkStyles
 					)}
 				>
 					Posts
@@ -59,8 +60,7 @@ const Community = () => {
 					type='button'
 					className={clsx(
 						'title transition-all',
-						query.get('sec') === 'info' &&
-							'border-b-[3px] rounded-sm px-3 border-blue-primary'
+						query.get('sec') === 'info' && navLinkStyles
 					)}
 				>
 					Info
@@ -70,8 +70,7 @@ const Community = () => {
 					type='button'
 					className={clsx(
 						'title transition-all',
-						query.get('sec') === 'photos' &&
-							'border-b-[3px] rounded-sm px-3 border-blue-primary'
+						query.get('sec') === 'photos' && navLinkStyles
 					)}
 				>
 					Photos
@@ -81,19 +80,17 @@ const Community = () => {
 					type='button'
 					className={clsx(
 						'title transition-all',
-						query.get('sec') === 'videos' &&
-							'border-b-[3px] rounded-sm px-3 border-blue-primary'
+						query.get('sec') === 'videos' && navLinkStyles
 					)}
 				>
 					Videos
 				</Link>
 				<Link
-					to={`/communities/${params.id}?sec=members`}
+					to={`/communities/${params.id}?sec=members&filterBy=all`}
 					type='button'
 					className={clsx(
 						'title transition-all',
-						query.get('sec') === 'members' &&
-							'border-b-[3px] rounded-sm px-3 border-blue-primary'
+						query.get('sec') === 'members' && navLinkStyles
 					)}
 				>
 					Members
