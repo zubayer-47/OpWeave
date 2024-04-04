@@ -1,10 +1,12 @@
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import data from '../../../../data.json';
-import CenterLayout from '../../../layouts/CenterLayout';
+import CenterLayout from '../layouts/CenterLayout';
 
-const slicedData = data.slice(10, 20);
+type Props = {
+	data: { name: string; createdAt: string; avatar: string; id: string }[];
+};
 
-const Photos = () => {
+const Photos: FC<Props> = ({ data }) => {
 	console.log('first');
 	return (
 		<CenterLayout className='max-w-102 w-full my-10'>
@@ -12,7 +14,7 @@ const Photos = () => {
 				<h1 className='title text-2xl'>Photos</h1>
 
 				<div className='grid grid-cols-3 gap-5'>
-					{slicedData.map(({ id, avatar }) => (
+					{data.map(({ id, avatar }) => (
 						// <Link to='' className='hover:shadow-2xl shadow-gray-200'>
 						<Link
 							to=''

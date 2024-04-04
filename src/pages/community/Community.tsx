@@ -1,15 +1,18 @@
 import clsx from 'clsx';
 import { ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import data from '../../../data.json';
 import profile from '../../assets/profile2.jpg';
 import HorizontalMore from '../../components/Buttons/HorizontalMore';
 import Hr from '../../components/Hr';
+import Photos from '../../components/Photos';
+import Videos from '../../components/Videos';
 import useQuery from '../../hooks/useQuery';
 import Info from './profile/Info';
 import Members from './profile/Members';
-import Photos from './profile/Photos';
 import Posts from './profile/Posts';
-import Videos from './profile/Videos';
+
+const slicedData = data.slice(10, 20);
 
 const Community = () => {
 	const query = useQuery();
@@ -19,8 +22,10 @@ const Community = () => {
 	if (!query.get('sec')) content = <Posts />;
 	else if (query.get('sec') === 'posts') content = <Posts />;
 	else if (query.get('sec') === 'info') content = <Info />;
-	else if (query.get('sec') === 'photos') content = <Photos />;
-	else if (query.get('sec') === 'videos') content = <Videos />;
+	else if (query.get('sec') === 'photos')
+		content = <Photos data={slicedData} />;
+	else if (query.get('sec') === 'videos')
+		content = <Videos data={slicedData} />;
 	else if (query.get('sec') === 'members') content = <Members />;
 
 	const navLinkStyles = 'border-b-[3px] rounded-sm px-3 border-blue-primary';
