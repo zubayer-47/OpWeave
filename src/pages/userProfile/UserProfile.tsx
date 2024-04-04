@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom';
 import profile from '../../assets/profile2.jpg';
 import Hr from '../../components/Hr';
 import useQuery from '../../hooks/useQuery';
-import About from './partials/About';
 import Communities from './partials/Communities';
-import Photos from './partials/Photos';
 import Timeline from './partials/Timeline';
-import Videos from './partials/Videos';
+
+import data from '../../../data.json';
+import Photos from '../../components/Photos';
+import Videos from '../../components/Videos';
+
+const slicedData = data.slice(10, 20);
 
 const UserProfile = () => {
 	const query = useQuery();
@@ -17,9 +20,10 @@ const UserProfile = () => {
 	if (!query.get('sec')) content = <Timeline />;
 	else if (query.get('sec') === 'timeline') content = <Timeline />;
 	else if (query.get('sec') === 'communities') content = <Communities />;
-	else if (query.get('sec') === 'photos') content = <Photos />;
-	else if (query.get('sec') === 'videos') content = <Videos />;
-	else if (query.get('sec') === 'about') content = <About />;
+	else if (query.get('sec') === 'photos')
+		content = <Photos data={slicedData} />;
+	else if (query.get('sec') === 'videos')
+		content = <Videos data={slicedData} />;
 
 	const navLinkStyles = 'border-b-[3px] rounded-sm px-3 border-blue-primary';
 
@@ -78,16 +82,6 @@ const UserProfile = () => {
 					)}
 				>
 					Videos
-				</Link>
-				<Link
-					to={`/profile?sec=about`}
-					type='button'
-					className={clsx(
-						'title transition-all',
-						query.get('sec') === 'about' && navLinkStyles
-					)}
-				>
-					About
 				</Link>
 			</div>
 			<Hr />
