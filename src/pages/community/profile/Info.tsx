@@ -30,6 +30,18 @@ const Info = () => {
 				</div>
 
 				<div className='my-7'>
+					<h1 className='title'>About</h1>
+					<h3 className='muted mb-7'>
+						Welcome to a vibrant community where passionate developers like you
+						come together to learn, share, and build amazing things! A
+						supportive environment: We believe in fostering a welcoming and
+						inclusive space where everyone feels comfortable asking questions,
+						sharing ideas, and seeking help. Diverse skill sets: Our members
+						come from all backgrounds and experience levels, from seasoned
+						professionals to enthusiastic beginners.
+					</h3>
+				</div>
+				<div className='my-7'>
 					<h1 className='title'>Rules</h1>
 					<p className='muted'>
 						Everyone should follow these rules and guidelines provided by

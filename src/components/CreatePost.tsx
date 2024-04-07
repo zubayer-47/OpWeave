@@ -13,9 +13,10 @@ import useController from '../hooks/useController';
 
 interface Props {
 	isModal?: boolean;
+	singleCommunity?: boolean;
 }
 
-const CreatePost: FC<Props> = ({ isModal = false }) => {
+const CreatePost: FC<Props> = ({ isModal = false, singleCommunity }) => {
 	const [isFocused, setFocused] = useState(false);
 	const [text, setText] = useState('');
 
@@ -93,45 +94,47 @@ const CreatePost: FC<Props> = ({ isModal = false }) => {
 						<div>
 							<h1 className='title'>A B M Zubayer</h1>
 							{/* {!isFocused ? null : ( */}
-							<div ref={postCommunityRef} hidden>
-								<span className='title text-sm font-DM-Sans font-medium text-light-muted dark:text-dark-muted'>
-									Post to:{' '}
-								</span>
-								<select
-									onClick={() => {
-										// wrapperRef.current?.focus();
-										// setFocused(true);
-									}}
-									name='community-selection'
-									className='cursor-pointer outline-none bg-transparent border border-light-muted/70 dark:border-dark-border rounded-full py-0.5 px-2 title text-sm font-DM-Sans font-medium text-light-muted dark:text-dark-muted'
-								>
-									<option
-										value='dev'
-										className='title font-DM-Sans font-medium  text-light-muted dark:text-dark-muted text-sm bg-light-bg dark:bg-dark-bg'
-										defaultValue='dev'
+							{singleCommunity ? null : (
+								<div ref={postCommunityRef} hidden>
+									<span className='title text-sm font-DM-Sans font-medium text-light-muted dark:text-dark-muted'>
+										Post to:{' '}
+									</span>
+									<select
+										onClick={() => {
+											// wrapperRef.current?.focus();
+											// setFocused(true);
+										}}
+										name='community-selection'
+										className='cursor-pointer outline-none bg-transparent border border-light-muted/70 dark:border-dark-border rounded-full py-0.5 px-2 title text-sm font-DM-Sans font-medium text-light-muted dark:text-dark-muted'
 									>
-										Dev community
-									</option>
-									<option
-										value='vibe'
-										className='title font-DM-Sans font-medium  text-light-muted dark:text-dark-muted text-sm bg-light-bg dark:bg-dark-bg'
-									>
-										Vibe community
-									</option>
-									<option
-										value='news'
-										className='title font-DM-Sans font-medium  text-light-muted dark:text-dark-muted text-sm bg-light-bg dark:bg-dark-bg'
-									>
-										News community
-									</option>
-									<option
-										value='b'
-										className='title font-DM-Sans font-medium  text-light-muted dark:text-dark-muted text-sm bg-light-bg dark:bg-dark-bg'
-									>
-										Bias community
-									</option>
-								</select>
-							</div>
+										<option
+											value='dev'
+											className='title font-DM-Sans font-medium  text-light-muted dark:text-dark-muted text-sm bg-light-bg dark:bg-dark-bg'
+											defaultValue='dev'
+										>
+											Dev community
+										</option>
+										<option
+											value='vibe'
+											className='title font-DM-Sans font-medium  text-light-muted dark:text-dark-muted text-sm bg-light-bg dark:bg-dark-bg'
+										>
+											Vibe community
+										</option>
+										<option
+											value='news'
+											className='title font-DM-Sans font-medium  text-light-muted dark:text-dark-muted text-sm bg-light-bg dark:bg-dark-bg'
+										>
+											News community
+										</option>
+										<option
+											value='b'
+											className='title font-DM-Sans font-medium  text-light-muted dark:text-dark-muted text-sm bg-light-bg dark:bg-dark-bg'
+										>
+											Bias community
+										</option>
+									</select>
+								</div>
+							)}
 							{/* )} */}
 						</div>
 					</div>

@@ -8,6 +8,7 @@ import Auth from './pages/auth/Auth';
 import Bookmarks from './pages/bookmarks/Bookmarks';
 import Communities from './pages/communities/Communities';
 import Community from './pages/community/Community';
+import Explore from './pages/explore/Explore';
 import Home from './pages/home/Home';
 import Notification from './pages/notification/Notification';
 import UserProfile from './pages/userProfile/UserProfile';
@@ -27,15 +28,6 @@ function App() {
 					}
 				/>
 
-				<Route
-					path='explore'
-					element={
-						<PermissionWrapper
-							permission={permissions.all}
-							children={<EmptyScreen />}
-						/>
-					}
-				/>
 				<Route
 					path='notifications'
 					element={
@@ -115,6 +107,15 @@ function App() {
 						<PermissionWrapper
 							permission={permissions.all}
 							children={<UserProfile />}
+						/>
+					}
+				/>
+				<Route
+					path='explore'
+					element={
+						<PermissionWrapper
+							permission={permissions.all}
+							children={<Explore />}
 						/>
 					}
 				/>

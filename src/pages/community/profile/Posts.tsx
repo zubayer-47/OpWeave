@@ -1,61 +1,161 @@
+import clsx from 'clsx';
 import { Link, useParams } from 'react-router-dom';
 import Button from '../../../components/Buttons/Button';
+import CreatePost from '../../../components/CreatePost';
 import Post from '../../../components/Post';
+import useModal from '../../../hooks/useModal';
 import OutletLayout from '../../../layouts/OutletLayout';
 
 const Posts = () => {
+	const { updateModal } = useModal();
 	const params = useParams();
 
+	const postGridStyles = 'grid grid-cols-2 gap-20 px-20 mt-10';
+	const basePostStyles = 'flex flex-col gap-10';
+	const membersProfileStyles =
+		'size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full';
+
 	return (
-		<div className='grid grid-cols-2 gap-20 px-20 mt-10'>
-			<div className='flex flex-col gap-10'>
+		<div className={postGridStyles}>
+			<div className={basePostStyles}>
 				<Post />
 				<Post />
 				<Post />
 			</div>
-
 			<div>
 				<OutletLayout title='About' sub='Developer Community'>
-					<p className='title text-sm font-normal font-Inter px-4'>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum error
-						animi blanditiis unde facilis sapiente aliquid, dolor perferendis
-						odio beatae nisi ducimus earum suscipit fugit quis recusandae
-						laudantium? Saepe delectus sed reprehenderit a dolore, iste suscipit
-						laboriosam voluptate, vitae illum repellendus necessitatibus harum
-						magni amet maxime esse, aliquam debitis. Dicta?
+					<p
+						className={clsx(
+							'title',
+							'text-sm',
+							'font-normal',
+							'font-Inter',
+							'px-4'
+						)}
+					>
+						Welcome to a vibrant community where passionate developers like you
+						come together to learn, share, and build amazing things! A
+						supportive environment: We believe in fostering a welcoming and
+						inclusive space where everyone feels comfortable asking questions,
+						sharing ideas, and seeking help. Diverse skill sets: Our members
+						come from all backgrounds and experience levels, from seasoned
+						professionals to enthusiastic beginners.
 					</p>
-
-					<div className='flex items-center gap-4 pl-5 pr-4'>
+					<div className='flex items-center gap-4 pl-5 pr-4 z-10'>
 						<div className='flex items-center'>
-							<span className='size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'></span>
-							<span className='size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'></span>
-							<span className='size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'></span>
-							<span className='size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'></span>
-							<span className='size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'></span>
-							<span className='size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'></span>
-							<span className='title text-sm font-normal text-light-primary/70 pl-1'>
+							<span className={membersProfileStyles}></span>
+							<span className={membersProfileStyles}></span>
+							<span className={membersProfileStyles}></span>
+							<span className={membersProfileStyles}></span>
+							<span className={membersProfileStyles}></span>
+							<span className={membersProfileStyles}></span>
+							<span className={membersProfileStyles}></span>
+							<span
+								className={clsx(
+									'title',
+									'text-sm',
+									'font-normal',
+									'text-light-primary/70',
+									'pl-1'
+								)}
+							>
 								+200
 							</span>
 						</div>
-
 						<Link
 							to={`/communities/${params.id}?sec=members`}
-							className='text-blue-primary underline underline-offset-2 font-Poppins text-sm'
+							className={clsx(
+								'text-blue-primary',
+								'underline',
+								'underline-offset-2',
+								'font-Poppins',
+								'text-sm'
+							)}
 						>
 							Members
 						</Link>
 					</div>
 					<div className='flex items-center gap-5 px-4 my-5'>
-						<Button text='Create Post' />
+						<Button text='Create Post' onClick={() => updateModal(true)} />
 						<Button
 							text='Info'
-							className='outlet_btn hover:opacity-70 border-none px-12 transition-all'
+							className={clsx(
+								'outlet_btn',
+								'hover:opacity-70',
+								'border-none',
+								'px-12',
+								'transition-all'
+							)}
 						/>
 					</div>
 				</OutletLayout>
 			</div>
+
+			<CreatePost />
 		</div>
 	);
 };
 
 export default Posts;
+
+// import { Link, useParams } from 'react-router-dom';
+// import Button from '../../../components/Buttons/Button';
+// import Post from '../../../components/Post';
+// import OutletLayout from '../../../layouts/OutletLayout';
+
+// const Posts = () => {
+// 	const params = useParams();
+
+// 	return (
+// 		<div className='grid grid-cols-2 gap-20 px-20 mt-10'>
+// 			<div className='flex flex-col gap-10'>
+// 				<Post />
+// 				<Post />
+// 				<Post />
+// 			</div>
+
+// 			<div>
+// 				<OutletLayout title='About' sub='Developer Community'>
+// 					<p className='title text-sm font-normal font-Inter px-4'>
+// 						Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum error
+// 						animi blanditiis unde facilis sapiente aliquid, dolor perferendis
+// 						odio beatae nisi ducimus earum suscipit fugit quis recusandae
+// 						laudantium? Saepe delectus sed reprehenderit a dolore, iste suscipit
+// 						laboriosam voluptate, vitae illum repellendus necessitatibus harum
+// 						magni amet maxime esse, aliquam debitis. Dicta?
+// 					</p>
+
+// 					<div className='flex items-center gap-4 pl-5 pr-4'>
+// 						<div className='flex items-center'>
+// 							<span className={'size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'}></span>
+// 							<span className={'size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'}></span>
+// 							<span className={'size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'}></span>
+// 							<span className={'size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'}></span>
+// 							<span className={'size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'}></span>
+// 							<span className={'size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full'}></span>
+// 							<span className='title text-sm font-normal text-light-primary/70 pl-1'>
+// 								+200
+// 							</span>
+// 						</div>
+
+// 						<Link
+// 							to={`/communities/${params.id}?sec=members`}
+// 							className='text-blue-primary underline underline-offset-2 font-Poppins text-sm'
+// 						>
+// 							Members
+// 						</Link>
+// 					</div>
+// 					<div className='flex items-center gap-5 px-4 my-5'>
+// 						<Button text='Create Post' />
+// 						<Button
+// 							text='Info'
+// 							className='outlet_btn hover:opacity-70 border-none px-12 transition-all'
+// 						/>
+// 					</div>
+// 				</OutletLayout>
+// 			</div>
+// 		</div>
+// 	);
+// };
+
+// export default Posts;
