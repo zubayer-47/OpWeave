@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import data from '../../../data.json';
 import profile from '../../assets/profile2.jpg';
+import Button from '../../components/Buttons/Button';
 import HorizontalMore from '../../components/Buttons/HorizontalMore';
 import Hr from '../../components/Hr';
 import Photos from '../../components/Photos';
@@ -30,6 +31,8 @@ const Community = () => {
 
 	const navLinkStyles = 'border-b-[3px] rounded-sm px-3 border-blue-primary';
 
+	const isJoined = true;
+
 	return (
 		<div className='mt-28'>
 			<div className='flex items-center justify-between px-14'>
@@ -46,7 +49,7 @@ const Community = () => {
 					</div>
 				</div>
 
-				<HorizontalMore />
+				{!isJoined ? <Button text='Join' /> : <HorizontalMore />}
 			</div>
 
 			<div className='flex justify-start items-center gap-20 mt-10 mb-0.5 px-14'>

@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import { Link, useParams } from 'react-router-dom';
 import Button from '../../../components/Buttons/Button';
-import CreatePost from '../../../components/CreatePost';
 import Post from '../../../components/Post';
 import useModal from '../../../hooks/useModal';
 import OutletLayout from '../../../layouts/OutletLayout';
@@ -90,8 +89,6 @@ const Posts = () => {
 					</div>
 				</OutletLayout>
 			</div>
-
-			<CreatePost />
 		</div>
 	);
 };
