@@ -133,6 +133,7 @@ const Nav = () => {
 								hint='Search'
 								isRequired
 								value={''}
+								isIcon
 							/>
 						</div>
 					</form>

@@ -11,6 +11,7 @@ import Community from './pages/community/Community';
 import Explore from './pages/explore/Explore';
 import Home from './pages/home/Home';
 import Notification from './pages/notification/Notification';
+import Settings from './pages/settings/Settings';
 import UserProfile from './pages/userProfile/UserProfile';
 import { permissions } from './types/custom';
 
@@ -65,15 +66,6 @@ function App() {
 						/>
 					}
 				/>
-				<Route
-					path='settings'
-					element={
-						<PermissionWrapper
-							permission={permissions.all}
-							children={<EmptyScreen />}
-						/>
-					}
-				/>
 			</Route>
 
 			<Route
@@ -116,6 +108,16 @@ function App() {
 						<PermissionWrapper
 							permission={permissions.all}
 							children={<Explore />}
+						/>
+					}
+				/>
+
+				<Route
+					path='settings'
+					element={
+						<PermissionWrapper
+							permission={permissions.all}
+							children={<Settings />}
 						/>
 					}
 				/>

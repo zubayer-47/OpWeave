@@ -53,6 +53,7 @@ export default {
 					secondary: 'rgb(var(--color-blue-secondary) / <alpha-value>)',
 				},
 				'nav-selected': 'rgb(var(--color-nav-selected) / <alpha-value>)',
+				green: 'rgb(var(--color-green) / <alpha-value>)',
 
 				// others
 				// ring: 'rgb(var(--color-ring) / <alpha-value>)',

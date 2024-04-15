@@ -58,7 +58,11 @@ const Communities = () => {
 				))}
 			</div>
 
-			<ModalLayout isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+			<ModalLayout
+				heading='Create Community'
+				isOpen={isModalOpen}
+				onClose={() => setIsModalOpen(false)}
+			>
 				<Form onSubmit={handleFormSubmit} />
 			</ModalLayout>
 		</div>

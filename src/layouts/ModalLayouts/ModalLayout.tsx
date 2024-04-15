@@ -4,12 +4,13 @@ import { FC, ReactNode } from 'react';
 import Hr from '../../components/Hr';
 
 interface Props {
+	heading: string;
 	isOpen: boolean;
 	onClose: () => void;
 	children: ReactNode;
 }
 
-const ModalLayout: FC<Props> = ({ isOpen, onClose, children }) => {
+const ModalLayout: FC<Props> = ({ heading, isOpen, onClose, children }) => {
 	if (!isOpen) return null;
 
 	return (
@@ -27,7 +28,7 @@ const ModalLayout: FC<Props> = ({ isOpen, onClose, children }) => {
 				)}
 			>
 				<div className='flex justify-between items-center mb-3'>
-					<h1 className='title text-xl'>Create Community</h1>
+					<h1 className='title text-xl'>{heading}</h1>
 
 					<button className='inline-block group relative' onClick={onClose}>
 						<span className='sr-only'>Close</span>
