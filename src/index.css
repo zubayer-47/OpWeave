@@ -33,10 +33,9 @@
 
         /* --color-nav-selected is used for nav selection links and it'd be 10% opacity of its main color */
         --color-nav-selected: 13 124 255;
+        --color-green: 59 134 64;
 
         /*? new colors */
-
-
 
         /*? dark */
         /* --color-dark-primary: 15 23 42; */
