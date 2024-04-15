@@ -9,6 +9,7 @@ type InputProp = {
 	type?: string;
 	hint?: string;
 	value?: string | null;
+	isIcon?: boolean;
 	isLoading?: boolean;
 	isRequired?: boolean;
 	showLabel?: boolean;
@@ -23,6 +24,7 @@ const Input = ({
 	hint = '',
 	value,
 	isLoading = false,
+	isIcon,
 	isRequired = false,
 	showLabel = false,
 	error = '',
@@ -44,9 +46,10 @@ const Input = ({
 			id={name}
 			// className='w-full p-3 rounded-lg bg-transparent outline-none tracking-wider border border-indigo-200'
 			className={clsx(
-				'block w-full px-3 py-2.5 ps-10 text-sm text-dark-text rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all',
+				'block w-full px-3 py-2.5 text-sm text-dark-text rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all',
 				{
 					'border-cRed': !!error,
+					'ps-10': isIcon,
 				}
 			)}
 			// className={`block w-full p-3 text-sm rounded-lg outline-none border focus:border-nav-selected dark:bg-dark-secondary dark:border-dark-border dark:placeholder-dark-muted text-dark-text dark:text-light-text dark:focus:border-blue-500 transition-all ${
