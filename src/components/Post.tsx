@@ -3,7 +3,7 @@ import { useState } from 'react';
 import bookmark from '../assets/icons/bookmark.svg';
 import comment from '../assets/icons/comment.svg';
 import share from '../assets/icons/share.svg';
-import profile from '../assets/profile.webp';
+import profile from '../assets/profile2.jpg';
 import { trunc } from '../libs/helpers';
 import Button from './Buttons/Button';
 
@@ -41,7 +41,18 @@ const Post = () => {
 				</div>
 			</div>
 
-			<p className='title font-Inter font-normal text-base mt-5 mb-9 hyphens-auto'>
+			<button
+				type='button'
+				className='w-full max-h-[45rem] h-fit mt-5 overflow-hidden'
+			>
+				<img
+					src={profile}
+					className='size-full object-contain'
+					alt='Post image'
+				/>
+			</button>
+
+			<p className='title font-Inter font-normal text-base mt-5 mb-5 hyphens-auto'>
 				{expanded
 					? 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnamipsam tempore quo mollitia? Ullam eveniet fugiat commodi excepturi soluta cupiditate, assumenda tempora modi quod voluptates. Labore vel unde sint odit necessitatibus, cum earum voluptates voluptate quidem modi nesciunt quas, libero qui iure reprehenderit. Nulla tenetur aliquid maxime omnis, laborum est fuga perspiciatis inventore error minima accusamus unde qui necessitatibus quis vo blanditiis, in quo lorem100 perferendis hicdolorem consectetur dolore laudantium quidem odit. lorem200'
 					: trunc(

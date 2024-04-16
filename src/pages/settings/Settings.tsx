@@ -7,7 +7,7 @@ import Input from '../../components/Inputs/Input';
 
 const Settings = () => {
 	return (
-		<div className='mx-96 mt-40'>
+		<div className='mx-96 mt-20'>
 			<div className='w-fit relative group'>
 				<img
 					src={profile}
