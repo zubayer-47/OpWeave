@@ -1,13 +1,18 @@
 import { Heart, MoreHorizontal, Users2 } from 'lucide-react';
+import { useState } from 'react';
 import bookmark from '../assets/icons/bookmark.svg';
 import comment from '../assets/icons/comment.svg';
 import share from '../assets/icons/share.svg';
 import profile from '../assets/profile.webp';
 import { trunc } from '../libs/helpers';
 import Button from './Buttons/Button';
-('lucide-react');
 
 const Post = () => {
+	const [expanded, setExpanded] = useState(false);
+
+	const toggleExpanded = () => {
+		setExpanded(!expanded);
+	};
 	return (
 		<div className='post px-7 pt-5 pb-3 relative'>
 			<div className='flex-group justify-between'>
@@ -37,11 +42,22 @@ const Post = () => {
 			</div>
 
 			<p className='title font-Inter font-normal text-base mt-5 mb-9 hyphens-auto'>
-				{trunc(
-					'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnamipsam tempore quo mollitia? Ullam eveniet fugiat commodi excepturi soluta cupiditate, assumenda tempora modi quod voluptates. Labore vel unde sint odit necessitatibus, cum earum voluptates voluptate quidem modi nesciunt quas, libero qui iure reprehenderit. Nulla tenetur aliquid maxime omnis, laborum est fuga perspiciatis inventore error minima accusamus unde qui necessitatibus quis vo blanditiis, in quo lorem100 perferendis hicdolorem consectetur dolore laudantium quidem odit. lorem200',
-					200
-				)}{' '}
-				<button className='title text-base'>See More</button>
+				{expanded
+					? 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnamipsam tempore quo mollitia? Ullam eveniet fugiat commodi excepturi soluta cupiditate, assumenda tempora modi quod voluptates. Labore vel unde sint odit necessitatibus, cum earum voluptates voluptate quidem modi nesciunt quas, libero qui iure reprehenderit. Nulla tenetur aliquid maxime omnis, laborum est fuga perspiciatis inventore error minima accusamus unde qui necessitatibus quis vo blanditiis, in quo lorem100 perferendis hicdolorem consectetur dolore laudantium quidem odit. lorem200'
+					: trunc(
+							'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnamipsam tempore quo mollitia? Ullam eveniet fugiat commodi excepturi soluta cupiditate, assumenda tempora modi quod voluptates. Labore vel unde sint odit necessitatibus, cum earum voluptates voluptate quidem modi nesciunt quas, libero qui iure reprehenderit. Nulla tenetur aliquid maxime omnis, laborum est fuga perspiciatis inventore error minima accusamus unde qui necessitatibus quis vo blanditiis, in quo lorem100 perferendis hicdolorem consectetur dolore laudantium quidem odit. lorem200',
+							200
+							// eslint-disable-next-line no-mixed-spaces-and-tabs
+					  )}
+				{expanded ? (
+					<button className='title text-base' onClick={toggleExpanded}>
+						See Less
+					</button>
+				) : (
+					<button className='title text-base' onClick={toggleExpanded}>
+						See More
+					</button>
+				)}
 			</p>
 
 			<hr className='border-t dark:border-dark-border border-light-border absolute bottom-[3.9rem] right-0 left-0' />

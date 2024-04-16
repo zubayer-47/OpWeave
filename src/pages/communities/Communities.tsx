@@ -6,6 +6,7 @@ import CommunityItem from './partials/CommunityItem';
 import { Plus } from 'lucide-react';
 import data from '../../../data.json';
 import Form from '../../components/Forms/Form';
+import ItemContainer from '../../components/HorizontalScrolling';
 import ModalLayout from '../../layouts/ModalLayouts/ModalLayout';
 
 const slicedData = data.slice(10, 20);
@@ -32,6 +33,7 @@ const Communities = () => {
 		<div className='py-5 h-screen space-y-8'>
 			{/* // TODO: customize it */}
 			{/* <FavCommunities /> */}
+			<ItemContainer />
 			<div className='py-5 space-y-5'>
 				<div className='flex justify-between items-center'>
 					<h1 className='title text-2xl'>Your Communities</h1>
@@ -56,6 +58,7 @@ const Communities = () => {
 						handleOption={handleOption}
 					/>
 				))}
+				JHHI
 			</div>
 
 			<ModalLayout
