@@ -183,3 +183,7 @@
     transform: translateY(0);
     pointer-events: auto;
 }
+
+.height_without_nav {
+    height: calc(100vh - 5rem);
+}

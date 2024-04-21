@@ -121,6 +121,16 @@ function App() {
 						/>
 					}
 				/>
+
+				<Route
+					path='posts/:postId'
+					element={
+						<PermissionWrapper
+							permission={permissions.all}
+							children={<Settings />}
+						/>
+					}
+				/>
 			</Route>
 
 			<Route path='*' element={<NotFound />} />

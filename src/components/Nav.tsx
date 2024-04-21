@@ -94,7 +94,7 @@ const Nav = () => {
 	};
 
 	return (
-		<nav className='absolute w-full h-[4.75rem] grid items-center dark:bg-dark-hover z-10 dark:shadow-nav px-10'>
+		<nav className='absolute top-0 left-0 right-0 w-full h-[4.75rem] grid items-center dark:bg-dark-hover z-10 dark:shadow-nav px-10'>
 			<div className='flex justify-between items-center'>
 				<div className='flex items-center gap-5'>
 					<Link to='/'>

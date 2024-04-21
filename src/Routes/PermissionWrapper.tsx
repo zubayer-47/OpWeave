@@ -23,15 +23,13 @@ const PermissionWrapper = ({ permission, children, links = false }: Props) => {
 		? permission.includes(right as number)
 		: right === permission;
 
-	// console.log('hasRight :', hasRight);
-
-	if (!hasRight && !state.user) {
+	if (!state.user && !state.isLoggedIn)
 		return links ? null : <Navigate to={'/auth'} state={{ from: location }} />;
-	}
 
-	if (!hasRight) {
-		return links ? null : <AccessDenied />;
-	}
+	if (state.user && state.isLoggedIn && location.pathname === '/auth')
+		return <Navigate to='/' />;
+
+	if (!hasRight) return links ? null : <AccessDenied />;
 
 	return children;
 };
