@@ -21,7 +21,7 @@ const RootLayout = () => {
 			<Nav />
 			<div className='container mx-auto px-20 pt-20 h-screen overflow-hidden grid grid-cols-12'>
 				<div
-					className={`h-full px-28 overflow-y-auto scrollbar-none ${
+					className={`w-full height_without_nav overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary px-28 ${
 						!state.user || right === UserRight.FREE
 							? 'col-span-full'
 							: 'col-span-8'
