@@ -1,13 +1,12 @@
 import clsx from 'clsx';
-import { Bell, Compass, PencilLine } from 'lucide-react';
+import { PencilLine } from 'lucide-react';
 import profile from '../../assets/profile2.jpg';
 import Button from '../../components/Buttons/Button';
-import Hr from '../../components/Hr';
 import Input from '../../components/Inputs/Input';
 
 const Settings = () => {
 	return (
-		<div className='mx-96 mt-20'>
+		<div className='mx-96 my-20'>
 			<div className='w-fit relative group'>
 				<img
 					src={profile}
@@ -22,27 +21,9 @@ const Settings = () => {
 					<PencilLine className='mr-2 size-4' strokeWidth={1.8} />
 					<span className='title text-sm'>Edit</span>
 				</button>
-
-				<div className='dark:bg-dark-primary px-1 flex-col border dark:border-dark-border rounded-xl z-10 group-focus:flex hidden'>
-					<button
-						// onClick={handleClose}
-						className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
-					>
-						<Compass className='text-light-primary' strokeWidth={1.5} />
-						<h3 className='title text-sm font-normal'>More Option</h3>
-					</button>
-					<Hr />
-					<button
-						// onClick={handleClose}
-						className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
-					>
-						<Bell className='text-light-primary' strokeWidth={1.5} />
-						<h3 className='title text-sm font-normal'>More Option</h3>
-					</button>
-				</div>
 			</div>
 
-			<div className='flex flex-col gap-5 mt-20 col-span-2'>
+			<div className='flex flex-col gap-5 mt-10 col-span-2'>
 				<Input
 					hint='Name'
 					handler={() => {
