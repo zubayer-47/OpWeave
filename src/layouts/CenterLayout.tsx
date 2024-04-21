@@ -17,9 +17,10 @@ const CenterLayout = ({ className, scroll, children, ...rest }: Props) => {
 			{!hasChildren && <Nav />}
 			<div
 				className={clsx(
-					'container mx-auto size-full',
+					'container mx-auto mt-[4.76rem]',
 					className,
-					scroll && 'w-full h-screen overflow-y-auto scrollbar-none'
+					scroll &&
+						'w-full height_without_nav overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'
 				)}
 				{...rest}
 			>
