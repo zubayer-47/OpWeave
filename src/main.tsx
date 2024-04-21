@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
 import { HashRouter } from 'react-router-dom';
 import App from './App.tsx';
+import { store } from './app/store.ts';
 import ErrorBoundary from './components/errors/ErrorBoundary.tsx';
 import ControllerProvider from './contexts/controller/Provider.tsx';
 import ModalProvider from './contexts/modal/Provider.tsx';
@@ -15,7 +17,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 				<UserProvider>
 					<ControllerProvider>
 						<ModalProvider>
-							<App />
+							<Provider store={store}>
+								<App />
+							</Provider>
 						</ModalProvider>
 					</ControllerProvider>
 				</UserProvider>
