@@ -7,22 +7,19 @@ import { store } from './app/store.ts';
 import ErrorBoundary from './components/errors/ErrorBoundary.tsx';
 import ControllerProvider from './contexts/controller/Provider.tsx';
 import ModalProvider from './contexts/modal/Provider.tsx';
-import UserProvider from './contexts/user/Provider.tsx';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
 		<ErrorBoundary>
 			<HashRouter>
-				<UserProvider>
-					<ControllerProvider>
-						<ModalProvider>
-							<Provider store={store}>
-								<App />
-							</Provider>
-						</ModalProvider>
-					</ControllerProvider>
-				</UserProvider>
+				<ControllerProvider>
+					<ModalProvider>
+						<Provider store={store}>
+							<App />
+						</Provider>
+					</ModalProvider>
+				</ControllerProvider>
 			</HashRouter>
 		</ErrorBoundary>
 	</React.StrictMode>
