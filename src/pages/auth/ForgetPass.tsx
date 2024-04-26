@@ -1,9 +1,10 @@
 import { isAxiosError } from 'axios';
-import { FC, useState } from 'react';
+import { useState } from 'react';
 import { FiCheck, FiChevronLeft } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttons/Button';
 import Input from '../../components/Inputs/Input';
-import { BooleanSetStateType, FormHandler } from '../../types/custom';
+import { FormHandler } from '../../types/custom';
 
 type ForgetStateType = {
 	email: string | null;
@@ -12,18 +13,14 @@ type ForgetStateType = {
 	loading: boolean;
 };
 
-interface Props {
-	setIsForgetPass: BooleanSetStateType;
-	setIsLogin: BooleanSetStateType;
-}
-
-const ForgetPass: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
+const ForgetPass = () => {
 	const [forgetState, setForgetState] = useState<ForgetStateType>({
 		email: '',
 		loading: false,
 		error: '',
 		isSuccess: false,
 	});
+	const navigate = useNavigate();
 
 	const onSubmit: FormHandler = async (e) => {
 		e.preventDefault();
@@ -66,8 +63,8 @@ const ForgetPass: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 		<div className='auth animate-auth-switch'>
 			<button
 				onClick={() => {
-					setIsLogin(false);
-					setIsForgetPass(false);
+					// setIsForgetPass(false);
+					navigate('/signin');
 				}}
 				type='button'
 				className='-ml-2 flex items-center text-nav-selected hover:text-nav-selected/80'
@@ -97,14 +94,14 @@ const ForgetPass: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 				<Input
 					name='email'
 					type='email'
-					handler={(e) => {
-						setForgetState((prev) => ({
-							...prev,
-							isSuccess: false,
-							email: e.target.value,
-						}));
-					}}
-					value={forgetState.email}
+					// handler={(e) => {
+					// 	setForgetState((prev) => ({
+					// 		...prev,
+					// 		isSuccess: false,
+					// 		email: e.target.value,
+					// 	}));
+					// }}
+					// value={forgetState.email}
 					hint='Email'
 					showLabel
 					isLoading={forgetState.loading}

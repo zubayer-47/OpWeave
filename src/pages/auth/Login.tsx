@@ -1,41 +1,33 @@
-import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttons/Button';
 import Input, { PasswordInput } from '../../components/Inputs/Input';
-import useAuth from '../../hooks/useAuth';
-import useModal from '../../hooks/useModal';
-import {
-	BooleanSetStateType,
-	FormHandler,
-	InputType,
-} from '../../types/custom';
+import { useLoginMutation } from '../../features/auth/authApi';
+import { FormHandler } from '../../types/custom';
 
-interface Props {
-	setIsForgetPass: BooleanSetStateType;
-	setIsLogin?: BooleanSetStateType;
-}
+// interface Props {
+// 	setIsForgetPass: BooleanSetStateType;
+// 	setIsLogin?: BooleanSetStateType;
+// }
 
-const LoginPage: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
-	const { state, login } = useAuth();
-	const modalContext = useModal();
+const Login = () => {
+	const [login, { isLoading, isError, error }] = useLoginMutation();
+	console.log('error :', error);
+
 	const navigate = useNavigate();
-	const [form, setForm] = useState({
-		username: '',
-		password: '',
-	});
-
-	const handleInput = (e: InputType) => {
-		setForm((prev) => ({
-			...prev,
-			[e.target.name]: e.target.value,
-		}));
-	};
 
 	const onSubmit: FormHandler = async (e) => {
 		e.preventDefault();
 
-		login(form.username, form.password);
+		const formData = new FormData(e.currentTarget);
+		const credentials = {
+			username: formData.get('username'),
+			password: formData.get('password'),
+		};
+
+		login({ ...credentials });
 	};
+
+	const goToRegister = () => navigate('/auth/signup');
 
 	return (
 		<div className='auth animate-auth-switch'>
@@ -46,30 +38,31 @@ const LoginPage: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 				</p>
 			</div>
 
-			{!state.authError ? null : (
+			{!isError ? null : (
 				<p className='text-center text-sm text-red-400 tracking-wide'>
-					{state.authError?.message}
+					{/* // TODO: provide error */}
+					dummy err
 				</p>
 			)}
 
 			<form onSubmit={onSubmit} className='mt-5 grid gap-3'>
 				<Input
 					name='username'
-					handler={handleInput}
-					value={form.username}
+					// handler={handleInput}
+					// value={form.username}
 					hint='Username'
 					showLabel
-					isLoading={state.authLoading}
+					isLoading={isLoading}
 					isRequired
 				/>
 
 				<PasswordInput
 					name='password'
-					handler={handleInput}
-					value={form.password}
+					// handler={handleInput}
+					// value={form.password}
 					hint='Password'
 					showLabel
-					isLoading={state.authLoading}
+					isLoading={isLoading}
 					isRequired
 				/>
 
@@ -77,10 +70,12 @@ const LoginPage: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 					type='button'
 					className='link w-fit mb-3'
 					onClick={() => {
-						if (typeof setIsLogin === 'function') {
-							setIsLogin(true);
-						}
-						setIsForgetPass(true);
+						// if (typeof setIsLogin === 'function') {
+						// 	setIsLogin(true);
+						// }
+						// setIsForgetPass(true);
+
+						navigate('/forget-pass');
 					}}
 				>
 					Forgot Password?
@@ -89,37 +84,21 @@ const LoginPage: FC<Props> = ({ setIsForgetPass, setIsLogin }) => {
 				<Button
 					title='Login Account'
 					type='submit'
-					isLoading={state.authLoading}
+					isLoading={isLoading}
 				/> */}
 
-				<Button
-					text='Login Account'
-					isLoading={state.authLoading}
-					type='submit'
-				/>
+				<Button text='Login Account' isLoading={isLoading} type='submit' />
 			</form>
 
 			<p className='text-center mt-5'>
 				<span className='title font-DM-Sans text-sm'>
 					Don't Have an Account?
 				</span>{' '}
-				<button
-					type='button'
-					onClick={() => {
-						if (typeof setIsLogin !== 'function') {
-							modalContext.updateModal(false);
-							navigate('/auth');
-							return;
-						}
-
-						setIsLogin(true);
-					}}
-					className='link'
-				>
+				<button type='button' onClick={goToRegister} className='link'>
 					Register Now
 				</button>
 			</p>
 		</div>
 	);
 };
-export default LoginPage;
+export default Login;

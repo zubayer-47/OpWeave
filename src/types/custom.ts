@@ -1,4 +1,4 @@
-import { UserRight } from '../contexts/user/types';
+import { UserRight } from '../features/auth/types';
 
 export type InputType = React.ChangeEvent<HTMLInputElement>;
 export type FormHandler = React.FormEventHandler<HTMLFormElement>;
