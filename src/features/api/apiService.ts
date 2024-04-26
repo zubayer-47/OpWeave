@@ -3,7 +3,7 @@ import { RootState } from '../../app/store';
 import { remove } from '../auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: import.meta.env.REACT_APP_API_URL,
+	baseUrl: 'http://localhost:8000/api/v1',
 	prepareHeaders: async (headers, { getState }) => {
 		const token = (getState() as RootState).auth.user?.token;
 		if (token) {

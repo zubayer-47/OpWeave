@@ -5,22 +5,29 @@ export enum UserRight {
 	ADMIN = 302,
 }
 
+enum Gender {
+	Male = 'Male',
+	Female = 'Female',
+	Others = 'Others',
+}
+
 export interface User {
 	id: number;
 	fullname: string;
 	username: string;
 	rights: UserRight;
 	token: string;
-	active?: boolean;
-	unable?: boolean;
+	gender: Gender;
+	avatar?: string;
+	createdAt?: string;
 }
 
 export type UserPartial = {
 	fullname?: string;
 	rights?: UserRight;
-	active?: boolean;
-	unable?: boolean;
+	avatar?: string;
 	token?: string;
+	createdAt?: string;
 };
 
 export interface UserStateType {

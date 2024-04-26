@@ -22,5 +22,23 @@ const userApi = apiService.injectEndpoints({
 		getUserProfile: builder.query({
 			query: () => '/users',
 		}),
+
+		updateUser: builder.mutation({
+			query: ({ userId, data }) => ({
+				url: `/users/${userId}`,
+				method: 'PATCH',
+				body: data,
+			}),
+
+			// TODO: 26/4 work with this
+		}),
 	}),
 });
+
+export const {
+	useGetProfilePictureQuery,
+	useUpdateProfilePictureMutation,
+	useRemoveProfilePictureMutation,
+	useGetUserProfileQuery,
+	useUpdateUserMutation,
+} = userApi;

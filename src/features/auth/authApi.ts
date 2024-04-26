@@ -6,14 +6,16 @@ const authApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
 		register: builder.mutation({
 			query: (credentials) => ({
-				url: '/signup',
+				url: '/auth/signup',
 				method: 'POST',
 				body: credentials,
 			}),
 
 			async onQueryStarted(_, { queryFulfilled, dispatch }) {
 				try {
-					const data = (await queryFulfilled) as unknown as User;
+					const response = await queryFulfilled;
+
+					const data = response.data as User;
 
 					console.log(data);
 
@@ -26,15 +28,15 @@ const authApi = apiService.injectEndpoints({
 		}),
 		login: builder.mutation({
 			query: (credentials) => ({
-				url: '/signin',
+				url: '/auth/signin',
 				method: 'POST',
 				body: credentials,
 			}),
 
 			async onQueryStarted(_, { queryFulfilled, dispatch }) {
 				try {
-					const data = (await queryFulfilled) as unknown as User;
-
+					const response = await queryFulfilled;
+					const data = response.data as User;
 					console.log(data);
 
 					localStorage.setItem('access_token', JSON.stringify(data.token));
