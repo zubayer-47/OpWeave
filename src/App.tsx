@@ -5,6 +5,9 @@ import NotFound from './components/errors/NotFound';
 import CenterLayout from './layouts/CenterLayout';
 import RootLayout from './layouts/RootLayout';
 import Auth from './pages/auth/Auth';
+import ForgetPass from './pages/auth/ForgetPass';
+import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 import Bookmarks from './pages/bookmarks/Bookmarks';
 import Communities from './pages/communities/Communities';
 import Community from './pages/community/Community';
@@ -68,19 +71,20 @@ function App() {
 				/>
 			</Route>
 
-			<Route
-				path='auth'
-				element={<CenterLayout className='px-20 pt-20 overflow-hidden' />}
-			>
+			<Route element={<CenterLayout className='px-20 pt-20 overflow-hidden' />}>
 				<Route
-					index
+					path='auth'
 					element={
 						<PermissionWrapper
 							children={<Auth />}
 							permission={permissions.free}
 						/>
 					}
-				/>
+				>
+					<Route path='signin' element={<Login />} />
+					<Route path='signup' element={<Register />} />
+					<Route path='forget-pass' element={<ForgetPass />} />
+				</Route>
 			</Route>
 
 			<Route element={<CenterLayout scroll className='pt-20 px-20' />}>

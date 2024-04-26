@@ -9,7 +9,7 @@ import {
 	useState,
 } from 'react';
 import profile from '../assets/profile.webp';
-import useController from '../hooks/useController';
+import { updatePostModal } from '../features/controller/controllerSlice';
 
 interface Props {
 	isModal?: boolean;
@@ -19,8 +19,6 @@ interface Props {
 const CreatePost: FC<Props> = ({ isModal = false, singleCommunity }) => {
 	const [isFocused, setFocused] = useState(false);
 	const [text, setText] = useState('');
-
-	const { closePostModal } = useController();
 
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);
 	const wrapperRef = useRef<HTMLDivElement>(null);
@@ -76,7 +74,7 @@ const CreatePost: FC<Props> = ({ isModal = false, singleCommunity }) => {
 			{isModal ? (
 				<button
 					className='bg-transparent inset-0 absolute'
-					onClick={closePostModal}
+					onClick={() => updatePostModal(false)}
 				></button>
 			) : null}
 			<div
@@ -140,7 +138,7 @@ const CreatePost: FC<Props> = ({ isModal = false, singleCommunity }) => {
 					</div>
 
 					{isModal ? (
-						<button type='button' onClick={closePostModal}>
+						<button type='button' onClick={() => updatePostModal(false)}>
 							<X className='h-8 w-8 p-1 hover:bg-light-muted/90 rounded-full text-dark-muted hover:text-light transition-colors' />
 						</button>
 					) : null}

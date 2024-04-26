@@ -5,10 +5,10 @@ import { InputType } from '../../types/custom';
 
 type InputProp = {
 	name: string;
-	handler: (e: InputType) => void;
+	// handler: (e: InputType) => void;
 	type?: string;
 	hint?: string;
-	value?: string | null;
+	// value?: string | null;
 	isIcon?: boolean;
 	isLoading?: boolean;
 	isRequired?: boolean;
@@ -19,63 +19,67 @@ type InputProp = {
 
 const Input = ({
 	name,
-	handler,
 	type = 'text',
 	hint = '',
-	value,
 	isLoading = false,
 	isIcon,
 	isRequired = false,
 	showLabel = false,
 	error = '',
-}: InputProp) => (
-	<div className='bg-transparent flex-1'>
-		{showLabel && (
-			<label
-				htmlFor={name}
-				className={`title text-sm font-Inter text-light-muted dark:text-dark-muted ${
-					!isRequired ? '' : "after:content-['*'] after:text-red-500"
-				}`}
-			>
-				{hint}
-			</label>
-		)}
-		<input
-			type={type}
-			name={name}
-			id={name}
-			// className='w-full p-3 rounded-lg bg-transparent outline-none tracking-wider border border-indigo-200'
-			className={clsx(
-				'block w-full px-3 py-2.5 text-sm text-dark-text rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all',
-				{
-					'border-cRed': !!error,
-					'ps-10': isIcon,
-				}
-			)}
-			// className={`block w-full p-3 text-sm rounded-lg outline-none border focus:border-nav-selected dark:bg-dark-secondary dark:border-dark-border dark:placeholder-dark-muted text-dark-text dark:text-light-text dark:focus:border-blue-500 transition-all ${
-			// 	!!error && 'border-cRed'
-			// }`}
-			placeholder={hint}
-			value={value || ''}
-			onChange={handler}
-			autoComplete='off'
-			disabled={isLoading}
-			required={isRequired}
-		/>
+}: InputProp) => {
+	const [value, setValue] = useState('');
 
-		{!error ? null : (
-			<p className='ml-2 text-sm text-cRed tracking-wide'>{error}</p>
-		)}
-	</div>
-);
+	const handler = (e: InputType) => {
+		setValue(e.target.value);
+	};
+
+	return (
+		<div className='bg-transparent flex-1'>
+			{showLabel && (
+				<label
+					htmlFor={name}
+					className={`title text-sm font-Inter text-light-muted dark:text-dark-muted ${
+						!isRequired ? '' : "after:content-['*'] after:text-red"
+					}`}
+				>
+					{hint}
+				</label>
+			)}
+			<input
+				type={type}
+				name={name}
+				id={name}
+				// className='w-full p-3 rounded-lg bg-transparent outline-none tracking-wider border border-indigo-200'
+				className={clsx(
+					'block w-full px-3 py-2.5 text-sm rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all',
+					{
+						'border-cRed': !!error,
+						'ps-10': isIcon,
+					}
+				)}
+				// className={`block w-full p-3 text-sm rounded-lg outline-none border focus:border-nav-selected dark:bg-dark-secondary dark:border-dark-border dark:placeholder-dark-muted text-dark-text dark:text-light-text dark:focus:border-blue-500 transition-all ${
+				// 	!!error && 'border-cRed'
+				// }`}
+				placeholder={hint}
+				value={value || ''}
+				onChange={handler}
+				autoComplete='off'
+				disabled={isLoading}
+				required={isRequired}
+			/>
+
+			{!error ? null : (
+				<p className='ml-2 text-sm text-cRed tracking-wide'>{error}</p>
+			)}
+		</div>
+	);
+};
 
 export default Input;
 
 export const PasswordInput = ({
 	name,
-	handler,
 	hint = '',
-	value,
 	isLoading = false,
 	showLabel = false,
 	isRequired,
@@ -83,7 +87,11 @@ export const PasswordInput = ({
 	notMatched,
 }: InputProp) => {
 	const [show, setShow] = useState(false);
+	const [value, setValue] = useState('');
 
+	const handler = (e: InputType) => {
+		setValue(e.target.value);
+	};
 	const onVisible = () => setShow((prev) => !prev);
 
 	return (
@@ -92,7 +100,7 @@ export const PasswordInput = ({
 				<label
 					htmlFor={name}
 					className={`title text-sm font-Inter text-light-muted dark:text-dark-muted  ${
-						!isRequired ? '' : "after:content-['*'] after:text-red-500"
+						!isRequired ? '' : "after:content-['*'] after:text-red"
 					}`}
 				>
 					{hint}
@@ -116,7 +124,7 @@ export const PasswordInput = ({
 					name={name}
 					id={name}
 					className={clsx(
-						'block w-full px-3 py-2.5 text-sm text-dark-text rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all',
+						'block w-full px-3 py-2.5 text-sm rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all',
 						'border-rose-500',
 						{
 							'dark:border-dark-border': !notMatched,

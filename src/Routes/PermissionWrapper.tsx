@@ -1,8 +1,8 @@
 import { PropsWithChildren } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
+import { useAppSelector } from '../app/hooks';
 import AccessDenied from '../components/AccessDenied';
-import { UserRight } from '../contexts/user/types';
-import useAuth from '../hooks/useAuth';
+import { UserRight } from '../features/auth/types';
 
 interface Props extends PropsWithChildren {
 	permission: UserRight | UserRight[];
@@ -10,7 +10,7 @@ interface Props extends PropsWithChildren {
 }
 
 const PermissionWrapper = ({ permission, children, links = false }: Props) => {
-	const { state } = useAuth();
+	const state = useAppSelector((state) => state.auth);
 	const right = state.user?.rights;
 	const location = useLocation();
 

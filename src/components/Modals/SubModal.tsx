@@ -1,9 +1,11 @@
 import { Bell, Bolt, LogOut, Mail, User2, Users2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import profile from '../../assets/profile.webp';
+import { remove } from '../../features/auth/authSlice';
 ('lucide-react');
 
 const SubModal = () => {
+	const logout = () => remove();
 	return (
 		<div className='dark:bg-dark-hover border dark:border-dark-border absolute top-16 right-0 h-fit w-full md:w-96 p-3 rounded-2xl dropdown-item'>
 			<div className='absolute inset-0 dark:bg-normal-primary opacity-10'></div>
@@ -76,7 +78,11 @@ const SubModal = () => {
 				</div>
 
 				<div className='pt-3'>
-					<button className='subModal-item justify-start gap-4 hover:bg-light-muted/10 dark:hover:bg-dark-secondary'>
+					<button
+						onClick={logout}
+						type='button'
+						className='subModal-item justify-start gap-4 hover:bg-light-muted/10 dark:hover:bg-dark-secondary'
+					>
 						<LogOut className='icon' />
 						<h1 className='title font-medium text-base'>Log Out</h1>
 					</button>

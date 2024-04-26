@@ -1,6 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { apiService } from '../features/api/apiService';
 import authReducer from '../features/auth/authSlice';
+import controllerReducer from '../features/controller/controllerSlice';
+import modalReducer from '../features/modal/modalSlice';
 import userReducer from '../features/user/userSlice';
 
 export const store = configureStore({
@@ -8,6 +10,8 @@ export const store = configureStore({
 		[apiService.reducerPath]: apiService.reducer,
 		auth: authReducer,
 		user: userReducer,
+		modal: modalReducer,
+		controller: controllerReducer,
 	},
 	devTools: import.meta.env.DEV,
 	middleware: (getDefaultMiddleware) =>
