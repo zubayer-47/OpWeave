@@ -18,19 +18,21 @@ export interface User {
 	rights: UserRight;
 	token: string;
 	gender: Gender;
-	avatar?: string;
-	createdAt?: string;
+	avatar: string;
+	createdAt: string;
 }
 
 export type UserPartial = {
 	fullname?: string;
+	username?: string;
 	rights?: UserRight;
 	avatar?: string;
 	token?: string;
+	gender?: Gender;
 	createdAt?: string;
 };
 
 export interface UserStateType {
 	isLoggedIn: boolean;
-	user: User | UserPartial | null;
+	user: User | null;
 }

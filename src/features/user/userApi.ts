@@ -4,6 +4,15 @@ const userApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
 		getProfilePicture: builder.query({
 			query: (userId) => `/users/${userId}/profilePicture`,
+
+			async onQueryStarted(_, { queryFulfilled }) {
+				try {
+					const data = await queryFulfilled;
+
+					console.log({ data });
+					// eslint-disable-next-line no-empty
+				} catch (error) {}
+			},
 		}),
 
 		updateProfilePicture: builder.mutation({

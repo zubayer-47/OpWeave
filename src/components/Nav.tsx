@@ -3,7 +3,6 @@ import { useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../app/hooks';
 import logo from '../assets/opweave.webp';
-import profile from '../assets/profile.webp';
 import { updateAuthModal } from '../features/modal/modalSlice';
 import Button from './Buttons/Button';
 import Input from './Inputs/Input';
@@ -160,6 +159,8 @@ const Nav = () => {
 							<Button text='Log In' onClick={handleLoginModal} />
 						) : null}
 					</div>
+					{/* {!isLoggedIn && !user ? null : ( */}
+					{/* // TODO: 28/4 */}
 					<>
 						<span className='w-1 bg-dark-muted/25 h-10 rounded-full'></span>
 						<div ref={dropdownRef} className='dropdown relative'>
@@ -169,8 +170,12 @@ const Nav = () => {
 								className='px-4 py-2 dark:hover:bg-normal-primary/15 w-full rounded-xl transition-colors dropdown-btn'
 							>
 								<div className='pointer-events-none flex items-center gap-3'>
-									<img className='profile' src={profile} alt='user profile' />
-									<h1 className='title'>A B M Zubayer</h1>
+									<img
+										className='profile'
+										src={user?.avatar}
+										alt='user profile'
+									/>
+									<h1 className='title'>{user?.fullname}</h1>
 									<ChevronDown className='text-dark-muted' />
 								</div>
 							</button>
@@ -178,6 +183,7 @@ const Nav = () => {
 							<SubModal />
 						</div>
 					</>
+					{/* )} */}
 				</div>
 			</div>
 		</nav>

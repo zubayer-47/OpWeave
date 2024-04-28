@@ -1,11 +1,20 @@
 import { Bell, Bolt, LogOut, Mail, User2, Users2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import profile from '../../assets/profile.webp';
 import { remove } from '../../features/auth/authSlice';
 ('lucide-react');
 
 const SubModal = () => {
-	const logout = () => remove();
+	const user = useAppSelector((state) => state.auth.user);
+	const dispatch = useAppDispatch();
+	// console.log(user);
+
+	const logout = () => {
+		dispatch(remove());
+		localStorage.clear();
+	};
+
 	return (
 		<div className='dark:bg-dark-hover border dark:border-dark-border absolute top-16 right-0 h-fit w-full md:w-96 p-3 rounded-2xl dropdown-item'>
 			<div className='absolute inset-0 dark:bg-normal-primary opacity-10'></div>
@@ -18,8 +27,10 @@ const SubModal = () => {
 					<img className='profile' src={profile} alt='profile image' />
 
 					<div className='flex flex-col justify-start items-start'>
-						<h1 className='title'>A B M Zubayer</h1>
-						<span className='title text-sm text-dark-muted'>@zubayerjs</span>
+						<h1 className='title'>{user?.fullname}</h1>
+						<span className='title text-sm text-dark-muted'>
+							{user?.username}
+						</span>
 					</div>
 				</Link>
 

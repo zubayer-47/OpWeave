@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { User, UserPartial, UserStateType } from './types';
+import { User, UserStateType } from './types';
 
 const initialState: UserStateType = {
 	isLoggedIn: false,
@@ -23,12 +23,19 @@ export const authSlice = createSlice({
 			state.isLoggedIn = true;
 			state.user = action.payload;
 		},
-		update: (state, action: PayloadAction<UserPartial>) => {
+		update: (state, action: PayloadAction<User>) => {
 			state.user = action.payload;
 		},
 		remove: (state) => {
 			state.isLoggedIn = false;
 			state.user = null;
+		},
+		addProfilePicture: (state, action: PayloadAction<string>) => {
+			if (state.user) {
+				state.user.avatar = action.payload;
+			}
+
+			console.log(state.user, 'addProfile');
 		},
 	},
 });

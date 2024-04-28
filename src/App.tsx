@@ -24,10 +24,11 @@ function App() {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		const user = localStorage.getItem('user') as User | null;
+		const data = localStorage.getItem('user');
 		const token = localStorage.getItem('access_token');
 
-		if (user && token) {
+		if (data && token) {
+			const user = JSON.parse(data) as User;
 			dispatch(add(user));
 		}
 	}, []);

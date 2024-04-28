@@ -1,15 +1,21 @@
 import clsx from 'clsx';
 import { PencilLine } from 'lucide-react';
-import profile from '../../assets/profile2.jpg';
+import { useAppSelector } from '../../app/hooks';
 import Button from '../../components/Buttons/Button';
 import Input from '../../components/Inputs/Input';
+import { useGetProfilePictureQuery } from '../../features/user/userApi';
 
 const Settings = () => {
+	const user = useAppSelector((state) => state.auth.user);
+	const res = useGetProfilePictureQuery(user?.id);
+
+	console.log(res);
+
 	return (
 		<div className='mx-96 my-20'>
 			<div className='w-fit relative group'>
 				<img
-					src={profile}
+					src={user?.avatar ?? 'http://www.gravatar.com/avatar'}
 					className='size-48 object-cover rounded-full'
 					alt=''
 				/>
@@ -24,22 +30,8 @@ const Settings = () => {
 			</div>
 
 			<div className='flex flex-col gap-5 mt-10 col-span-2'>
-				<Input
-					hint='Name'
-					handler={() => {
-						console.log('first');
-					}}
-					name='name'
-					showLabel
-				/>
-				<Input
-					hint='Username'
-					handler={() => {
-						console.log('first');
-					}}
-					name='username'
-					showLabel
-				/>
+				<Input hint='Name' name='name' showLabel />
+				<Input hint='Username' name='username' showLabel />
 
 				<div>
 					<label
