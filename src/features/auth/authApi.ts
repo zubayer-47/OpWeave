@@ -20,6 +20,8 @@ const authApi = apiService.injectEndpoints({
 					console.log(data);
 
 					localStorage.setItem('access_token', JSON.stringify(data.token));
+					localStorage.setItem('user', JSON.stringify(data));
+
 					dispatch(add(data));
 
 					// eslint-disable-next-line no-empty
@@ -37,9 +39,10 @@ const authApi = apiService.injectEndpoints({
 				try {
 					const response = await queryFulfilled;
 					const data = response.data as User;
-					console.log(data);
 
 					localStorage.setItem('access_token', JSON.stringify(data.token));
+					localStorage.setItem('user', JSON.stringify(data));
+
 					dispatch(add(data));
 
 					// eslint-disable-next-line no-empty

@@ -1,19 +1,10 @@
-import {
-	Bell,
-	ChevronDown,
-	Compass,
-	Home,
-	LucideIcon,
-	Mail,
-} from 'lucide-react';
+import { Bell, ChevronDown, Home, LucideIcon, Mail } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import PermissionWrapper from '../Routes/PermissionWrapper';
+import { useAppSelector } from '../app/hooks';
 import logo from '../assets/opweave.webp';
 import profile from '../assets/profile.webp';
-import { UserRight } from '../features/auth/types';
 import { updateAuthModal } from '../features/modal/modalSlice';
-import { permissions } from '../types/custom';
 import Button from './Buttons/Button';
 import Input from './Inputs/Input';
 import SubModal from './Modals/SubModal';
@@ -25,28 +16,20 @@ type NavLinkType = {
 	path: string;
 	label: string;
 	Icon: LucideIcon;
-	permission: UserRight[] | UserRight;
 };
 
 const navLinks: NavLinkType[] = [
-	{ path: '/', label: 'Home', Icon: Home, permission: permissions.all },
-	{
-		path: '/explore',
-		label: 'Explore',
-		Icon: Compass,
-		permission: permissions.all,
-	},
+	{ path: '/', label: 'Home', Icon: Home },
 	{
 		path: '/notifications',
 		label: 'Notifications',
 		Icon: Bell,
-		permission: permissions.all,
 	},
-	{ path: '/chat', label: 'Chat', Icon: Mail, permission: permissions.all },
+	{ path: '/chat', label: 'Chat', Icon: Mail },
 ];
 
 const Nav = () => {
-	// const { state } = useAuth();
+	const { isLoggedIn, user } = useAppSelector((state) => state.auth);
 	const location = useLocation();
 	const navigate = useNavigate();
 	const pathname = location.pathname;
@@ -127,10 +110,8 @@ const Nav = () => {
 							<Input
 								type='search'
 								name='search'
-								handler={() => console.log('first')}
 								hint='Search'
 								isRequired
-								value={''}
 								isIcon
 							/>
 						</div>
@@ -139,50 +120,47 @@ const Nav = () => {
 
 				<div className='flex items-center gap-5'>
 					<div className='flex items-center gap-4'>
-						{navLinks.map(({ Icon, label, path, permission }) => (
-							<PermissionWrapper key={path} permission={permission} links>
-								<NavLink
-									to={path}
-									className={({ isActive }) =>
-										`transition-all duration-200 relative ${
-											!isActive ? 'inactive-nav-link block' : 'nav-link'
-										}`
-									}
-								>
-									<Icon
-										// size={28}
-										className={`${
-											activeItem?.path === path
-												? 'size-6 text-nav-selected'
-												: 'size-7 dark:text-inherit'
-										}`}
-									/>
+						{!isLoggedIn && !user
+							? null
+							: navLinks.map(({ Icon, label, path }) => (
+									<NavLink
+										to={path}
+										className={({ isActive }) =>
+											`transition-all duration-200 relative ${
+												!isActive ? 'inactive-nav-link block' : 'nav-link'
+											}`
+										}
+									>
+										<Icon
+											// size={28}
+											className={`${
+												activeItem?.path === path
+													? 'size-6 text-nav-selected'
+													: 'size-7 dark:text-inherit'
+											}`}
+										/>
 
-									{path === '/notifications' && (
-										<span className='absolute -top-1.5 right-0 bg-red rounded-full size-4 dark:text-light-primary text-xs flex justify-center items-center overflow-hidden'>
-											3
-										</span>
-									)}
+										{path === '/notifications' && (
+											<span className='absolute -top-1.5 right-0 bg-red rounded-full size-4 dark:text-light-primary text-xs flex justify-center items-center overflow-hidden'>
+												3
+											</span>
+										)}
 
-									{path === '/chat' && (
-										<span className='absolute -top-1.5 -right-1.5 bg-red rounded-full size-4 dark:text-light-primary text-xs flex justify-center items-center overflow-hidden'>
-											3
-										</span>
-									)}
-									<span>{activeItem?.path === path ? label : null}</span>
-								</NavLink>
-							</PermissionWrapper>
-						))}
+										{path === '/chat' && (
+											<span className='absolute -top-1.5 -right-1.5 bg-red rounded-full size-4 dark:text-light-primary text-xs flex justify-center items-center overflow-hidden'>
+												3
+											</span>
+										)}
+										<span>{activeItem?.path === path ? label : null}</span>
+									</NavLink>
+									// eslint-disable-next-line no-mixed-spaces-and-tabs
+							  ))}
 
-						<PermissionWrapper permission={UserRight.FREE} links>
+						{!isLoggedIn && !user ? (
 							<Button text='Log In' onClick={handleLoginModal} />
-						</PermissionWrapper>
+						) : null}
 					</div>
-
-					<PermissionWrapper
-						permission={[UserRight.ADMIN, UserRight.MODER, UserRight.USER]}
-						links
-					>
+					<>
 						<span className='w-1 bg-dark-muted/25 h-10 rounded-full'></span>
 						<div ref={dropdownRef} className='dropdown relative'>
 							<button
@@ -199,7 +177,7 @@ const Nav = () => {
 
 							<SubModal />
 						</div>
-					</PermissionWrapper>
+					</>
 				</div>
 			</div>
 		</nav>

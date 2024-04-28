@@ -25,5 +25,5 @@ export const permissions = {
 	all: [UserRight.ADMIN, UserRight.MODER, UserRight.USER],
 	user: UserRight.USER,
 	mod: UserRight.MODER,
-	free: UserRight.FREE,
+	// free: UserRight.FREE,
 };

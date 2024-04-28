@@ -1,17 +1,13 @@
-import { useNavigate } from 'react-router-dom';
+/* eslint-disable no-mixed-spaces-and-tabs */
+
+import { Navigate, useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttons/Button';
 import Input, { PasswordInput } from '../../components/Inputs/Input';
 import { useLoginMutation } from '../../features/auth/authApi';
 import { FormHandler } from '../../types/custom';
 
-// interface Props {
-// 	setIsForgetPass: BooleanSetStateType;
-// 	setIsLogin?: BooleanSetStateType;
-// }
-
 const Login = () => {
-	const [login, { isLoading, isError, error }] = useLoginMutation();
-	console.log('error :', error);
+	const [login, { isLoading, isError, isSuccess }] = useLoginMutation();
 
 	const navigate = useNavigate();
 
@@ -24,8 +20,12 @@ const Login = () => {
 			password: formData.get('password'),
 		};
 
-		login({ ...credentials });
+		login({
+			...credentials,
+		});
 	};
+
+	if (isSuccess) return <Navigate to='/' />;
 
 	const goToRegister = () => navigate('/auth/signup');
 
@@ -48,8 +48,6 @@ const Login = () => {
 			<form onSubmit={onSubmit} className='mt-5 grid gap-3'>
 				<Input
 					name='username'
-					// handler={handleInput}
-					// value={form.username}
 					hint='Username'
 					showLabel
 					isLoading={isLoading}
@@ -58,8 +56,6 @@ const Login = () => {
 
 				<PasswordInput
 					name='password'
-					// handler={handleInput}
-					// value={form.password}
 					hint='Password'
 					showLabel
 					isLoading={isLoading}
@@ -70,22 +66,11 @@ const Login = () => {
 					type='button'
 					className='link w-fit mb-3'
 					onClick={() => {
-						// if (typeof setIsLogin === 'function') {
-						// 	setIsLogin(true);
-						// }
-						// setIsForgetPass(true);
-
-						navigate('/forget-pass');
+						navigate('/auth/forget-pass');
 					}}
 				>
 					Forgot Password?
 				</button>
-				{/* 
-				<Button
-					title='Login Account'
-					type='submit'
-					isLoading={isLoading}
-				/> */}
 
 				<Button text='Login Account' isLoading={isLoading} type='submit' />
 			</form>

@@ -10,28 +10,25 @@ interface Props extends PropsWithChildren {
 }
 
 const PermissionWrapper = ({ permission, children, links = false }: Props) => {
-	const state = useAppSelector((state) => state.auth);
-	const right = state.user?.rights;
+	const { isLoggedIn, user } = useAppSelector((state) => state.auth);
+	const right = user?.rights;
 	const location = useLocation();
-
-	// 100 permission code means it's a public route
-	if (!right && permission === 100) {
-		return children;
-	}
 
 	const hasRight = Array.isArray(permission)
 		? permission.includes(right as number)
 		: right === permission;
 
-	if (!state.user && !state.isLoggedIn)
-		return links ? null : <Navigate to={'/auth'} state={{ from: location }} />;
+	console.log(permission, right);
 
-	if (state.user && state.isLoggedIn && location.pathname === '/auth')
-		return <Navigate to='/' />;
+	// if (!user && !isLoggedIn)
+	// 	return links ? null : <Navigate to={'/auth'} state={{ from: location }} />;
 
-	if (!hasRight) return links ? null : <AccessDenied />;
+	// if (user && isLoggedIn && location.pathname === '/auth')
+	// 	return <Navigate to='/' />;
 
-	return children;
+	// if (!hasRight) return links ? null : <AccessDenied />;
+
+	// return children;
 };
 
 export default PermissionWrapper;

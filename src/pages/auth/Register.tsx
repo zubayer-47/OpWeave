@@ -26,10 +26,10 @@ type RegisterErrors = {
 };
 
 const RegisterPage = () => {
-	const [register, { isLoading, isError, error }] = useRegisterMutation();
+	const [register, { isLoading, isError, isSuccess }] = useRegisterMutation();
 	const navigate = useNavigate();
 
-	console.log('error :', error);
+	// console.log('error :', error);
 
 	const [form, setForm] = useState<FormStateType>({
 		credentials: {
@@ -79,6 +79,8 @@ const RegisterPage = () => {
 		const { confirmPassword, ...data } = credentials;
 
 		register({ ...data });
+
+		console.log({ isSuccess, isError, isLoading });
 	};
 	const { password, confirmPassword } = form.credentials;
 
