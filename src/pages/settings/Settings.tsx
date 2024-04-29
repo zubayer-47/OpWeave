@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 import { useAppSelector } from '../../app/hooks';
 import Button from '../../components/Buttons/Button';
 import Input from '../../components/Inputs/Input';
+import { User } from '../../features/auth/types';
 import {
 	useGetProfilePictureQuery,
 	useUpdateProfilePictureMutation,
@@ -11,9 +12,12 @@ import {
 import { FormHandler, InputType } from '../../types/custom';
 
 const Settings = () => {
-	const user = useAppSelector((state) => state.auth.user);
+	const avatar = useAppSelector((state) => state.auth.user?.avatar);
+	const user_data = localStorage.getItem('user');
+	const user = !user_data ? null : (JSON.parse(user_data) as User);
+
 	const { data, isSuccess } = useGetProfilePictureQuery(user?.id);
-	const [update] = useUpdateProfilePictureMutation();
+	const [updateProfilePicture] = useUpdateProfilePictureMutation();
 
 	const handleFile = async (e: InputType) => {
 		if (e.target?.files) {
@@ -22,7 +26,10 @@ const Settings = () => {
 			const formData = new FormData();
 			formData.append('avatar', content);
 
-			const promise = update({ userId: user?.id, payload: formData }).unwrap();
+			const promise = updateProfilePicture({
+				userId: user?.id,
+				payload: formData,
+			}).unwrap();
 
 			toast.promise(promise, {
 				loading: 'saving...',
@@ -35,12 +42,18 @@ const Settings = () => {
 	const handleSubmit: FormHandler = (e) => {
 		e.preventDefault();
 
-		const formData = new FormData(e.currentTarget);
-		const data = {
-			name: formData.get('name'),
-			username: formData.get('username'),
-			bio: formData.get('bio'),
-		};
+		// const formData = new FormData(e.currentTarget);
+		// const data = {
+		// 	name: formData.get('name'),
+		// 	username: formData.get('username'),
+		// 	// bio: formData.get('bio'),
+		// };
+
+		// toast.promise(update({ userId: user?.id, payload: data }).unwrap(), {
+		// 	loading: 'Saving...',
+		// 	success: 'Info saved!',
+		// 	error: 'Could not save.',
+		// });
 	};
 
 	return (
@@ -48,7 +61,7 @@ const Settings = () => {
 			<div className='w-fit relative group'>
 				<img
 					src={
-						user?.avatar ||
+						avatar ||
 						(isSuccess && data?.avatar) ||
 						'http://www.gravatar.com/avatar'
 					}
@@ -107,6 +120,7 @@ const Settings = () => {
 						// value={text}
 						cols={10}
 						rows={5}
+						// defaultValue={user.}
 						className={clsx(
 							'block w-full px-3 py-2.5 text-sm text-dark-text rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all'
 						)}
