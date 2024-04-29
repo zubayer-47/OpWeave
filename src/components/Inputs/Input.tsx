@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { Eye, EyeOff } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { InputType } from '../../types/custom';
 
 type InputProp = {
@@ -29,11 +29,11 @@ const Input = ({
 	showLabel = false,
 	error = '',
 }: InputProp) => {
-	const [value, setValue] = useState('');
+	const [value, setValue] = useState(defaultValue || '');
 
-	useEffect(() => {
-		setValue(defaultValue || '');
-	}, []);
+	// useEffect(() => {
+	// 	setValue(defaultValue || '');
+	// }, []);
 
 	const handler = (e: InputType) => {
 		setValue(e.target.value);
@@ -59,13 +59,10 @@ const Input = ({
 				className={clsx(
 					'block w-full px-3 py-2.5 text-sm rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all',
 					{
-						'border-cRed': !!error,
+						'dark:border-red': !!error,
 						'ps-10': isIcon,
 					}
 				)}
-				// className={`block w-full p-3 text-sm rounded-lg outline-none border focus:border-nav-selected dark:bg-dark-secondary dark:border-dark-border dark:placeholder-dark-muted text-dark-text dark:text-light-text dark:focus:border-blue-500 transition-all ${
-				// 	!!error && 'border-cRed'
-				// }`}
 				placeholder={hint}
 				value={value}
 				onChange={handler}
@@ -75,7 +72,7 @@ const Input = ({
 			/>
 
 			{!error ? null : (
-				<p className='ml-2 text-sm text-cRed tracking-wide'>{error}</p>
+				<p className='ml-2 text-xs text-red tracking-wide'>{error}</p>
 			)}
 		</div>
 	);
@@ -90,7 +87,6 @@ export const PasswordInput = ({
 	showLabel = false,
 	isRequired,
 	error = '',
-	notMatched,
 }: InputProp) => {
 	const [show, setShow] = useState(false);
 	const [value, setValue] = useState('');
@@ -133,8 +129,7 @@ export const PasswordInput = ({
 						'block w-full px-3 py-2.5 text-sm rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all',
 						'border-rose-500',
 						{
-							'dark:border-dark-border': !notMatched,
-							'border-cRed': !!error,
+							'dark:border-red': !!error,
 						}
 					)}
 					placeholder={hint}
@@ -146,7 +141,7 @@ export const PasswordInput = ({
 			</div>
 
 			{!error ? null : (
-				<p className='ml-2 text-sm text-red-400 tracking-wide'>{error}</p>
+				<p className='ml-2 text-xs text-red tracking-wide'>{error}</p>
 			)}
 		</div>
 	);
