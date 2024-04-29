@@ -1,26 +1,43 @@
+/* eslint-disable no-empty */
 import { apiService } from '../api/apiService';
+import { addProfilePicture } from '../auth/authSlice';
 
 const userApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
 		getProfilePicture: builder.query({
-			query: (userId) => `/users/${userId}/profilePicture`,
+			query: (userId) => ({
+				url: `/users/${userId}/profilePicture`,
+			}),
 
-			async onQueryStarted(_, { queryFulfilled }) {
+			async onQueryStarted(_, { dispatch, queryFulfilled }) {
 				try {
-					const data = await queryFulfilled;
+					const { data } = await queryFulfilled;
 
-					console.log({ data });
-					// eslint-disable-next-line no-empty
+					if (data) {
+						dispatch(addProfilePicture(data.avatar));
+					}
 				} catch (error) {}
 			},
 		}),
 
 		updateProfilePicture: builder.mutation({
-			query: (userId) => ({
+			query: ({ userId, payload }) => ({
 				url: `/users/${userId}/profilePicture`,
 				method: 'PUT',
+				body: payload,
 			}),
+
+			async onQueryStarted(_, { dispatch, queryFulfilled }) {
+				try {
+					const { data } = await queryFulfilled;
+
+					if (data) {
+						dispatch(addProfilePicture(data.avatar));
+					}
+				} catch (error) {}
+			},
 		}),
+
 		removeProfilePicture: builder.mutation({
 			query: (userId) => ({
 				url: `/users/${userId}/profilePicture`,
@@ -33,10 +50,10 @@ const userApi = apiService.injectEndpoints({
 		}),
 
 		updateUser: builder.mutation({
-			query: ({ userId, data }) => ({
+			query: ({ userId, payload }) => ({
 				url: `/users/${userId}`,
 				method: 'PATCH',
-				body: data,
+				body: payload,
 			}),
 
 			// TODO: 26/4 work with this

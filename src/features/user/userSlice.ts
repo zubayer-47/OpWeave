@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 type InitialState = {
 	profile_picture: string | null;
@@ -11,12 +11,8 @@ const initialState: InitialState = {
 const userSlice = createSlice({
 	name: 'user',
 	initialState,
-	reducers: {
-		addProfilePicture: (state: InitialState, action: PayloadAction<string>) => {
-			state.profile_picture = action.payload;
-		},
-	},
+	reducers: {},
 });
 
-export const { addProfilePicture } = userSlice.actions;
+// export const {} = userSlice.actions;
 export default userSlice.reducer;

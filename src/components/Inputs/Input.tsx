@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { Eye, EyeOff } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { InputType } from '../../types/custom';
 
 type InputProp = {
@@ -8,6 +8,7 @@ type InputProp = {
 	// handler: (e: InputType) => void;
 	type?: string;
 	hint?: string;
+	defaultValue?: string;
 	// value?: string | null;
 	isIcon?: boolean;
 	isLoading?: boolean;
@@ -21,6 +22,7 @@ const Input = ({
 	name,
 	type = 'text',
 	hint = '',
+	defaultValue,
 	isLoading = false,
 	isIcon,
 	isRequired = false,
@@ -28,6 +30,10 @@ const Input = ({
 	error = '',
 }: InputProp) => {
 	const [value, setValue] = useState('');
+
+	useEffect(() => {
+		setValue(defaultValue || '');
+	}, []);
 
 	const handler = (e: InputType) => {
 		setValue(e.target.value);
@@ -61,7 +67,7 @@ const Input = ({
 				// 	!!error && 'border-cRed'
 				// }`}
 				placeholder={hint}
-				value={value || ''}
+				value={value}
 				onChange={handler}
 				autoComplete='off'
 				disabled={isLoading}

@@ -1,12 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { RootState } from '../../app/store';
 import { remove } from '../auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: 'http://localhost:8000/api/v1',
-	prepareHeaders: async (headers, { getState }) => {
-		const token = (getState() as RootState).auth.user?.token;
-		if (token) {
+	prepareHeaders: async (headers) => {
+		const res = localStorage.getItem('access_token');
+
+		if (res) {
+			const token = JSON.parse(res);
 			headers.set('Authorization', token);
 		}
 
@@ -22,6 +23,7 @@ export const apiService = createApi({
 		if (result?.error?.status === 401) {
 			api.dispatch(remove());
 			localStorage.clear();
+			console.log('clearning', result);
 		}
 		return result;
 	},

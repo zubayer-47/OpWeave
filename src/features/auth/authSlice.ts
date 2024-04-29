@@ -34,12 +34,10 @@ export const authSlice = createSlice({
 			if (state.user) {
 				state.user.avatar = action.payload;
 			}
-
-			console.log(state.user, 'addProfile');
 		},
 	},
 });
 
-export const { add, remove, update } = authSlice.actions;
+export const { add, remove, update, addProfilePicture } = authSlice.actions;
 
 export default authSlice.reducer;

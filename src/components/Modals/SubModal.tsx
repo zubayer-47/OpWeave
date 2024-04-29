@@ -13,6 +13,8 @@ const SubModal = () => {
 	const logout = () => {
 		dispatch(remove());
 		localStorage.clear();
+
+		console.log('clearning');
 	};
 
 	return (

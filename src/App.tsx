@@ -5,8 +5,7 @@ import PrivateWrapper from './Routes/PrivateWrapper';
 import { useAppDispatch } from './app/hooks';
 import EmptyScreen from './components/EmptyScreen';
 import NotFound from './components/errors/NotFound';
-import { add } from './features/auth/authSlice';
-import { User } from './features/auth/types';
+import { update } from './features/auth/authSlice';
 import CenterLayout from './layouts/CenterLayout';
 import RootLayout from './layouts/RootLayout';
 import ForgetPass from './pages/auth/ForgetPass';
@@ -24,12 +23,12 @@ function App() {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		const data = localStorage.getItem('user');
-		const token = localStorage.getItem('access_token');
+		const user_data = localStorage.getItem('user');
 
-		if (data && token) {
-			const user = JSON.parse(data) as User;
-			dispatch(add(user));
+		if (user_data) {
+			const user = JSON.parse(user_data);
+
+			dispatch(update(user));
 		}
 	}, []);
 

@@ -26,9 +26,9 @@ export type UserPartial = {
 	fullname?: string;
 	username?: string;
 	rights?: UserRight;
-	avatar?: string;
 	token?: string;
 	gender?: Gender;
+	avatar?: string;
 	createdAt?: string;
 };
 

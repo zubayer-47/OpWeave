@@ -123,6 +123,7 @@ const Nav = () => {
 							? null
 							: navLinks.map(({ Icon, label, path }) => (
 									<NavLink
+										key={path}
 										to={path}
 										className={({ isActive }) =>
 											`transition-all duration-200 relative ${
