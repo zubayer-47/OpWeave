@@ -2,8 +2,7 @@ import { Bell, Bolt, LogOut, Mail, User2, Users2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import profile from '../../assets/profile.webp';
-import { remove } from '../../features/auth/authSlice';
-('lucide-react');
+import { userLoggedOut } from '../../features/auth/authSlice';
 
 const SubModal = () => {
 	const user = useAppSelector((state) => state.auth.user);
@@ -11,7 +10,7 @@ const SubModal = () => {
 	// console.log(user);
 
 	const logout = () => {
-		dispatch(remove());
+		dispatch(userLoggedOut());
 		localStorage.clear();
 
 		console.log('clearning');

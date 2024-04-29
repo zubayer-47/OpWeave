@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { remove } from '../auth/authSlice';
+import { userLoggedOut } from '../auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: 'http://localhost:8000/api/v1',
@@ -21,11 +21,12 @@ export const apiService = createApi({
 		const result = await baseQuery(args, api, extraOptions);
 
 		if (result?.error?.status === 401) {
-			api.dispatch(remove());
+			api.dispatch(userLoggedOut());
 			localStorage.clear();
 			console.log('clearning', result);
 		}
 		return result;
 	},
 	endpoints: () => ({}),
+	tagTypes: ['profile_picture'],
 });

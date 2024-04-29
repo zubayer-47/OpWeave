@@ -5,7 +5,7 @@ export enum UserRight {
 	ADMIN = 302,
 }
 
-enum Gender {
+export enum Gender {
 	Male = 'Male',
 	Female = 'Female',
 	Others = 'Others',
@@ -16,7 +16,6 @@ export interface User {
 	fullname: string;
 	username: string;
 	rights: UserRight;
-	token: string;
 	gender: Gender;
 	avatar: string;
 	createdAt: string;
@@ -26,13 +25,12 @@ export type UserPartial = {
 	fullname?: string;
 	username?: string;
 	rights?: UserRight;
-	token?: string;
 	gender?: Gender;
 	avatar?: string;
 	createdAt?: string;
 };
 
 export interface UserStateType {
-	isLoggedIn: boolean;
+	access_token: string | null;
 	user: User | null;
 }

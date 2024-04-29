@@ -1,49 +1,65 @@
 import { apiService } from '../api/apiService';
-import { add } from './authSlice';
-import { User } from './types';
+import { userLoggedIn } from './authSlice';
 
 const authApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
 		register: builder.mutation({
-			query: (credentials) => ({
+			query: (data) => ({
 				url: '/auth/signup',
 				method: 'POST',
-				body: credentials,
+				body: data,
 			}),
 
 			async onQueryStarted(_, { queryFulfilled, dispatch }) {
 				try {
 					const response = await queryFulfilled;
+					const data = response.data;
 
-					const data = response.data as User;
+					localStorage.setItem(
+						'auth',
+						JSON.stringify({
+							access_token: data.access_token,
+							user: data.user,
+						})
+					);
 
-					console.log(data);
-
-					localStorage.setItem('access_token', JSON.stringify(data.token));
-					localStorage.setItem('user', JSON.stringify(data));
-
-					dispatch(add(data));
+					dispatch(
+						userLoggedIn({
+							access_token: data.access_token,
+							user: data.user,
+						})
+					);
 
 					// eslint-disable-next-line no-empty
 				} catch (err) {}
 			},
 		}),
 		login: builder.mutation({
-			query: (credentials) => ({
+			query: (data) => ({
 				url: '/auth/signin',
 				method: 'POST',
-				body: credentials,
+				body: data,
 			}),
 
 			async onQueryStarted(_, { queryFulfilled, dispatch }) {
 				try {
 					const response = await queryFulfilled;
-					const data = response.data as User;
+					const data = response.data;
 
-					localStorage.setItem('access_token', JSON.stringify(data.token));
-					localStorage.setItem('user', JSON.stringify(data));
+					localStorage.setItem(
+						'auth',
+						JSON.stringify({
+							access_token: data.access_token,
+							user: data.user,
+						})
+					);
 
-					dispatch(add(data));
+					dispatch(
+						userLoggedIn({
+							access_token: data.access_token,
+							user: data.user,
+						})
+					);
 
 					// eslint-disable-next-line no-empty
 				} catch (err) {}
