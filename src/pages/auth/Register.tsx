@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttons/Button';
 import Input, { PasswordInput } from '../../components/Inputs/Input';
 import { useRegisterMutation } from '../../features/auth/authApi';
+import { Gender } from '../../features/auth/types';
 import { FormHandler } from '../../types/custom';
 
 type FormStateType = {
@@ -18,18 +20,18 @@ type FormStateType = {
 };
 
 type RegisterErrors = {
-	fullname: string | null;
-	username: string | null;
-	password: string | null;
-	email: string | null;
-	commonError: string | null;
+	fullname?: string;
+	username?: string;
+	password?: string;
+	email?: string;
+	gender?: Gender;
+	[index: string]: string | undefined;
+	// commonError: string | null;
 };
 
 const RegisterPage = () => {
-	const [register, { isLoading, isError, isSuccess }] = useRegisterMutation();
+	const [register, { isLoading, isError, error }] = useRegisterMutation();
 	const navigate = useNavigate();
-
-	// console.log('error :', error);
 
 	const [form, setForm] = useState<FormStateType>({
 		credentials: {
@@ -40,13 +42,7 @@ const RegisterPage = () => {
 			email: null,
 			gender: null,
 		},
-		errors: {
-			fullname: null,
-			username: null,
-			password: null,
-			email: null,
-			commonError: null,
-		},
+		errors: {},
 	});
 
 	const onSubmit: FormHandler = async (e) => {
@@ -63,26 +59,81 @@ const RegisterPage = () => {
 
 		// TODO: 26/4 update this and get rid off form state
 
-		if (credentials.confirmPassword !== credentials.password) {
-			setForm((prev) => ({
-				...prev,
-				errors: {
-					...prev.errors,
-					password: 'Password Not Matched',
-				},
-			}));
+		// if (credentials.confirmPassword !== credentials.password) {
+		// 	setForm((prev) => ({
+		// 		...prev,
+		// 		errors: {
+		// 			...prev.errors,
+		// 			password: 'Password Not Matched',
+		// 		},
+		// 	}));
 
-			return;
-		}
+		// 	return;
+		// }
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { confirmPassword, ...data } = credentials;
 
-		register({ ...data });
+		setForm((prev) => ({
+			...prev,
+			errors: {},
+		}));
 
-		console.log({ isSuccess, isError, isLoading });
+		toast.promise(register({ ...data }).unwrap(), {
+			loading: 'Submitting...',
+			success: 'Successfully registered!',
+			error: 'Could not register',
+		});
 	};
-	const { password, confirmPassword } = form.credentials;
+
+	// TODO: 29/4 move it into a new hook called useError and it should be reusable
+	const errorContent = useMemo(() => {
+		if (error) {
+			if ('status' in error) {
+				// you can access all properties of `FetchBaseQueryError` here
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+				const err = 'error' in error ? error.error : (error.data as any);
+
+				if (typeof err === 'object') {
+					const possibleErrorProps = [
+						'fullname',
+						'username',
+						'password',
+						'email',
+						'gender',
+					];
+
+					// Get the actual properties present in the error object
+					const presentErrorProps = Object.keys(err).filter((prop) =>
+						possibleErrorProps.includes(prop)
+					);
+
+					const obj: Partial<RegisterErrors> & {
+						[index: string]: string | undefined;
+					} = {};
+
+					// Check if any of the possible error properties are present
+					if (presentErrorProps.length > 0) {
+						for (const prop of presentErrorProps) {
+							obj[prop] = err[prop];
+						}
+					}
+
+					setForm((prev) => ({
+						...prev,
+						errors: obj,
+					}));
+				}
+
+				return err?.message;
+				// errorContent = err?.message;
+			} else {
+				return error?.message ? error.message : '';
+			}
+		}
+	}, [error]);
+
+	console.log(form.errors, 'errors');
 
 	return (
 		<div className='auth animate-auth-switch'>
@@ -93,8 +144,7 @@ const RegisterPage = () => {
 
 			{!isError ? null : (
 				<p className='ml-2 text-center text-sm text-red-400 tracking-wide'>
-					{/* // TODO: provide error */}
-					dummy error
+					{errorContent}
 				</p>
 			)}
 			<form onSubmit={onSubmit} className='mt-5 grid gap-3'>
@@ -198,7 +248,6 @@ const RegisterPage = () => {
 					isLoading={isLoading}
 					error={form.errors.password}
 					isRequired
-					notMatched={!!confirmPassword && password !== confirmPassword}
 				/>
 				<PasswordInput
 					name='confirmPassword'
@@ -217,7 +266,6 @@ const RegisterPage = () => {
 					isLoading={isLoading}
 					error={form.errors.password}
 					isRequired
-					notMatched={!!confirmPassword && password !== confirmPassword}
 				/>
 
 				<Button text='Register' isLoading={isLoading} type='submit' />
