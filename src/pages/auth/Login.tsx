@@ -1,5 +1,6 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 
+import toast from 'react-hot-toast';
 import { Navigate, useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttons/Button';
 import Input, { PasswordInput } from '../../components/Inputs/Input';
@@ -7,7 +8,9 @@ import { useLoginMutation } from '../../features/auth/authApi';
 import { FormHandler } from '../../types/custom';
 
 const Login = () => {
-	const [login, { isLoading, isError, isSuccess }] = useLoginMutation();
+	const [login, { isLoading, isError, isSuccess, error }] = useLoginMutation();
+
+	console.log({ error });
 
 	const navigate = useNavigate();
 
@@ -20,12 +23,33 @@ const Login = () => {
 			password: formData.get('password'),
 		};
 
-		login({
-			...credentials,
-		});
+		toast.promise(
+			login({
+				...credentials,
+			}).unwrap(),
+			{
+				loading: 'Submitting...',
+				success: 'Successfully loggedin!',
+				error: 'Could not login',
+			}
+		);
 	};
 
 	if (isSuccess) return <Navigate to='/' />;
+
+	let errorContent = '';
+
+	if (error) {
+		if ('status' in error) {
+			// you can access all properties of `FetchBaseQueryError` here
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const errMsg = 'error' in error ? error.error : (error.data as any);
+
+			errorContent = errMsg.message;
+		} else {
+			errorContent = error?.message ? error.message : '';
+		}
+	}
 
 	const goToRegister = () => navigate('/auth/signup');
 
@@ -40,8 +64,7 @@ const Login = () => {
 
 			{!isError ? null : (
 				<p className='text-center text-sm text-red-400 tracking-wide'>
-					{/* // TODO: provide error */}
-					dummy err
+					{errorContent}
 				</p>
 			)}
 
