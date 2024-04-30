@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Gender } from '../features/auth/types';
 
 type Props = {
@@ -17,10 +18,22 @@ type ErrorStateType = {
 	// commonError: string | null;
 };
 
-export default function useAuthError({ error }: Props) {
+export default function useAuthError({ error }: Props): ReturnType<
+	() => readonly [
+		ErrorStateType,
+		{
+			errorContent: any;
+			resetErr: () => void;
+			checkPassword?: (
+				password: FormDataEntryValue | null,
+				confirmPassword: FormDataEntryValue | null
+			) => void;
+		}
+	]
+> {
 	const [errState, setErrState] = useState<ErrorStateType>({});
 
-	const errContent = useMemo(() => {
+	const errorContent = useMemo(() => {
 		if (error) {
 			if ('status' in error) {
 				// you can access all properties of `FetchBaseQueryError` here
@@ -64,5 +77,23 @@ export default function useAuthError({ error }: Props) {
 		}
 	}, [error]);
 
-	return [errState, errContent];
+	const resetErr = useCallback(() => {
+		setErrState({});
+	}, []);
+
+	const checkPassword = (
+		password: FormDataEntryValue | null,
+		confirmPassword: FormDataEntryValue | null
+	) => {
+		if (password !== confirmPassword) {
+			setErrState((prev) => ({
+				...prev,
+				password: 'Password does not match!',
+			}));
+
+			return 'error';
+		}
+	};
+
+	return [errState, { errorContent, resetErr, checkPassword }];
 }
