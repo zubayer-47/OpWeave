@@ -4,20 +4,21 @@ import toast from 'react-hot-toast';
 import { useAppSelector } from '../../app/hooks';
 import Button from '../../components/Buttons/Button';
 import Input from '../../components/Inputs/Input';
-import { User } from '../../features/auth/types';
 import {
 	useGetProfilePictureQuery,
 	useUpdateProfilePictureMutation,
+	useUpdateUserMutation,
 } from '../../features/user/userApi';
 import { FormHandler, InputType } from '../../types/custom';
 
 const Settings = () => {
 	const avatar = useAppSelector((state) => state.auth.user?.avatar);
-	const user_data = localStorage.getItem('user');
-	const user = !user_data ? null : (JSON.parse(user_data) as User);
+	const auth = localStorage.getItem('auth');
+	const { user } = !auth ? null : JSON.parse(auth);
 
 	const { data, isSuccess } = useGetProfilePictureQuery(user?.id);
 	const [updateProfilePicture] = useUpdateProfilePictureMutation();
+	const [updateUser] = useUpdateUserMutation();
 
 	const handleFile = async (e: InputType) => {
 		if (e.target?.files) {
@@ -42,18 +43,18 @@ const Settings = () => {
 	const handleSubmit: FormHandler = (e) => {
 		e.preventDefault();
 
-		// const formData = new FormData(e.currentTarget);
-		// const data = {
-		// 	name: formData.get('name'),
-		// 	username: formData.get('username'),
-		// 	// bio: formData.get('bio'),
-		// };
+		const formData = new FormData(e.currentTarget);
+		const data = {
+			name: formData.get('name'),
+			username: formData.get('username'),
+			bio: formData.get('bio'),
+		};
 
-		// toast.promise(update({ userId: user?.id, payload: data }).unwrap(), {
-		// 	loading: 'Saving...',
-		// 	success: 'Info saved!',
-		// 	error: 'Could not save.',
-		// });
+		toast.promise(updateUser({ id: user?.id, payload: data }).unwrap(), {
+			loading: 'Saving...',
+			success: 'Info saved!',
+			error: 'Could not save.',
+		});
 	};
 
 	return (
@@ -98,7 +99,7 @@ const Settings = () => {
 					name='name'
 					showLabel
 				/>
-				{/* // TODO: 29/4 take a look at default value */}
+
 				<Input
 					defaultValue={user?.username}
 					hint='Username'

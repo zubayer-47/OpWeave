@@ -102,9 +102,6 @@ const RegisterPage = () => {
 						<option className='dark:text-dark-muted' value={Gender.Female}>
 							{Gender.Female}
 						</option>
-						<option className='dark:text-dark-muted' value={Gender.Others}>
-							{Gender.Others}
-						</option>
 					</select>
 				</div>
 

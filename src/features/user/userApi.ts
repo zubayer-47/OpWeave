@@ -2,6 +2,7 @@
 import { apiService } from '../api/apiService';
 import { updateUser } from '../auth/authSlice';
 import { User } from '../auth/types';
+import { UserUpdatePayload } from './types';
 
 const userApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
@@ -22,8 +23,13 @@ const userApi = apiService.injectEndpoints({
 			},
 		}),
 
-		updateUser: builder.mutation<void, Pick<User, 'id'> & Partial<User>>({
-			query: ({ id, ...payload }) => ({
+		updateUser: builder.mutation<
+			void,
+			Pick<User, 'id'> & {
+				payload: UserUpdatePayload;
+			}
+		>({
+			query: ({ id, payload }) => ({
 				url: `/users/${id}`,
 				method: 'PATCH',
 				body: payload,
@@ -35,7 +41,7 @@ const userApi = apiService.injectEndpoints({
 
 					dispatch(
 						apiService.util.updateQueryData('getUser', undefined, (draft) => {
-							console.log({ draft });
+							console.log({ draft, res });
 						})
 					);
 				} catch (error) {}
@@ -44,25 +50,28 @@ const userApi = apiService.injectEndpoints({
 			// TODO: 26/4 work with this
 		}),
 
-		getProfilePicture: builder.query<string, number>({
+		getProfilePicture: builder.query<{ avatar: string }, number>({
 			query: (userId) => ({
 				url: `/users/${userId}/profilePicture`,
 			}),
 		}),
 
-		updateProfilePicture: builder.mutation({
+		updateProfilePicture: builder.mutation<
+			string,
+			{ userId: string; payload: FormData }
+		>({
 			query: ({ userId, payload }) => ({
 				url: `/users/${userId}/profilePicture`,
 				method: 'PUT',
 				body: payload,
 			}),
 
-			async onQueryStarted(_, { dispatch, queryFulfilled }) {
-				try {
-					const { data } = await queryFulfilled;
-					dispatch(apiService.util.updateQueryData(''));
-				} catch (error) {}
-			},
+			// async onQueryStarted({}, { dispatch, queryFulfilled }) {
+			// 	try {
+			// 		const { data } = await queryFulfilled;
+			// 		dispatch(apiService.util.updateQueryData('getProfilePicture'));
+			// 	} catch (error) {}
+			// },
 		}),
 
 		removeProfilePicture: builder.mutation({

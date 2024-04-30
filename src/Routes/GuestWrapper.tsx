@@ -5,9 +5,7 @@ const GuestWrapper = () => {
 	const state = useAppSelector((state) => state.auth);
 	const location = useLocation();
 
-	console.log(state);
-
-	if (state.isLoggedIn) return <Navigate to='/' replace />;
+	if (state.user) return <Navigate to='/' replace />;
 
 	if (location.pathname === '/auth')
 		return <Navigate to='/auth/signin' replace />;

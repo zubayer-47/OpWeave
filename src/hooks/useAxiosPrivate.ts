@@ -20,11 +20,11 @@ const useAxiosPrivate = () => {
 	}, []);
 
 	useEffect(() => {
+		const auth = JSON.parse(localStorage.getItem('auth') || '');
+
 		const conf = (config: InternalAxiosRequestConfig) => {
 			if (!config.headers?.Authorization && config.headers)
-				config.headers.Authorization = `Bearer ${localStorage.getItem(
-					'access_token'
-				)}`;
+				config.headers.Authorization = auth?.access_token;
 			return config;
 		};
 		const reqErr = (error: unknown) => Promise.reject(error);

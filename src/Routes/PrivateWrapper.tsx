@@ -4,10 +4,10 @@ import { useAppSelector } from '../app/hooks';
 const PrivateWrapper = () => {
 	const location = useLocation();
 	const user = useAppSelector((state) => state.auth.user);
+	const localAuth = localStorage.getItem('auth');
+	const auth = !localAuth ? null : JSON.parse(localAuth);
 
-	const token = localStorage.getItem('access_token');
-
-	if (!token && !user)
+	if (!auth?.access_token && !user)
 		return <Navigate to='/auth/signin' state={{ from: location }} />;
 
 	return <Outlet />;

@@ -8,7 +8,6 @@ export enum UserRight {
 export enum Gender {
 	Male = 'Male',
 	Female = 'Female',
-	Others = 'Others',
 }
 
 export interface User {
