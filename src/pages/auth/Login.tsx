@@ -5,14 +5,17 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttons/Button';
 import Input, { PasswordInput } from '../../components/Inputs/Input';
 import { useLoginMutation } from '../../features/auth/authApi';
+import useAuthError from '../../hooks/useAuthError';
 import { FormHandler } from '../../types/custom';
 
 const Login = () => {
 	const [login, { isLoading, isError, isSuccess, error }] = useLoginMutation();
-
-	console.log({ error });
-
+	const [errState, { errorContent, resetErr }] = useAuthError({ error });
 	const navigate = useNavigate();
+
+	if (isSuccess) return <Navigate to='/' />;
+
+	const goToRegister = () => navigate('/auth/signup');
 
 	const onSubmit: FormHandler = async (e) => {
 		e.preventDefault();
@@ -22,6 +25,8 @@ const Login = () => {
 			username: formData.get('username'),
 			password: formData.get('password'),
 		};
+
+		resetErr();
 
 		toast.promise(
 			login({
@@ -34,24 +39,6 @@ const Login = () => {
 			}
 		);
 	};
-
-	if (isSuccess) return <Navigate to='/' />;
-
-	let errorContent = '';
-
-	if (error) {
-		if ('status' in error) {
-			// you can access all properties of `FetchBaseQueryError` here
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-			const errMsg = 'error' in error ? error.error : (error.data as any);
-
-			errorContent = errMsg.message;
-		} else {
-			errorContent = error?.message ? error.message : '';
-		}
-	}
-
-	const goToRegister = () => navigate('/auth/signup');
 
 	return (
 		<div className='auth animate-auth-switch'>
@@ -74,6 +61,7 @@ const Login = () => {
 					hint='Username'
 					showLabel
 					isLoading={isLoading}
+					error={errState.username}
 					isRequired
 				/>
 
@@ -82,6 +70,7 @@ const Login = () => {
 					hint='Password'
 					showLabel
 					isLoading={isLoading}
+					error={errState.password}
 					isRequired
 				/>
 

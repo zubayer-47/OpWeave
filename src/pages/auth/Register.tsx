@@ -1,49 +1,18 @@
-import { useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttons/Button';
 import Input, { PasswordInput } from '../../components/Inputs/Input';
 import { useRegisterMutation } from '../../features/auth/authApi';
 import { Gender } from '../../features/auth/types';
+import useAuthError from '../../hooks/useAuthError';
 import { FormHandler } from '../../types/custom';
-
-type FormStateType = {
-	credentials: {
-		fullname: string | null;
-		username: string | null;
-		password: string | null;
-		email: string | null;
-		confirmPassword: string | null;
-		gender: string | null;
-	};
-	errors: RegisterErrors;
-};
-
-type RegisterErrors = {
-	fullname?: string;
-	username?: string;
-	password?: string;
-	email?: string;
-	gender?: Gender;
-	[index: string]: string | undefined;
-	// commonError: string | null;
-};
 
 const RegisterPage = () => {
 	const [register, { isLoading, isError, error }] = useRegisterMutation();
-	const navigate = useNavigate();
-
-	const [form, setForm] = useState<FormStateType>({
-		credentials: {
-			fullname: null,
-			username: null,
-			password: null,
-			confirmPassword: null,
-			email: null,
-			gender: null,
-		},
-		errors: {},
+	const [errState, { errorContent, resetErr, checkPassword }] = useAuthError({
+		error,
 	});
+	const navigate = useNavigate();
 
 	const onSubmit: FormHandler = async (e) => {
 		e.preventDefault();
@@ -57,27 +26,16 @@ const RegisterPage = () => {
 			gender: formData.get('gender'),
 		};
 
-		// TODO: 26/4 update this and get rid off form state
+		const notMatch =
+			checkPassword &&
+			checkPassword(credentials.password, credentials.confirmPassword);
 
-		// if (credentials.confirmPassword !== credentials.password) {
-		// 	setForm((prev) => ({
-		// 		...prev,
-		// 		errors: {
-		// 			...prev.errors,
-		// 			password: 'Password Not Matched',
-		// 		},
-		// 	}));
-
-		// 	return;
-		// }
+		if (notMatch) return;
 
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		const { confirmPassword, ...data } = credentials;
 
-		setForm((prev) => ({
-			...prev,
-			errors: {},
-		}));
+		resetErr();
 
 		toast.promise(register({ ...data }).unwrap(), {
 			loading: 'Submitting...',
@@ -85,55 +43,6 @@ const RegisterPage = () => {
 			error: 'Could not register',
 		});
 	};
-
-	// TODO: 29/4 move it into a new hook called useError and it should be reusable
-	const errorContent = useMemo(() => {
-		if (error) {
-			if ('status' in error) {
-				// you can access all properties of `FetchBaseQueryError` here
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				const err = 'error' in error ? error.error : (error.data as any);
-
-				if (typeof err === 'object') {
-					const possibleErrorProps = [
-						'fullname',
-						'username',
-						'password',
-						'email',
-						'gender',
-					];
-
-					// Get the actual properties present in the error object
-					const presentErrorProps = Object.keys(err).filter((prop) =>
-						possibleErrorProps.includes(prop)
-					);
-
-					const obj: Partial<RegisterErrors> & {
-						[index: string]: string | undefined;
-					} = {};
-
-					// Check if any of the possible error properties are present
-					if (presentErrorProps.length > 0) {
-						for (const prop of presentErrorProps) {
-							obj[prop] = err[prop];
-						}
-					}
-
-					setForm((prev) => ({
-						...prev,
-						errors: obj,
-					}));
-				}
-
-				return err?.message;
-				// errorContent = err?.message;
-			} else {
-				return error?.message ? error.message : '';
-			}
-		}
-	}, [error]);
-
-	console.log(form.errors, 'errors');
 
 	return (
 		<div className='auth animate-auth-switch'>
@@ -150,57 +59,27 @@ const RegisterPage = () => {
 			<form onSubmit={onSubmit} className='mt-5 grid gap-3'>
 				<Input
 					name='fullname'
-					// handler={(e) =>
-					// 	setForm((prev) => ({
-					// 		...prev,
-					// 		credentials: {
-					// 			...prev.credentials,
-					// 			fullname: e.target.value,
-					// 		},
-					// 	}))
-					// }
-					// value={fullname}
 					hint='Full Name'
 					showLabel
 					isLoading={isLoading}
-					error={form.errors.fullname}
+					error={errState.fullname}
 					isRequired
 				/>
 				<Input
 					name='username'
-					// handler={(e) =>
-					// 	setForm((prev) => ({
-					// 		...prev,
-					// 		credentials: {
-					// 			...prev.credentials,
-					// 			username: e.target.value,
-					// 		},
-					// 	}))
-					// }
-					// value={username}
 					hint='Username'
 					showLabel
 					isLoading={isLoading}
-					error={form.errors.username}
+					error={errState.username}
 					isRequired
 				/>
 				<Input
 					type='email'
 					name='email'
-					// handler={(e) =>
-					// 	setForm((prev) => ({
-					// 		...prev,
-					// 		credentials: {
-					// 			...prev.credentials,
-					// 			email: e.target.value,
-					// 		},
-					// 	}))
-					// }
-					// value={email}
 					hint='Email'
 					showLabel
 					isLoading={isLoading}
-					error={form.errors.email}
+					error={errState.email}
 					isRequired
 				/>
 				<div className='bg-transparent'>
@@ -214,57 +93,35 @@ const RegisterPage = () => {
 					<select
 						name='gender'
 						className='block w-full px-4 py-2 pr-8 leading-tight text-sm text-dark-text rounded-lg border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 dark:focus:outline-none transition-all appearance-none'
-						// value={form.credentials.gender}
-						// onChange={() => }
 						required
 					>
 						<option className='dark:text-dark-muted'>Choose your gender</option>
-						<option className='dark:text-dark-muted' value='male'>
-							Male
+						<option className='dark:text-dark-muted' value={Gender.Male}>
+							{Gender.Male}
 						</option>
-						<option className='dark:text-dark-muted' value='female'>
-							Female
+						<option className='dark:text-dark-muted' value={Gender.Female}>
+							{Gender.Female}
 						</option>
-						<option className='dark:text-dark-muted' value='others'>
-							Others
+						<option className='dark:text-dark-muted' value={Gender.Others}>
+							{Gender.Others}
 						</option>
 					</select>
 				</div>
 
 				<PasswordInput
 					name='password'
-					// handler={(e) =>
-					// 	setForm((prev) => ({
-					// 		...prev,
-					// 		credentials: {
-					// 			...prev.credentials,
-					// 			password: e.target.value,
-					// 		},
-					// 	}))
-					// }
-					// value={password}
 					hint='Password'
 					showLabel
 					isLoading={isLoading}
-					error={form.errors.password}
+					error={errState.password}
 					isRequired
 				/>
 				<PasswordInput
 					name='confirmPassword'
-					// handler={(e) =>
-					// 	setForm((prev) => ({
-					// 		...prev,
-					// 		credentials: {
-					// 			...prev.credentials,
-					// 			confirmPassword: e.target.value,
-					// 		},
-					// 	}))
-					// }
-					// value={confirmPassword}
 					hint='Confirm Password'
 					showLabel
 					isLoading={isLoading}
-					error={form.errors.password}
+					error={errState.password}
 					isRequired
 				/>
 
@@ -278,8 +135,7 @@ const RegisterPage = () => {
 				<button
 					type='button'
 					onClick={() => {
-						// setIsLogin(false);
-						navigate('/signin');
+						navigate('/auth/signin');
 					}}
 					className='link'
 				>
