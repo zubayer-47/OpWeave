@@ -127,7 +127,6 @@ export const PasswordInput = ({
 					id={name}
 					className={clsx(
 						'block w-full px-3 py-2.5 text-sm rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all',
-						'border-rose-500',
 						{
 							'dark:border-red': !!error,
 						}

@@ -63,7 +63,7 @@ const Login = () => {
 			</div>
 
 			{!isError ? null : (
-				<p className='text-center text-sm text-red-400 tracking-wide'>
+				<p className='text-center text-sm text-red tracking-wide'>
 					{errorContent}
 				</p>
 			)}
