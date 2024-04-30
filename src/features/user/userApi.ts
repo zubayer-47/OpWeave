@@ -4,9 +4,9 @@ import { updateUser } from '../auth/authSlice';
 import { User } from '../auth/types';
 import { UserUpdatePayload } from './types';
 
-const userApi = apiService.injectEndpoints({
+export const userApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
-		getUser: builder.query({
+		getUser: builder.query<User, void>({
 			query: () => '/users',
 
 			async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -35,22 +35,23 @@ const userApi = apiService.injectEndpoints({
 				body: payload,
 			}),
 
-			async onQueryStarted({ id }, { dispatch, queryFulfilled }) {
+			async onQueryStarted(_, { queryFulfilled }) {
 				try {
 					const res = await queryFulfilled;
+					//  console.log('res :', res);
 
-					dispatch(
-						apiService.util.updateQueryData('getUser', undefined, (draft) => {
-							console.log({ draft, res });
-						})
-					);
+					// dispatch(
+					// 	userApi.util.updateQueryData('getUser', undefined, (draft) => {
+					// 		console.log(JSON.stringify(draft), 'separate', res.data);
+					// 	})
+					// );
 				} catch (error) {}
 			},
 
 			// TODO: 26/4 work with this
 		}),
 
-		getProfilePicture: builder.query<{ avatar: string }, number>({
+		getProfilePicture: builder.query<{ avatar: string }, string>({
 			query: (userId) => ({
 				url: `/users/${userId}/profilePicture`,
 			}),
@@ -66,12 +67,26 @@ const userApi = apiService.injectEndpoints({
 				body: payload,
 			}),
 
-			// async onQueryStarted({}, { dispatch, queryFulfilled }) {
-			// 	try {
-			// 		const { data } = await queryFulfilled;
-			// 		dispatch(apiService.util.updateQueryData('getProfilePicture'));
-			// 	} catch (error) {}
-			// },
+			async onQueryStarted({ userId }, { dispatch, queryFulfilled }) {
+				try {
+					const res = await queryFulfilled;
+
+					const data = res.data as unknown as {
+						message: string;
+						avatar: string;
+					};
+
+					dispatch(
+						userApi.util.updateQueryData(
+							'getProfilePicture',
+							userId,
+							(draft) => {
+								draft.avatar = data.avatar;
+							}
+						)
+					);
+				} catch (error) {}
+			},
 		}),
 
 		removeProfilePicture: builder.mutation({

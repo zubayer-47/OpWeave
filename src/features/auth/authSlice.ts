@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { UserStateType } from './types';
 
 const initialState: UserStateType = {
-	access_token: null,
+	// access_token: null,
 	user: null,
 };
 
@@ -11,18 +11,17 @@ export const authSlice = createSlice({
 	initialState,
 	reducers: {
 		userLoggedIn: (state, action: PayloadAction<UserStateType>) => {
-			state.access_token = action.payload.access_token;
+			// state.access_token = action.payload.access_token;
 			state.user = action.payload.user;
 		},
 		userLoggedOut: (state) => {
-			state.access_token = null;
+			// state.access_token = null;
 			state.user = null;
 		},
-		updateUser: (
-			state,
-			action: PayloadAction<Omit<UserStateType, 'access_token'>>
-		) => {
-			state.user = action.payload.user;
+		updateUser: (state, action: PayloadAction<Partial<UserStateType>>) => {
+			if (action.payload.user) {
+				state.user = action.payload.user;
+			}
 		},
 	},
 });

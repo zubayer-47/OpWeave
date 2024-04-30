@@ -11,25 +11,29 @@ export enum Gender {
 }
 
 export interface User {
-	id: number;
+	id: string;
 	fullname: string;
 	username: string;
-	rights: UserRight;
+	email: string;
+	// rights: UserRight;
 	gender: Gender;
 	avatar: string;
+	bio: string;
 	createdAt: string;
 }
 
 export type UserPartial = {
 	fullname?: string;
 	username?: string;
-	rights?: UserRight;
+	email?: string;
+	// rights?: UserRight;
 	gender?: Gender;
 	avatar?: string;
+	bio?: string;
 	createdAt?: string;
 };
 
 export interface UserStateType {
-	access_token: string | null;
+	// access_token: string | null;
 	user: User | null;
 }

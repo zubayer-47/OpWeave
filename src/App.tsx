@@ -31,7 +31,7 @@ function App() {
 			if (auth?.access_token && auth?.user) {
 				dispatch(
 					userLoggedIn({
-						access_token: auth.access_token,
+						// access_token: auth.access_token,
 						user: auth.user,
 					})
 				);

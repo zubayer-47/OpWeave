@@ -12,11 +12,11 @@ import {
 import { FormHandler, InputType } from '../../types/custom';
 
 const Settings = () => {
-	const avatar = useAppSelector((state) => state.auth.user?.avatar);
-	const auth = localStorage.getItem('auth');
-	const { user } = !auth ? null : JSON.parse(auth);
+	const user = useAppSelector((state) => state.auth.user);
+	const localAuth = localStorage.getItem('auth');
+	const auth = !localAuth ? null : JSON.parse(localAuth);
 
-	const { data, isSuccess } = useGetProfilePictureQuery(user?.id);
+	const { data } = useGetProfilePictureQuery(auth?.user?.id);
 	const [updateProfilePicture] = useUpdateProfilePictureMutation();
 	const [updateUser] = useUpdateUserMutation();
 
@@ -28,7 +28,7 @@ const Settings = () => {
 			formData.append('avatar', content);
 
 			const promise = updateProfilePicture({
-				userId: user?.id,
+				userId: user?.id || '',
 				payload: formData,
 			}).unwrap();
 
@@ -45,27 +45,24 @@ const Settings = () => {
 
 		const formData = new FormData(e.currentTarget);
 		const data = {
-			name: formData.get('name'),
-			username: formData.get('username'),
+			fullname: formData.get('fullname'),
+			// username: formData.get('username'),
 			bio: formData.get('bio'),
 		};
 
-		toast.promise(updateUser({ id: user?.id, payload: data }).unwrap(), {
+		toast.promise(updateUser({ id: user?.id || '', payload: data }).unwrap(), {
 			loading: 'Saving...',
 			success: 'Info saved!',
 			error: 'Could not save.',
 		});
 	};
 
+	console.log(user);
 	return (
 		<div className='mx-96 my-20'>
 			<div className='w-fit relative group'>
 				<img
-					src={
-						avatar ||
-						(isSuccess && data?.avatar) ||
-						'http://www.gravatar.com/avatar'
-					}
+					src={data?.avatar || user?.avatar || 'http://www.gravatar.com/avatar'}
 					className='size-48 object-cover rounded-full'
 					alt=''
 					loading='lazy'
@@ -96,16 +93,16 @@ const Settings = () => {
 				<Input
 					defaultValue={user?.fullname}
 					hint='Name'
-					name='name'
+					name='fullname'
 					showLabel
 				/>
-
+				{/* 
 				<Input
 					defaultValue={user?.username}
 					hint='Username'
 					name='username'
 					showLabel
-				/>
+				/> */}
 
 				<div>
 					<label
@@ -119,6 +116,7 @@ const Settings = () => {
 						// ref={textAreaRef}
 						// onChange={onChange}
 						// value={text}
+						defaultValue={user?.bio}
 						cols={10}
 						rows={5}
 						// defaultValue={user.}

@@ -1,7 +1,7 @@
 import { apiService } from '../api/apiService';
-import { userLoggedIn } from './authSlice';
+import { userApi } from '../user/userApi';
 
-const authApi = apiService.injectEndpoints({
+export const authApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
 		register: builder.mutation({
 			query: (data) => ({
@@ -19,16 +19,22 @@ const authApi = apiService.injectEndpoints({
 						'auth',
 						JSON.stringify({
 							access_token: data.access_token,
-							user: data.user,
+							// user: data.user,
 						})
 					);
 
 					dispatch(
-						userLoggedIn({
-							access_token: data.access_token,
-							user: data.user,
+						userApi.util.updateQueryData('getUser', undefined, (draft) => {
+							console.log(JSON.stringify(draft));
 						})
 					);
+
+					// dispatch(
+					// 	userLoggedIn({
+					// 		access_token: data.access_token,
+					// 		user: data.user,
+					// 	})
+					// );
 
 					// eslint-disable-next-line no-empty
 				} catch (err) {}
@@ -50,16 +56,26 @@ const authApi = apiService.injectEndpoints({
 						'auth',
 						JSON.stringify({
 							access_token: data.access_token,
-							user: data.user,
+							// user: data.user,
 						})
 					);
 
-					dispatch(
-						userLoggedIn({
-							access_token: data.access_token,
-							user: data.user,
+					console.log(data);
+
+					const patch = dispatch(
+						userApi.util.updateQueryData('getUser', undefined, (draft) => {
+							console.log(JSON.stringify(draft), 'ss');
 						})
 					);
+
+					console.log(patch);
+
+					// dispatch(
+					// 	userLoggedIn({
+					// 		access_token: data.access_token,
+					// 		user: data.user,
+					// 	})
+					// );
 
 					// eslint-disable-next-line no-empty
 				} catch (err) {}
@@ -68,4 +84,5 @@ const authApi = apiService.injectEndpoints({
 	}),
 });
 
+// 01727217079
 export const { useLoginMutation, useRegisterMutation } = authApi;
