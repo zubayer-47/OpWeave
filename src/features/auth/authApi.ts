@@ -15,13 +15,7 @@ export const authApi = apiService.injectEndpoints({
 					const response = await queryFulfilled;
 					const data = response.data;
 
-					localStorage.setItem(
-						'auth',
-						JSON.stringify({
-							access_token: data.access_token,
-							// user: data.user,
-						})
-					);
+					localStorage.setItem('access_token', data.access_token);
 
 					dispatch(
 						userApi.util.updateQueryData('getUser', undefined, (draft) => {
@@ -52,13 +46,7 @@ export const authApi = apiService.injectEndpoints({
 					const response = await queryFulfilled;
 					const data = response.data;
 
-					localStorage.setItem(
-						'auth',
-						JSON.stringify({
-							access_token: data.access_token,
-							// user: data.user,
-						})
-					);
+					localStorage.setItem('access_token', data.access_token);
 
 					console.log(data);
 

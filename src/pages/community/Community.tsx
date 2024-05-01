@@ -8,7 +8,7 @@ import HorizontalMore from '../../components/Buttons/HorizontalMore';
 import Hr from '../../components/Hr';
 import Photos from '../../components/Photos';
 import Videos from '../../components/Videos';
-import useQuery from '../../hooks/useQuery';
+import useQuery from '../../hooks/useQueryParams';
 import Info from './profile/Info';
 import Members from './profile/Members';
 import Posts from './profile/Posts';

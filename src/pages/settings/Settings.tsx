@@ -1,24 +1,26 @@
+import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import { PencilLine } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useAppSelector } from '../../app/hooks';
+import defaultProfile from '../../assets/default.jpg';
 import Button from '../../components/Buttons/Button';
-import Input from '../../components/Inputs/Input';
 import {
 	useGetProfilePictureQuery,
 	useUpdateProfilePictureMutation,
 	useUpdateUserMutation,
 } from '../../features/user/userApi';
+import useAuthError from '../../hooks/useAuthError';
 import { FormHandler, InputType } from '../../types/custom';
 
 const Settings = () => {
 	const user = useAppSelector((state) => state.auth.user);
-	const localAuth = localStorage.getItem('auth');
-	const auth = !localAuth ? null : JSON.parse(localAuth);
+	// const access_token = localStorage.getItem('access_token');
 
-	const { data } = useGetProfilePictureQuery(auth?.user?.id);
+	const { data } = useGetProfilePictureQuery(user?.id || skipToken);
 	const [updateProfilePicture] = useUpdateProfilePictureMutation();
-	const [updateUser] = useUpdateUserMutation();
+	const [updateUser, { isError, error, isLoading }] = useUpdateUserMutation();
+	const [errState, { resetErr }] = useAuthError({ error });
 
 	const handleFile = async (e: InputType) => {
 		if (e.target?.files) {
@@ -50,6 +52,8 @@ const Settings = () => {
 			bio: formData.get('bio'),
 		};
 
+		resetErr();
+
 		toast.promise(updateUser({ id: user?.id || '', payload: data }).unwrap(), {
 			loading: 'Saving...',
 			success: 'Info saved!',
@@ -57,12 +61,11 @@ const Settings = () => {
 		});
 	};
 
-	console.log(user);
 	return (
 		<div className='mx-96 my-20'>
 			<div className='w-fit relative group'>
 				<img
-					src={data?.avatar || user?.avatar || 'http://www.gravatar.com/avatar'}
+					src={data?.avatar || user?.avatar || defaultProfile}
 					className='size-48 object-cover rounded-full'
 					alt=''
 					loading='lazy'
@@ -90,19 +93,43 @@ const Settings = () => {
 				className='flex flex-col gap-5 mt-10 col-span-2'
 				onSubmit={handleSubmit}
 			>
-				<Input
+				{/* <Input
 					defaultValue={user?.fullname}
 					hint='Name'
 					name='fullname'
 					showLabel
-				/>
-				{/* 
-				<Input
-					defaultValue={user?.username}
-					hint='Username'
-					name='username'
-					showLabel
 				/> */}
+
+				<div className='bg-transparent flex-1'>
+					<label
+						htmlFor='fullname'
+						className="title text-sm font-Inter text-light-muted dark:text-dark-muted after:content-['*'] after:text-red"
+					>
+						Full Name
+					</label>
+					<input
+						type='text'
+						name='fullname'
+						id='fullname'
+						className={clsx(
+							'block w-full px-3 py-2.5 text-sm rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all',
+							{
+								'dark:border-red': errState.fullname,
+							}
+						)}
+						placeholder='write your fullname'
+						defaultValue={user?.fullname}
+						autoComplete='off'
+						disabled={isLoading}
+						required
+					/>
+
+					{!isError ? null : (
+						<p className='ml-2 text-xs text-red tracking-wide'>
+							{errState.fullname}
+						</p>
+					)}
+				</div>
 
 				<div>
 					<label

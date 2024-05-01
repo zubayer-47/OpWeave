@@ -6,6 +6,7 @@ import { useAppDispatch } from './app/hooks';
 import EmptyScreen from './components/EmptyScreen';
 import NotFound from './components/errors/NotFound';
 import { userLoggedIn } from './features/auth/authSlice';
+import { userApi } from './features/user/userApi';
 import CenterLayout from './layouts/CenterLayout';
 import RootLayout from './layouts/RootLayout';
 import ForgetPass from './pages/auth/ForgetPass';
@@ -21,22 +22,39 @@ import UserProfile from './pages/userProfile/UserProfile';
 
 function App() {
 	const dispatch = useAppDispatch();
+	// useGetUserQuery(undefined, {
+	// 	skip: false,
+	// });
 
 	useEffect(() => {
-		const localAuth = localStorage.getItem('auth');
+		const access_token = localStorage.getItem('access_token');
 
-		if (localAuth) {
-			const auth = JSON.parse(localAuth);
+		const promise = dispatch(userApi.endpoints.getUser.initiate());
 
-			if (auth?.access_token && auth?.user) {
-				dispatch(
-					userLoggedIn({
-						// access_token: auth.access_token,
-						user: auth.user,
-					})
-				);
+		(async () => {
+			if (access_token) {
+				const { data, isSuccess } = await promise;
+				if (isSuccess) {
+					dispatch(
+						userLoggedIn({
+							// access_token: auth.access_token,
+							user: data,
+						})
+					);
+				}
+
+				// dispatch(
+				// 	userLoggedIn({
+				// 		// access_token: auth.access_token,
+				// 		user: auth.user,
+				// 	})
+				// );
 			}
-		}
+		})();
+
+		return () => {
+			promise.unsubscribe();
+		};
 	}, []);
 
 	return (
@@ -54,7 +72,7 @@ function App() {
 
 				<Route element={<CenterLayout scroll className='pt-20 px-20' />}>
 					<Route path='communities/:id' element={<Community />} />
-					<Route path='profile' element={<UserProfile />} />
+					<Route path='profile/:username' element={<UserProfile />} />
 
 					<Route path='settings' element={<Settings />} />
 

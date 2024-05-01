@@ -1,9 +1,9 @@
 import { Bell, ChevronDown, Home, LucideIcon, Mail } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../app/hooks';
 import logo from '../assets/opweave.webp';
 import { updateAuthModal } from '../features/modal/modalSlice';
+import { useGetUserQuery } from '../features/user/userApi';
 import Button from './Buttons/Button';
 import Input from './Inputs/Input';
 import SubModal from './Modals/SubModal';
@@ -28,7 +28,8 @@ const navLinks: NavLinkType[] = [
 ];
 
 const Nav = () => {
-	const { isLoggedIn, user } = useAppSelector((state) => state.auth);
+	// const user = useAppSelector((state) => state.auth.user);
+	const { data: user, isLoading } = useGetUserQuery();
 	const location = useLocation();
 	const navigate = useNavigate();
 	const pathname = location.pathname;
@@ -36,6 +37,7 @@ const Nav = () => {
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const btnRef = useRef<HTMLButtonElement>(null);
 
+	console.log('user :', user, isLoading);
 	useEffect(() => {
 		const elem = dropdownRef.current;
 		const btnElem = btnRef.current;
@@ -119,7 +121,7 @@ const Nav = () => {
 
 				<div className='flex items-center gap-5'>
 					<div className='flex items-center gap-4'>
-						{!isLoggedIn && !user
+						{!user
 							? null
 							: navLinks.map(({ Icon, label, path }) => (
 									<NavLink
@@ -156,11 +158,9 @@ const Nav = () => {
 									// eslint-disable-next-line no-mixed-spaces-and-tabs
 							  ))}
 
-						{!isLoggedIn && !user ? (
-							<Button text='Log In' onClick={handleLoginModal} />
-						) : null}
+						{!user ? <Button text='Log In' onClick={handleLoginModal} /> : null}
 					</div>
-					{/* {!isLoggedIn && !user ? null : ( */}
+					{/* {!user ? null : ( */}
 					{/* // TODO: 28/4 */}
 					<>
 						<span className='w-1 bg-dark-muted/25 h-10 rounded-full'></span>

@@ -1,7 +1,7 @@
 import { Bell, Bolt, LogOut, Mail, User2, Users2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import profile from '../../assets/profile.webp';
+import defaultProfile from '../../assets/default.jpg';
 import { userLoggedOut } from '../../features/auth/authSlice';
 
 const SubModal = () => {
@@ -22,10 +22,14 @@ const SubModal = () => {
 
 			<div className='relative divide-y divide-dark-border'>
 				<Link
-					to={'/profile?sec=timeline'}
+					to={`/profile/${user?.username}?sec=timeline`}
 					className='flex items-center gap-3 px-4 py-2 dark:hover:bg-normal-primary/15 w-full rounded-xl transition-colors mb-3'
 				>
-					<img className='profile' src={profile} alt='profile image' />
+					<img
+						className='profile'
+						src={user?.avatar || defaultProfile}
+						alt='profile image'
+					/>
 
 					<div className='flex flex-col justify-start items-start'>
 						<h1 className='title'>{user?.fullname}</h1>
@@ -37,7 +41,7 @@ const SubModal = () => {
 
 				<div className='flex flex-col py-3'>
 					<Link
-						to={'/profile?sec=timeline'}
+						to={`/profile/${user?.username}?sec=timeline`}
 						className='subModal-item justify-start gap-4 hover:bg-light-muted/10 dark:hover:bg-dark-secondary'
 					>
 						<User2 className='icon' />

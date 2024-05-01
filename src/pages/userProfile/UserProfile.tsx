@@ -1,20 +1,22 @@
 import clsx from 'clsx';
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import profile from '../../assets/profile2.jpg';
 import Hr from '../../components/Hr';
-import useQuery from '../../hooks/useQuery';
 import Communities from './partials/Communities';
 import Timeline from './partials/Timeline';
 
 import data from '../../../data.json';
+import { useAppSelector } from '../../app/hooks';
+import defaultProfile from '../../assets/default.jpg';
 import Photos from '../../components/Photos';
 import Videos from '../../components/Videos';
+import useQueryParams from '../../hooks/useQueryParams';
 
 const slicedData = data.slice(10, 20);
 
 const UserProfile = () => {
-	const query = useQuery();
+	const user = useAppSelector((state) => state.auth.user);
+	const query = useQueryParams();
 
 	let content: ReactNode;
 	if (!query.get('sec')) content = <Timeline />;
@@ -33,12 +35,12 @@ const UserProfile = () => {
 				<div className='flex flex-col justify-center items-center'>
 					<img
 						className='size-52 object-cover rounded-full'
-						src={profile}
+						src={user?.avatar || defaultProfile}
 						alt='user profile'
 					/>
 
-					<h1 className='title text-2xl mt-5'>A B M Zubayer</h1>
-					<span className='muted'>Start small and build momentum</span>
+					<h1 className='title text-2xl mt-5'>{user?.fullname}</h1>
+					<span className='muted'>{user?.bio}</span>
 				</div>
 			</div>
 

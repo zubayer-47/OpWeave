@@ -4,14 +4,10 @@ import { userLoggedOut } from '../auth/authSlice';
 const baseQuery = fetchBaseQuery({
 	baseUrl: 'http://localhost:8000/api/v1',
 	prepareHeaders: async (headers) => {
-		const localAuth = localStorage.getItem('auth');
+		const access_token = localStorage.getItem('access_token');
 
-		if (localAuth) {
-			const auth = JSON.parse(localAuth);
-
-			if (auth?.access_token && auth?.user) {
-				if (auth) headers.set('Authorization', auth?.access_token);
-			}
+		if (access_token) {
+			headers.set('Authorization', access_token);
 		}
 
 		return headers;

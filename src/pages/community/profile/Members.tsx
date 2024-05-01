@@ -3,7 +3,7 @@ import { User2 } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
 import profile from '../../../assets/profile2.jpg';
 import Button from '../../../components/Buttons/Button';
-import useQuery from '../../../hooks/useQuery';
+import useQuery from '../../../hooks/useQueryParams';
 import CenterLayout from '../../../layouts/CenterLayout';
 
 const Members = () => {
