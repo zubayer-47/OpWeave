@@ -7,6 +7,7 @@ import { useGetUserQuery } from '../features/user/userApi';
 import Button from './Buttons/Button';
 import Input from './Inputs/Input';
 import SubModal from './Modals/SubModal';
+import NavPlaceholder from './ui-placeholders/NavPlaceholder';
 // import SubModal from './Modals/SubModal';
 
 // const LazySubModal = lazy(() => import('./Modals/SubModal'));
@@ -29,7 +30,7 @@ const navLinks: NavLinkType[] = [
 
 const Nav = () => {
 	// const user = useAppSelector((state) => state.auth.user);
-	const { data: user, isLoading } = useGetUserQuery();
+	const { data: user, isLoading, isSuccess } = useGetUserQuery();
 	const location = useLocation();
 	const navigate = useNavigate();
 	const pathname = location.pathname;
@@ -37,11 +38,13 @@ const Nav = () => {
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const btnRef = useRef<HTMLButtonElement>(null);
 
-	console.log('user :', user, isLoading);
+	console.log('clicking 41', dropdownRef.current, btnRef.current);
+
 	useEffect(() => {
 		const elem = dropdownRef.current;
 		const btnElem = btnRef.current;
 
+		console.log('clicking 48', elem, btnElem);
 		function clickListener(e: MouseEvent) {
 			if (elem && !elem.contains(e.target as Node)) {
 				elem?.classList.remove('active');
@@ -65,6 +68,14 @@ const Nav = () => {
 			btnElem?.removeEventListener('click', btnClickListener);
 		};
 	}, []);
+
+	console.log('clicking 72', dropdownRef.current, btnRef.current);
+
+	if (isLoading && !isSuccess) {
+		return <NavPlaceholder />;
+	}
+
+	console.log('clicking 76', dropdownRef.current, btnRef.current);
 
 	const activeItem = navLinks.find((link) => link.path === pathname);
 	// console.log('activeItem :', activeItem);
