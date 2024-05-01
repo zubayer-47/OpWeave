@@ -35,16 +35,21 @@ export const userApi = apiService.injectEndpoints({
 				body: payload,
 			}),
 
-			async onQueryStarted(_, { queryFulfilled }) {
+			async onQueryStarted(_, { dispatch, queryFulfilled }) {
 				try {
 					const res = await queryFulfilled;
-					//  console.log('res :', res);
+					const data = res.data as unknown as {
+						message: string;
+						user: User;
+					};
 
-					// dispatch(
-					// 	userApi.util.updateQueryData('getUser', undefined, (draft) => {
-					// 		console.log(JSON.stringify(draft), 'separate', res.data);
-					// 	})
-					// );
+					dispatch(
+						userApi.util.updateQueryData('getUser', undefined, (draft) => {
+							// console.log(JSON.stringify(draft), 'separate', res.data);
+							// eslint-disable-next-line @typescript-eslint/no-unused-vars
+							draft = data.user;
+						})
+					);
 				} catch (error) {}
 			},
 

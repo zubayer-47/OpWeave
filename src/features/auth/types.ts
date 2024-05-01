@@ -19,7 +19,7 @@ export interface User {
 	gender: Gender;
 	avatar: string;
 	bio: string;
-	createdAt: string;
+	// createdAt: string;
 }
 
 export type UserPartial = {
@@ -30,7 +30,7 @@ export type UserPartial = {
 	gender?: Gender;
 	avatar?: string;
 	bio?: string;
-	createdAt?: string;
+	// createdAt?: string;
 };
 
 export interface UserStateType {

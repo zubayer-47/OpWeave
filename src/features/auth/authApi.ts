@@ -22,16 +22,9 @@ export const authApi = apiService.injectEndpoints({
 							console.log(JSON.stringify(draft));
 						})
 					);
-
-					// dispatch(
-					// 	userLoggedIn({
-					// 		access_token: data.access_token,
-					// 		user: data.user,
-					// 	})
-					// );
-
-					// eslint-disable-next-line no-empty
-				} catch (err) {}
+				} catch (err) {
+					//
+				}
 			},
 		}),
 		login: builder.mutation({
@@ -57,20 +50,12 @@ export const authApi = apiService.injectEndpoints({
 					);
 
 					console.log(patch);
-
-					// dispatch(
-					// 	userLoggedIn({
-					// 		access_token: data.access_token,
-					// 		user: data.user,
-					// 	})
-					// );
-
-					// eslint-disable-next-line no-empty
-				} catch (err) {}
+				} catch (err) {
+					//
+				}
 			},
 		}),
 	}),
 });
 
-// 01727217079
 export const { useLoginMutation, useRegisterMutation } = authApi;

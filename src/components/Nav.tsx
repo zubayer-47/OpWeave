@@ -38,13 +38,10 @@ const Nav = () => {
 	const dropdownRef = useRef<HTMLDivElement>(null);
 	const btnRef = useRef<HTMLButtonElement>(null);
 
-	console.log('clicking 41', dropdownRef.current, btnRef.current);
-
 	useEffect(() => {
 		const elem = dropdownRef.current;
-		const btnElem = btnRef.current;
+		// const btnElem = btnRef.current;
 
-		console.log('clicking 48', elem, btnElem);
 		function clickListener(e: MouseEvent) {
 			if (elem && !elem.contains(e.target as Node)) {
 				elem?.classList.remove('active');
@@ -55,27 +52,28 @@ const Nav = () => {
 			}
 		}
 
-		function btnClickListener() {
-			if (elem?.contains(btnElem)) {
-				elem.classList.toggle('active');
-			}
-		}
+		// function btnClickListener() {
+		// 	if (elem?.contains(btnElem)) {
+		// 		elem.classList.toggle('active');
+		// 	}
+		// }
 
 		document.addEventListener('click', clickListener);
-		btnElem?.addEventListener('click', btnClickListener);
+		// btnElem?.addEventListener('click', btnClickListener);
 		return () => {
 			document.removeEventListener('click', clickListener);
-			btnElem?.removeEventListener('click', btnClickListener);
+			// btnElem?.removeEventListener('click', btnClickListener);
 		};
 	}, []);
 
-	console.log('clicking 72', dropdownRef.current, btnRef.current);
+	const handleToggle = () => {
+		console.log('toggling');
+		dropdownRef.current?.classList.toggle('active');
+	};
 
 	if (isLoading && !isSuccess) {
 		return <NavPlaceholder />;
 	}
-
-	console.log('clicking 76', dropdownRef.current, btnRef.current);
 
 	const activeItem = navLinks.find((link) => link.path === pathname);
 	// console.log('activeItem :', activeItem);
@@ -178,6 +176,7 @@ const Nav = () => {
 						<div ref={dropdownRef} className='dropdown relative'>
 							<button
 								ref={btnRef}
+								onClick={handleToggle}
 								type='button'
 								className='px-4 py-2 dark:hover:bg-normal-primary/15 w-full rounded-xl transition-colors dropdown-btn'
 							>
