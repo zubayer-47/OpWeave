@@ -54,10 +54,10 @@ const ItemContainer = () => {
 
 	const fetchItems = (start: number, end: number) => {
 		// Simulate fetching items from an API
-		console.log('rendering');
+		// console.log('rendering');
 		const newItems = items.slice(start, end);
 
-		console.log({ itemsToDisplay });
+		// console.log({ itemsToDisplay });
 
 		setItemsToDisplay((prevItems) => [...prevItems, ...newItems]);
 	};

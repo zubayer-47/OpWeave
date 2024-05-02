@@ -1,6 +1,7 @@
 import { Bell, ChevronDown, Home, LucideIcon, Mail } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import defaultAvatar from '../assets/default.jpg';
 import logo from '../assets/opweave.webp';
 import { updateAuthModal } from '../features/modal/modalSlice';
 import { useGetUserQuery } from '../features/user/userApi';
@@ -8,7 +9,6 @@ import Button from './Buttons/Button';
 import Input from './Inputs/Input';
 import SubModal from './Modals/SubModal';
 import NavPlaceholder from './ui-placeholders/NavPlaceholder';
-// import SubModal from './Modals/SubModal';
 
 // const LazySubModal = lazy(() => import('./Modals/SubModal'));
 
@@ -30,7 +30,13 @@ const navLinks: NavLinkType[] = [
 
 const Nav = () => {
 	// const user = useAppSelector((state) => state.auth.user);
-	const { data: user, isLoading, isSuccess } = useGetUserQuery();
+	const access_token = localStorage.getItem('access_token');
+
+	const {
+		data: user,
+		isLoading,
+		isSuccess,
+	} = useGetUserQuery(undefined, { skip: !access_token });
 	const location = useLocation();
 	const navigate = useNavigate();
 	const pathname = location.pathname;
@@ -183,7 +189,7 @@ const Nav = () => {
 								<div className='pointer-events-none flex items-center gap-3'>
 									<img
 										className='profile'
-										src={user?.avatar}
+										src={user?.avatar || defaultAvatar}
 										alt='user profile'
 									/>
 									<h1 className='title'>{user?.fullname}</h1>

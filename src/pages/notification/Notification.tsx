@@ -96,6 +96,7 @@ const Notification = () => {
 
 				{data.map(({ id, action }) => (
 					<NotificationItem
+						key={id}
 						action={action}
 						id={id}
 						updatedOptionId={updatedOptionId}

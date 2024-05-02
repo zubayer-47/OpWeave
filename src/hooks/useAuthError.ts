@@ -18,7 +18,10 @@ type ErrorStateType = {
 	// commonError: string | null;
 };
 
-export default function useAuthError({ error }: Props): ReturnType<
+// TODO: 2/5
+const useAuthError = ({
+	error,
+}: Props): ReturnType<
 	() => readonly [
 		ErrorStateType,
 		{
@@ -30,7 +33,9 @@ export default function useAuthError({ error }: Props): ReturnType<
 			) => void;
 		}
 	]
-> {
+> => {
+	console.log({ error });
+
 	const [errState, setErrState] = useState<ErrorStateType>({});
 
 	const errorContent = useMemo(() => {
@@ -96,4 +101,10 @@ export default function useAuthError({ error }: Props): ReturnType<
 	};
 
 	return [errState, { errorContent, resetErr, checkPassword }];
+};
+
+export default useAuthError;
+
+export function useKeys<T extends object>(obj: T) {
+	console.log(obj);
 }

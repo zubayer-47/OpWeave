@@ -4,22 +4,21 @@ import { useState } from 'react';
 import CommunityItem from './partials/CommunityItem';
 
 import { Plus } from 'lucide-react';
-import data from '../../../data.json';
-import Form from '../../components/Forms/Form';
+import CreateCommunityForm from '../../components/Forms/CreateCommunityForm';
 import ItemContainer from '../../components/HorizontalScrolling';
+import { useGetCommunityQuery } from '../../features/community/communityApi';
 import ModalLayout from '../../layouts/ModalLayouts/ModalLayout';
-
-const slicedData = data.slice(10, 20);
 
 const Communities = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [updatedOptionId, setUpdatedOptionId] = useState('');
+	const { data, isLoading } = useGetCommunityQuery();
 
-	const handleFormSubmit = (data: unknown) => {
-		console.log('Form data:', data);
-		// Do something with the form data
-		setIsModalOpen(false); // Close the modal after submission
-	};
+	// const handleFormSubmit = (data: unknown) => {
+	// 	console.log('Form data:', data);
+	// 	// Do something with the form data
+	// 	setIsModalOpen(false); // Close the modal after submission
+	// };
 
 	const handleOption = (id: string) => {
 		setUpdatedOptionId(id);
@@ -28,6 +27,10 @@ const Communities = () => {
 	const handleClose = () => {
 		setUpdatedOptionId('');
 	};
+
+	if (isLoading) {
+		return <h1 className='title text-center'>Loading...</h1>;
+	}
 
 	return (
 		<div className='py-5 h-screen space-y-8'>
@@ -45,20 +48,23 @@ const Communities = () => {
 						<Plus className='text-light-lighter hover:text-light-primary transition-colors' />
 					</button>
 				</div>
-				{slicedData.map(({ id, createdAt, name }) => (
-					<CommunityItem
-						key={id}
-						id={id}
-						// avatar={avatar}
-						bio={name}
-						name={name}
-						createdAt={createdAt}
-						updatedOptionId={updatedOptionId}
-						handleClose={handleClose}
-						handleOption={handleOption}
-					/>
-				))}
-				JHHI
+				{!data ? (
+					<h1>No community exist</h1>
+				) : (
+					data.map(({ community_id, name, bio, createdAt }) => (
+						<CommunityItem
+							key={community_id}
+							community_id={community_id}
+							// avatar={avatar}
+							bio={bio}
+							name={name}
+							createdAt={createdAt}
+							updatedOptionId={updatedOptionId}
+							handleClose={handleClose}
+							handleOption={handleOption}
+						/>
+					))
+				)}
 			</div>
 
 			<ModalLayout
@@ -66,7 +72,7 @@ const Communities = () => {
 				isOpen={isModalOpen}
 				onClose={() => setIsModalOpen(false)}
 			>
-				<Form onSubmit={handleFormSubmit} />
+				<CreateCommunityForm />
 			</ModalLayout>
 		</div>
 	);

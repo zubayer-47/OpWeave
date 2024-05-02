@@ -9,6 +9,7 @@ type InputProp = {
 	type?: string;
 	hint?: string;
 	defaultValue?: string;
+	inputClass?: string;
 	// value?: string | null;
 	isIcon?: boolean;
 	isLoading?: boolean;
@@ -25,6 +26,7 @@ const Input = ({
 	defaultValue,
 	isLoading = false,
 	isIcon,
+	inputClass,
 	isRequired = false,
 	showLabel = false,
 	error = '',
@@ -61,7 +63,8 @@ const Input = ({
 					{
 						'dark:border-red': !!error,
 						'ps-10': isIcon,
-					}
+					},
+					inputClass
 				)}
 				placeholder={hint}
 				value={value}

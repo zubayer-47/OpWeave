@@ -8,6 +8,7 @@ export const userApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
 		getUser: builder.query<User, void>({
 			query: () => '/users',
+			providesTags: ['user'],
 
 			async onQueryStarted(_, { dispatch, queryFulfilled }) {
 				try {
@@ -34,33 +35,15 @@ export const userApi = apiService.injectEndpoints({
 				method: 'PATCH',
 				body: payload,
 			}),
-
-			async onQueryStarted(_, { dispatch, queryFulfilled }) {
-				try {
-					const res = await queryFulfilled;
-					const data = res.data as unknown as {
-						message: string;
-						user: User;
-					};
-
-					dispatch(
-						userApi.util.updateQueryData('getUser', undefined, (draft) => {
-							// console.log(JSON.stringify(draft), 'separate', res.data);
-							// eslint-disable-next-line @typescript-eslint/no-unused-vars
-							draft = data.user;
-						})
-					);
-				} catch (error) {}
-			},
-
-			// TODO: 26/4 work with this
+			invalidatesTags: ['user'],
 		}),
 
-		getProfilePicture: builder.query<{ avatar: string }, string>({
-			query: (userId) => ({
-				url: `/users/${userId}/profilePicture`,
-			}),
-		}),
+		// getProfilePicture: builder.query<{ avatar: string }, string>({
+		// 	query: (userId) => ({
+		// 		url: `/users/${userId}/profilePicture`,
+		// 	}),
+		// 	providesTags: ['profile_picture'],
+		// }),
 
 		updateProfilePicture: builder.mutation<
 			string,
@@ -71,27 +54,7 @@ export const userApi = apiService.injectEndpoints({
 				method: 'PUT',
 				body: payload,
 			}),
-
-			async onQueryStarted({ userId }, { dispatch, queryFulfilled }) {
-				try {
-					const res = await queryFulfilled;
-
-					const data = res.data as unknown as {
-						message: string;
-						avatar: string;
-					};
-
-					dispatch(
-						userApi.util.updateQueryData(
-							'getProfilePicture',
-							userId,
-							(draft) => {
-								draft.avatar = data.avatar;
-							}
-						)
-					);
-				} catch (error) {}
-			},
+			invalidatesTags: ['user'],
 		}),
 
 		removeProfilePicture: builder.mutation({
@@ -106,7 +69,6 @@ export const userApi = apiService.injectEndpoints({
 export const {
 	useGetUserQuery,
 	useUpdateUserMutation,
-	useGetProfilePictureQuery,
 	useUpdateProfilePictureMutation,
 	useRemoveProfilePictureMutation,
 } = userApi;

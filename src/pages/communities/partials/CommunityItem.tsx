@@ -1,18 +1,17 @@
 import { Bell, Compass } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import profile from '../../../assets/profile2.jpg';
+import defaultAvatar from '../../../assets/default.jpg';
 import HorizontalMore from '../../../components/Buttons/HorizontalMore';
-import { Community } from '../../../types/custom';
+import { Community } from '../../../features/community/types';
 
-interface Props extends Partial<Community> {
-	id: string;
+interface Props extends Omit<Community, 'rules'> {
 	updatedOptionId: string;
 	handleOption: (id: string) => void;
 	handleClose: () => void;
 }
 
 const CommunityItem = ({
-	id,
+	community_id,
 	avatar,
 	bio,
 	name,
@@ -23,28 +22,27 @@ const CommunityItem = ({
 	return (
 		<div className='snap-center dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all p-5 flex justify-between items-center rounded-2xl relative'>
 			<div className='flex justify-center items-center gap-5'>
-				<Link to='/communities/123'>
+				<Link to={`/communities/${community_id}`}>
 					<img
 						className='profile size-14'
-						// src={avatar || 'https://loremflickr.com/640/480/nature'}
-						src={avatar || profile}
+						src={avatar || defaultAvatar}
 						alt='community profile'
 					/>
 				</Link>
 				<div>
-					<Link to='/communities/123' className='title'>
-						{name || 'Dev Community'}
-						{/* <span className='not-sr-only hover:sr-only'>Settings</span> */}
+					<Link to={`/communities/${community_id}`} className='title'>
+						{name}
 					</Link>
-					<p className='title font-normal text-sm text-dark-muted'>
-						{bio || 'this is community bio'}
-					</p>
+					<p className='title font-normal text-sm text-dark-muted'>{bio}</p>
 				</div>
 			</div>
 
-			<HorizontalMore onClick={() => handleOption(id)} onBlur={handleClose} />
+			<HorizontalMore
+				onClick={() => handleOption(community_id)}
+				onBlur={handleClose}
+			/>
 
-			{updatedOptionId === id ? (
+			{updatedOptionId === community_id ? (
 				<div className='dark:bg-dark-primary px-1 absolute right-3 -bottom-20 flex flex-col border dark:border-dark-border rounded-xl z-10'>
 					<button
 						onClick={handleClose}

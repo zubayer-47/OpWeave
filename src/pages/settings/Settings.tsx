@@ -1,12 +1,10 @@
-import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import { PencilLine } from 'lucide-react';
 import toast from 'react-hot-toast';
-import { useAppSelector } from '../../app/hooks';
 import defaultProfile from '../../assets/default.jpg';
 import Button from '../../components/Buttons/Button';
 import {
-	useGetProfilePictureQuery,
+	useGetUserQuery,
 	useUpdateProfilePictureMutation,
 	useUpdateUserMutation,
 } from '../../features/user/userApi';
@@ -14,10 +12,11 @@ import useAuthError from '../../hooks/useAuthError';
 import { FormHandler, InputType } from '../../types/custom';
 
 const Settings = () => {
-	const user = useAppSelector((state) => state.auth.user);
+	// const user = useAppSelector((state) => state.auth.user);
 	// const access_token = localStorage.getItem('access_token');
 
-	const { data } = useGetProfilePictureQuery(user?.id || skipToken);
+	// const { data } = useGetProfilePictureQuery(user?.id || skipToken);
+	const { data: user } = useGetUserQuery();
 	const [updateProfilePicture] = useUpdateProfilePictureMutation();
 	const [updateUser, { isError, error, isLoading }] = useUpdateUserMutation();
 	const [errState, { resetErr }] = useAuthError({ error });
@@ -65,7 +64,7 @@ const Settings = () => {
 		<div className='mx-96 my-20'>
 			<div className='w-fit relative group'>
 				<img
-					src={data?.avatar || user?.avatar || defaultProfile}
+					src={user?.avatar || defaultProfile}
 					className='size-48 object-cover rounded-full'
 					alt=''
 					loading='lazy'
