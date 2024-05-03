@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import GuestWrapper from './Routes/GuestWrapper';
 import PrivateWrapper from './Routes/PrivateWrapper';
+import { useAppDispatch } from './app/hooks';
 import EmptyScreen from './components/EmptyScreen';
 import NotFound from './components/errors/NotFound';
+import RootLoader from './components/ui-placeholders/RootLoader';
+import { userLoggedIn } from './features/auth/authSlice';
+import { useGetUserQuery } from './features/user/userApi';
 import CenterLayout from './layouts/CenterLayout';
 import RootLayout from './layouts/RootLayout';
 import ForgetPass from './pages/auth/ForgetPass';
@@ -17,48 +22,27 @@ import Settings from './pages/settings/Settings';
 import UserProfile from './pages/userProfile/UserProfile';
 
 function App() {
-	// const dispatch = useAppDispatch();
-	// const token = localStorage.getItem('access_token');
-	// const { data, isLoading, isSuccess } = useGetUserQuery(undefined, {
-	// 	skip: !token,
-	// });
+	const dispatch = useAppDispatch();
+	const token = localStorage.getItem('access_token');
+	const { data, isLoading, isSuccess } = useGetUserQuery(undefined, {
+		skip: !token,
+	});
 
-	// useMemo(() => {
-	// 	if (!isLoading && isSuccess) {
-	// 		dispatch(
-	// 			userLoggedIn({
-	// 				user: data,
-	// 			})
-	// 		);
-	// 	}
-	// }, [isLoading, isSuccess, dispatch, data]);
-	// console.log('ap');
+	console.log('app');
 
-	// useEffect(() => {
-	// 	const access_token = localStorage.getItem('access_token');
+	useEffect(() => {
+		if (!isLoading && isSuccess) {
+			dispatch(
+				userLoggedIn({
+					user: data,
+				})
+			);
+		}
+	}, [isLoading, isSuccess, dispatch, data]);
 
-	// 	const promise = dispatch(userApi.endpoints.getUser.initiate());
-
-	// 	console.log('app ');
-
-	// 	(async () => {
-	// 		if (access_token) {
-	// 			const { data, isSuccess } = await promise;
-	// 			if (isSuccess) {
-	// 				dispatch(
-	// 					userLoggedIn({
-	// 						// access_token: auth.access_token,
-	// 						user: data,
-	// 					})
-	// 				);
-	// 			}
-	// 		}
-	// 	})();
-
-	// 	return () => {
-	// 		promise.unsubscribe();
-	// 	};
-	// }, []);
+	if (isLoading) {
+		return <RootLoader />;
+	}
 
 	return (
 		<Routes>

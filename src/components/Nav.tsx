@@ -29,13 +29,6 @@ const navLinks: NavLinkType[] = [
 
 const Nav = () => {
 	const user = useAppSelector((state) => state.auth.user);
-	// const access_token = localStorage.getItem('access_token');
-	console.log('nav');
-	// const {
-	// 	data: user,
-	// 	isLoading,
-	// 	isSuccess,
-	// } = useGetUserQuery(undefined, { skip: !userId });
 
 	const location = useLocation();
 	const navigate = useNavigate();
