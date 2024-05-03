@@ -34,7 +34,7 @@ const useAuthError = ({
 		}
 	]
 > => {
-	console.log({ error });
+	// console.log({ error });
 
 	const [errState, setErrState] = useState<ErrorStateType>({});
 

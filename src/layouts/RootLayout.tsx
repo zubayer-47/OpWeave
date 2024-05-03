@@ -5,6 +5,7 @@ import CreatePost from '../components/CreatePost';
 import Nav from '../components/Nav';
 
 const RootLayout = () => {
+	console.log('RootLayout');
 	const isPostModalOpen = useAppSelector(
 		(state) => state.modal.isVisibleAuthModal
 	);

@@ -2,10 +2,10 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../app/hooks';
 
 const GuestWrapper = () => {
-	const state = useAppSelector((state) => state.auth);
+	const user = useAppSelector((state) => state.auth.user);
 	const location = useLocation();
 
-	if (state.user) return <Navigate to='/' replace />;
+	if (user) return <Navigate to='/' replace />;
 
 	if (location.pathname.replace(/\//g, '').endsWith('auth'))
 		return <Navigate to='/auth/signin' replace />;

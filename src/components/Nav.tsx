@@ -1,14 +1,13 @@
 import { Bell, ChevronDown, Home, LucideIcon, Mail } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '../app/hooks';
 import defaultAvatar from '../assets/default.jpg';
 import logo from '../assets/opweave.webp';
 import { updateAuthModal } from '../features/modal/modalSlice';
-import { useGetUserQuery } from '../features/user/userApi';
 import Button from './Buttons/Button';
 import Input from './Inputs/Input';
 import SubModal from './Modals/SubModal';
-import NavPlaceholder from './ui-placeholders/NavPlaceholder';
 
 // const LazySubModal = lazy(() => import('./Modals/SubModal'));
 
@@ -29,14 +28,15 @@ const navLinks: NavLinkType[] = [
 ];
 
 const Nav = () => {
-	// const user = useAppSelector((state) => state.auth.user);
-	const access_token = localStorage.getItem('access_token');
+	const user = useAppSelector((state) => state.auth.user);
+	// const access_token = localStorage.getItem('access_token');
+	console.log('nav');
+	// const {
+	// 	data: user,
+	// 	isLoading,
+	// 	isSuccess,
+	// } = useGetUserQuery(undefined, { skip: !userId });
 
-	const {
-		data: user,
-		isLoading,
-		isSuccess,
-	} = useGetUserQuery(undefined, { skip: !access_token });
 	const location = useLocation();
 	const navigate = useNavigate();
 	const pathname = location.pathname;
@@ -76,10 +76,6 @@ const Nav = () => {
 		console.log('toggling');
 		dropdownRef.current?.classList.toggle('active');
 	};
-
-	if (isLoading && !isSuccess) {
-		return <NavPlaceholder />;
-	}
 
 	const activeItem = navLinks.find((link) => link.path === pathname);
 	// console.log('activeItem :', activeItem);

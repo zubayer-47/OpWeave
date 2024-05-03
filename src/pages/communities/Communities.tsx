@@ -6,13 +6,13 @@ import CommunityItem from './partials/CommunityItem';
 import { Plus } from 'lucide-react';
 import CreateCommunityForm from '../../components/Forms/CreateCommunityForm';
 import ItemContainer from '../../components/HorizontalScrolling';
-import { useGetCommunityQuery } from '../../features/community/communityApi';
+import { useGetCommunitiesQuery } from '../../features/community/communityApi';
 import ModalLayout from '../../layouts/ModalLayouts/ModalLayout';
 
 const Communities = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [updatedOptionId, setUpdatedOptionId] = useState('');
-	const { data, isLoading } = useGetCommunityQuery();
+	const { data, isLoading } = useGetCommunitiesQuery();
 
 	// const handleFormSubmit = (data: unknown) => {
 	// 	console.log('Form data:', data);

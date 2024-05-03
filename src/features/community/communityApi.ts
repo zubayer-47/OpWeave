@@ -3,7 +3,7 @@ import { Community } from './types';
 
 export const communityApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
-		getCommunity: builder.query<Community[] | null, void>({
+		getCommunities: builder.query<Community[] | null, void>({
 			query: () => '/communities',
 
 			transformResponse: (response: { communities: Community[] }, meta) => {
@@ -13,6 +13,9 @@ export const communityApi = apiService.injectEndpoints({
 
 				return null;
 			},
+		}),
+		getCommunity: builder.query({
+			query: (communityId) => `/communities/${communityId}`,
 		}),
 		createCommunity: builder.mutation<Community, unknown>({
 			query: (payload) => ({
@@ -24,5 +27,5 @@ export const communityApi = apiService.injectEndpoints({
 	}),
 });
 
-export const { useGetCommunityQuery, useCreateCommunityMutation } =
+export const { useGetCommunitiesQuery, useCreateCommunityMutation } =
 	communityApi;
