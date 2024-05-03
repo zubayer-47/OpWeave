@@ -1,13 +1,12 @@
 import { Bell, Bolt, LogOut, Mail, User2, Users2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import defaultProfile from '../../assets/default.jpg';
 import { userLoggedOut } from '../../features/auth/authSlice';
-import { useGetUserQuery } from '../../features/user/userApi';
 
 const SubModal = () => {
-	// const user = useAppSelector((state) => state.auth.user);
-	const { data: user } = useGetUserQuery();
+	const user = useAppSelector((state) => state.auth.user);
+	// const { data: user } = useGetUserQuery();
 	const dispatch = useAppDispatch();
 	// console.log(user);
 

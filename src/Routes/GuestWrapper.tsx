@@ -5,6 +5,8 @@ const GuestWrapper = () => {
 	const user = useAppSelector((state) => state.auth.user);
 	const location = useLocation();
 
+	console.log(user, location);
+
 	if (user) return <Navigate to='/' replace />;
 
 	if (location.pathname.replace(/\//g, '').endsWith('auth'))

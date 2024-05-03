@@ -1,5 +1,5 @@
 import { apiService } from '../api/apiService';
-import { userApi } from '../user/userApi';
+import { updateUser } from './authSlice';
 
 export const authApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
@@ -15,11 +15,18 @@ export const authApi = apiService.injectEndpoints({
 					const response = await queryFulfilled;
 					const data = response.data;
 
-					localStorage.setItem('access_token', data.access_token);
+					localStorage.setItem(
+						'auth',
+						JSON.stringify({
+							access_token: data.access_token,
+							user: data.user,
+						})
+					);
 
 					dispatch(
-						userApi.util.updateQueryData('getUser', undefined, (draft) => {
-							console.log(JSON.stringify(draft));
+						updateUser({
+							access_token: data.access_token,
+							user: data.user,
 						})
 					);
 				} catch (err) {
@@ -39,17 +46,22 @@ export const authApi = apiService.injectEndpoints({
 					const response = await queryFulfilled;
 					const data = response.data;
 
-					localStorage.setItem('access_token', data.access_token);
-
-					console.log(data);
-
-					const patch = dispatch(
-						userApi.util.updateQueryData('getUser', undefined, (draft) => {
-							console.log(JSON.stringify(draft), 'ss');
+					localStorage.setItem(
+						'auth',
+						JSON.stringify({
+							access_token: data.access_token,
+							user: data.user,
 						})
 					);
 
-					console.log(patch);
+					dispatch(
+						updateUser({
+							access_token: data.access_token,
+							user: data.user,
+						})
+					);
+
+					console.log(data);
 				} catch (err) {
 					//
 				}

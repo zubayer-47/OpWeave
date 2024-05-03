@@ -8,7 +8,15 @@ const useAxiosPrivate = () => {
 			const res = await axios.get(`/ur/refresh`, {
 				withCredentials: true,
 			});
-			localStorage.setItem('access_token', res?.data?.token);
+
+			localStorage.setItem(
+				'auth',
+				JSON.stringify({
+					access_token: res.data.access_token,
+					user: res.data.user,
+				})
+			);
+
 			return res?.data?.token;
 		} catch (error) {
 			localStorage.removeItem('access_token');
@@ -20,11 +28,11 @@ const useAxiosPrivate = () => {
 	}, []);
 
 	useEffect(() => {
-		const access_token = localStorage.getItem('access_token');
+		const auth = JSON.parse(localStorage.getItem('auth') || '{}');
 
 		const conf = (config: InternalAxiosRequestConfig) => {
 			if (!config.headers?.Authorization && config.headers)
-				config.headers.Authorization = access_token;
+				config.headers.Authorization = auth?.access_token;
 			return config;
 		};
 		const reqErr = (error: unknown) => Promise.reject(error);

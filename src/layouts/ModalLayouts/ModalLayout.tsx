@@ -14,7 +14,7 @@ const ModalLayout: FC<Props> = ({ heading, isOpen, onClose, children }) => {
 	if (!isOpen) return null;
 
 	return (
-		<div className='fixed inset-0 flex items-center justify-center'>
+		<div className='fixed inset-0 flex items-center justify-center overflow-y-auto'>
 			<button
 				type='button'
 				onClick={onClose}

@@ -1,7 +1,6 @@
 import { FormEvent } from 'react';
 import toast from 'react-hot-toast';
 import { useCreateCommunityMutation } from '../../features/community/communityApi';
-import { useKeys } from '../../hooks/useAuthError';
 import Button from '../Buttons/Button';
 import Input from '../Inputs/Input';
 
@@ -11,7 +10,7 @@ import Input from '../Inputs/Input';
 
 const CreateCommunityForm = () => {
 	const [createCommunity] = useCreateCommunityMutation();
-	useKeys<{ name?: string; bio?: string }>({ bio: '', name: '' });
+	// useKeys<{ name?: string; bio?: string }>({ bio: '', name: '' });
 	// console.log('errState :', errState);
 
 	// const [formData, setFormData] = useState({
@@ -33,6 +32,7 @@ const CreateCommunityForm = () => {
 			name: formData.get('name'),
 			bio: formData.get('bio'),
 			rules: formData.get('rules'),
+			description: formData.get('description'),
 		};
 
 		// resetErr();
@@ -69,7 +69,27 @@ const CreateCommunityForm = () => {
 			/>
 
 			<div className={'flex flex-col'}>
-				<label htmlFor='rules' className='title mb-2'>
+				<label
+					htmlFor='description'
+					className="title mb-2 after:content-['*'] after:text-red"
+				>
+					Description
+				</label>
+				<textarea
+					id='description'
+					className={
+						'w-full border border-dark-border rounded-md px-3 py-2 bg-dark-primary text-light-primary focus:outline-none dark:focus:ring-2 dark:focus:ring-blue-primary/50 dark:focus:ring-offset-2 dark:focus:ring-offset-dark-primary'
+					}
+					name='description'
+					cols={30}
+					rows={2}
+				></textarea>
+			</div>
+			<div className={'flex flex-col'}>
+				<label
+					htmlFor='rules'
+					className="title mb-2 after:content-['*'] after:text-red"
+				>
 					Rules
 				</label>
 				<textarea
@@ -79,7 +99,7 @@ const CreateCommunityForm = () => {
 					}
 					name='rules'
 					cols={30}
-					rows={10}
+					rows={2}
 				></textarea>
 			</div>
 			<Button text='Submit' type='submit' fullWidth />

@@ -9,7 +9,7 @@ interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
 }
 
 const CenterLayout = ({ className, scroll, children, ...rest }: Props) => {
-	console.log('center layout');
+	// console.log('center layout');
 	const hasChildren = isValidElement(children);
 	// console.log('hasChildren :', hasChildren);
 

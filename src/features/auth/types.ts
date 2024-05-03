@@ -34,6 +34,6 @@ export type UserPartial = {
 };
 
 export interface UserStateType {
-	// access_token: string | null;
+	access_token: string | null;
 	user: User | null;
 }
