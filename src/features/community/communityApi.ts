@@ -17,6 +17,18 @@ export const communityApi = apiService.injectEndpoints({
 		getCommunity: builder.query({
 			query: (communityId) => `/communities/${communityId}`,
 		}),
+		getUserCommunities: builder.query<{ communities: Community[] }, void>({
+			query: () => '/communities/joined',
+
+			async onQueryStarted(_, { queryFulfilled }) {
+				try {
+					const res = await queryFulfilled;
+					console.log('res :', res.data);
+				} catch (error) {
+					//
+				}
+			},
+		}),
 		createCommunity: builder.mutation<Community, unknown>({
 			query: (payload) => ({
 				url: '/communities',
@@ -27,5 +39,9 @@ export const communityApi = apiService.injectEndpoints({
 	}),
 });
 
-export const { useGetCommunitiesQuery, useCreateCommunityMutation } =
-	communityApi;
+export const {
+	useGetCommunitiesQuery,
+	useGetCommunityQuery,
+	useGetUserCommunitiesQuery,
+	useCreateCommunityMutation,
+} = communityApi;

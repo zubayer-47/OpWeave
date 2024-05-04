@@ -6,13 +6,13 @@ import CommunityItem from './partials/CommunityItem';
 import { Plus } from 'lucide-react';
 import CreateCommunityForm from '../../components/Forms/CreateCommunityForm';
 import ItemContainer from '../../components/HorizontalScrolling';
-import { useGetCommunitiesQuery } from '../../features/community/communityApi';
+import { useGetUserCommunitiesQuery } from '../../features/community/communityApi';
 import ModalLayout from '../../layouts/ModalLayouts/ModalLayout';
 
 const Communities = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [updatedOptionId, setUpdatedOptionId] = useState('');
-	const { data, isLoading } = useGetCommunitiesQuery();
+	const { data, isLoading } = useGetUserCommunitiesQuery();
 
 	// const handleFormSubmit = (data: unknown) => {
 	// 	console.log('Form data:', data);
@@ -51,19 +51,21 @@ const Communities = () => {
 				{!data ? (
 					<h1>No community exist</h1>
 				) : (
-					data.map(({ community_id, name, bio, createdAt }) => (
-						<CommunityItem
-							key={community_id}
-							community_id={community_id}
-							// avatar={avatar}
-							bio={bio}
-							name={name}
-							createdAt={createdAt}
-							updatedOptionId={updatedOptionId}
-							handleClose={handleClose}
-							handleOption={handleOption}
-						/>
-					))
+					data.communities.map(
+						({ community_id, name, bio, createdAt, avatar }) => (
+							<CommunityItem
+								key={community_id}
+								community_id={community_id}
+								avatar={avatar}
+								bio={bio}
+								name={name}
+								createdAt={createdAt}
+								updatedOptionId={updatedOptionId}
+								handleClose={handleClose}
+								handleOption={handleOption}
+							/>
+						)
+					)
 				)}
 			</div>
 
