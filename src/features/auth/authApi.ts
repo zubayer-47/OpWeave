@@ -60,8 +60,6 @@ export const authApi = apiService.injectEndpoints({
 							user: data.user,
 						})
 					);
-
-					console.log(data);
 				} catch (err) {
 					//
 				}

@@ -26,7 +26,7 @@ const useAuthCheck = () => {
 
 					setIsLoading(false);
 				} catch (error) {
-					console.log(error, 'useAuthCheck');
+					setIsLoading(false);
 				}
 			} else {
 				dispatch(userLoggedOut());

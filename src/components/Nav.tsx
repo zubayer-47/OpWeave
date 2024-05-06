@@ -118,6 +118,7 @@ const Nav = () => {
 								hint='Search'
 								isRequired
 								isIcon
+								tabIndex={1}
 							/>
 						</div>
 					</form>

@@ -27,5 +27,5 @@ export const apiService = createApi({
 		return result;
 	},
 	endpoints: () => ({}),
-	tagTypes: ['user'],
+	tagTypes: ['user', 'user_posts'],
 });

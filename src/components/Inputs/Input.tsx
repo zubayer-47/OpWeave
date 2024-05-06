@@ -10,6 +10,7 @@ type InputProp = {
 	hint?: string;
 	defaultValue?: string;
 	inputClass?: string;
+	tabIndex?: number;
 	// value?: string | null;
 	isIcon?: boolean;
 	isLoading?: boolean;
@@ -30,6 +31,7 @@ const Input = ({
 	isRequired = false,
 	showLabel = false,
 	error = '',
+	tabIndex,
 }: InputProp) => {
 	const [value, setValue] = useState(defaultValue || '');
 
@@ -57,6 +59,7 @@ const Input = ({
 				type={type}
 				name={name}
 				id={name}
+				tabIndex={tabIndex}
 				// className='w-full p-3 rounded-lg bg-transparent outline-none tracking-wider border border-indigo-200'
 				className={clsx(
 					'block w-full px-3 py-2.5 text-sm rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all',

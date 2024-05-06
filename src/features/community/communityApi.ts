@@ -18,7 +18,7 @@ export const communityApi = apiService.injectEndpoints({
 			query: (communityId) => `/communities/${communityId}`,
 		}),
 		getUserCommunities: builder.query<{ communities: Community[] }, void>({
-			query: () => '/communities/joined',
+			query: () => '/communities/assigned',
 
 			async onQueryStarted(_, { queryFulfilled }) {
 				try {

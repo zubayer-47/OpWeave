@@ -151,10 +151,16 @@
 
 
 /* custom css */
+div[contenteditable="true"]:empty::before {
+    content: attr(data-placeholder);
+    color: #9AA5B4;
+}
+
 .community_suggestions {
     background: linear-gradient(206.2deg, #363F4D -6%, #232931 83.51%);
     /* opacity: 0.7; */
 }
+
 
 .outlet_btn {
     background: linear-gradient(90deg, #3d4755 0%, #2b3644 100%);
