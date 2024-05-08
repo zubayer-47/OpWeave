@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { ReactNode } from 'react';
+import { Bell, Compass } from 'lucide-react';
+import { ReactNode, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import data from '../../../data.json';
 import profile from '../../assets/profile2.jpg';
@@ -19,6 +20,8 @@ const Community = () => {
 	const query = useQuery();
 	const params = useParams();
 
+	const [communityOption, setCommunityOption] = useState(false);
+
 	let content: ReactNode;
 	if (!query.get('sec')) content = <Posts />;
 	else if (query.get('sec') === 'posts') content = <Posts />;
@@ -33,9 +36,11 @@ const Community = () => {
 
 	const isJoined = true;
 
+	const handleClose = () => {};
+
 	return (
 		<div className='mt-28'>
-			<div className='flex items-center justify-between px-14'>
+			<div className='flex items-center justify-between px-14 relative'>
 				<div className='flex items-end gap-5'>
 					<img
 						className='size-40 object-cover rounded-full'
@@ -49,7 +54,34 @@ const Community = () => {
 					</div>
 				</div>
 
-				{!isJoined ? <Button text='Join' /> : <HorizontalMore />}
+				{!isJoined ? (
+					<Button text='Join' />
+				) : (
+					<HorizontalMore
+						onClick={() => setCommunityOption((prev) => !prev)}
+						type='button'
+					/>
+				)}
+
+				{!communityOption ? null : (
+					<div className='dark:bg-dark-primary px-1 absolute right-16 top-24 flex flex-col border dark:border-dark-border rounded-xl z-10'>
+						<button
+							onClick={handleClose}
+							className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
+						>
+							<Compass className='text-light-primary' strokeWidth={1.5} />
+							<h3 className='title text-sm font-normal'>More Option</h3>
+						</button>
+						<hr className='border-t-2 dark:border-dark-border' />
+						<button
+							onClick={handleClose}
+							className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
+						>
+							<Bell className='text-light-primary' strokeWidth={1.5} />
+							<h3 className='title text-sm font-normal'>More Option</h3>
+						</button>
+					</div>
+				)}
 			</div>
 
 			<div className='flex justify-start items-center gap-20 mt-10 mb-0.5 px-14'>

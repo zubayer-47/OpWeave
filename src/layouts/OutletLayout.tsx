@@ -1,4 +1,6 @@
+import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
+import { useAppSelector } from '../app/hooks';
 
 interface Props extends PropsWithChildren {
 	title: string;
@@ -6,8 +8,15 @@ interface Props extends PropsWithChildren {
 }
 
 const OutletLayout = ({ title, sub, children }: Props) => {
+	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
+
 	return (
-		<div className='h-fit col-span-4 mx-10 my-10 border dark:border-dark-border rounded-3xl relative overflow-hidden -z-10'>
+		<div
+			className={clsx(
+				'h-fit col-span-4 mx-10 my-10 border dark:border-dark-border rounded-3xl relative overflow-hidden',
+				{ '-z-10': isVisibleModal }
+			)}
+		>
 			<div className='absolute community_suggestions rounded-2xl inset-0 opacity-70'></div>
 
 			<div className='relative flex flex-col justify-between'>

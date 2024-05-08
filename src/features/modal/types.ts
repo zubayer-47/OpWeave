@@ -1,3 +1,3 @@
 export interface ModalStateType {
-	isVisibleAuthModal: boolean;
+	isVisibleModal: boolean;
 }

@@ -4,15 +4,19 @@ import { useState } from 'react';
 import CommunityItem from './partials/CommunityItem';
 
 import { Plus } from 'lucide-react';
-import CreateCommunityForm from '../../components/Forms/CreateCommunityForm';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import CommunityCreationForm from '../../components/Forms/CommunityCreationForm';
 import ItemContainer from '../../components/HorizontalScrolling';
 import { useGetUserCommunitiesQuery } from '../../features/community/communityApi';
+import { updateModal } from '../../features/modal/modalSlice';
 import ModalLayout from '../../layouts/ModalLayouts/ModalLayout';
 
 const Communities = () => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	// const [isModalOpen] = useState(false);
+	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
 	const [updatedOptionId, setUpdatedOptionId] = useState('');
 	const { data, isLoading } = useGetUserCommunitiesQuery();
+	const dispatch = useAppDispatch();
 
 	// const handleFormSubmit = (data: unknown) => {
 	// 	console.log('Form data:', data);
@@ -43,12 +47,12 @@ const Communities = () => {
 					<button
 						type='button'
 						className='community_suggestions rounded-full p-1'
-						onClick={() => setIsModalOpen(true)}
+						onClick={() => dispatch(updateModal())}
 					>
 						<Plus className='text-light-lighter hover:text-light-primary transition-colors' />
 					</button>
 				</div>
-				{!data ? (
+				{!data?.communities.length ? (
 					<h1>No community exist</h1>
 				) : (
 					data.communities.map(
@@ -71,10 +75,10 @@ const Communities = () => {
 
 			<ModalLayout
 				heading='Create Community'
-				isOpen={isModalOpen}
-				onClose={() => setIsModalOpen(false)}
+				isOpen={isVisibleModal}
+				onClose={() => dispatch(updateModal())}
 			>
-				<CreateCommunityForm />
+				<CommunityCreationForm />
 			</ModalLayout>
 		</div>
 	);

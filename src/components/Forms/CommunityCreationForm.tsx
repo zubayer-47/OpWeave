@@ -4,7 +4,7 @@ import { useCreateCommunityMutation } from '../../features/community/communityAp
 import Button from '../Buttons/Button';
 import Input from '../Inputs/Input';
 
-const CreateCommunityForm = () => {
+const CommunityCreationForm = () => {
 	const [createCommunity] = useCreateCommunityMutation();
 	// useKeys<{ name?: string; bio?: string }>({ bio: '', name: '' });
 	// console.log('errState :', errState);
@@ -92,4 +92,4 @@ const CreateCommunityForm = () => {
 	);
 };
 
-export default CreateCommunityForm;
+export default CommunityCreationForm;

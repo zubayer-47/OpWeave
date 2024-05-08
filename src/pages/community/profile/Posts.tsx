@@ -1,14 +1,30 @@
+import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
-import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import Button from '../../../components/Buttons/Button';
+import CreatePost from '../../../components/CreatePost';
 import Post from '../../../components/Post';
+import { updateModal } from '../../../features/modal/modalSlice';
+import { useGetCommunityPostsQuery } from '../../../features/post/postApi';
 import ModalLayout from '../../../layouts/ModalLayouts/ModalLayout';
 import OutletLayout from '../../../layouts/OutletLayout';
 
 const Posts = () => {
-	const [modal, setModal] = useState(false);
 	const params = useParams();
+	const { data, isLoading, isError } = useGetCommunityPostsQuery(
+		params.id ?? skipToken
+	);
+	const dispatch = useAppDispatch();
+	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
+
+	if (isLoading) {
+		// TODO: 8/5 add a placeholder loading UI
+		return <h1 className='text-2xl text-light-lighter'>Loading...</h1>;
+	} else if (isError) {
+		// TODO: 8/5 add a placeholder error UI
+		return <h1 className='text-2xl text-red'>Something is wrong</h1>;
+	}
 
 	const postGridStyles = 'grid grid-cols-2 gap-20 px-20 mt-10';
 	const basePostStyles = 'flex flex-col gap-10';
@@ -18,10 +34,14 @@ const Posts = () => {
 	return (
 		<div className={postGridStyles}>
 			<div className={basePostStyles}>
-				<Post />
-				<Post />
-				<Post />
+				{/* <Post />
+				<Post /> */}
+
+				{data?.posts.map(({ post_id }) => (
+					<Post key={post_id} />
+				))}
 			</div>
+
 			<div>
 				<OutletLayout title='About' sub='Developer Community'>
 					<p
@@ -76,7 +96,10 @@ const Posts = () => {
 						</Link>
 					</div>
 					<div className='flex items-center gap-5 px-4 my-5'>
-						<Button text='Create Post' onClick={() => setModal(true)} />
+						<Button
+							text='Create Post'
+							onClick={() => dispatch(updateModal())}
+						/>
 						<Button
 							text='Info'
 							className={clsx(
@@ -93,10 +116,10 @@ const Posts = () => {
 
 			<ModalLayout
 				heading='Create Post'
-				isOpen={modal}
-				onClose={() => setModal(false)}
+				isOpen={isVisibleModal}
+				onClose={() => dispatch(updateModal())}
 			>
-				<h1 className='title'>Hello</h1>
+				<CreatePost singleCommunity />
 			</ModalLayout>
 		</div>
 	);

@@ -4,7 +4,7 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../app/hooks';
 import defaultAvatar from '../assets/default.jpg';
 import logo from '../assets/opweave.webp';
-import { updateAuthModal } from '../features/modal/modalSlice';
+import { updateModal } from '../features/modal/modalSlice';
 import Button from './Buttons/Button';
 import Input from './Inputs/Input';
 import SubModal from './Modals/SubModal';
@@ -74,7 +74,7 @@ const Nav = () => {
 	// console.log('activeItem :', activeItem);
 
 	const handleLoginModal = () => {
-		updateAuthModal(true);
+		updateModal();
 
 		navigate('/auth', { state: { from: location } });
 	};

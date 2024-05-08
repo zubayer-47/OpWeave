@@ -3,8 +3,11 @@ import { Image, MapPin, Smile } from 'lucide-react';
 import { FC, useRef, useState } from 'react';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 import toast from 'react-hot-toast';
+import { useParams } from 'react-router-dom';
+import { useAppDispatch } from '../app/hooks';
 import profile from '../assets/profile.webp';
 import { useGetUserCommunitiesQuery } from '../features/community/communityApi';
+import { updateModal } from '../features/modal/modalSlice';
 import { useCreatePostMutation } from '../features/post/postApi';
 import { FormHandler } from '../types/custom';
 
@@ -17,15 +20,15 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 	const { data, isLoading } = useGetUserCommunitiesQuery();
 	const [createPost] = useCreatePostMutation();
 	const communityIdRef = useRef<HTMLSelectElement | null>(null);
+	const dispatch = useAppDispatch();
+	const params = useParams();
 
 	const handleSubmit: FormHandler = async (e) => {
 		e.preventDefault();
 
-		if (!communityIdRef.current) return;
-
 		const formData = new FormData(e.currentTarget);
 		const data = {
-			community_id: formData.get('community_id'),
+			community_id: formData.get('community_id') || params.id!,
 		};
 
 		try {
@@ -35,7 +38,12 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 				error: 'Could not create. ',
 			});
 
-			communityIdRef.current.value = '';
+			dispatch(updateModal());
+
+			if (communityIdRef.current) {
+				communityIdRef.current.value = '';
+			}
+
 			setContent('');
 		} catch (error) {
 			//
@@ -85,27 +93,12 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 					</div>
 				</div>
 
-				{/* <div
-					tabIndex={2}
-					// ref={contentRef}
-					contentEditable
-					className={clsx(
-						'title text-base h-fit w-full resize rounded-md bg-transparent font-medium outline-none transition-all mt-5'
-					)}
-					dangerouslySetInnerHTML={{ __html: content }}
-					suppressContentEditableWarning
-					onInput={handleChange}
-					data-placeholder='Write your thoughts...'
-				></div> */}
-
 				<ContentEditable
 					html={content}
 					className={clsx(
-						'title text-base h-fit w-full resize rounded-md bg-transparent font-medium outline-none transition-all mt-5'
+						'title text-base w-full resize rounded-md bg-transparent font-medium outline-none transition-all mt-5 h-40 overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'
 					)}
-					// 					disabled={!this.state.editable} // use true to disable edition
-					onChange={handleChange} // handle innerHTML change
-					// onBlur={sanitize}
+					onChange={handleChange}
 					data-placeholder='Write your thoughts...'
 				/>
 
@@ -128,6 +121,7 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 							className='title button text-sm text-light-text px-4 py-2 disabled:bg-nav-selected/50 disabled:text-light-text/80'
 							disabled={!content}
 							type='submit'
+							// onClick={() => console.log('click')}
 						>
 							Post
 						</button>

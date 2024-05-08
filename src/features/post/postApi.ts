@@ -31,9 +31,18 @@ const postApi = apiService.injectEndpoints({
 			// 		//
 			// 	}
 			// },
-			invalidatesTags: ['user_posts'],
+			invalidatesTags: ['user_posts', 'community_posts'],
+		}),
+
+		getCommunityPosts: builder.query<{ posts: Post[] }, string>({
+			query: (community_id) => `/communities/${community_id}/posts`,
+			providesTags: ['community_posts'],
 		}),
 	}),
 });
 
-export const { useGetUserPostsQuery, useCreatePostMutation } = postApi;
+export const {
+	useGetUserPostsQuery,
+	useCreatePostMutation,
+	useGetCommunityPostsQuery,
+} = postApi;
