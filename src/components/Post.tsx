@@ -1,26 +1,46 @@
 import { Heart, MoreHorizontal, Users2 } from 'lucide-react';
 import { useState } from 'react';
+import ReactHtmlParser from 'react-html-parser';
 import bookmark from '../assets/icons/bookmark.svg';
 import comment from '../assets/icons/comment.svg';
 import share from '../assets/icons/share.svg';
-import profile from '../assets/profile2.jpg';
-import { trunc } from '../libs/helpers';
 import Button from './Buttons/Button';
 
-const Post = () => {
+type Props = {
+	avatar: string;
+	fullname: string;
+	username: string;
+	community_name: string;
+	body: string;
+	// El: JSX.ElementType;
+};
+
+const Post = ({
+	avatar,
+	body,
+	community_name,
+	fullname,
+	username,
+}: // El,
+Props) => {
 	const [expanded, setExpanded] = useState(false);
+	const content = ReactHtmlParser(body);
+	// console.log('content :', content);
 
 	const toggleExpanded = () => {
 		setExpanded(!expanded);
 	};
+
+	const isContentLong = content.length > 50;
+
 	return (
 		<div className='post px-7 pt-5 pb-3 relative'>
 			<div className='flex-group justify-between'>
 				<div className='flex-group'>
-					<img className='profile' src={profile} alt='profile picture' />
+					<img className='profile' src={avatar} alt='profile picture' />
 					<div>
-						<h1 className='title'>A B M Zubayer</h1>
-						<span className='muted'>@zubayerjs</span>
+						<h1 className='title'>{fullname}</h1>
+						<span className='muted'>@{username}</span>
 					</div>
 				</div>
 
@@ -28,7 +48,7 @@ const Post = () => {
 					<div className='flex-group'>
 						<Users2 className='icon size-6' />
 						<button type='button' className='title text-sm'>
-							dev community
+							{community_name}
 						</button>
 					</div>
 
@@ -40,8 +60,8 @@ const Post = () => {
 					</div>
 				</div>
 			</div>
-
-			<button
+			{/* // TODO: 9/5 modify it */}
+			{/* <button
 				type='button'
 				className='w-full max-h-[45rem] h-fit mt-5 overflow-hidden'
 			>
@@ -50,29 +70,23 @@ const Post = () => {
 					className='size-full object-contain'
 					alt='Post image'
 				/>
-			</button>
+			</button> */}
 
-			<p className='title font-Inter font-normal text-base mt-5 mb-5 hyphens-auto'>
-				{expanded
-					? 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnamipsam tempore quo mollitia? Ullam eveniet fugiat commodi excepturi soluta cupiditate, assumenda tempora modi quod voluptates. Labore vel unde sint odit necessitatibus, cum earum voluptates voluptate quidem modi nesciunt quas, libero qui iure reprehenderit. Nulla tenetur aliquid maxime omnis, laborum est fuga perspiciatis inventore error minima accusamus unde qui necessitatibus quis vo blanditiis, in quo lorem100 perferendis hicdolorem consectetur dolore laudantium quidem odit. lorem200'
-					: trunc(
-							'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magnamipsam tempore quo mollitia? Ullam eveniet fugiat commodi excepturi soluta cupiditate, assumenda tempora modi quod voluptates. Labore vel unde sint odit necessitatibus, cum earum voluptates voluptate quidem modi nesciunt quas, libero qui iure reprehenderit. Nulla tenetur aliquid maxime omnis, laborum est fuga perspiciatis inventore error minima accusamus unde qui necessitatibus quis vo blanditiis, in quo lorem100 perferendis hicdolorem consectetur dolore laudantium quidem odit. lorem200',
-							200
-							// eslint-disable-next-line no-mixed-spaces-and-tabs
-					  )}
-				{expanded ? (
-					<button className='title text-base' onClick={toggleExpanded}>
-						See Less
-					</button>
-				) : (
-					<button className='title text-base' onClick={toggleExpanded}>
-						See More
-					</button>
-				)}
-			</p>
-
+			<div className='title font-Inter font-normal text-base mt-5 mb-5 hyphens-auto text-ellipsis'>
+				<>{isContentLong ? content.slice(0, 50) : content}</>
+				{/* {content.length < 200 && !expanded ? content : trunc(content, 200)} */}
+				{/* {content} */}
+			</div>
+			{content.length < 200 ? null : expanded ? (
+				<button className='title text-base' onClick={toggleExpanded}>
+					See Less
+				</button>
+			) : (
+				<button className='title text-base' onClick={toggleExpanded}>
+					See More
+				</button>
+			)}
 			<hr className='border-t dark:border-dark-border border-light-border absolute bottom-[3.9rem] right-0 left-0' />
-
 			<div className='flex items-center justify-between'>
 				<div className='flex items-center gap-3'>
 					{/* <img src={heart} className='size-10' alt='like post icon' /> */}

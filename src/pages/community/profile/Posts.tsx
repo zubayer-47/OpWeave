@@ -1,8 +1,10 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
+import { Frown } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import Button from '../../../components/Buttons/Button';
+import ContentEditableDiv from '../../../components/ContentEditableDiv';
 import CreatePost from '../../../components/CreatePost';
 import Post from '../../../components/Post';
 import { updateModal } from '../../../features/modal/modalSlice';
@@ -15,6 +17,7 @@ const Posts = () => {
 	const { data, isLoading, isError } = useGetCommunityPostsQuery(
 		params.id ?? skipToken
 	);
+
 	const dispatch = useAppDispatch();
 	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
 
@@ -37,9 +40,33 @@ const Posts = () => {
 				{/* <Post />
 				<Post /> */}
 
-				{data?.posts.map(({ post_id }) => (
-					<Post key={post_id} />
-				))}
+				{!data?.posts.length ? (
+					<h1 className='title flex flex-col items-center'>
+						{' '}
+						<Frown className='text-red size-14' /> No Post Exist
+					</h1>
+				) : (
+					data.posts.map(
+						({
+							post_id,
+							body,
+							community: { name },
+							member: {
+								user: { avatar, fullname, username },
+							},
+						}) => (
+							<Post
+								key={post_id}
+								avatar={avatar}
+								body={body}
+								community_name={name}
+								fullname={fullname}
+								username={username}
+								// El={body}
+							/>
+						)
+					)
+				)}
 			</div>
 
 			<div>
@@ -113,14 +140,16 @@ const Posts = () => {
 					</div>
 				</OutletLayout>
 			</div>
-
 			<ModalLayout
 				heading='Create Post'
 				isOpen={isVisibleModal}
 				onClose={() => dispatch(updateModal())}
+				size='2xl'
 			>
 				<CreatePost singleCommunity />
 			</ModalLayout>
+
+			<ContentEditableDiv />
 		</div>
 	);
 };

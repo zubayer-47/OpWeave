@@ -22,6 +22,7 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 	const communityIdRef = useRef<HTMLSelectElement | null>(null);
 	const dispatch = useAppDispatch();
 	const params = useParams();
+	const editableDivRef = useRef<HTMLDivElement>(null);
 
 	const handleSubmit: FormHandler = async (e) => {
 		e.preventDefault();
@@ -32,6 +33,10 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 		};
 
 		try {
+			// const sanitizedContent = content.replace(/tw-\w+/g, ''); // Removes classes starting with "tw-"
+			const sanitizedContent = content.replace(/-|--|---|tw-\w+/g, ''); // Removes classes starting with "tw-"
+			console.log('content', sanitizedContent);
+
 			await toast.promise(createPost({ ...data, payload: content }).unwrap(), {
 				loading: 'post creating...',
 				success: 'post successfully created',
@@ -94,6 +99,7 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 				</div>
 
 				<ContentEditable
+					innerRef={editableDivRef}
 					html={content}
 					className={clsx(
 						'title text-base w-full resize rounded-md bg-transparent font-medium outline-none transition-all mt-5 h-40 overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'
