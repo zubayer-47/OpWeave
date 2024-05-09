@@ -1,4 +1,3 @@
-import { isAxiosError } from 'axios';
 import { useState } from 'react';
 import { FiCheck, FiChevronLeft } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
@@ -40,22 +39,7 @@ const ForgetPass = () => {
 				}));
 			}, 2000);
 		} catch (error) {
-			console.error(error);
-			if (isAxiosError(error)) {
-				const message = error.response?.data;
-
-				setForgetState((prev) => ({
-					...prev,
-					loading: false,
-					error: message,
-				}));
-			}
-
-			setForgetState((prev) => ({
-				...prev,
-				loading: false,
-				error: 'Something Went Wrong!',
-			}));
+			// TODO: 9/5 forget pwd
 		}
 	};
 

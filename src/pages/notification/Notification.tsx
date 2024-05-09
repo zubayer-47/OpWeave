@@ -92,8 +92,6 @@ const Notification = () => {
 				</div>
 			</div> */}
 			<div className='py-5 space-y-5 relative'>
-				{/* <PartialNotifications items={data} /> */}
-
 				{data.map(({ id, action }) => (
 					<NotificationItem
 						key={id}

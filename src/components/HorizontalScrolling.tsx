@@ -1,7 +1,6 @@
 // // Dependencies
 // import clsx from 'clsx';
 // import { useEffect, useRef, useState } from 'react';
-import { v4 as uuid } from 'uuid';
 
 interface Item {
 	id: number;
@@ -99,7 +98,10 @@ const ItemContainer = () => {
 			className='overflow-x-auto flex space-x-4'
 		>
 			{itemsToDisplay.map((item) => (
-				<div key={uuid()} className='inline-block p-4 bg-gray-200 rounded-lg'>
+				<div
+					key={Date.now()}
+					className='inline-block p-4 bg-gray-200 rounded-lg'
+				>
 					{item.title}
 				</div>
 			))}

@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import GuestWrapper from './Routes/GuestWrapper';
 import PrivateWrapper from './Routes/PrivateWrapper';
-import EmptyScreen from './components/EmptyScreen';
+import TestContentEditable from './components/TestContentEditable';
 import NotFound from './components/errors/NotFound';
 import RootLoader from './components/ui-placeholders/RootLoader';
 import useAuthCheck from './hooks/useAuthCheck';
@@ -35,10 +35,11 @@ function App() {
 					<Route path='communities' element={<Communities />} />
 
 					<Route path='bookmarks' element={<Bookmarks />} />
-					<Route path='chat' element={<EmptyScreen />} />
 				</Route>
 
 				<Route element={<CenterLayout scroll className='pt-20 px-20' />}>
+					<Route path='chat' element={<TestContentEditable />} />
+
 					<Route path='communities/:id' element={<Community />} />
 					<Route path='profile/:username' element={<UserProfile />} />
 

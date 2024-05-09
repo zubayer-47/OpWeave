@@ -1,10 +1,8 @@
-import { signal } from '@preact/signals-react';
 import { useEffect, useRef, useState } from 'react';
 import { Community } from '../../../types/custom';
 import HorizontalCommunityItem from './HorizontalCommunityItem';
 
 const FavCommunities = () => {
-	const track = signal<'prev' | 'next' | ''>('');
 	const [communities, setCommunities] = useState<Community[]>([]);
 	const [currentPage, setCurrentPage] = useState(2);
 
@@ -41,7 +39,7 @@ const FavCommunities = () => {
 
 			setLoading(false);
 		})();
-	}, [currentPage, track.value]);
+	}, [currentPage]);
 
 	const handleScrollLeft = () => {
 		if (scrollPosition > 0) {
@@ -51,7 +49,6 @@ const FavCommunities = () => {
 
 			if (currentPage > 1) {
 				console.log('f');
-				track.value = 'prev';
 				setCurrentPage((prev) => prev - 1);
 			}
 		}
@@ -71,8 +68,6 @@ const FavCommunities = () => {
 			setScrollPosition(calculatePosition);
 		}
 	};
-
-	console.log(track.value);
 
 	return (
 		<div className='relative'>
