@@ -3,6 +3,16 @@ export type Post = {
 	community_id: string;
 	member_id: string;
 	body: string;
-	createdAt: string;
-	updatedAt: string;
+	createdAt: Date;
+	updatedAt: Date;
+	community: {
+		name: string;
+	};
+	member: {
+		user: {
+			fullname: string;
+			username: string;
+			avatar: string;
+		};
+	};
 };
