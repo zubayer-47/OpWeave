@@ -8,9 +8,16 @@ interface Props {
 	isOpen: boolean;
 	onClose: () => void;
 	children: ReactNode;
+	size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }
 
-const ModalLayout: FC<Props> = ({ heading, isOpen, onClose, children }) => {
+const ModalLayout: FC<Props> = ({
+	heading,
+	isOpen,
+	onClose,
+	children,
+	size = 'md',
+}) => {
 	if (!isOpen) return null;
 
 	return (
@@ -22,8 +29,14 @@ const ModalLayout: FC<Props> = ({ heading, isOpen, onClose, children }) => {
 			></button>
 			<div
 				className={clsx(
-					'bg-dark-primary rounded-lg shadow-lg p-8',
-					'max-w-md w-full',
+					'bg-dark-primary rounded-lg shadow-lg p-8 w-full',
+					{
+						'max-w-sm': size === 'sm',
+						'max-w-md': size === 'md',
+						'max-w-lg': size === 'lg',
+						'max-w-xl': size === 'xl',
+						'max-w-2xl': size === '2xl',
+					},
 					'focus:outline-none z-10 relative'
 				)}
 			>
