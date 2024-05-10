@@ -4,7 +4,6 @@ import { Frown } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import Button from '../../../components/Buttons/Button';
-import ContentEditableDiv from '../../../components/ContentEditableDiv';
 import CreatePost from '../../../components/CreatePost';
 import Post from '../../../components/Post';
 import { updateModal } from '../../../features/modal/modalSlice';
@@ -148,8 +147,6 @@ const Posts = () => {
 			>
 				<CreatePost singleCommunity />
 			</ModalLayout>
-
-			<ContentEditableDiv />
 		</div>
 	);
 };

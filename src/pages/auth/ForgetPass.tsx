@@ -1,5 +1,5 @@
+import { Check, ChevronLeft } from 'lucide-react';
 import { useState } from 'react';
-import { FiCheck, FiChevronLeft } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttons/Button';
 import Input from '../../components/Inputs/Input';
@@ -53,7 +53,7 @@ const ForgetPass = () => {
 				type='button'
 				className='-ml-2 flex items-center text-nav-selected hover:text-nav-selected/80'
 			>
-				<FiChevronLeft className='w-7 h-7 text-inherit' />
+				<ChevronLeft className='w-7 h-7 text-inherit' />
 				<span className='title text-inherit font-Inter'>Login</span>
 			</button>
 			<div className='mt-8 mb-5 space-y-2'>
@@ -64,7 +64,7 @@ const ForgetPass = () => {
 			{!forgetState.error ? (
 				forgetState.isSuccess && (
 					<p className='mt-5 text-center text-sm bg-green-400/80 text-gray-600 p-2 rounded-md tracking-wide flex items-center gap-2'>
-						<FiCheck className='w-5 h-5' />
+						<Check className='w-5 h-5' />
 						sent email successfully to {forgetState.email}
 					</p>
 				)

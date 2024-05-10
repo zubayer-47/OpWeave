@@ -1,6 +1,5 @@
 import { Heart, MoreHorizontal, Users2 } from 'lucide-react';
 import { useState } from 'react';
-import ReactHtmlParser from 'react-html-parser';
 import bookmark from '../assets/icons/bookmark.svg';
 import comment from '../assets/icons/comment.svg';
 import share from '../assets/icons/share.svg';
@@ -24,14 +23,11 @@ const Post = ({
 }: // El,
 Props) => {
 	const [expanded, setExpanded] = useState(false);
-	const content = ReactHtmlParser(body);
 	// console.log('content :', content);
 
 	const toggleExpanded = () => {
 		setExpanded(!expanded);
 	};
-
-	const isContentLong = content.length > 50;
 
 	return (
 		<div className='post px-7 pt-5 pb-3 relative'>
@@ -73,11 +69,11 @@ Props) => {
 			</button> */}
 
 			<div className='title font-Inter font-normal text-base mt-5 mb-5 hyphens-auto text-ellipsis'>
-				<>{isContentLong ? content.slice(0, 50) : content}</>
+				<>{body ? body.slice(0, 50) : body}</>
 				{/* {content.length < 200 && !expanded ? content : trunc(content, 200)} */}
 				{/* {content} */}
 			</div>
-			{content.length < 200 ? null : expanded ? (
+			{body?.length < 200 ? null : expanded ? (
 				<button className='title text-base' onClick={toggleExpanded}>
 					See Less
 				</button>
