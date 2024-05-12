@@ -6,38 +6,96 @@ import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../app/hooks';
 import profile from '../assets/profile.webp';
 import { useGetUserCommunitiesQuery } from '../features/community/communityApi';
+import { updateModal } from '../features/modal/modalSlice';
 import { useCreatePostMutation } from '../features/post/postApi';
 import { FormHandler } from '../types/custom';
+import ImagePreview from './ImagePreview';
 
 interface Props {
 	singleCommunity?: boolean;
 }
 
+type Content = {
+	content: string;
+	selectedFile?: File;
+};
+
 const CreatePost: FC<Props> = ({ singleCommunity }) => {
-	const [content, setContent] = useState('');
+	const [postState, setPostState] = useState<Content>({ content: '' });
+	// const [selectedImage, setSelectedImage] = useState<string | null>(null);
 	const { data, isLoading } = useGetUserCommunitiesQuery();
 	const [createPost] = useCreatePostMutation();
 	const communityIdRef = useRef<HTMLSelectElement | null>(null);
-	const dispatch = useAppDispatch();
 	const params = useParams();
+	const dispatch = useAppDispatch();
 
-	const handleSubmit: FormHandler = (e) => {
+	const handleSubmit: FormHandler = async (e) => {
 		e.preventDefault();
 
+		const reqFormData = new FormData();
+		reqFormData.append(
+			'post_image',
+			postState.selectedFile ? postState.selectedFile : ''
+		);
+		reqFormData.append('content', postState.content);
+
 		if (params?.id) {
-			toast.promise(
-				createPost({ community_id: params.id, payload: content }).unwrap(),
+			await toast.promise(
+				createPost({
+					community_id: params.id,
+					formData: reqFormData,
+				}).unwrap(),
 				{
 					loading: 'Post creating...',
 					success: 'Post Created Successfully.',
 					error: 'Post could not create.',
 				}
 			);
+
+			setPostState({ content: '', selectedFile: undefined });
+			dispatch(updateModal());
+
+			return;
 		}
+
+		// const community_id = communityIdRef.current?.value;
+		const formData = new FormData(e.currentTarget);
+
+		await toast.promise(
+			createPost({
+				community_id: formData.get('community_id'),
+				formData: reqFormData,
+			}).unwrap(),
+			{
+				loading: 'Post creating...',
+				success: 'Post Created Successfully.',
+				error: 'Post could not create.',
+			}
+		);
+
+		if (communityIdRef.current) {
+			communityIdRef.current.value = '';
+		}
+
+		setPostState({ content: '', selectedFile: undefined });
 	};
 
 	const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-		setContent(e.target.value);
+		setPostState((prev) => ({
+			...prev,
+			content: e.target.value,
+		}));
+	};
+
+	const handleFile = (event: ChangeEvent<HTMLInputElement>) => {
+		if (event.target?.files) {
+			const file = event.target.files[0];
+
+			setPostState((prev) => ({
+				...prev,
+				selectedFile: file,
+			}));
+		}
 	};
 
 	return (
@@ -90,16 +148,6 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 					</div>
 				</div>
 			</div>
-			{/* 
-				<ContentEditable
-					innerRef={editableDivRef}
-					html={content}
-					className={clsx(
-						'title text-base w-full resize rounded-md bg-transparent font-medium outline-none transition-all mt-5 h-40 overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'
-					)}
-					onChange={handleChange}
-					data-placeholder='Write your thoughts...'
-				/> */}
 
 			<textarea
 				name='content'
@@ -110,6 +158,7 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 					e.target.classList.add('bg-transparent/15');
 					e.target.rows = 3;
 				}}
+				value={postState.content}
 				onChange={handleChange}
 				className={clsx(
 					'title text-base w-full resize p-2 rounded-md bg-transparent font-medium outline-none transition-all mt-5 overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'
@@ -117,24 +166,44 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 				placeholder='Write your thoughts..'
 			></textarea>
 
+			{postState.selectedFile && (
+				<ImagePreview file={postState.selectedFile} alt='Post Image Preview' />
+			)}
+
 			<div className='space-y-3 mt-3 mb-4'>
 				<hr className='border-light-border dark:border-dark-border' />
 
 				<div className='flex justify-between px-4'>
 					<div className='flex items-center gap-4'>
-						<button type='button'>
-							<Image className='icon' />
+						<label htmlFor='uploadPics'>
+							<div className='inline-flex items-center bg-dark-hover rounded-lg  cursor-pointer'>
+								<Image className='size-5 text-white stroke-white m-2' />
+							</div>
+							<input
+								type='file'
+								name='uploadPics'
+								id='uploadPics'
+								className='hidden'
+								onChange={handleFile}
+								accept='image/jpg, image/png, image/webp'
+							/>
+						</label>
+						<button
+							type='button'
+							className='inline-flex items-center bg-dark-hover rounded-lg  cursor-pointer'
+						>
+							<MapPin className='size-5 text-white stroke-white m-2' />
 						</button>
-						<button type='button'>
-							<MapPin className='icon' />
-						</button>
-						<button type='button'>
-							<Smile className='icon' />
+						<button
+							type='button'
+							className='inline-flex items-center bg-dark-hover rounded-lg  cursor-pointer'
+						>
+							<Smile className='size-5 text-white stroke-white m-2' />
 						</button>
 					</div>
 					<button
 						className='title button text-sm text-light-text px-4 py-2 disabled:bg-nav-selected/50 disabled:text-light-text/80'
-						disabled={!content}
+						disabled={!postState.content}
 						type='submit'
 						// onClick={() => console.log('click')}
 					>

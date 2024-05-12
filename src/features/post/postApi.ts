@@ -11,14 +11,12 @@ const postApi = apiService.injectEndpoints({
 		}),
 		createPost: builder.mutation<
 			Post,
-			{ community_id: FormDataEntryValue | null; payload: string }
+			{ formData: FormData; community_id: FormDataEntryValue | null }
 		>({
-			query: ({ community_id, payload }) => ({
+			query: ({ community_id, formData }) => ({
 				url: `/communities/${community_id}/posts`,
 				method: 'POST',
-				body: {
-					payload,
-				},
+				body: formData,
 			}),
 
 			// async onQueryStarted(userId, { dispatch, queryFulfilled }) {
