@@ -6,7 +6,6 @@ import CommunityItem from './partials/CommunityItem';
 import { Plus } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import CommunityCreationForm from '../../components/Forms/CommunityCreationForm';
-import ItemContainer from '../../components/HorizontalScrolling';
 import { useGetUserCommunitiesQuery } from '../../features/community/communityApi';
 import { updateModal } from '../../features/modal/modalSlice';
 import ModalLayout from '../../layouts/ModalLayouts/ModalLayout';
@@ -40,7 +39,10 @@ const Communities = () => {
 		<div className='py-5 h-screen space-y-8'>
 			{/* // TODO: customize it */}
 			{/* <FavCommunities /> */}
-			<ItemContainer />
+			{/* <ItemContainer /> */}
+
+			<h1 className='title'>Make it</h1>
+
 			<div className='py-5 space-y-5'>
 				<div className='flex justify-between items-center'>
 					<h1 className='title text-2xl'>Your Communities</h1>

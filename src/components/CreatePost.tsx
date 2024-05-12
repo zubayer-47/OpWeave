@@ -185,7 +185,7 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 								id='uploadPics'
 								className='hidden'
 								onChange={handleFile}
-								accept='image/jpg, image/png, image/webp'
+								accept='image/jpg, image/jpeg, image/png, image/webp'
 							/>
 						</label>
 						<button

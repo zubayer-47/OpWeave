@@ -49,6 +49,7 @@ const Posts = () => {
 						({
 							post_id,
 							body,
+							image_url,
 							community: { name },
 							member: {
 								user: { avatar, fullname, username },
@@ -61,6 +62,7 @@ const Posts = () => {
 								community_name={name}
 								fullname={fullname}
 								username={username}
+								image_url={image_url}
 								// El={body}
 							/>
 						)

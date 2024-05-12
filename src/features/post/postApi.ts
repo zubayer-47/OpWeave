@@ -19,16 +19,6 @@ const postApi = apiService.injectEndpoints({
 				body: formData,
 			}),
 
-			// async onQueryStarted(userId, { dispatch, queryFulfilled }) {
-			// 	try {
-			// 		const res = await queryFulfilled;
-			// 		const data = res.data;
-
-			// 		dispatch(postApi.util.updateQueryData('getUserPosts', userId))
-			// 	} catch (error) {
-			// 		//
-			// 	}
-			// },
 			invalidatesTags: ['user_posts', 'community_posts'],
 		}),
 

@@ -99,7 +99,7 @@ const ItemContainer = () => {
 		>
 			{itemsToDisplay.map((item) => (
 				<div
-					key={Date.now()}
+					key={Date.now() * Date.UTC(2000)}
 					className='inline-block p-4 bg-gray-200 rounded-lg'
 				>
 					{item.title}

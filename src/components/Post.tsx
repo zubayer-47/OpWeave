@@ -1,8 +1,12 @@
-import { Heart, MoreHorizontal, Users2 } from 'lucide-react';
+import {
+	Bookmark,
+	Heart,
+	MessageCircle,
+	MessageSquareShare,
+	MoreHorizontal,
+	Users2,
+} from 'lucide-react';
 import { useState } from 'react';
-import bookmark from '../assets/icons/bookmark.svg';
-import comment from '../assets/icons/comment.svg';
-import share from '../assets/icons/share.svg';
 import Button from './Buttons/Button';
 
 type Props = {
@@ -11,12 +15,14 @@ type Props = {
 	username: string;
 	community_name: string;
 	body: string;
+	image_url: string;
 	// El: JSX.ElementType;
 };
 
 const Post = ({
 	avatar,
 	body,
+	image_url,
 	community_name,
 	fullname,
 	username,
@@ -82,16 +88,17 @@ Props) => {
 					See More
 				</button>
 			)}
-			<hr className='border-t dark:border-dark-border border-light-border absolute bottom-[3.9rem] right-0 left-0' />
-			<div className='flex items-center justify-between'>
-				<div className='flex items-center gap-3'>
-					{/* <img src={heart} className='size-10' alt='like post icon' /> */}
-					<Heart className='size-8 text-light-muted dark:text-dark-muted' />
-					<img src={comment} className='size-10' alt='comment on post icon' />
-					<img src={share} className='size-9' alt='share post icon' />
-				</div>
 
-				<img src={bookmark} className='size-10' alt='save post' />
+			{!!image_url && <img src={image_url} alt='Post Image' />}
+
+			<hr className='border-t dark:border-dark-border border-light-border absolute bottom-14 right-0 left-0' />
+			<div className='flex items-center justify-between mt-5'>
+				<div className='flex items-center gap-3'>
+					<Heart className='size-8 text-light-muted dark:text-dark-muted' />
+					<MessageCircle className='size-8 text-light-muted dark:text-dark-muted' />
+					<MessageSquareShare className='size-7 text-light-muted dark:text-dark-muted' />
+				</div>
+				<Bookmark className='size-8 text-light-muted dark:text-dark-muted' />
 			</div>
 		</div>
 	);
