@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import profile from '../../../assets/profile2.jpg';
-import { Community } from './FavCommunities';
+import { Community } from '../../../features/community/types';
 
 const HorizontalCommunityItem = ({ avatar, bio, name }: Partial<Community>) => {
 	return (
