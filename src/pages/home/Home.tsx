@@ -28,6 +28,7 @@ const Home = () => {
 						member: {
 							user: { avatar, fullname, username },
 						},
+						image_url,
 					}) => (
 						<Post
 							key={post_id}
@@ -36,6 +37,7 @@ const Home = () => {
 							community_name={name}
 							fullname={fullname}
 							username={username}
+							image_url={image_url}
 							// El={body}
 						/>
 					)
