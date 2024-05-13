@@ -13,7 +13,7 @@
 		"@reduxjs/toolkit": "^2.2.3",
 		"@types/react-redux": "^7.1.33",
 		"clsx": "^2.1.0",
-		"lucide-react": "^0.314.0",
+		"lucide-react": "^0.378.0",
 		"react": "^18.2.0",
 		"react-content-loader": "^7.0.0",
 		"react-dom": "^18.2.0",

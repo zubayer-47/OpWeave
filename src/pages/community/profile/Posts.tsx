@@ -6,16 +6,19 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import Button from '../../../components/Buttons/Button';
 import CreatePost from '../../../components/CreatePost';
 import Post from '../../../components/Post';
+import { useGetCommunityQuery } from '../../../features/community/communityApi';
 import { updateModal } from '../../../features/modal/modalSlice';
 import { useGetCommunityPostsQuery } from '../../../features/post/postApi';
 import ModalLayout from '../../../layouts/ModalLayouts/ModalLayout';
 import OutletLayout from '../../../layouts/OutletLayout';
+import { trunc } from '../../../libs/helpers';
 
 const Posts = () => {
 	const params = useParams();
 	const { data, isLoading, isError } = useGetCommunityPostsQuery(
 		params.id ?? skipToken
 	);
+	const { data: communityData } = useGetCommunityQuery(params?.id || skipToken);
 
 	const dispatch = useAppDispatch();
 	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
@@ -81,13 +84,9 @@ const Posts = () => {
 							'px-4'
 						)}
 					>
-						Welcome to a vibrant community where passionate developers like you
-						come together to learn, share, and build amazing things! A
-						supportive environment: We believe in fostering a welcoming and
-						inclusive space where everyone feels comfortable asking questions,
-						sharing ideas, and seeking help. Diverse skill sets: Our members
-						come from all backgrounds and experience levels, from seasoned
-						professionals to enthusiastic beginners.
+						{communityData && communityData.description.length > 200
+							? trunc(communityData?.description, 200)
+							: communityData?.description}
 					</p>
 					<div className='flex items-center gap-4 pl-5 pr-4 z-10'>
 						<div className='flex items-center'>

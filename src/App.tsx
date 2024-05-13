@@ -41,6 +41,7 @@ function App() {
 					<Route path='chat' element={<EmptyScreen />} />
 
 					<Route path='communities/:id' element={<Community />} />
+					<Route path='communities/:id/approve' element={<EmptyScreen />} />
 					<Route path='profile/:username' element={<UserProfile />} />
 
 					<Route path='settings' element={<Settings />} />

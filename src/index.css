@@ -178,17 +178,18 @@ div[contenteditable="true"]:empty::before {
 }
 
 .dropdown-item {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateY(-10px);
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
     transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
 }
 
+/* 
 .dropdown.active>.dropdown-btn+.dropdown-item {
     opacity: 1;
     transform: translateY(0);
     pointer-events: auto;
-}
+} */
 
 .height_without_nav {
     height: calc(100vh - 5rem);

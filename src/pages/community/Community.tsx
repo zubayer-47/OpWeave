@@ -1,14 +1,15 @@
+import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
-import { Bell, Compass } from 'lucide-react';
-import { ReactNode, useState } from 'react';
+import { Bell, MoreHorizontal, Target } from 'lucide-react';
+import { ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import data from '../../../data.json';
-import profile from '../../assets/profile2.jpg';
 import Button from '../../components/Buttons/Button';
-import HorizontalMore from '../../components/Buttons/HorizontalMore';
+import ClickableDropdown from '../../components/ClickableDropdown';
 import Hr from '../../components/Hr';
 import Photos from '../../components/Photos';
 import Videos from '../../components/Videos';
+import { useGetCommunityQuery } from '../../features/community/communityApi';
 import useQuery from '../../hooks/useQueryParams';
 import Info from './profile/Info';
 import Members from './profile/Members';
@@ -19,8 +20,7 @@ const slicedData = data.slice(10, 20);
 const Community = () => {
 	const query = useQuery();
 	const params = useParams();
-
-	const [communityOption, setCommunityOption] = useState(false);
+	const { data } = useGetCommunityQuery(params?.id || skipToken);
 
 	let content: ReactNode;
 	if (!query.get('sec')) content = <Posts />;
@@ -44,43 +44,46 @@ const Community = () => {
 				<div className='flex items-end gap-5'>
 					<img
 						className='size-40 object-cover rounded-full'
-						src={profile}
+						src={data?.avatar}
 						alt='community profile'
 					/>
 
 					<div className='mb-3'>
-						<h1 className='title text-xl'>Dev Community</h1>
-						<span className='muted'>Developer Community</span>
+						<h1 className='title text-xl'>{data?.name}</h1>
+						<span className='muted'>{data?.bio}</span>
 					</div>
 				</div>
 
 				{!isJoined ? (
 					<Button text='Join' />
 				) : (
-					<HorizontalMore
-						onClick={() => setCommunityOption((prev) => !prev)}
-						type='button'
-					/>
-				)}
-
-				{!communityOption ? null : (
-					<div className='dark:bg-dark-primary px-1 absolute right-16 top-24 flex flex-col border dark:border-dark-border rounded-xl z-10'>
-						<button
-							onClick={handleClose}
-							className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
-						>
-							<Compass className='text-light-primary' strokeWidth={1.5} />
-							<h3 className='title text-sm font-normal'>More Option</h3>
-						</button>
-						<hr className='border-t-2 dark:border-dark-border' />
-						<button
-							onClick={handleClose}
-							className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
-						>
-							<Bell className='text-light-primary' strokeWidth={1.5} />
-							<h3 className='title text-sm font-normal'>More Option</h3>
-						</button>
-					</div>
+					<ClickableDropdown
+						button={
+							<button type='button'>
+								<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary' />
+							</button>
+						}
+					>
+						<div className='dark:bg-dark-primary px-1 absolute right-16 top-24 flex flex-col border dark:border-dark-border rounded-xl z-10'>
+							<Link
+								to={`/communities/${params.id}/approve`}
+								className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
+								type='button'
+							>
+								<Target className='text-light-primary' strokeWidth={1.5} />
+								<h3 className='title text-sm font-normal'>Approve Posts</h3>
+							</Link>
+							<hr className='border-t-2 dark:border-dark-border' />
+							<button
+								onClick={handleClose}
+								className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
+								type='button'
+							>
+								<Bell className='text-light-primary' strokeWidth={1.5} />
+								<h3 className='title text-sm font-normal'>More Option</h3>
+							</button>
+						</div>
+					</ClickableDropdown>
 				)}
 			</div>
 

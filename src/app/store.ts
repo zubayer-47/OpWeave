@@ -1,15 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { apiService } from '../features/api/apiService';
-import authReducer from '../features/auth/authSlice';
-import controllerReducer from '../features/controller/controllerSlice';
-import modalReducer from '../features/modal/modalSlice';
+import authSlice from '../features/auth/authSlice';
+import communitySlice from '../features/community/communitySlice';
+import controllerSlice from '../features/controller/controllerSlice';
+import modalSlice from '../features/modal/modalSlice';
 
 export const store = configureStore({
 	reducer: {
 		[apiService.reducerPath]: apiService.reducer,
-		auth: authReducer,
-		modal: modalReducer,
-		controller: controllerReducer,
+		auth: authSlice,
+		modal: modalSlice,
+		controller: controllerSlice,
+		community: communitySlice,
 	},
 	devTools: import.meta.env.DEV,
 	middleware: (getDefaultMiddleware) =>
