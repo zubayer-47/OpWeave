@@ -14,8 +14,26 @@ export const communityApi = apiService.injectEndpoints({
 				return null;
 			},
 		}),
-		getCommunity: builder.query({
+		getCommunity: builder.query<Community, string>({
 			query: (communityId) => `/communities/${communityId}`,
+
+			// async onQueryStarted(_, { dispatch, queryFulfilled }) {
+			// 	try {
+			// 		const res = await queryFulfilled;
+
+			// 		console.log({
+			// 			res: res.meta?.response?.headers.get('Content-Type'),
+			// 		});
+			// 	} catch (error) {
+			// 		//
+			// 	}
+			// },
+
+			transformResponse: async (res: Community, meta) => {
+				console.log(meta?.response?.headers.get('X-Total-Post-Count'));
+
+				return res;
+			},
 		}),
 		getUserCommunities: builder.query<{ communities: Community[] }, void>({
 			query: () => '/communities/assigned',
