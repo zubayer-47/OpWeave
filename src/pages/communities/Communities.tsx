@@ -1,6 +1,5 @@
 // import { Navigation, Pagination } from 'swiper/modules';
 // import { Swiper } from 'swiper/react';
-import { useState } from 'react';
 import CommunityItem from './partials/CommunityItem';
 
 import { Plus } from 'lucide-react';
@@ -13,23 +12,8 @@ import ModalLayout from '../../layouts/ModalLayouts/ModalLayout';
 const Communities = () => {
 	// const [isModalOpen] = useState(false);
 	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
-	const [updatedOptionId, setUpdatedOptionId] = useState('');
 	const { data, isLoading } = useGetUserCommunitiesQuery();
 	const dispatch = useAppDispatch();
-
-	// const handleFormSubmit = (data: unknown) => {
-	// 	console.log('Form data:', data);
-	// 	// Do something with the form data
-	// 	setIsModalOpen(false); // Close the modal after submission
-	// };
-
-	const handleOption = (id: string) => {
-		setUpdatedOptionId(id);
-	};
-
-	const handleClose = () => {
-		setUpdatedOptionId('');
-	};
 
 	if (isLoading) {
 		return <h1 className='title text-center'>Loading...</h1>;
@@ -66,9 +50,6 @@ const Communities = () => {
 								bio={bio}
 								name={name}
 								createdAt={createdAt}
-								updatedOptionId={updatedOptionId}
-								handleClose={handleClose}
-								handleOption={handleOption}
 							/>
 						)
 					)
