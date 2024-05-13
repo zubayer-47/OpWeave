@@ -6,9 +6,8 @@ import Nav from '../components/Nav';
 
 const RootLayout = () => {
 	// console.log('RootLayout');
-	const isPostModalOpen = useAppSelector(
-		(state) => state.modal.isVisibleAuthModal
-	);
+	const isPostModalOpen = useAppSelector((state) => state.modal.isVisibleModal);
+
 	return (
 		<>
 			<Nav />
@@ -18,7 +17,7 @@ const RootLayout = () => {
 				</div>
 				<CommunitySuggestions />
 			</div>
-			{isPostModalOpen ? <CreatePost isModal /> : null}
+			{isPostModalOpen ? <CreatePost singleCommunity /> : null}
 		</>
 	);
 };

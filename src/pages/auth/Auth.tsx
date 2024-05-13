@@ -2,11 +2,11 @@ import { Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';
 
 const Auth = () => {
-	const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+	const user = useAppSelector((state) => state.auth.user);
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	if (isLoggedIn) {
+	if (user) {
 		navigate('/', { replace: true });
 		return;
 	}

@@ -42,7 +42,15 @@ const Communities = () => {
 					<h1>No community exist</h1>
 				) : (
 					data.communities.map(
-						({ community_id, name, bio, createdAt, avatar }) => (
+						({
+							community_id,
+							name,
+							bio,
+							createdAt,
+							avatar,
+							description,
+							member,
+						}) => (
 							<CommunityItem
 								key={community_id}
 								community_id={community_id}
@@ -50,6 +58,8 @@ const Communities = () => {
 								bio={bio}
 								name={name}
 								createdAt={createdAt}
+								description={description}
+								member={member}
 							/>
 						)
 					)

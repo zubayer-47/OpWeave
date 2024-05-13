@@ -9,7 +9,15 @@ const Timeline = () => {
 				<CreatePost />
 
 				{new Array(10).fill(true).map((_, ind) => (
-					<Post key={ind} />
+					<Post
+						avatar=''
+						body=''
+						community_name=''
+						fullname=''
+						image_url=''
+						username=''
+						key={ind}
+					/>
 				))}
 			</div>
 		</CenterLayout>
