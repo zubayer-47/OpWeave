@@ -6,9 +6,7 @@ import { userLoggedOut } from '../../features/auth/authSlice';
 
 const NavDropdown = () => {
 	const user = useAppSelector((state) => state.auth.user);
-	// const { data: user } = useGetUserQuery();
 	const dispatch = useAppDispatch();
-	// console.log(user);
 
 	const logout = () => {
 		dispatch(userLoggedOut());

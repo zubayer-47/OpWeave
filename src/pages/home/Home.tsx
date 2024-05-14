@@ -1,14 +1,10 @@
-import { skipToken } from '@reduxjs/toolkit/query';
 import { Frown } from 'lucide-react';
-import { useParams } from 'react-router-dom';
 import CreatePost from '../../components/CreatePost';
 import Post from '../../components/Post';
-import { useGetCommunityPostsQuery } from '../../features/post/postApi';
+import { useGetFeedPostsQuery } from '../../features/post/postApi';
 
 const Home = () => {
-	const params = useParams();
-
-	const { data } = useGetCommunityPostsQuery(params.id ?? skipToken);
+	const { data } = useGetFeedPostsQuery();
 
 	return (
 		<div className='py-10 space-y-10'>
@@ -24,11 +20,11 @@ const Home = () => {
 					({
 						post_id,
 						body,
+						image_url,
 						community: { name },
 						member: {
 							user: { avatar, fullname, username },
 						},
-						image_url,
 					}) => (
 						<Post
 							key={post_id}

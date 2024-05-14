@@ -5,14 +5,14 @@ import CommunityItem from './partials/CommunityItem';
 import { Plus } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import CommunityCreationForm from '../../components/Forms/CommunityCreationForm';
-import { useGetUserCommunitiesQuery } from '../../features/community/communityApi';
+import { useGetUserAssignedCommunitiesQuery } from '../../features/community/communityApi';
 import { updateModal } from '../../features/modal/modalSlice';
 import ModalLayout from '../../layouts/ModalLayouts/ModalLayout';
 
 const Communities = () => {
 	// const [isModalOpen] = useState(false);
 	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
-	const { data, isLoading } = useGetUserCommunitiesQuery();
+	const { data, isLoading } = useGetUserAssignedCommunitiesQuery();
 	const dispatch = useAppDispatch();
 
 	if (isLoading) {

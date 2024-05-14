@@ -1,10 +1,3 @@
-export enum UserRight {
-	// FREE = 100,
-	USER = 101,
-	MODER = 201,
-	ADMIN = 302,
-}
-
 export enum Gender {
 	Male = 'Male',
 	Female = 'Female',

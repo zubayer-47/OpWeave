@@ -1,51 +1,31 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { apiService } from '../api/apiService';
 import { Community } from './types';
 
 export const communityApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
-		getCommunities: builder.query<Community[] | null, void>({
-			query: () => '/communities',
-
-			transformResponse: (response: { communities: Community[] }, meta) => {
-				if (meta?.response?.status === 200) {
-					return response.communities;
-				}
-
-				return null;
-			},
-		}),
 		getCommunity: builder.query<Community, string>({
 			query: (communityId) => `/communities/${communityId}`,
-
-			// async onQueryStarted(_, { dispatch, queryFulfilled }) {
-			// 	try {
-			// 		const res = await queryFulfilled;
-
-			// 		console.log({
-			// 			res: res.meta?.response?.headers.get('Content-Type'),
-			// 		});
-			// 	} catch (error) {
-			// 		//
-			// 	}
-			// },
-
-			transformResponse: async (res: Community, meta) => {
-				console.log(meta?.response?.headers.get('X-Total-Post-Count'));
-
-				return res;
-			},
+			providesTags: (_res, _err, args) => [
+				{ type: 'Community', id: args },
+				'Community',
+			],
 		}),
-		getUserCommunities: builder.query<{ communities: Community[] }, void>({
+		getUserAssignedCommunities: builder.query<
+			{ communities: Community[] },
+			void
+		>({
 			query: () => '/communities/assigned',
-
-			async onQueryStarted(_, { queryFulfilled }) {
-				try {
-					const res = await queryFulfilled;
-					console.log('res :', res.data);
-				} catch (error) {
-					//
-				}
-			},
+			providesTags: (res) =>
+				res
+					? [
+							{ type: 'User_assigned_communities', id: 'List' },
+							...res.communities.map(({ community_id }) => ({
+								type: 'User_assigned_communities' as const,
+								id: community_id,
+							})),
+					  ]
+					: [{ type: 'User_assigned_communities', id: 'List' }],
 		}),
 		createCommunity: builder.mutation<Community, unknown>({
 			query: (payload) => ({
@@ -53,13 +33,16 @@ export const communityApi = apiService.injectEndpoints({
 				method: 'POST',
 				body: payload,
 			}),
+			invalidatesTags: [
+				{ type: 'User_assigned_communities', id: 'List' },
+				{ type: 'Community', id: 'List' },
+			],
 		}),
 	}),
 });
 
 export const {
-	useGetCommunitiesQuery,
 	useGetCommunityQuery,
-	useGetUserCommunitiesQuery,
+	useGetUserAssignedCommunitiesQuery,
 	useCreateCommunityMutation,
 } = communityApi;

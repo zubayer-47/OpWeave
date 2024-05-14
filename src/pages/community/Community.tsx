@@ -10,6 +10,7 @@ import Hr from '../../components/Hr';
 import Photos from '../../components/Photos';
 import Videos from '../../components/Videos';
 import { useGetCommunityQuery } from '../../features/community/communityApi';
+import { MemberRole } from '../../features/community/types';
 import useQuery from '../../hooks/useQueryParams';
 import Info from './profile/Info';
 import Members from './profile/Members';
@@ -65,15 +66,19 @@ const Community = () => {
 						}
 					>
 						<div className='dark:bg-dark-primary px-1 absolute right-16 top-24 flex flex-col border dark:border-dark-border rounded-xl z-10'>
-							<Link
-								to={`/communities/${params.id}/approve`}
-								className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
-								type='button'
-							>
-								<Target className='text-light-primary' strokeWidth={1.5} />
-								<h3 className='title text-sm font-normal'>Approve Posts</h3>
-							</Link>
-							<hr className='border-t-2 dark:border-dark-border' />
+							{data?.member.role === MemberRole.MEMBER ? null : (
+								<>
+									<Link
+										to={`/communities/${params.id}/pending`}
+										className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
+										type='button'
+									>
+										<Target className='text-light-primary' strokeWidth={1.5} />
+										<h3 className='title text-sm font-normal'>Approve Posts</h3>
+									</Link>
+									<hr className='border-t-2 dark:border-dark-border' />
+								</>
+							)}
 							<button
 								onClick={handleClose}
 								className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'

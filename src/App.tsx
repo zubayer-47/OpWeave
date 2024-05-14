@@ -13,6 +13,7 @@ import Register from './pages/auth/Register';
 import Bookmarks from './pages/bookmarks/Bookmarks';
 import Communities from './pages/communities/Communities';
 import Community from './pages/community/Community';
+import PendingPosts from './pages/community/PendingPosts';
 import Home from './pages/home/Home';
 import Notification from './pages/notification/Notification';
 import Settings from './pages/settings/Settings';
@@ -37,11 +38,13 @@ function App() {
 					<Route path='bookmarks' element={<Bookmarks />} />
 				</Route>
 
-				<Route element={<CenterLayout scroll className='pt-20 px-20' />}>
+				<Route
+					element={<CenterLayout scroll className='pt-20 px-5 lg:px-20' />}
+				>
 					<Route path='chat' element={<EmptyScreen />} />
 
 					<Route path='communities/:id' element={<Community />} />
-					<Route path='communities/:id/approve' element={<EmptyScreen />} />
+					<Route path='communities/:id/pending' element={<PendingPosts />} />
 					<Route path='profile/:username' element={<UserProfile />} />
 
 					<Route path='settings' element={<Settings />} />

@@ -29,11 +29,26 @@ const Post = ({
 }: // El,
 Props) => {
 	const [expanded, setExpanded] = useState(false);
-	// console.log('content :', content);
 
 	const toggleExpanded = () => {
-		setExpanded(!expanded);
+		setExpanded((prev) => !prev);
 	};
+
+	let renderShowHide;
+
+	if (body.length > 50) {
+		renderShowHide = null;
+	} else {
+		renderShowHide = expanded ? (
+			<button className='title text-base' onClick={toggleExpanded}>
+				See Less
+			</button>
+		) : (
+			<button className='title text-base' onClick={toggleExpanded}>
+				See More
+			</button>
+		);
+	}
 
 	return (
 		<div className='post px-7 pt-5 pb-3 relative'>
@@ -62,32 +77,12 @@ Props) => {
 					</div>
 				</div>
 			</div>
-			{/* // TODO: 9/5 modify it */}
-			{/* <button
-				type='button'
-				className='w-full max-h-[45rem] h-fit mt-5 overflow-hidden'
-			>
-				<img
-					src={profile}
-					className='size-full object-contain'
-					alt='Post image'
-				/>
-			</button> */}
 
 			<div className='title font-Inter font-normal text-base mt-5 mb-5 hyphens-auto text-ellipsis'>
 				<>{body ? body.slice(0, 50) : body}</>
-				{/* {content.length < 200 && !expanded ? content : trunc(content, 200)} */}
-				{/* {content} */}
 			</div>
-			{body?.length < 200 ? null : expanded ? (
-				<button className='title text-base' onClick={toggleExpanded}>
-					See Less
-				</button>
-			) : (
-				<button className='title text-base' onClick={toggleExpanded}>
-					See More
-				</button>
-			)}
+
+			{renderShowHide}
 
 			{!!image_url && <img src={image_url} alt='Post Image' />}
 

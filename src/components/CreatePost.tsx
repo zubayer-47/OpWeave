@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../app/hooks';
 import profile from '../assets/profile.webp';
-import { useGetUserCommunitiesQuery } from '../features/community/communityApi';
+import { useGetUserAssignedCommunitiesQuery } from '../features/community/communityApi';
 import { updateModal } from '../features/modal/modalSlice';
 import { useCreatePostMutation } from '../features/post/postApi';
 import { FormHandler } from '../types/custom';
@@ -23,7 +23,7 @@ type Content = {
 const CreatePost: FC<Props> = ({ singleCommunity }) => {
 	const [postState, setPostState] = useState<Content>({ content: '' });
 	// const [selectedImage, setSelectedImage] = useState<string | null>(null);
-	const { data, isLoading } = useGetUserCommunitiesQuery();
+	const { data, isLoading } = useGetUserAssignedCommunitiesQuery();
 	const [createPost] = useCreatePostMutation();
 	const communityIdRef = useRef<HTMLSelectElement | null>(null);
 	const params = useParams();
