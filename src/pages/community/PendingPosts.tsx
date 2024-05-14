@@ -24,8 +24,12 @@ const PendingPosts = () => {
 				<hr className='w-full border border-dark-border' />
 			</div>
 			{isSuccess &&
-				data.posts.map((post) => (
-					<ApprovePost key={post.post_id} post={post} />
+				(!data.posts.length ? (
+					<h1 className='title text-light-lighter'>No post exist</h1>
+				) : (
+					data.posts.map((post) => (
+						<ApprovePost key={post.post_id} post={post} />
+					))
 				))}
 		</div>
 	);

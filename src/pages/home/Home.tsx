@@ -16,28 +16,7 @@ const Home = () => {
 					<Frown className='text-red size-14' /> No Post Exist
 				</h1>
 			) : (
-				data.posts.map(
-					({
-						post_id,
-						body,
-						image_url,
-						community: { name },
-						member: {
-							user: { avatar, fullname, username },
-						},
-					}) => (
-						<Post
-							key={post_id}
-							avatar={avatar}
-							body={body}
-							community_name={name}
-							fullname={fullname}
-							username={username}
-							image_url={image_url}
-							// El={body}
-						/>
-					)
-				)
+				data.posts.map((post) => <Post key={post.post_id} post={post} />)
 			)}
 		</div>
 	);

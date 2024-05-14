@@ -1,4 +1,4 @@
-import { Bell, ChevronDown, Home, LucideIcon, Mail } from 'lucide-react';
+import { ChevronDown, Home, LucideIcon } from 'lucide-react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../app/hooks';
 import defaultAvatar from '../assets/default.jpg';
@@ -17,15 +17,7 @@ type NavLinkType = {
 	Icon: LucideIcon;
 };
 
-const navLinks: NavLinkType[] = [
-	{ path: '/', label: 'Home', Icon: Home },
-	{
-		path: '/notifications',
-		label: 'Notifications',
-		Icon: Bell,
-	},
-	{ path: '/chat', label: 'Chat', Icon: Mail },
-];
+const navLinks: NavLinkType[] = [{ path: '/', label: 'Home', Icon: Home }];
 
 const Nav = () => {
 	const user = useAppSelector((state) => state.auth.user);
@@ -109,17 +101,6 @@ const Nav = () => {
 											}`}
 										/>
 
-										{path === '/notifications' && (
-											<span className='absolute -top-1.5 right-0 bg-red rounded-full size-4 dark:text-light-primary text-xs flex justify-center items-center overflow-hidden'>
-												3
-											</span>
-										)}
-
-										{path === '/chat' && (
-											<span className='absolute -top-1.5 -right-1.5 bg-red rounded-full size-4 dark:text-light-primary text-xs flex justify-center items-center overflow-hidden'>
-												3
-											</span>
-										)}
 										<span>{activeItem?.path === path ? label : null}</span>
 									</NavLink>
 									// eslint-disable-next-line no-mixed-spaces-and-tabs

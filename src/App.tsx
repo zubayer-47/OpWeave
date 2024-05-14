@@ -1,7 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import GuestWrapper from './Routes/GuestWrapper';
 import PrivateWrapper from './Routes/PrivateWrapper';
-import EmptyScreen from './components/EmptyScreen';
 import NotFound from './components/errors/NotFound';
 import RootLoader from './components/ui-placeholders/RootLoader';
 import useAuthCheck from './hooks/useAuthCheck';
@@ -15,7 +14,6 @@ import Communities from './pages/communities/Communities';
 import Community from './pages/community/Community';
 import PendingPosts from './pages/community/PendingPosts';
 import Home from './pages/home/Home';
-import Notification from './pages/notification/Notification';
 import Settings from './pages/settings/Settings';
 import UserProfile from './pages/userProfile/UserProfile';
 
@@ -32,7 +30,7 @@ function App() {
 				<Route path='/' element={<RootLayout />}>
 					<Route index element={<Home />} />
 
-					<Route path='notifications' element={<Notification />} />
+					{/* <Route path='notifications' element={<Notification />} /> */}
 					<Route path='communities' element={<Communities />} />
 
 					<Route path='bookmarks' element={<Bookmarks />} />
@@ -41,7 +39,7 @@ function App() {
 				<Route
 					element={<CenterLayout scroll className='pt-20 px-5 lg:px-20' />}
 				>
-					<Route path='chat' element={<EmptyScreen />} />
+					{/* <Route path='chat' element={<EmptyScreen />} /> */}
 
 					<Route path='communities/:id' element={<Community />} />
 					<Route path='communities/:id/pending' element={<PendingPosts />} />

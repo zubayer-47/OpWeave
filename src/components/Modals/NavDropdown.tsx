@@ -1,4 +1,4 @@
-import { Bell, Bolt, LogOut, Mail, User2, Users2 } from 'lucide-react';
+import { Bolt, LogOut, User2, Users2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import defaultProfile from '../../assets/default.jpg';
@@ -47,7 +47,7 @@ const NavDropdown = () => {
 						<h1 className='title font-medium text-base'>Profile</h1>
 					</Link>
 
-					<Link
+					{/* <Link
 						to={'/notifications'}
 						className='subModal-item hover:bg-light-muted/10 dark:hover:bg-dark-secondary'
 					>
@@ -59,9 +59,9 @@ const NavDropdown = () => {
 						<p className='badge'>
 							<span className='badge-text'>3</span>
 						</p>
-					</Link>
+					</Link> */}
 
-					<Link
+					{/* <Link
 						to={'/chat'}
 						className='subModal-item hover:bg-light-muted/10 dark:hover:bg-dark-secondary'
 					>
@@ -73,7 +73,7 @@ const NavDropdown = () => {
 						<p className='badge'>
 							<span className='badge-text'>3</span>
 						</p>
-					</Link>
+					</Link> */}
 
 					<Link
 						to={'/communities'}

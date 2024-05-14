@@ -46,7 +46,7 @@ const UserProfile = () => {
 
 			<div className='flex justify-center items-center gap-20 mt-10 mb-0.5 px-14'>
 				<Link
-					to={`/profile?sec=timeline`}
+					to={`/profile/${user?.username}?sec=timeline`}
 					type='button'
 					className={clsx(
 						'title transition-all',
@@ -56,7 +56,7 @@ const UserProfile = () => {
 					Timeline
 				</Link>
 				<Link
-					to={`/profile?sec=communities`}
+					to={`/profile/${user?.username}?sec=communities`}
 					type='button'
 					className={clsx(
 						'title transition-all',
@@ -66,7 +66,7 @@ const UserProfile = () => {
 					Communities
 				</Link>
 				<Link
-					to={`/profile?sec=photos`}
+					to={`/profile/${user?.username}?sec=photos`}
 					type='button'
 					className={clsx(
 						'title transition-all',
@@ -76,7 +76,7 @@ const UserProfile = () => {
 					Photos
 				</Link>
 				<Link
-					to={`/profile?sec=videos`}
+					to={`/profile/${user?.username}?sec=videos`}
 					type='button'
 					className={clsx(
 						'title transition-all',
