@@ -29,9 +29,9 @@ const Button: React.FC<ButtonProps> = ({
 	const baseClasses =
 		'inline-flex items-center justify-center rounded-md font-Poppins font-medium focus:outline-none dark:focus:ring-2 dark:focus:ring-blue-primary/70 dark:focus:ring-offset-2 dark:focus:ring-offset-dark-primary';
 	const variantClasses = {
-		primary: 'bg-blue-primary text-light-primary hover:bg-blue-primary/80',
+		primary: 'bg-blue-primary/80 text-light-primary hover:bg-blue-primary/60',
 		outline:
-			'border border-dark-border text-light-primary hover:bg-dark-primary',
+			'border border-dark-border text-light-primary hover:bg-blue-primary/80 hover:border-blue-primary/80',
 		secondary: 'button-decline',
 		transparent:
 			'bg-transparent text-light-primary border dark:border-dark-border hover:bg-transparent',
