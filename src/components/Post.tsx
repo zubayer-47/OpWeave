@@ -132,7 +132,11 @@ Props) => {
 
 			{renderShowHide}
 
-			{!!image_url && <img src={image_url} alt='Post Image' />}
+			{!!image_url && (
+				<Link to={`/posts/${post_id}`} state={{ community_id, post_id }}>
+					<img src={image_url} alt='Post Image' />
+				</Link>
+			)}
 
 			<hr className='border-t dark:border-dark-border border-light-border absolute bottom-14 right-0 left-0' />
 			<div className='flex items-center justify-between mt-5'>

@@ -20,6 +20,8 @@ export type Post = {
 	};
 };
 
+export type PostCommunityIdType = { community_id: string; post_id: string };
+
 export type PendingPost = {
 	post_id: string;
 	community_id: string;

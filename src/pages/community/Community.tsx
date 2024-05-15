@@ -37,8 +37,6 @@ const Community = () => {
 
 	const isJoined = true;
 
-	const handleClose = () => {};
-
 	return (
 		<div className='mt-28 mb-10'>
 			<div className='flex items-center justify-between px-14 relative'>
@@ -71,7 +69,6 @@ const Community = () => {
 									<Link
 										to={`/communities/${params.id}/pending`}
 										className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
-										type='button'
 									>
 										<Target className='text-light-primary' strokeWidth={1.5} />
 										<h3 className='title text-sm font-normal'>Approve Posts</h3>
@@ -79,9 +76,7 @@ const Community = () => {
 									<hr className='border-t-2 dark:border-dark-border' />
 									<Link
 										to={`/communities/${params.id}/manage`}
-										onClick={handleClose}
 										className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
-										type='button'
 									>
 										<GripHorizontal
 											className='text-light-primary'
@@ -89,8 +84,20 @@ const Community = () => {
 										/>
 										<h3 className='title text-sm font-normal'>Manage</h3>
 									</Link>
+									<hr className='border-t-2 dark:border-dark-border' />
 								</>
 							)}
+
+							<Link
+								to=''
+								className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
+							>
+								<GripHorizontal
+									className='text-light-primary'
+									strokeWidth={1.5}
+								/>
+								<h3 className='title text-sm font-normal'>More Options</h3>
+							</Link>
 						</div>
 					</ClickableDropdown>
 				)}

@@ -1,9 +1,17 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { apiService } from '../api/apiService';
-import { PendingPostRes, Post } from './types';
+import { PendingPostRes, Post, PostCommunityIdType } from './types';
 
 export const postApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
+		getPost: builder.query<Post, PostCommunityIdType>({
+			query: ({ community_id, post_id }) => ({
+				url: `/communities/${community_id}/posts/${post_id}`,
+			}),
+
+			// providesTags: (res, _err, args) =>
+			// 	res ? ['Post', { type: 'Post', id: args.post_id }] : ['Post'],
+		}),
 		getUserPosts: builder.query<{ posts: Post[] }, void>({
 			query: () => `/users/posts`,
 			// TODO: 26/4
@@ -53,7 +61,7 @@ export const postApi = apiService.injectEndpoints({
 				message: string;
 				postId: string;
 			},
-			{ community_id: string; post_id: string }
+			PostCommunityIdType
 		>({
 			query: ({ community_id, post_id }) => ({
 				url: `/communities/${community_id}/posts/${post_id}`,
@@ -92,6 +100,7 @@ export const postApi = apiService.injectEndpoints({
 });
 
 export const {
+	useGetPostQuery,
 	useGetUserPostsQuery,
 	useGetFeedPostsQuery,
 	useCreatePostMutation,
