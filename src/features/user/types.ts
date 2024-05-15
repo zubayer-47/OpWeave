@@ -1,5 +1,8 @@
 export type UserUpdatePayload = {
-	fullname: FormDataEntryValue | null;
-	// username: FormDataEntryValue | null;
-	bio: FormDataEntryValue | null;
+	fullname: string;
+	// username: string;
+	bio: string;
+	email: string;
+	gender: string;
+	password: string;
 };

@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import { PencilLine } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useAppSelector } from '../../app/hooks';
 import defaultProfile from '../../assets/default.jpg';
 import Button from '../../components/Buttons/Button';
 import {
-	useGetUserQuery,
 	useUpdateProfilePictureMutation,
 	useUpdateUserMutation,
 } from '../../features/user/userApi';
@@ -12,11 +12,10 @@ import useAuthError from '../../hooks/useAuthError';
 import { FormHandler, InputType } from '../../types/custom';
 
 const Settings = () => {
-	// const user = useAppSelector((state) => state.auth.user);
+	const user = useAppSelector((state) => state.auth.user);
 	// const access_token = localStorage.getItem('access_token');
 
 	// const { data } = useGetProfilePictureQuery(user?.id || skipToken);
-	const { data: user } = useGetUserQuery();
 	const [updateProfilePicture] = useUpdateProfilePictureMutation();
 	const [updateUser, { isError, error, isLoading }] = useUpdateUserMutation();
 	const [errState, { resetErr }] = useAuthError({ error });
@@ -28,10 +27,7 @@ const Settings = () => {
 			const formData = new FormData();
 			formData.append('avatar', content);
 
-			const promise = updateProfilePicture({
-				userId: user?.id || '',
-				payload: formData,
-			}).unwrap();
+			const promise = updateProfilePicture(formData).unwrap();
 
 			toast.promise(promise, {
 				loading: 'saving...',
@@ -53,11 +49,18 @@ const Settings = () => {
 
 		resetErr();
 
-		toast.promise(updateUser({ id: user?.id || '', payload: data }).unwrap(), {
-			loading: 'Saving...',
-			success: 'Info saved!',
-			error: 'Could not save.',
-		});
+		toast.promise(
+			updateUser({
+				id: user?.id || '',
+				fullname: data.fullname?.toString(),
+				bio: data.bio?.toString(),
+			}).unwrap(),
+			{
+				loading: 'Saving...',
+				success: 'Info saved!',
+				error: 'Could not save.',
+			}
+		);
 	};
 
 	return (

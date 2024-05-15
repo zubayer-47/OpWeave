@@ -6,6 +6,7 @@ import {
 	useRejectPostMutation,
 } from '../../../features/authority/authorityApi';
 import { PendingPost } from '../../../features/post/types';
+import { trunc } from '../../../libs/helpers';
 
 type Props = {
 	post: PendingPost;
@@ -46,22 +47,30 @@ const PendingPost = ({
 	};
 
 	let renderShowHide;
+	let renderBody;
 
 	if (body.length > 50) {
-		renderShowHide = null;
+		if (expanded) {
+			renderBody = body;
+			// renderShowHide = (
+			// 	<button className='title text-base' onClick={toggleExpanded}>
+			// 		See Less
+			// 	</button>
+			// );
+		} else {
+			renderBody = trunc(body, 50);
+			renderShowHide = (
+				<button className='title text-base' onClick={toggleExpanded}>
+					See More
+				</button>
+			);
+		}
 	} else {
-		renderShowHide = expanded ? (
-			<button className='title text-base' onClick={toggleExpanded}>
-				See Less
-			</button>
-		) : (
-			<button className='title text-base' onClick={toggleExpanded}>
-				See More
-			</button>
-		);
+		renderBody = trunc(body, 50);
+		renderShowHide = null;
 	}
 	return (
-		<div className='post px-7 pt-5 pb-3 max-w-100'>
+		<div className='post px-7 pt-5 pb-3 max-w-100 w-full'>
 			<div className='flex-group'>
 				<img className='profile' src={avatar} alt='profile picture' />
 				<div>
@@ -70,7 +79,7 @@ const PendingPost = ({
 			</div>
 
 			<div className='title font-Inter font-normal text-base mt-5 mb-5 hyphens-auto text-ellipsis'>
-				<>{body ? body.slice(0, 50) : body}</>
+				<p>{renderBody}</p>
 			</div>
 
 			{renderShowHide}

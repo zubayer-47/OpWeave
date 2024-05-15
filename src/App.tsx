@@ -12,6 +12,7 @@ import Register from './pages/auth/Register';
 import Bookmarks from './pages/bookmarks/Bookmarks';
 import Communities from './pages/communities/Communities';
 import Community from './pages/community/Community';
+import ManageCommunity from './pages/community/ManageCommunity';
 import PendingPosts from './pages/community/PendingPosts';
 import Home from './pages/home/Home';
 import Settings from './pages/settings/Settings';
@@ -43,6 +44,7 @@ function App() {
 
 					<Route path='communities/:id' element={<Community />} />
 					<Route path='communities/:id/pending' element={<PendingPosts />} />
+					<Route path='communities/:id/manage' element={<ManageCommunity />} />
 					<Route path='profile/:username' element={<UserProfile />} />
 
 					<Route path='settings' element={<Settings />} />

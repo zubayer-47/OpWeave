@@ -1,6 +1,6 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
-import { Bell, MoreHorizontal, Target } from 'lucide-react';
+import { GripHorizontal, MoreHorizontal, Target } from 'lucide-react';
 import { ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import data from '../../../data.json';
@@ -40,7 +40,7 @@ const Community = () => {
 	const handleClose = () => {};
 
 	return (
-		<div className='mt-28'>
+		<div className='mt-28 mb-10'>
 			<div className='flex items-center justify-between px-14 relative'>
 				<div className='flex items-end gap-5'>
 					<img
@@ -77,16 +77,20 @@ const Community = () => {
 										<h3 className='title text-sm font-normal'>Approve Posts</h3>
 									</Link>
 									<hr className='border-t-2 dark:border-dark-border' />
+									<Link
+										to={`/communities/${params.id}/manage`}
+										onClick={handleClose}
+										className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
+										type='button'
+									>
+										<GripHorizontal
+											className='text-light-primary'
+											strokeWidth={1.5}
+										/>
+										<h3 className='title text-sm font-normal'>Manage</h3>
+									</Link>
 								</>
 							)}
-							<button
-								onClick={handleClose}
-								className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
-								type='button'
-							>
-								<Bell className='text-light-primary' strokeWidth={1.5} />
-								<h3 className='title text-sm font-normal'>More Option</h3>
-							</button>
 						</div>
 					</ClickableDropdown>
 				)}

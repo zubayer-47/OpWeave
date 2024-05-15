@@ -1,15 +1,10 @@
-import { skipToken } from '@reduxjs/toolkit/query';
-import { useAppSelector } from '../../../app/hooks';
 import CreatePost from '../../../components/CreatePost';
 import Post from '../../../components/Post';
 import { useGetUserPostsQuery } from '../../../features/post/postApi';
 import CenterLayout from '../../../layouts/CenterLayout';
 
 const Timeline = () => {
-	const userId = useAppSelector((state) => state.auth.user?.id);
-	const { data, isSuccess, isLoading } = useGetUserPostsQuery(
-		userId || skipToken
-	);
+	const { data, isSuccess, isLoading } = useGetUserPostsQuery();
 
 	if (isLoading) return <h1 className='title text-2xl'>Loading...</h1>;
 

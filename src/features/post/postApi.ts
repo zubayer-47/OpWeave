@@ -4,8 +4,8 @@ import { PendingPostRes, Post } from './types';
 
 export const postApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
-		getUserPosts: builder.query<{ posts: Post[] }, string>({
-			query: (userId) => `/users/${userId}/posts`,
+		getUserPosts: builder.query<{ posts: Post[] }, void>({
+			query: () => `/users/posts`,
 			// TODO: 26/4
 
 			providesTags: (res) =>
@@ -48,6 +48,24 @@ export const postApi = apiService.injectEndpoints({
 				{ type: 'Feed', id: 'List' },
 			],
 		}),
+		deletePost: builder.mutation<
+			{
+				message: string;
+				postId: string;
+			},
+			{ community_id: string; post_id: string }
+		>({
+			query: ({ community_id, post_id }) => ({
+				url: `/communities/${community_id}/posts/${post_id}`,
+				method: 'DELETE',
+			}),
+			invalidatesTags: [
+				{ type: 'Feed', id: 'List' },
+				{ type: 'User_posts', id: 'List' },
+				{ type: 'Community_posts', id: 'List' },
+				'Pending_posts',
+			],
+		}),
 
 		getCommunityPosts: builder.query<{ posts: Post[] }, string>({
 			query: (community_id) => `/communities/${community_id}/posts`,
@@ -66,7 +84,9 @@ export const postApi = apiService.injectEndpoints({
 		getPendingPosts: builder.query<PendingPostRes, string>({
 			query: (community_id) => `/communities/${community_id}/pending/posts`,
 			providesTags: (res, _err, args) =>
-				res ? [{ type: 'Pending_posts', id: args }] : ['Pending_posts'],
+				res
+					? [{ type: 'Pending_posts', id: args }, 'Pending_posts']
+					: ['Pending_posts'],
 		}),
 	}),
 });
@@ -75,6 +95,7 @@ export const {
 	useGetUserPostsQuery,
 	useGetFeedPostsQuery,
 	useCreatePostMutation,
+	useDeletePostMutation,
 	useGetCommunityPostsQuery,
 	useGetPendingPostsQuery,
 } = postApi;

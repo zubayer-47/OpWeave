@@ -8,7 +8,8 @@ export const userApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
 		getUser: builder.query<User, void>({
 			query: () => '/users',
-			providesTags: ['user'],
+			providesTags: (res) =>
+				res ? [{ type: 'User', id: res.id }, 'User'] : ['User'],
 
 			async onQueryStarted(_, { dispatch, queryFulfilled }) {
 				try {
@@ -25,17 +26,16 @@ export const userApi = apiService.injectEndpoints({
 		}),
 
 		updateUser: builder.mutation<
-			void,
-			Pick<User, 'id'> & {
-				payload: UserUpdatePayload;
-			}
+			User,
+			Pick<User, 'id'> & Partial<UserUpdatePayload>
 		>({
-			query: ({ id, payload }) => ({
-				url: `/users/${id}`,
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			query: ({ id, ...payload }) => ({
+				url: `/users`,
 				method: 'PATCH',
 				body: payload,
 			}),
-			invalidatesTags: ['user'],
+			invalidatesTags: (_res, _err, args) => [{ type: 'User', id: args.id }],
 		}),
 
 		// getProfilePicture: builder.query<{ avatar: string }, string>({
@@ -45,21 +45,18 @@ export const userApi = apiService.injectEndpoints({
 		// 	providesTags: ['profile_picture'],
 		// }),
 
-		updateProfilePicture: builder.mutation<
-			string,
-			{ userId: string; payload: FormData }
-		>({
-			query: ({ userId, payload }) => ({
-				url: `/users/${userId}/profilePicture`,
+		updateProfilePicture: builder.mutation<string, FormData>({
+			query: (payload) => ({
+				url: `/users/profilePicture`,
 				method: 'PUT',
 				body: payload,
 			}),
-			invalidatesTags: ['user'],
+			invalidatesTags: ['User'],
 		}),
 
 		removeProfilePicture: builder.mutation({
-			query: (userId) => ({
-				url: `/users/${userId}/profilePicture`,
+			query: () => ({
+				url: `/users/profilePicture`,
 				method: 'DELETE',
 			}),
 		}),

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import NotFound from '../../components/errors/NotFound';
 import { MemberRole } from '../../features/community/types';
 import { useGetPendingPostsQuery } from '../../features/post/postApi';
-import ApprovePost from './partials/PendingPost';
+import PendingPost from './partials/PendingPost';
 
 const PendingPosts = () => {
 	const params = useParams();
@@ -28,7 +28,7 @@ const PendingPosts = () => {
 					<h1 className='title text-light-lighter'>No post exist</h1>
 				) : (
 					data.posts.map((post) => (
-						<ApprovePost key={post.post_id} post={post} />
+						<PendingPost key={post.post_id} post={post} />
 					))
 				))}
 		</div>

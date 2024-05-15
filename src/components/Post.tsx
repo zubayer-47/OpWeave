@@ -8,7 +8,9 @@ import {
 	Users2,
 } from 'lucide-react';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { useDeletePostMutation } from '../features/post/postApi';
 import { Post } from '../features/post/types';
 import { trunc } from '../libs/helpers';
 import Button from './Buttons/Button';
@@ -20,6 +22,7 @@ type Props = {
 
 const Post = ({
 	post: {
+		post_id,
 		body,
 		community: { name },
 		community_id,
@@ -31,9 +34,18 @@ const Post = ({
 }: // El,
 Props) => {
 	const [expanded, setExpanded] = useState(false);
+	const [deletePost] = useDeletePostMutation();
 
 	const toggleExpanded = () => {
 		setExpanded(true);
+	};
+
+	const handleDeletePost = () => {
+		toast.promise(deletePost({ community_id, post_id }).unwrap(), {
+			loading: 'Deleting...',
+			success: 'Post successfully deleted.',
+			error: 'Could not delete.',
+		});
 	};
 
 	let renderShowHide;
@@ -99,7 +111,7 @@ Props) => {
 						>
 							<div className='dark:bg-dark-primary px-1 absolute right-5 top-16 flex flex-col border dark:border-dark-border rounded-xl z-10'>
 								<button
-									// onClick={handleClose}
+									onClick={handleDeletePost}
 									className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
 									type='button'
 								>
