@@ -13,7 +13,7 @@ const PostView = () => {
 
 	return (
 		isSuccess && (
-			<div className='mb-5'>
+			<div className='mb-5 px-20'>
 				<Post post={data} />
 			</div>
 		)

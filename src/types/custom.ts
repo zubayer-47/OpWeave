@@ -18,3 +18,7 @@ export enum NavId {
 	bookmarks = 'bookmarks',
 	profile = 'profile',
 }
+
+export const ItemTypes = {
+	RULE: 'rule',
+};
