@@ -5,7 +5,7 @@ import {
 	useApprovePostMutation,
 	useRejectPostMutation,
 } from '../../../features/authority/authorityApi';
-import { PendingPost } from '../../../features/post/types';
+import type { PendingPost } from '../../../features/post/types';
 import { trunc } from '../../../libs/helpers';
 
 type Props = {

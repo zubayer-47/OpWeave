@@ -12,15 +12,15 @@ import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 	<React.StrictMode>
-		<ErrorBoundary>
-			<HashRouter>
-				<Provider store={store}>
-					<Toaster />
-					<DndProvider backend={HTML5Backend}>
+		<DndProvider backend={HTML5Backend}>
+			<ErrorBoundary>
+				<HashRouter>
+					<Provider store={store}>
+						<Toaster />
 						<App />
-					</DndProvider>
-				</Provider>
-			</HashRouter>
-		</ErrorBoundary>
+					</Provider>
+				</HashRouter>
+			</ErrorBoundary>
+		</DndProvider>
 	</React.StrictMode>
 );
