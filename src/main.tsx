@@ -10,17 +10,17 @@ import { store } from './app/store.ts';
 import ErrorBoundary from './components/errors/ErrorBoundary.tsx';
 import './index.css';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
-		<ErrorBoundary>
-			<HashRouter>
-				<Provider store={store}>
-					<Toaster />
-					<DndProvider backend={HTML5Backend}>
+		<DndProvider backend={HTML5Backend}>
+			<ErrorBoundary>
+				<HashRouter>
+					<Provider store={store}>
+						<Toaster />
 						<App />
-					</DndProvider>
-				</Provider>
-			</HashRouter>
-		</ErrorBoundary>
+					</Provider>
+				</HashRouter>
+			</ErrorBoundary>
+		</DndProvider>
 	</React.StrictMode>
 );

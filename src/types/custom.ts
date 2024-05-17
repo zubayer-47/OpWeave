@@ -21,4 +21,5 @@ export enum NavId {
 
 export const ItemTypes = {
 	RULE: 'rule',
+	CARD: 'card',
 };

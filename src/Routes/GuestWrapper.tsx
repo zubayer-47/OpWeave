@@ -7,7 +7,7 @@ const GuestWrapper = () => {
 
 	if (user) return <Navigate to='/' replace />;
 
-	if (location.pathname.replace(/\//g, '').endsWith('auth'))
+	if (location.pathname.replace(/\/$/g, '').endsWith('auth'))
 		return <Navigate to='/auth/signin' replace />;
 
 	return (

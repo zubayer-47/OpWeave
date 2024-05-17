@@ -8,7 +8,7 @@ import CenterLayout from './layouts/CenterLayout';
 import RootLayout from './layouts/RootLayout';
 import ForgetPass from './pages/auth/ForgetPass';
 import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
+import RegisterPage from './pages/auth/Register';
 import Bookmarks from './pages/bookmarks/Bookmarks';
 import Communities from './pages/communities/Communities';
 import Community from './pages/community/Community';
@@ -33,18 +33,13 @@ function App() {
 			<Route element={<PrivateWrapper />}>
 				<Route path='/' element={<RootLayout />}>
 					<Route index element={<Home />} />
-
-					{/* <Route path='notifications' element={<Notification />} /> */}
 					<Route path='communities' element={<Communities />} />
-
 					<Route path='bookmarks' element={<Bookmarks />} />
 				</Route>
 
 				<Route
 					element={<CenterLayout scroll className='pt-20 px-5 lg:px-20' />}
 				>
-					{/* <Route path='chat' element={<EmptyScreen />} /> */}
-
 					<Route path='communities/:id' element={<Community />} />
 					<Route path='communities/:id/pending' element={<PendingPosts />} />
 					<Route path='communities/:id/manage' element={<ManageCommunity />}>
@@ -63,14 +58,13 @@ function App() {
 			<Route element={<CenterLayout className='px-20 pt-20 overflow-hidden' />}>
 				<Route path='auth' element={<GuestWrapper />}>
 					<Route path='signin' element={<Login />} />
-					<Route path='signup' element={<Register />} />
+					<Route path='signup' element={<RegisterPage />} />
 					<Route path='forget-pass' element={<ForgetPass />} />
 				</Route>
 			</Route>
 
 			<Route path='*' element={<NotFound />} />
 		</Routes>
-		// </RootLayout>
 	);
 }
 

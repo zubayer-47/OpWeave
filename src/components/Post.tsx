@@ -11,7 +11,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { useDeletePostMutation } from '../features/post/postApi';
-import { Post } from '../features/post/types';
+import type { Post } from '../features/post/types';
 import { trunc } from '../libs/helpers';
 import Button from './Buttons/Button';
 import ClickableDropdown from './ClickableDropdown';
