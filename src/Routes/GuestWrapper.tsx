@@ -11,11 +11,12 @@ const GuestWrapper = () => {
 		return <Navigate to='/auth/signin' replace />;
 
 	return (
-		<div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
-			<div className='w-102'>
+		// <div className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'>
+		// <div className=''>
+			<div className='overflow-y-auto h-screen grid place-items-center mx-2 scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary py-5 px-1'>
 				<Outlet />
 			</div>
-		</div>
+		// </div>
 	);
 };
 

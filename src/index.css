@@ -66,7 +66,7 @@
 
 @layer components {
     .auth {
-        @apply h-fit max-w-full mx-2 my-auto md:m-auto dark:bg-dark-primary border dark:border-dark-border dark:shadow-auth py-7 px-14 rounded-xl
+        @apply w-full lg:w-102 h-fit dark:bg-dark-primary border dark:border-dark-border dark:shadow-auth p-5 lg:p-7 rounded-xl
     }
 
     .badge {
@@ -111,7 +111,7 @@
     }
 
     .profile {
-        @apply size-9 object-cover rounded-full
+        @apply size-12 lg:size-14 object-cover rounded-full
     }
 
     .post {

@@ -44,7 +44,7 @@ const Input = ({
 	};
 
 	return (
-		<div className='bg-transparent flex-1'>
+		<div className='bg-transparent'>
 			{showLabel && (
 				<label
 					htmlFor={name}

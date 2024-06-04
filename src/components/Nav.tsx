@@ -1,4 +1,4 @@
-import { ChevronDown, Home, LucideIcon } from 'lucide-react';
+import { ChevronDown, Home, LucideIcon, Menu } from 'lucide-react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../app/hooks';
 import defaultAvatar from '../assets/default.jpg';
@@ -34,11 +34,11 @@ const Nav = () => {
 	};
 
 	return (
-		<nav className='absolute top-0 left-0 right-0 w-full h-[4.75rem] grid items-center dark:bg-dark-hover z-10 dark:shadow-nav px-10'>
+		<nav className='absolute top-0 left-0 right-0 w-full h-[4.75rem] grid items-center dark:bg-dark-hover z-10 dark:shadow-nav px-2 lg:px-10'>
 			<div className='flex justify-between items-center'>
-				<div className='flex items-center gap-5'>
+				<div className='flex items-center gap-2 lg:gap-5 mr-2 lg:mr-0'>
 					<Link to='/'>
-						<img src={logo} className='profile size-14' alt='OpWeave logo' />
+						<img src={logo} className='profile' alt='OpWeave logo' />
 					</Link>
 
 					<form>
@@ -78,7 +78,7 @@ const Nav = () => {
 					</form>
 				</div>
 
-				<div className='flex items-center gap-5'>
+				<div className='items-center gap-5 hidden lg:flex'>
 					<div className='flex items-center gap-4'>
 						{!user
 							? null
@@ -132,6 +132,11 @@ const Nav = () => {
 						</div>
 					</ClickableDropdown>
 				</div>
+
+				<div className='block lg:hidden'>
+					<Menu className='text-light-primary/75 size-8' />
+				</div>
+
 			</div>
 		</nav>
 	);

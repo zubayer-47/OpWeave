@@ -4,7 +4,7 @@ import { userLoggedOut } from '../auth/authSlice';
 
 const baseQuery = retry(
 	fetchBaseQuery({
-		baseUrl: 'http://localhost:8000/api/v1',
+		baseUrl: 'https://8000-idx-opweave-api-1716006826261.cluster-a3grjzek65cxex762e4mwrzl46.cloudworkstations.dev/api/v1',
 		prepareHeaders: async (headers, { getState }) => {
 			const access_token = (getState() as RootState).auth.access_token;
 			const auth = JSON.parse(localStorage.getItem('auth') || '{}');
