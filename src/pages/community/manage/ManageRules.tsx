@@ -7,22 +7,26 @@ import Rule from './partials/Rule';
 const Rules = [
 	{
 		id: '1',
-		title: 'Be kind and courteous',
+		index: 1,
+		title: 'Be kind and courteous 1',
 		text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate optio dicta non sit eaque iusto, dolore nisi aut ',
 	},
 	{
 		id: '2',
-		title: 'Be kind and courteous',
+		index: 2,
+		title: 'Be kind and courteous 2',
 		text: 'Lorem ipsum dolor sit amet,',
 	},
 	{
 		id: '3',
-		title: 'Be kind and courteous',
+		index: 3,
+		title: 'Be kind and courteous 3',
 		text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate optio dicta non sit eaque iusto, dolore nisi aut harum dignissimos necessitatibus',
 	},
 	{
 		id: '4',
-		title: 'Be kind and courteous',
+		index: 4,
+		title: 'Be kind and courteous 4',
 		text: 'adipisicing elit. Cupiditate optio dicta non sit eaque iusto, dolore nisi aut harum dignissimos necessitatibus',
 	},
 ];
@@ -35,6 +39,7 @@ const ManageRules = () => {
 		(id: string) => {
 			const rule = rules.filter((r) => r.id === id)[0] as {
 				id: string;
+				index: number;
 				title: string;
 				text: string;
 			};
@@ -53,7 +58,10 @@ const ManageRules = () => {
 			const clonedRules = [...rules];
 
 			clonedRules.splice(index, 1);
-			clonedRules.splice(atIndex, 0, rule);
+			clonedRules.splice(atIndex, 0, {
+				...rule,
+				index: atIndex + 1,
+			});
 
 			setRules(clonedRules);
 		},
@@ -73,10 +81,11 @@ const ManageRules = () => {
 					className='bg-dark-muted/20 p-3 rounded-lg shadow-md shadow-dark-active divide-y divide-dark-muted'
 					ref={drop}
 				>
-					{rules.map(({ id, text, title }) => (
+					{rules.map(({ id, text, index, title }) => (
 						<Rule
 							key={id}
 							id={id}
+							index={index}
 							title={title}
 							text={text}
 							moveRule={moveRule}

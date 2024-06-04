@@ -1,4 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
+import toast from 'react-hot-toast';
 import { apiService } from '../api/apiService';
 import { PendingPostRes, Post, PostCommunityIdType } from './types';
 
@@ -8,6 +9,14 @@ export const postApi = apiService.injectEndpoints({
 			query: ({ community_id, post_id }) => ({
 				url: `/communities/${community_id}/posts/${post_id}`,
 			}),
+
+			transformErrorResponse(res) {
+				if (res.status === 403) {
+					toast.error("you don't have permission to access this resource");
+				}
+
+				return res;
+			},
 
 			// providesTags: (res, _err, args) =>
 			// 	res ? ['Post', { type: 'Post', id: args.post_id }] : ['Post'],

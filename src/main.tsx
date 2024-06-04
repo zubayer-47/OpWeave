@@ -10,7 +10,7 @@ import { store } from './app/store.ts';
 import ErrorBoundary from './components/errors/ErrorBoundary.tsx';
 import './index.css';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<DndProvider backend={HTML5Backend}>
 			<ErrorBoundary>

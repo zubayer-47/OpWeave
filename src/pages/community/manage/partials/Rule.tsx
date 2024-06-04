@@ -12,13 +12,21 @@ interface Item {
 
 type RuleProps = {
 	id: string;
+	index: number;
 	title: string;
 	text: string;
 	moveRule: (id: string, atIndex: number) => void;
 	findRule: (id: string) => { index: number };
 };
 
-const Rule: FC<RuleProps> = ({ id, text, title, findRule, moveRule }) => {
+const Rule: FC<RuleProps> = ({
+	id,
+	index,
+	text,
+	title,
+	findRule,
+	moveRule,
+}) => {
 	const originalIndex = findRule(id).index;
 	const [{ isDragging }, drag] = useDrag(
 		() => ({
@@ -28,7 +36,7 @@ const Rule: FC<RuleProps> = ({ id, text, title, findRule, moveRule }) => {
 				isDragging: monitor.isDragging(),
 			}),
 			end: (item, monitor) => {
-				console.log(item);
+				// console.log(item);
 				const { id: droppedId, originalIndex } = item;
 				const didDrop = monitor.didDrop();
 				if (!didDrop) {
@@ -39,7 +47,7 @@ const Rule: FC<RuleProps> = ({ id, text, title, findRule, moveRule }) => {
 		[id, originalIndex, moveRule]
 	);
 
-	console.log('isDragging :', isDragging);
+	// console.log('isDragging :', isDragging);
 
 	const [, drop] = useDrop(
 		() => ({
@@ -54,20 +62,17 @@ const Rule: FC<RuleProps> = ({ id, text, title, findRule, moveRule }) => {
 		[findRule, moveRule]
 	);
 
-	// const opacity = isDragging ? 0 : 1;
-
 	return (
 		<div
 			ref={(node) => drag(drop(node))}
-			className={clsx(
-				'w-full flex justify-between items-start py-3'
-				// `opacity-${opacity}`
-			)}
+			className={clsx('w-full flex justify-between items-start py-3', {
+				'bg-dark-primary': isDragging,
+			})}
 		>
 			<div className='flex items-stretch justify-start gap-4'>
 				<div className='flex items-start gap-2'>
 					<GripVertical className='text-light-lighter' strokeWidth={1.5} />
-					<span className='title text-light-lighter font-DM-Sans'>{id}</span>
+					<span className='title text-light-lighter font-DM-Sans'>{index}</span>
 				</div>
 				<div>
 					<div className='flex items-stretch gap-2'>

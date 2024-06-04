@@ -8,7 +8,7 @@ import CenterLayout from './layouts/CenterLayout';
 import RootLayout from './layouts/RootLayout';
 import ForgetPass from './pages/auth/ForgetPass';
 import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
+import RegisterPage from './pages/auth/Register';
 import Bookmarks from './pages/bookmarks/Bookmarks';
 import Communities from './pages/communities/Communities';
 import Community from './pages/community/Community';
@@ -58,14 +58,13 @@ function App() {
 			{/* <Route element={<CenterLayout className='grid place-items-center' scroll />}> */}
 				<Route path='auth' element={<GuestWrapper />}>
 					<Route path='signin' element={<Login />} />
-					<Route path='signup' element={<Register />} />
+					<Route path='signup' element={<RegisterPage />} />
 					<Route path='forget-pass' element={<ForgetPass />} />
 				</Route>
 			{/* </Route> */}
 
 			<Route path='*' element={<NotFound />} />
 		</Routes>
-		// </RootLayout>
 	);
 }
 
