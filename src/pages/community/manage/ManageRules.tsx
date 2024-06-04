@@ -60,7 +60,11 @@ const ManageRules = () => {
 			clonedRules.splice(index, 1);
 			clonedRules.splice(atIndex, 0, {
 				...rule,
-				index: atIndex + 1,
+				// index: atIndex + 1,
+			});
+
+			clonedRules.forEach((rule, ind) => {
+				rule.index = ind + 1;
 			});
 
 			setRules(clonedRules);
