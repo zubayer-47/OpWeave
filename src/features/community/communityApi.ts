@@ -1,6 +1,6 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { apiService } from '../api/apiService';
-import { Community } from './types';
+import { Community, CommunityRulesType } from './types';
 
 export const communityApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
@@ -38,6 +38,10 @@ export const communityApi = apiService.injectEndpoints({
 				{ type: 'Community', id: 'List' },
 			],
 		}),
+
+		getCommunityRules: builder.query<CommunityRulesType, string>({
+			query: (communityId) => `communities/${communityId}/rules`,
+		}),
 	}),
 });
 
@@ -45,4 +49,5 @@ export const {
 	useGetCommunityQuery,
 	useGetUserAssignedCommunitiesQuery,
 	useCreateCommunityMutation,
+	useGetCommunityRulesQuery,
 } = communityApi;

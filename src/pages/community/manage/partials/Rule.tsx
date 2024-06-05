@@ -4,6 +4,7 @@ import type { FC } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import HorizontalMore from '../../../../components/Buttons/HorizontalMore';
 import { ItemTypes } from '../../../../types/custom';
+import { DebouncedFunc } from 'lodash';
 
 interface Item {
 	id: string;
@@ -17,6 +18,7 @@ type RuleProps = {
 	text: string;
 	moveRule: (id: string, atIndex: number) => void;
 	findRule: (id: string) => { index: number };
+	debounce: DebouncedFunc<() => void>;
 };
 
 const Rule: FC<RuleProps> = ({
@@ -26,6 +28,7 @@ const Rule: FC<RuleProps> = ({
 	title,
 	findRule,
 	moveRule,
+	debounce,
 }) => {
 	const originalIndex = findRule(id).index;
 	const [{ isDragging }, drag] = useDrag(
@@ -42,6 +45,7 @@ const Rule: FC<RuleProps> = ({
 				if (!didDrop) {
 					moveRule(droppedId, originalIndex);
 				}
+				debounce();
 			},
 		}),
 		[id, originalIndex, moveRule]

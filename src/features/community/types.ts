@@ -1,3 +1,5 @@
+import { RuleType } from '../authority/types';
+
 export interface CommunityPayload {
 	name: string;
 	bio: string;
@@ -18,6 +20,8 @@ export interface Community extends CommunityPayload {
 export type CommunityStateType = {
 	member_role: MemberRole;
 };
+
+export type CommunityRulesType = { rules: RuleType[] };
 
 export enum MemberRole {
 	ADMIN = 'ADMIN',

@@ -1,7 +1,14 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { apiService } from '../api/apiService';
 import { postApi } from '../post/postApi';
-import { PostActionParams, PostActionRes } from './types';
+import {
+	CreateRulePayloadType,
+	CreateRuleResultType,
+	PostActionParams,
+	PostActionRes,
+	UpdateRulesOrderPayloadType,
+	UpdateRulesOrderResultType,
+} from './types';
 
 const authorityApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
@@ -70,7 +77,35 @@ const authorityApi = apiService.injectEndpoints({
 				}
 			},
 		}),
+
+		createRule: builder.mutation<CreateRuleResultType, CreateRulePayloadType>({
+			query: ({ title, body, community_id }) => ({
+				url: 'authority/rules',
+				method: 'POST',
+				body: {
+					title,
+					body,
+					community_id,
+				},
+			}),
+		}),
+
+		updateRulesOrder: builder.mutation<
+			UpdateRulesOrderResultType,
+			UpdateRulesOrderPayloadType
+		>({
+			query: (payload) => ({
+				url: '/authority/rules/order',
+				method: 'PATCH',
+				body: payload,
+			}),
+		}),
 	}),
 });
 
-export const { useApprovePostMutation, useRejectPostMutation } = authorityApi;
+export const {
+	useApprovePostMutation,
+	useRejectPostMutation,
+	useCreateRuleMutation,
+	useUpdateRulesOrderMutation,
+} = authorityApi;
