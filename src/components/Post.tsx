@@ -41,11 +41,13 @@ Props) => {
 	};
 
 	const handleDeletePost = () => {
-		toast.promise(deletePost({ community_id, post_id }).unwrap(), {
-			loading: 'Deleting...',
-			success: 'Post successfully deleted.',
-			error: 'Could not delete.',
-		});
+		if (confirm('Are you sure! You want to delete this?')) {
+			toast.promise(deletePost({ community_id, post_id }).unwrap(), {
+				loading: 'Deleting...',
+				success: 'Post successfully deleted.',
+				error: 'Could not delete.',
+			});
+		}
 	};
 
 	let renderShowHide;

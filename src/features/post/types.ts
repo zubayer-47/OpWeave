@@ -5,8 +5,8 @@ export type Post = {
 	community_id: string;
 	member_id: string;
 	body: string;
-	createdAt: Date;
-	updatedAt: Date;
+	createdAt: string;
+	updatedAt: string;
 	image_url: string;
 	community: {
 		name: string;

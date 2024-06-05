@@ -16,7 +16,7 @@ const PostView = () => {
 
 	return (
 		isSuccess && (
-			<div className='mb-5 px-20'>
+			<div className='mb-5 max-w-102 mx-auto'>
 				<Post post={data} />
 			</div>
 		)

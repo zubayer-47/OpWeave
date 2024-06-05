@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import Button from '../../../components/Buttons/Button';
 import CreatePost from '../../../components/CreatePost';
 import Post from '../../../components/Post';
+import PostPlaceholder from '../../../components/ui-placeholders/PostPlaceholder';
 import { useGetCommunityQuery } from '../../../features/community/communityApi';
 import { updateModal } from '../../../features/modal/modalSlice';
 import { useGetCommunityPostsQuery } from '../../../features/post/postApi';
@@ -23,10 +24,7 @@ const Posts = () => {
 	const dispatch = useAppDispatch();
 	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
 
-	if (isLoading) {
-		// TODO: 8/5 add a placeholder loading UI
-		return <h1 className='text-2xl text-light-lighter'>Loading...</h1>;
-	} else if (isError) {
+	if (isError) {
 		// TODO: 8/5 add a placeholder error UI
 		return <h1 className='text-2xl text-red'>Something is wrong</h1>;
 	}
@@ -39,16 +37,22 @@ const Posts = () => {
 	return (
 		<div className={postGridStyles}>
 			<div className={basePostStyles}>
-				{/* <Post />
-				<Post /> */}
-
-				{!data?.posts.length ? (
-					<h1 className='title flex flex-col items-center'>
-						{' '}
-						<Frown className='text-red size-14' /> No Post Exist
-					</h1>
+				{isLoading ? (
+					<>
+						<PostPlaceholder />
+						<PostPlaceholder />
+					</>
 				) : (
-					data.posts.map((post) => <Post key={post.post_id} post={post} />)
+					<>
+						{!data?.posts.length ? (
+							<h1 className='title flex flex-col items-center'>
+								{' '}
+								<Frown className='text-red size-14' /> No Post Exist
+							</h1>
+						) : (
+							data.posts.map((post) => <Post key={post.post_id} post={post} />)
+						)}
+					</>
 				)}
 			</div>
 
