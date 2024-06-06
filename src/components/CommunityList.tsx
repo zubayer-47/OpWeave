@@ -10,16 +10,16 @@ const CommunityList = () => {
 		>
 			<div className='flex justify-start items-center gap-2'>
 				<img
-					className='profile size-10'
+					className='profile size-8 lg:size-10'
 					// src='https://loremflickr.com/640/480/nature'
 					src={profile}
 					alt='Community logo'
 				/>
 				<div>
-					<button className='title text-base leading-4 font-normal block'>
+					<button className='title text-sm lg:text-base leading-4 font-normal block'>
 						Dev Community
 					</button>
-					<span className='title text-sm text-light-muted dark:text-dark-muted  font-normal'>
+					<span className='title text-xs lg:text-sm text-light-muted dark:text-dark-muted  font-normal'>
 						this is for developers
 					</span>
 				</div>

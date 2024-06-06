@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import {
 	ButtonHTMLAttributes,
 	PropsWithChildren,
@@ -11,9 +12,10 @@ type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick'>;
 
 interface Props extends PropsWithChildren {
 	button: ReactElement<unknown, string> & { props: ButtonProps };
+	className?: string;
 }
 
-function ClickableDropdown({ children, button }: Props) {
+function ClickableDropdown({ children, button, className }: Props) {
 	const [isOpen, setIsOpen] = useState(false);
 	const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -40,7 +42,7 @@ function ClickableDropdown({ children, button }: Props) {
 	}, []);
 
 	return (
-		<div className='clickable-dropdown' ref={dropdownRef}>
+		<div className={clsx('clickable-dropdown', className)} ref={dropdownRef}>
 			<button {...button.props} onClick={toggleDropdown} />
 
 			{isOpen && <>{children}</>}

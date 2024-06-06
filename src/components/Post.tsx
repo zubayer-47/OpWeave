@@ -75,7 +75,7 @@ Props) => {
 	}
 
 	return (
-		<div className='post px-7 pt-5 pb-3 relative'>
+		<div className='post px-2 sm:px-7 pt-5 pb-3 relative'>
 			<div className='flex-group justify-between'>
 				<div className='flex-group'>
 					<Link to={`/profile/${username}?sec=timeline`}>

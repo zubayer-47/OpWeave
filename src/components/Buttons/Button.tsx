@@ -63,7 +63,7 @@ const Button: React.FC<ButtonProps> = ({
 			onClick={onClick}
 			disabled={disabled || isLoading}
 		>
-			{icon && <span className='mr-2'>{icon}</span>}
+			{icon && <span className='hidden sm:block mr-2'>{icon}</span>}
 			<span>{text}</span>
 			{isLoading ? (
 				<span className='flex items-center'>

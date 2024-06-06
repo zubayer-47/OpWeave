@@ -21,7 +21,7 @@ const ModalLayout: FC<Props> = ({
 	if (!isOpen) return null;
 
 	return (
-		<div className='fixed inset-0 flex items-center justify-center overflow-y-auto'>
+		<div className='fixed inset-0 flex items-center justify-center overflow-y-auto mx-2'>
 			<button
 				type='button'
 				onClick={onClose}
@@ -29,7 +29,7 @@ const ModalLayout: FC<Props> = ({
 			></button>
 			<div
 				className={clsx(
-					'bg-dark-primary rounded-lg shadow-lg p-8 w-full',
+					'bg-dark-primary rounded-lg shadow-lg p-4 md:p-8 w-full',
 					{
 						'max-w-sm': size === 'sm',
 						'max-w-md': size === 'md',

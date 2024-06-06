@@ -16,7 +16,7 @@ const NavDropdown = () => {
 	};
 
 	return (
-		<div className='dark:bg-dark-hover border dark:border-dark-border absolute top-5 right-0 h-fit w-full md:w-96 p-3 rounded-2xl dropdown-item'>
+		<div className='dark:bg-dark-hover border dark:border-dark-border absolute top-5 right-0 h-fit md:w-96 w-full p-3 rounded-2xl dropdown-item'>
 			<div className='absolute inset-0 dark:bg-normal-primary opacity-10'></div>
 
 			<div className='relative divide-y divide-dark-border'>
@@ -25,7 +25,7 @@ const NavDropdown = () => {
 					className='flex items-center gap-3 px-4 py-2 dark:hover:bg-normal-primary/15 w-full rounded-xl transition-colors mb-3'
 				>
 					<img
-						className='profile'
+						className='profile size-10'
 						src={user?.avatar || defaultProfile}
 						alt='profile image'
 					/>

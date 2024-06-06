@@ -11,8 +11,8 @@ const RootLayout = () => {
 	return (
 		<>
 			<Nav />
-			<div className='container mx-auto px-20 pt-20 h-screen overflow-hidden grid grid-cols-12'>
-				<div className='w-full height_without_nav overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary px-28 col-span-8'>
+			<div className='container mx-auto px-0 2xl:px-20 pt-20 h-screen overflow-hidden grid grid-cols-12'>
+				<div className='w-full height_without_nav overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary px-2 lg:px-10 xl:px-28 col-span-full sm:col-span-7 xl:col-span-8'>
 					<Outlet />
 				</div>
 				<CommunitySuggestions />

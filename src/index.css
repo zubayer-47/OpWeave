@@ -103,7 +103,7 @@
     }
 
     .muted {
-        @apply dark:text-dark-muted text-base font-DM-Sans font-medium
+        @apply dark:text-dark-muted text-sm lg:text-base font-DM-Sans font-medium
     }
 
     .nav-link {
@@ -111,7 +111,7 @@
     }
 
     .profile {
-        @apply size-12 lg:size-14 object-cover rounded-full
+        @apply size-8 lg:size-12 object-cover rounded-full
     }
 
     .post {

@@ -38,7 +38,7 @@ const Nav = () => {
 			<div className='flex justify-between items-center'>
 				<div className='flex items-center gap-2 lg:gap-5 mr-2 lg:mr-0'>
 					<Link to='/'>
-						<img src={logo} className='profile' alt='OpWeave logo' />
+						<img src={logo} className='profile size-12' alt='OpWeave logo' />
 					</Link>
 
 					<form>
@@ -116,7 +116,7 @@ const Nav = () => {
 							>
 								<div className='pointer-events-none flex items-center gap-3'>
 									<img
-										className='profile'
+										className='profile size-10'
 										src={user?.avatar || defaultAvatar}
 										alt='user profile'
 									/>
@@ -133,11 +133,34 @@ const Nav = () => {
 					</ClickableDropdown>
 				</div>
 
-				<div className='block lg:hidden'>
+				{/* <button
+					className='block lg:hidden'
+					type='button'
+					onClick={() => setIsOpen((prev) => !prev)}
+				>
 					<Menu className='text-light-primary/75 size-8' />
-				</div>
+				</button> */}
 
+				<ClickableDropdown
+					className='block lg:hidden'
+					button={
+						<button type='button'>
+							<Menu className='text-light-primary/75 size-8' />
+						</button>
+					}
+				>
+					<span className='w-1 bg-dark-muted/25 h-10 rounded-full'></span>
+					<div className='absolute w-full inset-0 top-16'>
+						<NavDropdown />
+					</div>
+				</ClickableDropdown>
 			</div>
+
+			{/* {isOpen ? (
+				<div className='absolute top-16 w-full'>
+					<NavDropdown />
+				</div>
+			) : null} */}
 		</nav>
 	);
 };
