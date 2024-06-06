@@ -34,17 +34,17 @@ const UserProfile = () => {
 			<div className='flex justify-center items-center'>
 				<div className='flex flex-col justify-center items-center'>
 					<img
-						className='size-52 object-cover rounded-full'
+						className='size-36 md:size-52 object-cover rounded-full'
 						src={user?.avatar || defaultProfile}
 						alt='user profile'
 					/>
 
-					<h1 className='title text-2xl mt-5'>{user?.fullname}</h1>
+					<h1 className='title text-xl md:text-2xl mt-5'>{user?.fullname}</h1>
 					<span className='muted'>{user?.bio}</span>
 				</div>
 			</div>
 
-			<div className='flex justify-center items-center gap-20 mt-10 mb-0.5 px-14'>
+			<div className='container mx-auto max-w-102 w-full flex items-center gap-10 mt-10 mb-0.5 px-10 overflow-x-auto'>
 				<Link
 					to={`/profile/${user?.username}?sec=timeline`}
 					type='button'
@@ -87,7 +87,6 @@ const UserProfile = () => {
 				</Link>
 			</div>
 			<Hr />
-
 			{content}
 		</div>
 	);
