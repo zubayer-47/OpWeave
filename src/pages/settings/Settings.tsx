@@ -64,7 +64,8 @@ const Settings = () => {
 	};
 
 	return (
-		<div className='mx-96 my-20'>
+		// <div className='2xl:mx-96 my-20'>
+		<div className='grid place-items-center'>
 			<div className='w-fit relative group'>
 				<img
 					src={user?.avatar || defaultProfile}
