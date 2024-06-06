@@ -29,14 +29,19 @@ const Posts = () => {
 		return <h1 className='text-2xl text-red'>Something is wrong</h1>;
 	}
 
-	const postGridStyles = 'grid grid-cols-2 gap-20 px-20 mt-10';
-	const basePostStyles = 'flex flex-col gap-10';
+	const postGridStyles =
+		'grid grid-cols-2 gap-2 2xl:gap-20 px-0 2xl:px-20 mt-10';
+	const basePostStyles = 'col-span-full md:col-span-1 flex flex-col gap-10';
 	const membersProfileStyles =
 		'size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full';
 
 	return (
 		<div className={postGridStyles}>
 			<div className={basePostStyles}>
+				<div className='block md:hidden'>
+					<CreatePost />
+				</div>
+
 				{isLoading ? (
 					<>
 						<PostPlaceholder />
@@ -56,7 +61,7 @@ const Posts = () => {
 				)}
 			</div>
 
-			<div>
+			<div className='hidden md:block'>
 				<OutletLayout title='About' sub='Developer Community'>
 					<p
 						className={clsx(

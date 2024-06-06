@@ -1,10 +1,8 @@
 import clsx from 'clsx';
-import { User2 } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
-import profile from '../../../assets/profile2.jpg';
-import Button from '../../../components/Buttons/Button';
 import useQuery from '../../../hooks/useQueryParams';
 import CenterLayout from '../../../layouts/CenterLayout';
+import MemberItem from './partials/MemberItem';
 
 const Members = () => {
 	const params = useParams();
@@ -50,69 +48,9 @@ const Members = () => {
 				</div>
 
 				<div className='flex flex-col gap-5 my-5'>
-					{/* items */}
-					<div className='flex justify-between items-center'>
-						<div className='flex items-center gap-3'>
-							<img src={profile} className='profile' alt="Member's Profile" />
-
-							<div>
-								<h1 className='title'>A B M Zubayer</h1>
-								{/* // TODO: it should be beautiful button */}
-								<button type='button' className='muted'>
-									Member
-								</button>
-							</div>
-						</div>
-
-						<Button
-							text='View Profile'
-							icon={<User2 className='size-5' />}
-							size='small'
-							variant='outline'
-						/>
-					</div>
-					{/* items */}
-					<div className='flex justify-between items-center'>
-						<div className='flex items-center gap-3'>
-							<img src={profile} className='profile' alt="Member's Profile" />
-
-							<div>
-								<h1 className='title'>A B M Zubayer</h1>
-								{/* // TODO: it should be beautiful button */}
-								<button type='button' className='muted'>
-									Member
-								</button>
-							</div>
-						</div>
-
-						<Button
-							text='View Profile'
-							icon={<User2 className='size-5' />}
-							size='small'
-							variant='outline'
-						/>
-					</div>
-					{/* items */}
-					<div className='flex justify-between items-center'>
-						<div className='flex items-center gap-3'>
-							<img src={profile} className='profile' alt="Member's Profile" />
-
-							<div>
-								<h1 className='title'>A B M Zubayer</h1>
-								{/* // TODO: it should be beautiful button */}
-								<button type='button' className='muted'>
-									Member
-								</button>
-							</div>
-						</div>
-
-						<Button
-							text='View Profile'
-							icon={<User2 className='size-5' />}
-							size='small'
-							variant='outline'
-						/>
-					</div>
+					<MemberItem />
+					<MemberItem />
+					<MemberItem />
 				</div>
 			</div>
 		</CenterLayout>

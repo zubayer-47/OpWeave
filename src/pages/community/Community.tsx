@@ -11,7 +11,7 @@ import Hr from '../../components/Hr';
 import Photos from '../../components/Photos';
 import Videos from '../../components/Videos';
 import { useGetCommunityQuery } from '../../features/community/communityApi';
-import { MemberRole } from '../../features/community/types';
+import { Community, MemberRole } from '../../features/community/types';
 import useQuery from '../../hooks/useQueryParams';
 import Info from './profile/Info';
 import Members from './profile/Members';
@@ -39,7 +39,7 @@ const Community = () => {
 	const isJoined = true;
 
 	return (
-		<div className='mt-28 mb-10'>
+		<div className='mt-0 md:mt-28 mb-10'>
 			{isLoading ? (
 				<ContentLoader
 					speed={2}
@@ -55,77 +55,33 @@ const Community = () => {
 					<rect x='210' y='115' rx='6' ry='6' width='200' height='15' />
 				</ContentLoader>
 			) : (
-				<div className='flex items-center justify-between px-14 relative'>
-					<div className='flex items-end gap-5'>
-						<img
-							className='size-36 object-cover rounded-full'
-							src={data?.avatar}
-							alt='community profile'
-						/>
+				<>
+					<div className='md:hidden w-full flex justify-end mb-10'>
+						<DDCommunity data={data} id={params.id} isJoined={isJoined} />
+					</div>
+					{/* // <div className='flex items-center justify-between px-14 relative'> */}
+					<div className='grid grid-cols-8 items-center px-14 relative'>
+						<div className='col-span-full md:col-span-7 flex flex-col items-center md:flex-row md:items-end gap-5'>
+							<img
+								className='size-36 object-cover rounded-full'
+								src={data?.avatar}
+								alt='community profile'
+							/>
 
-						<div className='mb-3'>
-							<h1 className='title text-xl'>{data?.name}</h1>
-							<span className='muted'>{data?.bio}</span>
+							<div className='mb-3 text-center'>
+								<h1 className='title text-xl'>{data?.name}</h1>
+								<span className='muted'>{data?.bio}</span>
+							</div>
+						</div>
+
+						<div className='hidden md:flex justify-end'>
+							<DDCommunity data={data} id={params.id} isJoined={isJoined} />
 						</div>
 					</div>
-
-					{!isJoined ? (
-						<Button text='Join' />
-					) : (
-						<ClickableDropdown
-							button={
-								<button type='button'>
-									<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary' />
-								</button>
-							}
-						>
-							<div className='dark:bg-dark-primary px-1 absolute right-16 top-24 flex flex-col border dark:border-dark-border rounded-xl z-10'>
-								{data?.member.role === MemberRole.MEMBER ? null : (
-									<>
-										<Link
-											to={`/communities/${params.id}/pending`}
-											className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
-										>
-											<Target
-												className='text-light-primary'
-												strokeWidth={1.5}
-											/>
-											<h3 className='title text-sm font-normal'>
-												Approve Posts
-											</h3>
-										</Link>
-										<hr className='border-t-2 dark:border-dark-border' />
-										<Link
-											to={`/communities/${params.id}/manage`}
-											className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
-										>
-											<GripHorizontal
-												className='text-light-primary'
-												strokeWidth={1.5}
-											/>
-											<h3 className='title text-sm font-normal'>Manage</h3>
-										</Link>
-										<hr className='border-t-2 dark:border-dark-border' />
-									</>
-								)}
-
-								<Link
-									to=''
-									className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
-								>
-									<GripHorizontal
-										className='text-light-primary'
-										strokeWidth={1.5}
-									/>
-									<h3 className='title text-sm font-normal'>More Options</h3>
-								</Link>
-							</div>
-						</ClickableDropdown>
-					)}
-				</div>
+				</>
 			)}
 
-			<div className='flex justify-start items-center gap-20 mt-10 mb-0.5 px-14'>
+			<div className='container lg:max-w-full mx-auto max-w-102 w-full flex items-center gap-10 mt-10 mb-0.5 px-10 overflow-x-auto'>
 				<Link
 					to={`/communities/${params.id}?sec=posts`}
 					type='button'
@@ -183,5 +139,68 @@ const Community = () => {
 		</div>
 	);
 };
+
+function DDCommunity({
+	data,
+	id,
+	isJoined,
+}: {
+	data: Community | undefined;
+	id: string | undefined;
+	isJoined: boolean;
+}) {
+	return (
+		<>
+			{!isJoined ? (
+				<Button text='Join' />
+			) : (
+				<ClickableDropdown
+					button={
+						<button type='button'>
+							<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary' />
+						</button>
+					}
+				>
+					<div className='dark:bg-dark-primary px-1 absolute right-10 md:right-16 top-44 md:top-24 flex flex-col border dark:border-dark-border rounded-xl z-10'>
+						{data?.member.role === MemberRole.MEMBER ? null : (
+							<>
+								<Link
+									to={`/communities/${id}/pending`}
+									className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
+								>
+									<Target className='text-light-primary' strokeWidth={1.5} />
+									<h3 className='title text-sm font-normal'>Approve Posts</h3>
+								</Link>
+								<hr className='border-t-2 dark:border-dark-border' />
+								<Link
+									to={`/communities/${id}/manage`}
+									className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
+								>
+									<GripHorizontal
+										className='text-light-primary'
+										strokeWidth={1.5}
+									/>
+									<h3 className='title text-sm font-normal'>Manage</h3>
+								</Link>
+								<hr className='border-t-2 dark:border-dark-border' />
+							</>
+						)}
+
+						<Link
+							to=''
+							className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
+						>
+							<GripHorizontal
+								className='text-light-primary'
+								strokeWidth={1.5}
+							/>
+							<h3 className='title text-sm font-normal'>More Options</h3>
+						</Link>
+					</div>
+				</ClickableDropdown>
+			)}
+		</>
+	);
+}
 
 export default Community;
