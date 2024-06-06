@@ -44,7 +44,7 @@ const UserProfile = () => {
 				</div>
 			</div>
 
-			<div className='container mx-auto max-w-102 w-full flex items-center gap-10 mt-10 mb-0.5 px-10 overflow-x-auto'>
+			<div className='container mx-auto max-w-102 w-full flex items-center gap-10 mt-10 mb-0.5 px-10 overflow-x-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'>
 				<Link
 					to={`/profile/${user?.username}?sec=timeline`}
 					type='button'

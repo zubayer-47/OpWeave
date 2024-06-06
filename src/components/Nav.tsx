@@ -150,7 +150,7 @@ const Nav = () => {
 					}
 				>
 					<span className='w-1 bg-dark-muted/25 h-10 rounded-full'></span>
-					<div className='absolute w-full inset-0 top-16'>
+					<div className='absolute top-16 left-2 right-2'>
 						<NavDropdown />
 					</div>
 				</ClickableDropdown>

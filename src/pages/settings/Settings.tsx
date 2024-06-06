@@ -65,18 +65,18 @@ const Settings = () => {
 
 	return (
 		// <div className='2xl:mx-96 my-20'>
-		<div className='grid place-items-center'>
+		<div className='max-w-100 mx-auto'>
 			<div className='w-fit relative group'>
 				<img
 					src={user?.avatar || defaultProfile}
-					className='size-48 object-cover rounded-full'
+					className='size-36 lg:size-48 object-cover rounded-full'
 					alt=''
 					loading='lazy'
 				/>
 
 				<form encType='multipart/form-data'>
 					<label htmlFor='upload_profile'>
-						<div className='absolute left-0 bottom-2  rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary px-3 py-2 dark:text-light-primary text-xs flex justify-center items-center overflow-hidden cursor-pointer'>
+						<div className='absolute left-0 bottom-2  rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary px-2 md:px-3 py-1.5 md:py-2 dark:text-light-primary text-xs flex justify-center items-center overflow-hidden cursor-pointer'>
 							<PencilLine className='mr-2 size-4' strokeWidth={1.8} />
 							<span className='title text-sm'>Edit</span>
 						</div>

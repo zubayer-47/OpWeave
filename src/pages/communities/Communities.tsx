@@ -5,17 +5,18 @@ import CommunityItem from './partials/CommunityItem';
 import { Plus } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import CommunityCreationForm from '../../components/Forms/CommunityCreationForm';
-import { useGetUserAssignedCommunitiesQuery } from '../../features/community/communityApi';
+import { useGetCommunitiesQuery, useGetUserAssignedCommunitiesQuery } from '../../features/community/communityApi';
 import { updateModal } from '../../features/modal/modalSlice';
 import ModalLayout from '../../layouts/ModalLayouts/ModalLayout';
 
 const Communities = () => {
 	// const [isModalOpen] = useState(false);
 	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
-	const { data, isLoading } = useGetUserAssignedCommunitiesQuery();
+	const { data: userAssignedData, isLoading: userAssignedCommunitiesLoading } = useGetUserAssignedCommunitiesQuery();
+	const {data} = useGetCommunitiesQuery()
 	const dispatch = useAppDispatch();
 
-	if (isLoading) {
+	if (userAssignedCommunitiesLoading) {
 		return <h1 className='title text-center'>Loading...</h1>;
 	}
 
@@ -38,10 +39,10 @@ const Communities = () => {
 						<Plus className='text-light-lighter hover:text-light-primary transition-colors' />
 					</button>
 				</div>
-				{!data?.communities.length ? (
-					<h1>No community exist</h1>
+				{!userAssignedData?.communities.length ? (
+					<h1 className='title text-xs md:text-base'>No community exist</h1>
 				) : (
-					data.communities.map(
+					userAssignedData.communities.map(
 						({
 							community_id,
 							name,
@@ -66,6 +67,33 @@ const Communities = () => {
 				)}
 			</div>
 
+			<div className='py-5 space-y-5'>
+					<h1 className='title text-xl md:text-2xl'>Suggested Communities</h1>
+
+					{!data?.communities.length ? (
+					<h1 className='title text-xs md:text-base'>No community exist</h1>
+					) : data.communities.map(
+						({
+							community_id,
+							name,
+							bio,
+							createdAt,
+							avatar
+						}) => (
+							<CommunityItem
+								key={community_id}
+								community_id={community_id}
+								avatar={avatar}
+								bio={bio}
+								name={name}
+								createdAt={createdAt}
+								isSuggested
+							/>
+						)
+					)}
+
+			</div>
+			
 			<ModalLayout
 				heading='Create Community'
 				isOpen={isVisibleModal}

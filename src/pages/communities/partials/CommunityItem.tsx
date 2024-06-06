@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 import defaultAvatar from '../../../assets/default.jpg';
 import ClickableDropdown from '../../../components/ClickableDropdown';
 import { Community } from '../../../features/community/types';
+import Button from '../../../components/Buttons/Button';
 
-interface Props extends Omit<Community, 'rules'> {
+interface Props extends Partial<Omit<Community, 'rules'>> {
 	community_id: string;
+	isSuggested?: boolean
 }
 
-const CommunityItem = ({ community_id, avatar, bio, name }: Props) => {
+const CommunityItem = ({ community_id, avatar, bio, name, isSuggested }: Props) => {
 	return (
 		<div className='snap-center dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all py-3 px-4 flex justify-between items-center rounded-2xl relative'>
 			<div className='flex justify-center items-center gap-3 md:gap-5'>
@@ -27,6 +29,12 @@ const CommunityItem = ({ community_id, avatar, bio, name }: Props) => {
 				</div>
 			</div>
 
+		{isSuggested ? (
+			<Button 
+				text='Join'
+				size='small'
+			/>
+		) : (
 			<ClickableDropdown
 				button={
 					<button type='button'>
@@ -52,6 +60,7 @@ const CommunityItem = ({ community_id, avatar, bio, name }: Props) => {
 					</button>
 				</div>
 			</ClickableDropdown>
+		)}
 		</div>
 	);
 };
