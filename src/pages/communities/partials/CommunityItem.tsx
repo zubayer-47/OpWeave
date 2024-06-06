@@ -10,11 +10,11 @@ interface Props extends Omit<Community, 'rules'> {
 
 const CommunityItem = ({ community_id, avatar, bio, name }: Props) => {
 	return (
-		<div className='snap-center dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all p-5 flex justify-between items-center rounded-2xl relative'>
-			<div className='flex justify-center items-center gap-5'>
+		<div className='snap-center dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all py-3 px-4 flex justify-between items-center rounded-2xl relative'>
+			<div className='flex justify-center items-center gap-3 md:gap-5'>
 				<Link to={`/communities/${community_id}?sec=posts`}>
 					<img
-						className='profile size-14'
+						className='profile size-12 md:size-14'
 						src={avatar || defaultAvatar}
 						alt='community profile'
 					/>

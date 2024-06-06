@@ -29,7 +29,7 @@ const Communities = () => {
 
 			<div className='py-5 space-y-5'>
 				<div className='flex justify-between items-center'>
-					<h1 className='title text-2xl'>Your Communities</h1>
+					<h1 className='title text-xl md:text-2xl'>Your Communities</h1>
 					<button
 						type='button'
 						className='community_suggestions rounded-full p-1'
