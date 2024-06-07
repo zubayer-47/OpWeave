@@ -1,6 +1,6 @@
 import { RuleType } from '../authority/types';
 
-export interface Community {
+export type Community = {
 	community_id: string;
 	name: string;
 	bio: string;
@@ -11,25 +11,15 @@ export interface Community {
 		role: MemberRole;
 	};
 	createdAt: string;
-}
-
-export type UnAuthorizedCommunityType = {
-	message: string;
-	community: {
-		name: string;
-		bio: string;
-		avatar: string;
-	};
 };
 
-// {
-//     "message": "you do not have permission to access this route",
-//     "community": {
-//         "name": "Unnoyon",
-//         "bio": "this is Unnoyon community",
-//         "avatar": "http://www.gravatar.com/avatar?d=identicon"
-//     }
-// }
+export type GuestCommunityViewType = {
+	message: string;
+	community_id: string;
+	name: string;
+	bio: string;
+	avatar: string;
+};
 
 export type CommunityItemResType = {
 	community_id: string;
@@ -64,6 +54,22 @@ export type CommunityCreationAndJoiningResType = {
 	avatar: string;
 	createdAt: string;
 	role?: string;
+};
+
+export type MemberType = {
+	community_id: string;
+	member_id: string;
+	user_id: string;
+	user: {
+		avatar: string;
+		fullname: string;
+	};
+	role: string;
+};
+
+export type MembersResType = {
+	members: MemberType[];
+	total: number;
 };
 
 export enum MemberRole {

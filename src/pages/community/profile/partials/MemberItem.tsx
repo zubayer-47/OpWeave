@@ -1,16 +1,18 @@
 import { User2 } from 'lucide-react';
-import profile from '../../../../assets/profile2.jpg';
 import Button from '../../../../components/Buttons/Button';
+import { MemberType } from '../../../../features/community/types';
 
-const MemberItem = () => {
+type Props = MemberType;
+
+const MemberItem = ({ user: { fullname, avatar }, role }: Props) => {
 	return (
 		<div className='flex justify-between items-center'>
 			<div className='flex items-center gap-2'>
-				<img src={profile} className='profile' alt="Member's Profile" />
+				<img src={avatar} className='profile' alt="Member's Profile" />
 
 				<div>
-					<h1 className='title font-normal'>A B M Zubayer</h1>
-					<span className='muted'>Member</span>
+					<h1 className='title font-normal'>{fullname}</h1>
+					<span className='muted'>{role}</span>
 				</div>
 			</div>
 

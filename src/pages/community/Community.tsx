@@ -41,7 +41,7 @@ const Community = () => {
 
 	const navLinkStyles = 'border-b-[3px] rounded-sm px-3 border-blue-primary';
 
-	const isJoined = true;
+	const isJoined = !!(data as Community)?.member?.member_id;
 
 	return (
 		<div className='mt-0 md:mt-28 mb-10'>
@@ -62,7 +62,11 @@ const Community = () => {
 			) : (
 				<>
 					<div className='md:hidden w-full flex justify-end mb-10'>
-						<DDCommunity data={data} id={params.id} isJoined={isJoined} />
+						<Clickable
+							data={isJoined ? (data as Community) : undefined}
+							id={params.id}
+							isJoined={isJoined}
+						/>
 					</div>
 					{/* // <div className='flex items-center justify-between px-14 relative'> */}
 					<div className='grid grid-cols-8 items-center px-14 relative'>
@@ -73,20 +77,24 @@ const Community = () => {
 								alt='community profile'
 							/>
 
-							<div className='mb-3 text-center'>
+							<div className='mb-3 text-center md:text-left'>
 								<h1 className='title text-xl'>{data?.name}</h1>
 								<span className='muted'>{data?.bio}</span>
 							</div>
 						</div>
 
 						<div className='hidden md:flex justify-end'>
-							<DDCommunity data={data} id={params.id} isJoined={isJoined} />
+							<Clickable
+								data={isJoined ? (data as Community) : undefined}
+								id={params.id}
+								isJoined={isJoined}
+							/>
 						</div>
 					</div>
 				</>
 			)}
 
-			<div className='container lg:max-w-full mx-auto max-w-102 w-full flex items-center gap-10 mt-10 mb-0.5 px-10 overflow-x-auto'>
+			<div className='container lg:max-w-full mx-auto max-w-102 w-full flex items-center gap-10 mt-10 mb-0.5 px-10 overflow-x-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'>
 				<Link
 					to={`/communities/${params.id}?sec=posts`}
 					type='button'
@@ -145,7 +153,7 @@ const Community = () => {
 	);
 };
 
-function DDCommunity({
+function Clickable({
 	data,
 	id,
 	isJoined,

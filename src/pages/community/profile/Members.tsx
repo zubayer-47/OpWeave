@@ -1,11 +1,15 @@
+import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useGetMembersQuery } from '../../../features/community/communityApi';
 import useQuery from '../../../hooks/useQueryParams';
 import CenterLayout from '../../../layouts/CenterLayout';
 import MemberItem from './partials/MemberItem';
 
 const Members = () => {
 	const params = useParams();
+	const { data, isSuccess } = useGetMembersQuery(params.id ?? skipToken);
+
 	const query = useQuery();
 	const navigate = useNavigate();
 
@@ -48,9 +52,12 @@ const Members = () => {
 				</div>
 
 				<div className='flex flex-col gap-5 my-5'>
-					<MemberItem />
-					<MemberItem />
-					<MemberItem />
+					{isSuccess
+						? data.members.map((member) => (
+								<MemberItem key={member.member_id} {...member} />
+								// eslint-disable-next-line no-mixed-spaces-and-tabs
+						  ))
+						: null}
 				</div>
 			</div>
 		</CenterLayout>

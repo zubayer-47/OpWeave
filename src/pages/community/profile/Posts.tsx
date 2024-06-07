@@ -1,13 +1,21 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import { Frown } from 'lucide-react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import Button from '../../../components/Buttons/Button';
 import CreatePost from '../../../components/CreatePost';
 import Post from '../../../components/Post';
 import PostPlaceholder from '../../../components/ui-placeholders/PostPlaceholder';
-import { useGetCommunityQuery } from '../../../features/community/communityApi';
+import {
+	useGetCommunityQuery,
+	useGetMembersQuery,
+} from '../../../features/community/communityApi';
+import {
+	Community,
+	GuestCommunityViewType,
+} from '../../../features/community/types';
 import { updateModal } from '../../../features/modal/modalSlice';
 import { useGetCommunityPostsQuery } from '../../../features/post/postApi';
 import ModalLayout from '../../../layouts/ModalLayouts/ModalLayout';
@@ -16,24 +24,37 @@ import { trunc } from '../../../libs/helpers';
 
 const Posts = () => {
 	const params = useParams();
-	const { data, isLoading, isError } = useGetCommunityPostsQuery(
+	const { data } = useGetCommunityQuery(params?.id || skipToken);
+	const {
+		data: communityPostsData,
+		isLoading,
+		isError,
+	} = useGetCommunityPostsQuery(params.id ?? skipToken, {
+		skip: !!(data as GuestCommunityViewType)?.message,
+	});
+	const { data: membersData, isSuccess } = useGetMembersQuery(
 		params.id ?? skipToken
 	);
-	const { data: communityData } = useGetCommunityQuery(params?.id || skipToken);
-
-	const dispatch = useAppDispatch();
 	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
+	const communityData = data as Community;
 
 	if (isError) {
 		// TODO: 8/5 add a placeholder error UI
 		return <h1 className='text-2xl text-red'>Something is wrong</h1>;
 	}
 
+	const handleInfoNavigation = () => {
+		navigate(`/communities/${params.id}?sec=info`);
+	};
+
 	const postGridStyles =
 		'grid grid-cols-2 gap-2 2xl:gap-20 px-0 2xl:px-20 mt-10';
 	const basePostStyles = 'col-span-full md:col-span-1 flex flex-col gap-10';
 	const membersProfileStyles =
-		'size-7 bg-dark-primary -ml-1 border dark:border-dark-border rounded-full';
+		'size-7 -ml-1 border-2 dark:border-dark-muted rounded-full';
 
 	return (
 		<div className={postGridStyles}>
@@ -47,15 +68,22 @@ const Posts = () => {
 						<PostPlaceholder />
 						<PostPlaceholder />
 					</>
+				) : (data as GuestCommunityViewType)?.message ? (
+					<h1 className='title flex flex-col items-center'>
+						{' '}
+						<Frown className='text-red size-14' /> You don't have access
+					</h1>
 				) : (
 					<>
-						{!data?.posts.length ? (
+						{!communityPostsData?.posts.length ? (
 							<h1 className='title flex flex-col items-center'>
 								{' '}
 								<Frown className='text-red size-14' /> No Post Exist
 							</h1>
 						) : (
-							data.posts.map((post) => <Post key={post.post_id} post={post} />)
+							communityPostsData.posts.map((post) => (
+								<Post key={post.post_id} post={post} />
+							))
 						)}
 					</>
 				)}
@@ -72,19 +100,32 @@ const Posts = () => {
 							'px-4'
 						)}
 					>
-						{communityData && communityData.description.length > 200
+						{communityData?.description?.length > 200
 							? trunc(communityData?.description, 200)
 							: communityData?.description}
 					</p>
 					<div className='flex items-center gap-4 pl-5 pr-4 z-10'>
 						<div className='flex items-center'>
+							{/* <span className={membersProfileStyles}></span>
 							<span className={membersProfileStyles}></span>
 							<span className={membersProfileStyles}></span>
 							<span className={membersProfileStyles}></span>
 							<span className={membersProfileStyles}></span>
 							<span className={membersProfileStyles}></span>
-							<span className={membersProfileStyles}></span>
-							<span className={membersProfileStyles}></span>
+							<span className={membersProfileStyles}></span> */}
+
+							{isSuccess
+								? membersData.members
+										.slice(0, 5)
+										.map(({ member_id, user: { avatar } }) => (
+											<img
+												key={member_id}
+												src={avatar}
+												className={membersProfileStyles}
+											/>
+										))
+								: null}
+
 							<span
 								className={clsx(
 									'title',
@@ -94,7 +135,10 @@ const Posts = () => {
 									'pl-1'
 								)}
 							>
-								+200
+								{isSuccess
+									? membersData.members.length - 5 > 0 &&
+									  `+${membersData.members.length - 5}`
+									: null}
 							</span>
 						</div>
 						<Link
@@ -114,9 +158,11 @@ const Posts = () => {
 						<Button
 							text='Create Post'
 							onClick={() => dispatch(updateModal())}
+							disabled={!!(data as GuestCommunityViewType)?.message}
 						/>
 						<Button
 							text='Info'
+							onClick={handleInfoNavigation}
 							className={clsx(
 								'outlet_btn',
 								'hover:opacity-70',

@@ -5,13 +5,14 @@ import {
 	Community,
 	CommunityItemResType,
 	CommunityRulesType,
+	GuestCommunityViewType,
 	LeaveCommunityResType,
-	UnAuthorizedCommunityType,
+	MembersResType,
 } from './types';
 
 export const communityApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
-		getCommunity: builder.query<Community | UnAuthorizedCommunityType, string>({
+		getCommunity: builder.query<Community | GuestCommunityViewType, string>({
 			query: (communityId) => `/communities/${communityId}`,
 			providesTags: (_res, _err, args) => [
 				{ type: 'Community', id: args },
@@ -80,6 +81,10 @@ export const communityApi = apiService.injectEndpoints({
 			query: (communityId) => `communities/${communityId}/rules`,
 		}),
 
+		getMembers: builder.query<MembersResType, string>({
+			query: (community_id) => `/communities/${community_id}/members`,
+		}),
+
 		joinMember: builder.mutation<CommunityItemResType, string>({
 			query: (community_id) => ({
 				url: `/communities/${community_id}/members`,
@@ -136,6 +141,7 @@ export const {
 	useGetUserAssignedCommunitiesQuery,
 	useCreateCommunityMutation,
 	useGetCommunityRulesQuery,
+	useGetMembersQuery,
 	useJoinMemberMutation,
 	useLeaveMemberMutation,
 } = communityApi;
