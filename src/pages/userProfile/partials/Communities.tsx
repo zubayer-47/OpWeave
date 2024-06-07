@@ -1,28 +1,28 @@
-import data from '../../../../data.json';
-import { MemberRole } from '../../../features/community/types';
+import { useGetUserAssignedCommunitiesQuery } from '../../../features/community/communityApi';
 import CenterLayout from '../../../layouts/CenterLayout';
 import CommunityItem from '../../communities/partials/CommunityItem';
 
-const slicedData = data.slice(10, 20);
-
 const Communities = () => {
+	const { data, isLoading } = useGetUserAssignedCommunitiesQuery();
+
 	return (
 		<CenterLayout className='max-w-102 w-full my-10'>
 			<div className='py-5 space-y-5'>
 				<h1 className='title text-2xl'>Communities you're in</h1>
-				{slicedData.map(({ id, createdAt, name }) => (
-					<CommunityItem
-						key={id}
-						// avatar={avatar}
-						bio={name}
-						name={name}
-						createdAt={createdAt}
-						avatar=''
-						community_id=''
-						description=''
-						member={{ member_id: '', role: MemberRole.ADMIN }}
-					/>
-				))}
+				{isLoading ? (
+					<h1 className='title'>Loading...</h1>
+				) : (
+					data?.communities.length &&
+					data.communities.map(({ community_id, name, bio, avatar }) => (
+						<CommunityItem
+							key={community_id}
+							name={name}
+							bio={bio}
+							community_id={community_id}
+							avatar={avatar}
+						/>
+					))
+				)}
 			</div>
 		</CenterLayout>
 	);

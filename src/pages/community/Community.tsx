@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { GripHorizontal, MoreHorizontal, Target } from 'lucide-react';
 import { ReactNode } from 'react';
 import ContentLoader from 'react-content-loader';
+import toast from 'react-hot-toast';
 import { Link, useParams } from 'react-router-dom';
 import data from '../../../data.json';
 import Button from '../../components/Buttons/Button';
@@ -10,8 +11,12 @@ import ClickableDropdown from '../../components/ClickableDropdown';
 import Hr from '../../components/Hr';
 import Photos from '../../components/Photos';
 import Videos from '../../components/Videos';
-import { useGetCommunityQuery } from '../../features/community/communityApi';
-import { Community, MemberRole } from '../../features/community/types';
+import {
+	useGetCommunityQuery,
+	useLeaveMemberMutation,
+} from '../../features/community/communityApi';
+import type { Community } from '../../features/community/types';
+import { MemberRole } from '../../features/community/types';
 import useQuery from '../../hooks/useQueryParams';
 import Info from './profile/Info';
 import Members from './profile/Members';
@@ -149,6 +154,18 @@ function DDCommunity({
 	id: string | undefined;
 	isJoined: boolean;
 }) {
+	const [leaveMember] = useLeaveMemberMutation();
+
+	const handleLeaveMember = () => {
+		if (data) {
+			toast.promise(leaveMember(data.community_id).unwrap(), {
+				loading: 'Leaving...',
+				success: 'Leaved Successfully.',
+				error: "Couldn't leave.",
+			});
+		}
+	};
+
 	return (
 		<>
 			{!isJoined ? (
@@ -161,8 +178,20 @@ function DDCommunity({
 						</button>
 					}
 				>
-					<div className='dark:bg-dark-primary px-1 absolute right-10 md:right-16 top-44 md:top-24 flex flex-col border dark:border-dark-border rounded-xl z-10'>
-						{data?.member.role === MemberRole.MEMBER ? null : (
+					<div className='dark:bg-dark-primary px-1 absolute right-10 md:right-20 top-44 md:top-20 flex flex-col border dark:border-dark-border rounded-xl z-10'>
+						{data?.member.role === MemberRole.MEMBER ? (
+							<button
+								type='button'
+								className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
+								onClick={handleLeaveMember}
+							>
+								<GripHorizontal
+									className='text-light-primary'
+									strokeWidth={1.5}
+								/>
+								<h3 className='title text-sm font-normal'>Leave</h3>
+							</button>
+						) : (
 							<>
 								<Link
 									to={`/communities/${id}/pending`}
@@ -185,17 +214,6 @@ function DDCommunity({
 								<hr className='border-t-2 dark:border-dark-border' />
 							</>
 						)}
-
-						<Link
-							to=''
-							className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
-						>
-							<GripHorizontal
-								className='text-light-primary'
-								strokeWidth={1.5}
-							/>
-							<h3 className='title text-sm font-normal'>More Options</h3>
-						</Link>
 					</div>
 				</ClickableDropdown>
 			)}

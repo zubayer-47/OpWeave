@@ -4,7 +4,7 @@ import { userLoggedOut } from '../auth/authSlice';
 
 const baseQuery = retry(
 	fetchBaseQuery({
-		baseUrl: 'https://super-barnacle-w49jjrg45rg394j4-8000.app.github.dev/api/v1',
+		baseUrl: 'http://localhost:8000/api/v1',
 		prepareHeaders: async (headers, { getState }) => {
 			const access_token = (getState() as RootState).auth.access_token;
 			const auth = JSON.parse(localStorage.getItem('auth') || '{}');
@@ -13,10 +13,10 @@ const baseQuery = retry(
 
 			return headers;
 		},
-	}),
-	{
-		maxRetries: 3,
-	}
+	})
+	// {
+	// 	maxRetries: 3,
+	// }
 );
 
 export const apiService = createApi({
