@@ -6,10 +6,10 @@ export type Community = {
 	bio: string;
 	description: string;
 	avatar: string;
-	member: {
-		member_id: string;
-		role: MemberRole;
-	};
+	// member: {
+	member_id: string;
+	role: MemberRole;
+	// };
 	createdAt: string;
 };
 
@@ -42,6 +42,7 @@ export type LeaveCommunityResType = {
 
 export type CommunityStateType = {
 	member_role: MemberRole;
+	isJoined: boolean;
 };
 
 export type CommunityRulesType = { rules: RuleType[] };

@@ -13,6 +13,7 @@ import Photos from '../../components/Photos';
 import Videos from '../../components/Videos';
 import {
 	useGetCommunityQuery,
+	useJoinMemberMutation,
 	useLeaveMemberMutation,
 } from '../../features/community/communityApi';
 import type { Community } from '../../features/community/types';
@@ -41,7 +42,7 @@ const Community = () => {
 
 	const navLinkStyles = 'border-b-[3px] rounded-sm px-3 border-blue-primary';
 
-	const isJoined = !!(data as Community)?.member?.member_id;
+	const isJoined = !!(data as Community)?.member_id;
 
 	return (
 		<div className='mt-0 md:mt-28 mb-10'>
@@ -63,7 +64,8 @@ const Community = () => {
 				<>
 					<div className='md:hidden w-full flex justify-end mb-10'>
 						<Clickable
-							data={isJoined ? (data as Community) : undefined}
+							// data={isJoined ? (data as Community) : undefined}
+							data={data as Community}
 							id={params.id}
 							isJoined={isJoined}
 						/>
@@ -85,7 +87,8 @@ const Community = () => {
 
 						<div className='hidden md:flex justify-end'>
 							<Clickable
-								data={isJoined ? (data as Community) : undefined}
+								// data={isJoined ? (data as Community) : undefined}
+								data={data as Community}
 								id={params.id}
 								isJoined={isJoined}
 							/>
@@ -158,12 +161,20 @@ function Clickable({
 	id,
 	isJoined,
 }: {
-	data: Community | undefined;
+	data: Community;
 	id: string | undefined;
 	isJoined: boolean;
 }) {
-	console.log('isJoined :', isJoined);
 	const [leaveMember] = useLeaveMemberMutation();
+	const [joinMember] = useJoinMemberMutation();
+
+	const handleJoinMember = () => {
+		toast.promise(joinMember(data ? data.community_id : '').unwrap(), {
+			loading: 'Joining...',
+			success: 'Member Joined.',
+			error: 'Could not join.',
+		});
+	};
 
 	const handleLeaveMember = () => {
 		if (data) {
@@ -178,7 +189,7 @@ function Clickable({
 	return (
 		<>
 			{!isJoined ? (
-				<Button text='Join' />
+				<Button text='Join' onClick={handleJoinMember} />
 			) : (
 				<ClickableDropdown
 					button={
@@ -188,7 +199,7 @@ function Clickable({
 					}
 				>
 					<div className='dark:bg-dark-primary px-1 absolute right-10 md:right-20 top-44 md:top-20 flex flex-col border dark:border-dark-border rounded-xl z-10'>
-						{data?.member.role === MemberRole.MEMBER ? (
+						{data?.role === MemberRole.MEMBER ? (
 							<button
 								type='button'
 								className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'

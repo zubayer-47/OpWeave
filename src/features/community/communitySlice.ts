@@ -3,6 +3,7 @@ import { CommunityStateType, MemberRole } from './types';
 
 const initialState: CommunityStateType = {
 	member_role: MemberRole.MEMBER,
+	isJoined: false,
 };
 
 export const communitySlice = createSlice({
@@ -12,9 +13,17 @@ export const communitySlice = createSlice({
 		updateMemberRole: (state, action: PayloadAction<MemberRole>) => {
 			state.member_role = action.payload;
 		},
+
+		join: (state) => {
+			state.isJoined = true;
+		},
+
+		leave: (state) => {
+			state.isJoined = false;
+		},
 	},
 });
 
-export const { updateMemberRole } = communitySlice.actions;
+export const { updateMemberRole, join, leave } = communitySlice.actions;
 
 export default communitySlice.reducer;

@@ -25,16 +25,18 @@ import { trunc } from '../../../libs/helpers';
 const Posts = () => {
 	const params = useParams();
 	const { data } = useGetCommunityQuery(params?.id || skipToken);
+	const { data: membersData, isSuccess } = useGetMembersQuery(
+		params.id ?? skipToken
+	);
+
+	const isJoined = useAppSelector((state) => state.community.isJoined);
+	console.log('isJoined :', isJoined);
+
 	const {
 		data: communityPostsData,
 		isLoading,
 		isError,
-	} = useGetCommunityPostsQuery(params.id ?? skipToken, {
-		skip: !!(data as GuestCommunityViewType)?.message,
-	});
-	const { data: membersData, isSuccess } = useGetMembersQuery(
-		params.id ?? skipToken
-	);
+	} = useGetCommunityPostsQuery(isJoined ? params.id! : skipToken);
 	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();

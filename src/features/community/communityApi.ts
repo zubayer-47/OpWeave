@@ -1,5 +1,6 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { apiService } from '../api/apiService';
+import { join, leave } from './communitySlice';
 import {
 	CommunitiesResType,
 	Community,
@@ -18,6 +19,18 @@ export const communityApi = apiService.injectEndpoints({
 				{ type: 'Community', id: args },
 				'Community',
 			],
+
+			async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+				try {
+					const res = await queryFulfilled;
+
+					if ((res.data as Community)?.role) {
+						dispatch(join());
+					}
+				} catch (error) {
+					//
+				}
+			},
 		}),
 		getCommunities: builder.query<CommunitiesResType, void>({
 			query: () => `/communities`,
@@ -94,11 +107,13 @@ export const communityApi = apiService.injectEndpoints({
 				method: 'POST',
 			}),
 
-			invalidatesTags: ['Community'],
+			invalidatesTags: ['Community', { type: 'Community_posts', id: 'List' }],
 
 			async onQueryStarted(community_id, { dispatch, queryFulfilled }) {
 				try {
 					const res = await queryFulfilled;
+
+					dispatch(join());
 
 					dispatch(
 						communityApi.util.updateQueryData(
@@ -136,6 +151,40 @@ export const communityApi = apiService.injectEndpoints({
 				url: `/communities/${community_id}/members`,
 				method: 'DELETE',
 			}),
+			invalidatesTags: [
+				'Communities',
+				'Community',
+				{ type: 'Community_posts', id: 'List' },
+			],
+
+			async onQueryStarted(community_id, { dispatch, queryFulfilled }) {
+				const patchResult = dispatch(
+					communityApi.util.updateQueryData(
+						'getCommunity',
+						community_id,
+						(draft) => {
+							const guestView: GuestCommunityViewType = {
+								community_id: draft.community_id,
+								name: draft.name,
+								bio: draft.bio,
+								avatar: draft.avatar,
+								message: 'you do not have permission to access this route',
+							};
+
+							return guestView;
+						}
+					)
+				);
+
+				dispatch(leave());
+
+				try {
+					await queryFulfilled;
+				} catch (error) {
+					patchResult.undo();
+					dispatch(join());
+				}
+			},
 		}),
 	}),
 });
