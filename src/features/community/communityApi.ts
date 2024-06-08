@@ -85,11 +85,16 @@ export const communityApi = apiService.injectEndpoints({
 			query: (community_id) => `/communities/${community_id}/members`,
 		}),
 
-		joinMember: builder.mutation<CommunityItemResType, string>({
+		joinMember: builder.mutation<
+			CommunityItemResType & { message: string },
+			string
+		>({
 			query: (community_id) => ({
 				url: `/communities/${community_id}/members`,
 				method: 'POST',
 			}),
+
+			invalidatesTags: ['Community'],
 
 			async onQueryStarted(community_id, { dispatch, queryFulfilled }) {
 				try {

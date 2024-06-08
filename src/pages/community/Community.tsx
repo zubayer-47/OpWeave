@@ -162,6 +162,7 @@ function Clickable({
 	id: string | undefined;
 	isJoined: boolean;
 }) {
+	console.log('isJoined :', isJoined);
 	const [leaveMember] = useLeaveMemberMutation();
 
 	const handleLeaveMember = () => {
