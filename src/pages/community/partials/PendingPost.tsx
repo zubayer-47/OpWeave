@@ -5,11 +5,13 @@ import {
 	useApprovePostMutation,
 	useRejectPostMutation,
 } from '../../../features/authority/authorityApi';
+import { useDeletePostMutation } from '../../../features/post/postApi';
 import type { PendingPost } from '../../../features/post/types';
 import { trunc } from '../../../libs/helpers';
 
 type Props = {
 	post: PendingPost;
+	isOwnPost?: boolean;
 };
 
 const PendingPost = ({
@@ -22,10 +24,12 @@ const PendingPost = ({
 			user: { avatar, fullname },
 		},
 	},
+	isOwnPost,
 }: Props) => {
 	const [expanded, setExpanded] = useState(false);
 	const [approve] = useApprovePostMutation();
 	const [reject] = useRejectPostMutation();
+	const [deletePost] = useDeletePostMutation();
 
 	const toggleExpanded = () => {
 		setExpanded((prev) => !prev);
@@ -38,12 +42,25 @@ const PendingPost = ({
 			error: 'Could not approve.',
 		});
 	};
+
 	const handleReject = () => {
-		toast.promise(reject({ post_id, community_id }).unwrap(), {
-			loading: 'Rejecting...',
-			success: 'Rejected Successfully.',
-			error: 'Could not reject.',
-		});
+		if (confirm('Are you sure! You want to delete this?')) {
+			toast.promise(reject({ post_id, community_id }).unwrap(), {
+				loading: 'Rejecting...',
+				success: 'Rejected Successfully.',
+				error: 'Could not reject.',
+			});
+		}
+	};
+
+	const handleDelete = () => {
+		if (confirm('Are you sure! You want to delete this?')) {
+			toast.promise(deletePost({ post_id, community_id }).unwrap(), {
+				loading: 'Deleting...',
+				success: 'Deleted Successfully.',
+				error: 'Could not delete.',
+			});
+		}
 	};
 
 	let renderShowHide;
@@ -88,20 +105,33 @@ const PendingPost = ({
 				<img src={image_url} className='w-full h-full' alt='Post Image' />
 			)}
 
-			<div className='flex items-center gap-5 mt-3'>
-				<Button
-					text='Approve'
-					size='small'
-					className='!py-1.5'
-					onClick={handleApprove}
-				/>
-				<Button
-					onClick={handleReject}
-					text='Reject'
-					size='small'
-					className='!py-1.5 bg-red/80 border-red/80 hover:bg-red/60 hover:border-red/60 dark:focus:ring-2 dark:focus:ring-red/70 dark:focus:ring-offset-2 dark:focus:ring-offset-dark-primary'
-					variant='outline'
-				/>
+			<div className='flex w-full items-center gap-3 mt-3'>
+				{isOwnPost ? (
+					<Button
+						onClick={handleDelete}
+						text='Delete'
+						size='small'
+						fullWidth
+						className='!py-1.5 bg-red/80 border-red/80 hover:bg-red/60 hover:border-red/60 dark:focus:ring-2 dark:focus:ring-red/70 dark:focus:ring-offset-2 dark:focus:ring-offset-dark-primary'
+					/>
+				) : (
+					<>
+						<Button
+							onClick={handleApprove}
+							text='Approve'
+							fullWidth
+							size='small'
+							className='!py-1.5'
+						/>
+						<Button
+							onClick={handleReject}
+							text='Reject'
+							fullWidth
+							size='small'
+							className='!py-1.5 bg-red/80 border-red/80 hover:bg-red/60 hover:border-red/60 dark:focus:ring-2 dark:focus:ring-red/70 dark:focus:ring-offset-2 dark:focus:ring-offset-dark-primary'
+						/>
+					</>
+				)}
 			</div>
 		</div>
 	);

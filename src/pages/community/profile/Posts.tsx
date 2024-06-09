@@ -2,7 +2,7 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import { Frown } from 'lucide-react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import Button from '../../../components/Buttons/Button';
 import CreatePost from '../../../components/CreatePost';
@@ -30,7 +30,6 @@ const Posts = () => {
 	);
 
 	const isJoined = useAppSelector((state) => state.community.isJoined);
-	console.log('isJoined :', isJoined);
 
 	const {
 		data: communityPostsData,
@@ -40,6 +39,7 @@ const Posts = () => {
 	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	const communityData = data as Community;
 
@@ -54,7 +54,7 @@ const Posts = () => {
 
 	const postGridStyles =
 		'grid grid-cols-2 gap-2 2xl:gap-20 px-0 2xl:px-20 mt-10';
-	const basePostStyles = 'col-span-full md:col-span-1 flex flex-col gap-10';
+	const basePostStyles = 'col-span-full md:col-span-1';
 	const membersProfileStyles =
 		'size-7 -ml-1 border-2 dark:border-dark-muted rounded-full';
 
@@ -76,7 +76,23 @@ const Posts = () => {
 						<Frown className='text-red size-14' /> You don't have access
 					</h1>
 				) : (
-					<>
+					<div className='flex flex-col gap-8'>
+						{communityPostsData?.totalPendingPost ? (
+							<Link
+								to={`${location.pathname}/me/pending`}
+								className='flex justify-between items-center w-full bg-dark-muted/20 p-3 rounded-lg'
+							>
+								<h1 className='title'>Pending Posts</h1>
+								<div className='relative w-7 h-7 rounded-full ring-2 ring-blue-primary flex justify-center items-center'>
+									<div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
+										<span className='title text-blue-primary'>
+											{communityPostsData?.totalPendingPost || 0}
+										</span>
+									</div>
+								</div>
+							</Link>
+						) : null}
+
 						{!communityPostsData?.posts.length ? (
 							<h1 className='title flex flex-col items-center'>
 								{' '}
@@ -87,7 +103,7 @@ const Posts = () => {
 								<Post key={post.post_id} post={post} />
 							))
 						)}
-					</>
+					</div>
 				)}
 			</div>
 

@@ -41,6 +41,10 @@ function App() {
 					element={<CenterLayout scroll className='pt-20 px-5 lg:px-20' />}
 				>
 					<Route path='communities/:id' element={<Community />} />
+					<Route
+						path='communities/:id/me/pending'
+						element={<PendingPosts title='Your Pending Posts' />}
+					/>
 					<Route path='communities/:id/pending' element={<PendingPosts />} />
 					<Route path='communities/:id/manage' element={<ManageCommunity />}>
 						<Route index element={<Manage />} />
@@ -56,11 +60,11 @@ function App() {
 			</Route>
 
 			{/* <Route element={<CenterLayout className='grid place-items-center' scroll />}> */}
-				<Route path='auth' element={<GuestWrapper />}>
-					<Route path='signin' element={<Login />} />
-					<Route path='signup' element={<RegisterPage />} />
-					<Route path='forget-pass' element={<ForgetPass />} />
-				</Route>
+			<Route path='auth' element={<GuestWrapper />}>
+				<Route path='signin' element={<Login />} />
+				<Route path='signup' element={<RegisterPage />} />
+				<Route path='forget-pass' element={<ForgetPass />} />
+			</Route>
 			{/* </Route> */}
 
 			<Route path='*' element={<NotFound />} />
