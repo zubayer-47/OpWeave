@@ -62,8 +62,9 @@ export type MemberType = {
 	member_id: string;
 	user_id: string;
 	user: {
-		avatar: string;
 		fullname: string;
+		username: string;
+		avatar: string;
 	};
 	role: string;
 };

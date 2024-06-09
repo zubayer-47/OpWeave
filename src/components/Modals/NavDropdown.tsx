@@ -21,7 +21,7 @@ const NavDropdown = () => {
 
 			<div className='relative divide-y divide-dark-border'>
 				<Link
-					to={`/profile/${user?.username}?sec=timeline`}
+					to={`/profile/${user?.id}?sec=timeline`}
 					className='flex items-center gap-3 px-4 py-2 dark:hover:bg-normal-primary/15 w-full rounded-xl transition-colors mb-3'
 				>
 					<img
@@ -40,7 +40,7 @@ const NavDropdown = () => {
 
 				<div className='flex flex-col py-3'>
 					<Link
-						to={`/profile/${user?.username}?sec=timeline`}
+						to={`/profile/${user?.id}?sec=timeline`}
 						className='subModal-item justify-start gap-4 hover:bg-light-muted/10 dark:hover:bg-dark-secondary'
 					>
 						<User2 className='icon' />

@@ -26,8 +26,9 @@ export const postApi = apiService.injectEndpoints({
 			// providesTags: (res, _err, args) =>
 			// 	res ? ['Post', { type: 'Post', id: args.post_id }] : ['Post'],
 		}),
-		getUserPosts: builder.query<{ posts: Post[] }, void>({
-			query: () => `/users/posts`,
+
+		getUserPosts: builder.query<{ posts: Post[] }, string>({
+			query: (userId) => `/users/${userId}/posts`,
 			// TODO: 26/4
 
 			providesTags: (res) =>
@@ -117,16 +118,6 @@ export const postApi = apiService.injectEndpoints({
 							community_id,
 							(draft) => ({
 								...draft,
-								posts: draft.posts.filter((p) => p.post_id !== post_id),
-							})
-						)
-					);
-
-					dispatch(
-						postApi.util.updateQueryData(
-							'getUserPosts',
-							undefined,
-							(draft) => ({
 								posts: draft.posts.filter((p) => p.post_id !== post_id),
 							})
 						)

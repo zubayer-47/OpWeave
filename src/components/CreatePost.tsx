@@ -1,13 +1,14 @@
+import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import { Image, MapPin, Smile } from 'lucide-react';
 import { ChangeEvent, FC, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch } from '../app/hooks';
-import profile from '../assets/profile.webp';
 import { useGetUserAssignedCommunitiesQuery } from '../features/community/communityApi';
 import { updateModal } from '../features/modal/modalSlice';
 import { useCreatePostMutation } from '../features/post/postApi';
+import { useGetUserProfileQuery } from '../features/user/userApi';
 import { FormHandler } from '../types/custom';
 import ImagePreview from './ImagePreview';
 
@@ -27,6 +28,9 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 	const [createPost] = useCreatePostMutation();
 	const communityIdRef = useRef<HTMLSelectElement | null>(null);
 	const params = useParams();
+	const { data: profileData } = useGetUserProfileQuery(
+		params.userId! || skipToken
+	);
 	const dispatch = useAppDispatch();
 
 	const handleSubmit: FormHandler = async (e) => {
@@ -99,14 +103,6 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 	};
 
 	return (
-		// <div
-		// 	tabIndex={0}
-		// 	className={clsx('post h-fit px-4 pt-6 relative')}
-		// 	onBlur={(e) => {
-		// 		e.preventDefault();
-		// 		console.log('blurred');
-		// 	}}
-		// >
 		<form
 			onSubmit={handleSubmit}
 			className={clsx('post h-fit px-4 pt-6 relative')}
@@ -115,9 +111,13 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 		>
 			<div className='flex justify-between items-start'>
 				<div className='flex items-center gap-3'>
-					<img className='profile' src={profile} alt='profile picture' />
+					<img
+						className='profile'
+						src={profileData?.avatar}
+						alt='profile picture'
+					/>
 					<div>
-						<h1 className='title'>A B M Zubayer</h1>
+						<h1 className='title'>{profileData?.fullname}</h1>
 						{singleCommunity ? null : (
 							<div>
 								<span className='title text-sm font-DM-Sans font-medium text-light-muted dark:text-dark-muted'>
@@ -205,15 +205,12 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 						className='title button text-sm text-light-text px-4 py-2 disabled:bg-nav-selected/50 disabled:text-light-text/80'
 						disabled={!postState.content}
 						type='submit'
-						// onClick={() => console.log('click')}
 					>
 						Post
 					</button>
 				</div>
 			</div>
-			{/* )} */}
 		</form>
-		// </div>
 	);
 };
 

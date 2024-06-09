@@ -1,21 +1,22 @@
 import clsx from 'clsx';
 import { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Hr from '../../components/Hr';
 import Communities from './partials/Communities';
 import Timeline from './partials/Timeline';
 
+import { skipToken } from '@reduxjs/toolkit/query';
 import data from '../../../data.json';
-import { useAppSelector } from '../../app/hooks';
-import defaultProfile from '../../assets/default.jpg';
 import Photos from '../../components/Photos';
 import Videos from '../../components/Videos';
+import { useGetUserProfileQuery } from '../../features/user/userApi';
 import useQueryParams from '../../hooks/useQueryParams';
 
 const slicedData = data.slice(10, 20);
 
 const UserProfile = () => {
-	const user = useAppSelector((state) => state.auth.user);
+	const params = useParams();
+	const { data } = useGetUserProfileQuery(params.userId! || skipToken);
 	const query = useQueryParams();
 
 	let content: ReactNode;
@@ -35,18 +36,18 @@ const UserProfile = () => {
 				<div className='flex flex-col justify-center items-center'>
 					<img
 						className='size-36 md:size-52 object-cover rounded-full'
-						src={user?.avatar || defaultProfile}
+						src={data?.avatar}
 						alt='user profile'
 					/>
 
-					<h1 className='title text-xl md:text-2xl mt-5'>{user?.fullname}</h1>
-					<span className='muted'>{user?.bio}</span>
+					<h1 className='title text-xl md:text-2xl mt-5'>{data?.fullname}</h1>
+					<span className='muted'>{data?.bio}</span>
 				</div>
 			</div>
 
 			<div className='container mx-auto max-w-102 w-full flex items-center gap-10 mt-10 mb-0.5 px-10 overflow-x-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'>
 				<Link
-					to={`/profile/${user?.username}?sec=timeline`}
+					to={`/profile/${data?.username}?sec=timeline`}
 					type='button'
 					className={clsx(
 						'title transition-all',
@@ -56,7 +57,7 @@ const UserProfile = () => {
 					Timeline
 				</Link>
 				<Link
-					to={`/profile/${user?.username}?sec=communities`}
+					to={`/profile/${data?.username}?sec=communities`}
 					type='button'
 					className={clsx(
 						'title transition-all',
@@ -66,7 +67,7 @@ const UserProfile = () => {
 					Communities
 				</Link>
 				<Link
-					to={`/profile/${user?.username}?sec=photos`}
+					to={`/profile/${data?.username}?sec=photos`}
 					type='button'
 					className={clsx(
 						'title transition-all',
@@ -76,7 +77,7 @@ const UserProfile = () => {
 					Photos
 				</Link>
 				<Link
-					to={`/profile/${user?.username}?sec=videos`}
+					to={`/profile/${data?.username}?sec=videos`}
 					type='button'
 					className={clsx(
 						'title transition-all',

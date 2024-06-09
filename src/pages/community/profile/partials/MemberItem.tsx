@@ -1,10 +1,17 @@
 import { User2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import Button from '../../../../components/Buttons/Button';
 import { MemberType } from '../../../../features/community/types';
 
 type Props = MemberType;
 
-const MemberItem = ({ user: { fullname, avatar }, role }: Props) => {
+const MemberItem = ({ user_id, user: { fullname, avatar }, role }: Props) => {
+	const navigate = useNavigate();
+
+	const handleVisitProfile = () => {
+		navigate(`/profile/${user_id}?sec=timeline`);
+	};
+
 	return (
 		<div className='flex justify-between items-center'>
 			<div className='flex items-center gap-2'>
@@ -17,6 +24,7 @@ const MemberItem = ({ user: { fullname, avatar }, role }: Props) => {
 			</div>
 
 			<Button
+				onClick={handleVisitProfile}
 				text='View Profile'
 				icon={<User2 className='size-5' />}
 				size='small'

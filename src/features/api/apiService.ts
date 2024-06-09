@@ -30,9 +30,8 @@ export const apiService = createApi({
 				localStorage.clear();
 				console.log('clearning', result);
 			}
-		} else if ('data' in result) {
-			console.log(result?.meta?.response?.headers.get('x-xss-protection'));
 		}
+
 		return result;
 	},
 	keepUnusedDataFor: 30,

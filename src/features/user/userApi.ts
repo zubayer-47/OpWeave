@@ -2,7 +2,7 @@
 import { apiService } from '../api/apiService';
 import { updateUser } from '../auth/authSlice';
 import { User } from '../auth/types';
-import { UserUpdatePayload } from './types';
+import { UserProfileType, UserUpdatePayload } from './types';
 
 export const userApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
@@ -23,6 +23,10 @@ export const userApi = apiService.injectEndpoints({
 					);
 				} catch (error) {}
 			},
+		}),
+
+		getUserProfile: builder.query<UserProfileType, string>({
+			query: (userId) => `/users/${userId}`,
 		}),
 
 		updateUser: builder.mutation<
@@ -65,6 +69,7 @@ export const userApi = apiService.injectEndpoints({
 
 export const {
 	useGetUserQuery,
+	useGetUserProfileQuery,
 	useUpdateUserMutation,
 	useUpdateProfilePictureMutation,
 	useRemoveProfilePictureMutation,
