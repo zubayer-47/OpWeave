@@ -47,6 +47,7 @@ export const apiService = createApi({
 		'Feed',
 		'Pending_posts',
 		'Current_user_pending_posts',
+		'Rule',
 		// 'Post',
 	],
 });

@@ -1,10 +1,13 @@
 import clsx from 'clsx';
-import { GripVertical } from 'lucide-react';
+import { DebouncedFunc } from 'lodash';
+import { GripVertical, MoreHorizontal, Trash2 } from 'lucide-react';
 import type { FC } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import HorizontalMore from '../../../../components/Buttons/HorizontalMore';
+import toast from 'react-hot-toast';
+import { useParams } from 'react-router-dom';
+import ClickableDropdown from '../../../../components/ClickableDropdown';
+import { useDeleteRuleMutation } from '../../../../features/authority/authorityApi';
 import { ItemTypes } from '../../../../types/custom';
-import { DebouncedFunc } from 'lodash';
 
 interface Item {
 	id: string;
@@ -30,6 +33,9 @@ const Rule: FC<RuleProps> = ({
 	moveRule,
 	debounce,
 }) => {
+	const [deletRule] = useDeleteRuleMutation();
+	const params = useParams();
+
 	const originalIndex = findRule(id).index;
 	const [{ isDragging }, drag] = useDrag(
 		() => ({
@@ -51,8 +57,6 @@ const Rule: FC<RuleProps> = ({
 		[id, originalIndex, moveRule]
 	);
 
-	// console.log('isDragging :', isDragging);
-
 	const [, drop] = useDrop(
 		() => ({
 			accept: ItemTypes.RULE,
@@ -66,10 +70,23 @@ const Rule: FC<RuleProps> = ({
 		[findRule, moveRule]
 	);
 
+	const handleDeleteRule = () => {
+		if (confirm('Are you sure! You want to delete this?')) {
+			toast.promise(
+				deletRule({ community_id: params.id!, rule_id: id }).unwrap(),
+				{
+					loading: 'Deleting...',
+					success: 'Rule successfully deleted.',
+					error: 'Could not delete.',
+				}
+			);
+		}
+	};
+
 	return (
 		<div
 			ref={(node) => drag(drop(node))}
-			className={clsx('w-full flex justify-between items-start py-3', {
+			className={clsx('w-full flex justify-between items-start py-3 relative', {
 				'bg-dark-primary': isDragging,
 			})}
 		>
@@ -86,7 +103,24 @@ const Rule: FC<RuleProps> = ({
 				</div>
 			</div>
 
-			<HorizontalMore />
+			<ClickableDropdown
+				button={
+					<button type='button'>
+						<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary transition-colors' />
+					</button>
+				}
+			>
+				<div className='dark:bg-dark-primary px-1 absolute right-3 top-8 flex flex-col border dark:border-dark-border rounded-xl z-10'>
+					<button
+						onClick={handleDeleteRule}
+						className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
+						type='button'
+					>
+						<Trash2 className='text-red' strokeWidth={1.5} />
+						<h3 className='title text-sm font-normal text-red'>Delete Rule</h3>
+					</button>
+				</div>
+			</ClickableDropdown>
 		</div>
 	);
 };

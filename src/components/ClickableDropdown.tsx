@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import {
 	ButtonHTMLAttributes,
 	PropsWithChildren,
@@ -42,7 +41,7 @@ function ClickableDropdown({ children, button, className }: Props) {
 	}, []);
 
 	return (
-		<div className={clsx('clickable-dropdown', className)} ref={dropdownRef}>
+		<div className={className} ref={dropdownRef}>
 			<button {...button.props} onClick={toggleDropdown} />
 
 			{isOpen && <>{children}</>}

@@ -1,13 +1,22 @@
 import { skipToken } from '@reduxjs/toolkit/query';
+import clsx from 'clsx';
 import _debounce from 'lodash/debounce';
 import { useCallback, useEffect, useState } from 'react';
 import { useDrop } from 'react-dnd';
+import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import Button from '../../../components/Buttons/Button';
-import { useUpdateRulesOrderMutation } from '../../../features/authority/authorityApi';
+import Input from '../../../components/Inputs/Input';
+import {
+	useCreateRuleMutation,
+	useUpdateRulesOrderMutation,
+} from '../../../features/authority/authorityApi';
 import { RuleType } from '../../../features/authority/types';
 import { useGetCommunityRulesQuery } from '../../../features/community/communityApi';
-import { ItemTypes } from '../../../types/custom';
+import { updateModal } from '../../../features/modal/modalSlice';
+import ModalLayout from '../../../layouts/ModalLayouts/ModalLayout';
+import { FormHandler, ItemTypes } from '../../../types/custom';
 import Rule from './partials/Rule';
 
 // const Rules = [
@@ -46,7 +55,10 @@ const ManageRules = () => {
 		params.id || skipToken
 	);
 	const [updateRulesOrder] = useUpdateRulesOrderMutation();
+	const [createRule] = useCreateRuleMutation();
 	const [rules, setRules] = useState<RuleType[]>([]);
+	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
+	const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		refetch()
@@ -99,6 +111,25 @@ const ManageRules = () => {
 
 	const [, drop] = useDrop(() => ({ accept: ItemTypes.RULE }));
 
+	const handleCreateRule: FormHandler = (e) => {
+		e.preventDefault();
+
+		const formData = new FormData(e.currentTarget);
+
+		const data = {
+			title: formData.get('title'),
+			body: formData.get('body'),
+		};
+
+		toast.promise(createRule({ ...data, community_id: params.id! }).unwrap(), {
+			loading: 'Creating...',
+			success: 'Rule created.',
+			error: "Couldn't create.",
+		});
+
+		e.currentTarget.reset();
+	};
+
 	return (
 		<div className='flex justify-center'>
 			<div className='max-w-lg flex flex-col gap-8 w-full justify-center items-center self-center'>
@@ -108,30 +139,98 @@ const ManageRules = () => {
 					<>
 						<div className='flex justify-between items-center w-full bg-dark-muted/20 p-3 rounded-lg shadow-md shadow-dark-active'>
 							<h1 className='title text-2xl'>Community Rules</h1>
-							<Button text='Create' size='small' />
+							<Button
+								text='Create'
+								size='small'
+								onClick={() => dispatch(updateModal())}
+							/>
 						</div>
+						{!rules.length ? (
+							<h1 className='title text-dark-muted'>No Rules Defined</h1>
+						) : null}
 						<div
-							className='bg-dark-muted/20 p-3 rounded-lg shadow-md shadow-dark-active divide-y divide-dark-muted'
+							className={clsx(
+								'bg-dark-muted/20 rounded-lg shadow-md shadow-dark-active divide-y divide-dark-muted',
+								{
+									'p-3': !!rules.length,
+								}
+							)}
 							ref={drop}
 						>
-							{rules.map(({ rule_id, title, body, order }) => (
-								<Rule
-									key={rule_id}
-									id={rule_id}
-									index={order}
-									title={title}
-									text={body}
-									moveRule={moveRule}
-									findRule={findRule}
-									debounce={updateRulesOrderDebounce}
-								/>
-							))}
+							{!rules.length
+								? null
+								: rules.map(({ rule_id, title, body, order }) => (
+										<Rule
+											key={rule_id}
+											id={rule_id}
+											index={order}
+											title={title}
+											text={body}
+											moveRule={moveRule}
+											findRule={findRule}
+											debounce={updateRulesOrderDebounce}
+										/>
+										// eslint-disable-next-line no-mixed-spaces-and-tabs
+								  ))}
 						</div>
 					</>
 				)}
 			</div>
+
+			<ModalLayout
+				heading='Create Rule'
+				isOpen={isVisibleModal}
+				onClose={() => dispatch(updateModal())}
+			>
+				<RuleCreationForm onSubmit={handleCreateRule} />
+			</ModalLayout>
 		</div>
 	);
 };
 
 export default ManageRules;
+
+type RuleCreationFormProps = {
+	onSubmit: FormHandler;
+};
+
+function RuleCreationForm({ onSubmit }: RuleCreationFormProps) {
+	return (
+		<form action='' onSubmit={onSubmit} className='flex flex-col gap-5'>
+			<Input
+				hint='Title'
+				type='text'
+				name='title'
+				inputClass='w-full border border-dark-border rounded-md px-3 py-2 bg-dark-primary text-light-primary focus:outline-none dark:focus:ring-2 dark:focus:ring-blue-primary/50 dark:focus:ring-offset-2 dark:focus:ring-offset-dark-primary dark:focus:border-dark-border'
+				isRequired
+				showLabel
+				defaultValue=''
+				// error={errState.}
+			/>
+			<div className={'flex flex-col'}>
+				<label
+					htmlFor='body'
+					className="title text-sm font-Inter text-light-muted dark:text-dark-muted mb-2 after:content-['*'] after:text-red"
+				>
+					Body
+				</label>
+				<textarea
+					id='body'
+					className={
+						'w-full text-sm border border-dark-border rounded-md px-3 py-2 bg-dark-primary text-light-primary dark:placeholder-dark-muted focus:outline-none dark:focus:ring-2 dark:focus:ring-blue-primary/50 dark:focus:ring-offset-2 dark:focus:ring-offset-dark-primary'
+					}
+					name='body'
+					placeholder='write a body'
+					cols={30}
+					rows={2}
+				></textarea>
+			</div>
+			<Button
+				text='Create Rule'
+				className='!text-sm md:!text-base'
+				type='submit'
+				fullWidth
+			/>
+		</form>
+	);
+}

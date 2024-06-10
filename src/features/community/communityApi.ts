@@ -92,6 +92,7 @@ export const communityApi = apiService.injectEndpoints({
 
 		getCommunityRules: builder.query<CommunityRulesType, string>({
 			query: (communityId) => `communities/${communityId}/rules`,
+			providesTags: [{ type: 'Rule', id: 'List' }],
 		}),
 
 		getMembers: builder.query<MembersResType, string>({
