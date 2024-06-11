@@ -27,6 +27,10 @@ export const communityApi = apiService.injectEndpoints({
 					if ((res.data as Community)?.role) {
 						dispatch(join());
 					}
+
+					if ((res.data as GuestCommunityViewType)?.message) {
+						dispatch(leave());
+					}
 				} catch (error) {
 					//
 				}

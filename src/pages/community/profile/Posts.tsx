@@ -29,24 +29,24 @@ const Posts = () => {
 		params.id ?? skipToken
 	);
 
-	const isJoined = useAppSelector((state) => state.community.isJoined);
+	const memberId = (data as Community)?.member_id;
+	const isFetchPosts = !!(typeof memberId === 'string');
 
 	const {
 		data: communityPostsData,
 		isLoading,
 		isError,
-	} = useGetCommunityPostsQuery(isJoined ? params.id! : skipToken);
+	} = useGetCommunityPostsQuery(isFetchPosts ? params.id! : skipToken);
 	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
-
 	const communityData = data as Community;
 
-	if (isError) {
-		// TODO: 8/5 add a placeholder error UI
-		return <h1 className='text-2xl text-red'>Something is wrong</h1>;
-	}
+	// if (isError) {
+	// 	// TODO: 8/5 add a placeholder error UI
+	// 	return <h1 className='text-2xl text-red'>Something is wrong</h1>;
+	// }
 
 	const handleInfoNavigation = () => {
 		navigate(`/communities/${params.id}?sec=info`);
@@ -70,7 +70,7 @@ const Posts = () => {
 						<PostPlaceholder />
 						<PostPlaceholder />
 					</>
-				) : (data as GuestCommunityViewType)?.message ? (
+				) : (data as GuestCommunityViewType)?.message || isError ? (
 					<h1 className='title flex flex-col items-center'>
 						{' '}
 						<Frown className='text-red size-14' /> You don't have access
