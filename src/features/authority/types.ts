@@ -17,7 +17,7 @@ export type RuleType = {
 	rule_id: string;
 	title: string;
 	body: string;
-	order: number;
+	// order: number;
 	community_id: string;
 	createdAt: string;
 	updatedAt: string;

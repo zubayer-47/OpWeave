@@ -99,8 +99,17 @@ export const communityApi = apiService.injectEndpoints({
 			providesTags: [{ type: 'Rule', id: 'List' }],
 		}),
 
-		getMembers: builder.query<MembersResType, string>({
-			query: (community_id) => `/communities/${community_id}/members`,
+		getMembers: builder.query<
+			MembersResType,
+			{
+				community_id: string | symbol;
+				page?: number;
+				limit?: number;
+				filterBy?: 'authority' | 'all';
+			}
+		>({
+			query: ({ community_id, page = 1, limit = 10, filterBy = 'all' }) =>
+				`/communities/${community_id.toString()}/members?page=${page}&limit=${limit}&filterBy=${filterBy}`,
 		}),
 
 		joinMember: builder.mutation<
@@ -172,7 +181,9 @@ export const communityApi = apiService.injectEndpoints({
 								community_id: draft.community_id,
 								name: draft.name,
 								bio: draft.bio,
+								description: draft.description,
 								avatar: draft.avatar,
+								createdAt: draft.createdAt,
 								message: 'you do not have permission to access this route',
 							};
 

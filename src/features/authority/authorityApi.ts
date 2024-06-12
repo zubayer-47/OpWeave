@@ -102,9 +102,14 @@ export const authorityApi = apiService.injectEndpoints({
 							'getCommunityRules',
 							community_id,
 							(draft) => {
-								draft.rules.push(res.data.rule);
+								const rules = [...draft.rules];
 
-								return draft;
+								rules.push(res.data.rule);
+
+								return {
+									...draft,
+									rules,
+								};
 							}
 						)
 					);
@@ -131,9 +136,11 @@ export const authorityApi = apiService.injectEndpoints({
 					communityApi.util.updateQueryData(
 						'getCommunityRules',
 						community_id,
-						(draft) => ({
-							rules: draft.rules.filter((r) => r.rule_id !== rule_id),
-						})
+						(draft) => {
+							const rules = draft.rules.filter((r) => r.rule_id !== rule_id);
+
+							return { rules };
+						}
 					)
 				);
 
@@ -145,12 +152,12 @@ export const authorityApi = apiService.injectEndpoints({
 			},
 		}),
 
-		updateRulesOrder: builder.mutation<
+		reorderRules: builder.mutation<
 			UpdateRulesOrderResultType,
 			UpdateRulesOrderPayloadType
 		>({
 			query: (payload) => ({
-				url: '/authority/rules/order',
+				url: '/authority/rules/reorder',
 				method: 'PATCH',
 				body: payload,
 			}),
@@ -163,5 +170,5 @@ export const {
 	useRejectPostMutation,
 	useCreateRuleMutation,
 	useDeleteRuleMutation,
-	useUpdateRulesOrderMutation,
+	useReorderRulesMutation,
 } = authorityApi;

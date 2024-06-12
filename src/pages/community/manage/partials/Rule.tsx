@@ -1,11 +1,12 @@
 import clsx from 'clsx';
 import { DebouncedFunc } from 'lodash';
-import { GripVertical, MoreHorizontal, Trash2 } from 'lucide-react';
+import { MoreHorizontal, Trash2 } from 'lucide-react';
 import type { FC } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import ClickableDropdown from '../../../../components/ClickableDropdown';
+import Hr from '../../../../components/Hr';
 import { useDeleteRuleMutation } from '../../../../features/authority/authorityApi';
 import { ItemTypes } from '../../../../types/custom';
 
@@ -16,7 +17,7 @@ interface Item {
 
 type RuleProps = {
 	id: string;
-	index: number;
+	// index: number;
 	title: string;
 	text: string;
 	moveRule: (id: string, atIndex: number) => void;
@@ -26,7 +27,6 @@ type RuleProps = {
 
 const Rule: FC<RuleProps> = ({
 	id,
-	index,
 	text,
 	title,
 	findRule,
@@ -84,44 +84,54 @@ const Rule: FC<RuleProps> = ({
 	};
 
 	return (
-		<div
-			ref={(node) => drag(drop(node))}
-			className={clsx('w-full flex justify-between items-start py-3 relative', {
-				'bg-dark-primary': isDragging,
-			})}
-		>
-			<div className='flex items-stretch justify-start gap-4'>
-				<div className='flex items-start gap-2'>
-					<GripVertical className='text-light-lighter' strokeWidth={1.5} />
-					<span className='title text-light-lighter font-DM-Sans'>{index}</span>
-				</div>
-				<div>
-					<div className='flex items-stretch gap-2'>
-						<h1 className='title text-light-primary font-DM-Sans'>{title}</h1>
-					</div>
-					<p className='title text-sm text-dark-muted font-DM-Sans'>{text}</p>
-				</div>
-			</div>
-
-			<ClickableDropdown
-				button={
-					<button type='button'>
-						<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary transition-colors' />
-					</button>
-				}
+		<li>
+			<div
+				ref={(node) => drag(drop(node))}
+				className={clsx(
+					'w-full flex justify-between items-start p-3 relative',
+					{
+						'bg-dark-primary': isDragging,
+					}
+				)}
 			>
-				<div className='dark:bg-dark-primary px-1 absolute right-3 top-8 flex flex-col border dark:border-dark-border rounded-xl z-10'>
-					<button
-						onClick={handleDeleteRule}
-						className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
-						type='button'
-					>
-						<Trash2 className='text-red' strokeWidth={1.5} />
-						<h3 className='title text-sm font-normal text-red'>Delete Rule</h3>
-					</button>
+				<div className='flex items-stretch justify-start gap-4'>
+					{/* <div className='flex items-start gap-2'>
+						<GripVertical className='text-light-lighter' strokeWidth={1.5} />
+						<span className='title text-light-lighter font-DM-Sans'>
+							{index}
+						</span>
+					</div> */}
+					<div>
+						<div className='flex items-stretch gap-2'>
+							<h1 className='title text-light-primary font-DM-Sans'>{title}</h1>
+						</div>
+						<p className='title text-sm text-dark-muted font-DM-Sans'>{text}</p>
+					</div>
 				</div>
-			</ClickableDropdown>
-		</div>
+				<Hr className='absolute left-0 right-0 bottom-0 border-2 border-dark-muted' />
+
+				<ClickableDropdown
+					button={
+						<button type='button'>
+							<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary transition-colors' />
+						</button>
+					}
+				>
+					<div className='dark:bg-dark-primary px-1 absolute right-3 top-8 flex flex-col border dark:border-dark-border rounded-xl z-10'>
+						<button
+							onClick={handleDeleteRule}
+							className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
+							type='button'
+						>
+							<Trash2 className='text-red' strokeWidth={1.5} />
+							<h3 className='title text-sm font-normal text-red'>
+								Delete Rule
+							</h3>
+						</button>
+					</div>
+				</ClickableDropdown>
+			</div>
+		</li>
 	);
 };
 

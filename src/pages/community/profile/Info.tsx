@@ -1,12 +1,27 @@
-import { Calendar, User2 } from 'lucide-react';
+import { skipToken } from '@reduxjs/toolkit/query';
+import { Calendar } from 'lucide-react';
 import { useNavigate, useParams } from 'react-router-dom';
-import profile from '../../../assets/profile2.jpg';
 import Button from '../../../components/Buttons/Button';
+import {
+	useGetCommunityQuery,
+	useGetCommunityRulesQuery,
+	useGetMembersQuery,
+} from '../../../features/community/communityApi';
 import CenterLayout from '../../../layouts/CenterLayout';
+import MemberItem from './partials/MemberItem';
 
 const Info = () => {
-	const navigate = useNavigate();
 	const params = useParams();
+	const { data, isSuccess } = useGetCommunityRulesQuery(
+		params.id! ?? skipToken
+	);
+	const { data: community } = useGetCommunityQuery(params.id! ?? skipToken);
+	const { data: membersData } = useGetMembersQuery({
+		community_id: params.id ?? skipToken,
+		page: 1,
+		limit: 5,
+	});
+	const navigate = useNavigate();
 
 	const handleMore = () => {
 		navigate(`/communities/${params.id}?sec=members&filterBy=all`);
@@ -23,57 +38,37 @@ const Info = () => {
 
 					<p>
 						<span className='title font-normal text-sm'>
-							Created February, 2023 by
+							Created at{' '}
+							{new Date(community?.createdAt || '').toLocaleDateString(
+								'en-US',
+								{ month: 'long', year: 'numeric' }
+							)}
 						</span>
-						<span className='title text-sm'>@zubayerjs</span>
 					</p>
 				</div>
 
 				<div className='my-7'>
 					<h1 className='title'>About</h1>
-					<h3 className='muted mb-7'>
-						Welcome to a vibrant community where passionate developers like you
-						come together to learn, share, and build amazing things! A
-						supportive environment: We believe in fostering a welcoming and
-						inclusive space where everyone feels comfortable asking questions,
-						sharing ideas, and seeking help. Diverse skill sets: Our members
-						come from all backgrounds and experience levels, from seasoned
-						professionals to enthusiastic beginners.
-					</h3>
+					<h3 className='muted mb-7'>{community?.description}</h3>
 				</div>
-				<div className='my-7'>
-					<h1 className='title'>Rules</h1>
-					<p className='muted'>
-						Everyone should follow these rules and guidelines provided by
-						community admins.
-					</p>
-					<ul className='flex flex-col gap-8 my-5 ml-10 list-decimal text-light-primary/80 font-bold'>
-						<li>
-							<h4 className='title text-sm'>Be kind to others</h4>
-							<p className='muted'>
-								You should response in a good manner way to everyone in your
-								team. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-								Quo, iusto?
-							</p>
-						</li>
-						<li>
-							<h4 className='title text-sm'>Be kind to others</h4>
-							<p className='muted'>
-								You should response in a good manner way to everyone in your
-								team. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-								Quo, iusto?
-							</p>
-						</li>
-						<li>
-							<h4 className='title text-sm'>Be kind to others</h4>
-							<p className='muted'>
-								You should response in a good manner way to everyone in your
-								team. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-								Quo, iusto?
-							</p>
-						</li>
-					</ul>
-				</div>
+
+				{isSuccess && data.rules.length ? (
+					<div className='my-7'>
+						<h1 className='title'>Rules</h1>
+						<p className='muted'>
+							Everyone should follow these rules and guidelines provided by
+							community admins.
+						</p>
+						<ul className='flex flex-col gap-8 my-5 ml-10 list-decimal text-light-primary/80 font-bold'>
+							{data.rules.map(({ rule_id, title, body }) => (
+								<li key={rule_id}>
+									<h4 className='title text-sm'>{title}</h4>
+									<p className='muted'>{body}</p>
+								</li>
+							))}
+						</ul>
+					</div>
+				) : null}
 
 				<div>
 					<h1 className='title'>Members</h1>
@@ -82,14 +77,18 @@ const Info = () => {
 					</p>
 
 					<div className='flex flex-col gap-5 my-5'>
-						{/* items */}
-						<div className='flex justify-between items-center'>
+						{!membersData?.members.length ? (
+							<h1 className='title text-red'>No Member Exist</h1>
+						) : (
+							membersData.members.map((member) => <MemberItem {...member} />)
+						)}
+
+						{/* <div className='flex justify-between items-center'>
 							<div className='flex items-center gap-3'>
 								<img src={profile} className='profile' alt="Member's Profile" />
 
 								<div>
 									<h1 className='title'>A B M Zubayer</h1>
-									{/* // TODO: it should be beautiful button */}
 									<button type='button' className='muted'>
 										Member
 									</button>
@@ -103,14 +102,12 @@ const Info = () => {
 								variant='outline'
 							/>
 						</div>
-						{/* items */}
 						<div className='flex justify-between items-center'>
 							<div className='flex items-center gap-3'>
 								<img src={profile} className='profile' alt="Member's Profile" />
 
 								<div>
 									<h1 className='title'>A B M Zubayer</h1>
-									{/* // TODO: it should be beautiful button */}
 									<button type='button' className='muted'>
 										Member
 									</button>
@@ -123,7 +120,7 @@ const Info = () => {
 								size='small'
 								variant='outline'
 							/>
-						</div>
+						</div> */}
 					</div>
 
 					<Button text='See more' fullWidth size='small' onClick={handleMore} />

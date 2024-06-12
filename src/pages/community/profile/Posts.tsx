@@ -25,9 +25,9 @@ import { trunc } from '../../../libs/helpers';
 const Posts = () => {
 	const params = useParams();
 	const { data } = useGetCommunityQuery(params?.id || skipToken);
-	const { data: membersData, isSuccess } = useGetMembersQuery(
-		params.id ?? skipToken
-	);
+	const { data: membersData, isSuccess } = useGetMembersQuery({
+		community_id: params.id ?? skipToken,
+	});
 
 	const memberId = (data as Community)?.member_id;
 	const isFetchPosts = !!(typeof memberId === 'string');
@@ -192,6 +192,7 @@ const Posts = () => {
 					</div>
 				</OutletLayout>
 			</div>
+
 			<ModalLayout
 				heading='Create Post'
 				isOpen={isVisibleModal}

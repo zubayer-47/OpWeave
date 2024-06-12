@@ -17,8 +17,10 @@ export type GuestCommunityViewType = {
 	message: string;
 	community_id: string;
 	name: string;
+	description: string;
 	bio: string;
 	avatar: string;
+	createdAt: string;
 };
 
 export type CommunityItemResType = {

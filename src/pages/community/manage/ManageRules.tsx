@@ -10,7 +10,7 @@ import Button from '../../../components/Buttons/Button';
 import Input from '../../../components/Inputs/Input';
 import {
 	useCreateRuleMutation,
-	useUpdateRulesOrderMutation,
+	useReorderRulesMutation,
 } from '../../../features/authority/authorityApi';
 import { RuleType } from '../../../features/authority/types';
 import { useGetCommunityRulesQuery } from '../../../features/community/communityApi';
@@ -54,7 +54,7 @@ const ManageRules = () => {
 	const { isLoading, refetch } = useGetCommunityRulesQuery(
 		params.id || skipToken
 	);
-	const [updateRulesOrder] = useUpdateRulesOrderMutation();
+	const [reorderRules] = useReorderRulesMutation();
 	const [createRule] = useCreateRuleMutation();
 	const [rules, setRules] = useState<RuleType[]>([]);
 	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
@@ -74,9 +74,11 @@ const ManageRules = () => {
 			});
 	}, [refetch]);
 
-	const updateRulesOrderDebounce = _debounce(() => {
-		updateRulesOrder({ community_id: params.id!, rules });
-	}, 2000);
+	const reorderRulesDebounce = _debounce(async () => {
+		await reorderRules({ community_id: params.id!, rules }).unwrap();
+
+		toast.success('Community rules reordered');
+	}, 1000);
 
 	const findRule = useCallback(
 		(id: string) => {
@@ -98,10 +100,6 @@ const ManageRules = () => {
 			clonedRules.splice(index, 1);
 			clonedRules.splice(atIndex, 0, {
 				...rule,
-			});
-
-			clonedRules.forEach((rule, ind) => {
-				rule.order = ind + 1;
 			});
 
 			setRules(clonedRules);
@@ -127,7 +125,7 @@ const ManageRules = () => {
 			error: "Couldn't create.",
 		});
 
-		e.currentTarget.reset();
+		dispatch(updateModal());
 	};
 
 	return (
@@ -148,31 +146,31 @@ const ManageRules = () => {
 						{!rules.length ? (
 							<h1 className='title text-dark-muted'>No Rules Defined</h1>
 						) : null}
-						<div
+						<ul
 							className={clsx(
-								'bg-dark-muted/20 rounded-lg shadow-md shadow-dark-active divide-y divide-dark-muted',
+								'bg-dark-muted/20 rounded-lg shadow-md shadow-dark-active',
+								'list-decimal text-light-primary/80 font-bold ps-10',
 								{
-									'p-3': !!rules.length,
+									'p-2': !!rules.length,
 								}
 							)}
 							ref={drop}
 						>
 							{!rules.length
 								? null
-								: rules.map(({ rule_id, title, body, order }) => (
+								: rules.map(({ rule_id, title, body }) => (
 										<Rule
 											key={rule_id}
 											id={rule_id}
-											index={order}
 											title={title}
 											text={body}
 											moveRule={moveRule}
 											findRule={findRule}
-											debounce={updateRulesOrderDebounce}
+											debounce={reorderRulesDebounce}
 										/>
 										// eslint-disable-next-line no-mixed-spaces-and-tabs
 								  ))}
-						</div>
+						</ul>
 					</>
 				)}
 			</div>

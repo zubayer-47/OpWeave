@@ -8,12 +8,15 @@ import MemberItem from './partials/MemberItem';
 
 const Members = () => {
 	const params = useParams();
-	const { data, isSuccess } = useGetMembersQuery(params.id ?? skipToken);
 
 	const query = useQuery();
-	const navigate = useNavigate();
-
 	const filterByQuery = query.get('filterBy');
+
+	const { data, isSuccess } = useGetMembersQuery({
+		community_id: params.id ?? skipToken,
+		filterBy: (filterByQuery ?? 'all') as 'all' | 'authority',
+	});
+	const navigate = useNavigate();
 
 	const handleFilterType = (filterBy: 'all' | 'authority'): void => {
 		navigate(`/communities/${params.id}?sec=members&filterBy=${filterBy}`);
