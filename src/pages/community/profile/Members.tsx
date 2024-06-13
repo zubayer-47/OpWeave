@@ -2,6 +2,7 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetMembersQuery } from '../../../features/community/communityApi';
+import { FilterBy } from '../../../features/community/types';
 import useQuery from '../../../hooks/useQueryParams';
 import CenterLayout from '../../../layouts/CenterLayout';
 import MemberItem from './partials/MemberItem';
@@ -14,7 +15,7 @@ const Members = () => {
 
 	const { data, isSuccess } = useGetMembersQuery({
 		community_id: params.id ?? skipToken,
-		filterBy: (filterByQuery ?? 'all') as 'all' | 'authority',
+		filterBy: (filterByQuery ?? 'all') as FilterBy,
 	});
 	const navigate = useNavigate();
 

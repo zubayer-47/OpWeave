@@ -76,6 +76,8 @@ export type MembersResType = {
 	total: number;
 };
 
+export type FilterBy = 'authority' | 'all';
+
 export enum MemberRole {
 	ADMIN = 'ADMIN',
 	MODERATOR = 'MODERATOR',

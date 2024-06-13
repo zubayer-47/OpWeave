@@ -6,6 +6,7 @@ import {
 	Community,
 	CommunityItemResType,
 	CommunityRulesType,
+	FilterBy,
 	GuestCommunityViewType,
 	LeaveCommunityResType,
 	MembersResType,
@@ -105,7 +106,7 @@ export const communityApi = apiService.injectEndpoints({
 				community_id: string | symbol;
 				page?: number;
 				limit?: number;
-				filterBy?: 'authority' | 'all';
+				filterBy?: FilterBy;
 			}
 		>({
 			query: ({ community_id, page = 1, limit = 10, filterBy = 'all' }) =>
