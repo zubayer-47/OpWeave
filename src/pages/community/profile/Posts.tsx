@@ -3,7 +3,6 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import { Frown } from 'lucide-react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import Button from '../../../components/Buttons/Button';
 import CreatePost from '../../../components/CreatePost';
 import Post from '../../../components/Post';
@@ -16,9 +15,7 @@ import {
 	Community,
 	GuestCommunityViewType,
 } from '../../../features/community/types';
-import { updateModal } from '../../../features/modal/modalSlice';
 import { useGetCommunityPostsQuery } from '../../../features/post/postApi';
-import ModalLayout from '../../../layouts/ModalLayouts/ModalLayout';
 import OutletLayout from '../../../layouts/OutletLayout';
 import { trunc } from '../../../libs/helpers';
 
@@ -37,8 +34,6 @@ const Posts = () => {
 		isLoading,
 		isError,
 	} = useGetCommunityPostsQuery(isFetchPosts ? params.id! : skipToken);
-	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
-	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const communityData = data as Community;
@@ -61,8 +56,9 @@ const Posts = () => {
 	return (
 		<div className={postGridStyles}>
 			<div className={basePostStyles}>
-				<div className='block md:hidden'>
-					<CreatePost />
+				{/* <div className='block md:hidden'> */}
+				<div className='mb-8'>
+					<CreatePost singleCommunity />
 				</div>
 
 				{isLoading ? (
@@ -159,24 +155,13 @@ const Posts = () => {
 									: null}
 							</span>
 						</div>
-						<Link
-							to={`/communities/${params.id}?sec=members`}
-							className={clsx(
-								'text-blue-primary',
-								'underline',
-								'underline-offset-2',
-								'font-Poppins',
-								'text-sm'
-							)}
-						>
-							Members
-						</Link>
 					</div>
 					<div className='flex items-center gap-5 px-4 my-5'>
 						<Button
-							text='Create Post'
-							onClick={() => dispatch(updateModal())}
-							disabled={!!(data as GuestCommunityViewType)?.message}
+							text='Members'
+							onClick={() => {
+								navigate(`/communities/${params.id}?sec=members&filterBy=all`);
+							}}
 						/>
 						<Button
 							text='Info'
@@ -192,15 +177,6 @@ const Posts = () => {
 					</div>
 				</OutletLayout>
 			</div>
-
-			<ModalLayout
-				heading='Create Post'
-				isOpen={isVisibleModal}
-				onClose={() => dispatch(updateModal())}
-				size='2xl'
-			>
-				<CreatePost singleCommunity />
-			</ModalLayout>
 		</div>
 	);
 };

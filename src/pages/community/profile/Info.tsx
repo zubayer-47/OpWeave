@@ -113,7 +113,7 @@ const Info = () => {
 									</button>
 								</div>
 							</div>
-
+							
 							<Button
 								text='View Profile'
 								icon={<User2 className='size-5' />}

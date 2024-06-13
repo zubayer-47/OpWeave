@@ -5,9 +5,9 @@ export type Post = {
 	community_id: string;
 	member_id: string;
 	body: string;
+	image_url: string;
 	createdAt: string;
 	updatedAt: string;
-	image_url: string;
 	community: {
 		name: string;
 	};
@@ -16,8 +16,9 @@ export type Post = {
 			fullname: string;
 			username: string;
 			avatar: string;
-		};
+		} | null;
 	};
+	hasJoined: boolean;
 };
 
 export type PostCommunityIdType = { community_id: string; post_id: string };

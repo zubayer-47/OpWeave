@@ -8,7 +8,7 @@ import { useGetUserAssignedCommunitiesQuery } from '../features/community/commun
 import { updateModal } from '../features/modal/modalSlice';
 import { useCreatePostMutation } from '../features/post/postApi';
 import { FormHandler } from '../types/custom';
-import { ImagePreview2 } from './ImagePreview';
+import ImagePreview from './ImagePreview';
 
 interface Props {
 	singleCommunity?: boolean;
@@ -102,18 +102,6 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 		}
 	};
 
-	let imgPre;
-
-	if (postState.selectedFile?.name) {
-		console.log(postState.selectedFile, '---true condition---');
-		imgPre = (
-			<ImagePreview2 file={postState.selectedFile} alt='Post Image Preview' />
-		);
-	} else {
-		console.log(postState.selectedFile, '---false condition---');
-		imgPre = <h1 className='title'>Nothing...</h1>;
-	}
-
 	return (
 		<form
 			onSubmit={handleSubmit}
@@ -178,13 +166,9 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 				placeholder='Write your thoughts..'
 			></textarea>
 
-			{/* {postState.selectedFile ? (
-				<ImagePreview2 file={postState.selectedFile} alt='Post Image Preview' />
-			) : (
-				<h1 className='title'>Nothing</h1>
-			)} */}
-
-			{imgPre}
+			{postState.selectedFile ? (
+				<ImagePreview file={postState.selectedFile} alt='Post Image Preview' />
+			) : null}
 
 			<div className='space-y-3 mt-3 mb-4'>
 				<hr className='border-light-border dark:border-dark-border' />
@@ -219,7 +203,7 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 					</div>
 					<button
 						className='title button text-sm text-light-text px-4 py-2 disabled:bg-nav-selected/50 disabled:text-light-text/80'
-						disabled={!postState.content}
+						disabled={!postState.content && !postState.selectedFile}
 						type='submit'
 					>
 						Post

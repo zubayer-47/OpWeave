@@ -1,11 +1,11 @@
 import clsx from 'clsx';
 import { X } from 'lucide-react';
 import { FC, ReactNode } from 'react';
+import { useAppSelector } from '../../app/hooks';
 import Hr from '../../components/Hr';
 
 interface Props {
 	heading: string;
-	isOpen: boolean;
 	onClose: () => void;
 	children: ReactNode;
 	size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
@@ -13,12 +13,13 @@ interface Props {
 
 const ModalLayout: FC<Props> = ({
 	heading,
-	isOpen,
 	onClose,
 	children,
 	size = 'md',
 }) => {
-	if (!isOpen) return null;
+	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
+
+	if (!isVisibleModal) return;
 
 	return (
 		<div className='fixed inset-0 flex items-center justify-center overflow-y-auto mx-2'>

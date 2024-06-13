@@ -27,9 +27,8 @@ const Post = ({
 		community: { name },
 		community_id,
 		image_url,
-		member: {
-			user: { avatar, fullname, username },
-		},
+		member: { user },
+		hasJoined,
 	},
 }: // El,
 Props) => {
@@ -78,14 +77,14 @@ Props) => {
 		<div className='post px-2 sm:px-7 pt-5 pb-3 relative'>
 			<div className='flex-group justify-between'>
 				<div className='flex-group'>
-					<Link to={`/profile/${username}?sec=timeline`}>
-						<img className='profile' src={avatar} alt='profile picture' />
+					<Link to={`/profile/${user?.username}?sec=timeline`}>
+						<img className='profile' src={user?.avatar} alt='profile picture' />
 					</Link>
 					<div>
-						<Link to={`/profile/${username}?sec=timeline`}>
-							<h1 className='title'>{fullname}</h1>
+						<Link to={`/profile/${user?.username}?sec=timeline`}>
+							<h1 className='title'>{user?.fullname}</h1>
 						</Link>
-						<span className='muted'>@{username}</span>
+						<span className='muted'>@{user?.username}</span>
 					</div>
 				</div>
 
@@ -99,7 +98,9 @@ Props) => {
 					</Link>
 
 					<div className='flex-group'>
-						<Button text='Join' size='small' className='!py-1.5' />
+						{hasJoined ? null : (
+							<Button text='Join' size='small' className='!py-1.5' />
+						)}
 						{/* <button type='button'>
 							<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary transition-colors' />
 						</button> */}
