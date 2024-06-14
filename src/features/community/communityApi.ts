@@ -1,6 +1,8 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { apiService } from '../api/apiService';
-import { join, leave } from './communitySlice';
+import { postApi } from '../post/postApi';
+import { Post } from '../post/types';
+import { leave } from './communitySlice';
 import {
 	CommunitiesResType,
 	Community,
@@ -25,9 +27,9 @@ export const communityApi = apiService.injectEndpoints({
 				try {
 					const res = await queryFulfilled;
 
-					if ((res.data as Community)?.role) {
-						dispatch(join());
-					}
+					// if ((res.data as Community)?.role) {
+					// 	dispatch(join());
+					// }
 
 					if ((res.data as GuestCommunityViewType)?.message) {
 						dispatch(leave());
@@ -122,13 +124,28 @@ export const communityApi = apiService.injectEndpoints({
 				method: 'POST',
 			}),
 
-			invalidatesTags: ['Community', { type: 'Community_posts', id: 'List' }],
+			invalidatesTags: [
+				'Community',
+				{ type: 'Community_posts', id: 'List' },
+				{ type: 'Feed', id: 'List' },
+			],
 
 			async onQueryStarted(community_id, { dispatch, queryFulfilled }) {
+				const patchResult = dispatch(
+					postApi.util.updateQueryData('getFeedPosts', undefined, (draft) => ({
+						posts: draft.posts.map(
+							(post): Post =>
+								post.community_id === community_id
+									? { ...post, hasJoined: true }
+									: post
+						),
+					}))
+				);
+
 				try {
 					const res = await queryFulfilled;
 
-					dispatch(join());
+					// dispatch(join());
 
 					dispatch(
 						communityApi.util.updateQueryData(
@@ -156,7 +173,7 @@ export const communityApi = apiService.injectEndpoints({
 						)
 					);
 				} catch (error) {
-					//
+					patchResult.undo();
 				}
 			},
 		}),
@@ -170,6 +187,7 @@ export const communityApi = apiService.injectEndpoints({
 				'Communities',
 				'Community',
 				{ type: 'Community_posts', id: 'List' },
+				{ type: 'Feed', id: 'List' },
 			],
 
 			async onQueryStarted(community_id, { dispatch, queryFulfilled }) {
@@ -199,7 +217,7 @@ export const communityApi = apiService.injectEndpoints({
 					await queryFulfilled;
 				} catch (error) {
 					patchResult.undo();
-					dispatch(join());
+					// dispatch(join());
 				}
 			},
 		}),

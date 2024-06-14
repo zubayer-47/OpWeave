@@ -10,6 +10,7 @@ import {
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { useJoinMemberMutation } from '../features/community/communityApi';
 import { useDeletePostMutation } from '../features/post/postApi';
 import type { Post } from '../features/post/types';
 import { trunc } from '../libs/helpers';
@@ -27,16 +28,28 @@ const Post = ({
 		community: { name },
 		community_id,
 		image_url,
-		member: { user },
+		member: {
+			user: { avatar, fullname, username },
+		},
 		hasJoined,
 	},
 }: // El,
+
 Props) => {
 	const [expanded, setExpanded] = useState(false);
 	const [deletePost] = useDeletePostMutation();
+	const [join] = useJoinMemberMutation();
 
 	const toggleExpanded = () => {
 		setExpanded(true);
+	};
+
+	const handleJoin = () => {
+		toast.promise(join(community_id).unwrap(), {
+			loading: 'Joining...',
+			success: 'Member Joined Successfully.',
+			error: "Couldn't Join",
+		});
 	};
 
 	const handleDeletePost = () => {
@@ -77,14 +90,14 @@ Props) => {
 		<div className='post px-2 sm:px-7 pt-5 pb-3 relative'>
 			<div className='flex-group justify-between'>
 				<div className='flex-group'>
-					<Link to={`/profile/${user?.username}?sec=timeline`}>
-						<img className='profile' src={user?.avatar} alt='profile picture' />
+					<Link to={`/profile/${username}?sec=timeline`}>
+						<img className='profile' src={avatar} alt='profile picture' />
 					</Link>
 					<div>
-						<Link to={`/profile/${user?.username}?sec=timeline`}>
-							<h1 className='title'>{user?.fullname}</h1>
+						<Link to={`/profile/${username}?sec=timeline`}>
+							<h1 className='title'>{fullname}</h1>
 						</Link>
-						<span className='muted'>@{user?.username}</span>
+						<span className='muted'>@{username}</span>
 					</div>
 				</div>
 
@@ -98,8 +111,13 @@ Props) => {
 					</Link>
 
 					<div className='flex-group'>
-						{hasJoined ? null : (
-							<Button text='Join' size='small' className='!py-1.5' />
+						{hasJoined || hasJoined === undefined ? null : (
+							<Button
+								text='Join'
+								onClick={handleJoin}
+								size='small'
+								className='!py-1.5'
+							/>
 						)}
 						{/* <button type='button'>
 							<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary transition-colors' />

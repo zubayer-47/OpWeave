@@ -9,7 +9,6 @@ interface Props extends PropsWithChildren {
 
 const CommunityPermissionWrapper = ({ right, children }: Props) => {
 	const member_role = useAppSelector((state) => state.community.member_role);
-	console.log('member_role :', member_role);
 
 	const hasPermission = right.includes(member_role);
 

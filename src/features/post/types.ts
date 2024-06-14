@@ -16,9 +16,9 @@ export type Post = {
 			fullname: string;
 			username: string;
 			avatar: string;
-		} | null;
+		};
 	};
-	hasJoined: boolean;
+	hasJoined: boolean | undefined;
 };
 
 export type PostCommunityIdType = { community_id: string; post_id: string };
