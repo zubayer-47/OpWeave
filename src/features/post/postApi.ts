@@ -74,14 +74,51 @@ export const postApi = apiService.injectEndpoints({
 			],
 		}),
 
-		postReact: builder.mutation<PostReactResType, string>({
-			query: (post_id) => ({
+		postReact: builder.mutation<
+			PostReactResType,
+			{ community_id: string; post_id: string }
+		>({
+			query: (payload) => ({
 				url: '/communities/posts/react',
 				method: 'POST',
-				body: {
-					post_id,
-				},
+				body: payload,
 			}),
+
+			async onQueryStarted({ post_id }, { dispatch, queryFulfilled }) {
+				const patchResult = dispatch(
+					postApi.util.updateQueryData('getFeedPosts', undefined, (draft) => {
+						const modifiedPostsDraft = draft.posts.map(
+							(post): Post =>
+								post.post_id === post_id
+									? {
+											...post,
+											reacts: post.reacts.length
+												? [
+														{
+															react_type:
+																post.reacts[0].react_type === 'LIKE'
+																	? 'UNLIKE'
+																	: 'LIKE',
+														},
+												  ]
+												: [{ react_type: 'LIKE' }],
+									  }
+									: post
+						);
+
+						return {
+							...draft,
+							posts: modifiedPostsDraft,
+						};
+					})
+				);
+
+				try {
+					await queryFulfilled;
+				} catch (error) {
+					patchResult.undo();
+				}
+			},
 		}),
 
 		deletePost: builder.mutation<

@@ -6,15 +6,16 @@ import classes from './LoveIcon.module.css';
 type Props = {
 	post_id: string;
 	react: 'LIKE' | 'UNLIKE';
+	community_id: string;
 };
 
-const LoveIcon: FC<Props> = ({ post_id, react }) => {
+const LoveIcon: FC<Props> = ({ post_id, react, community_id }) => {
 	const [postReact] = usePostReactMutation();
 	const [liked, setLiked] = useState(react === 'LIKE');
 
 	const toggleLike = async () => {
 		setLiked(!liked);
-		postReact(post_id);
+		postReact({ post_id, community_id });
 	};
 
 	return (

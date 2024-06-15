@@ -163,7 +163,11 @@ Props) => {
 			<hr className='border-t dark:border-dark-border border-light-border absolute bottom-14 right-0 left-0' />
 			<div className='flex items-center justify-between mt-5'>
 				<div className='flex items-center gap-3 relative'>
-					<LoveIcon react={reacts[0].react_type} post_id={post_id} />
+					<LoveIcon
+						react={reacts.length ? reacts[0].react_type : 'UNLIKE'}
+						community_id={community_id}
+						post_id={post_id}
+					/>
 					<MessageCircle className='size-8 text-light-muted dark:text-dark-muted' />
 					<MessageSquareShare className='size-7 text-light-muted dark:text-dark-muted' />
 				</div>
