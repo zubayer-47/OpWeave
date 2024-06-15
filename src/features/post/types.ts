@@ -11,6 +11,7 @@ export type Post = {
 	community: {
 		name: string;
 	};
+	reacts: { react_type: 'LIKE' | 'UNLIKE' }[];
 	member: {
 		user: {
 			fullname: string;

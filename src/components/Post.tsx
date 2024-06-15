@@ -28,6 +28,7 @@ const Post = ({
 		community: { name },
 		community_id,
 		image_url,
+		reacts,
 		member: {
 			user: { avatar, fullname, username },
 		},
@@ -39,7 +40,6 @@ Props) => {
 	const [expanded, setExpanded] = useState(false);
 	const [deletePost] = useDeletePostMutation();
 	const [join] = useJoinMemberMutation();
-	// const loveRef = useRef<LottieRefCurrentProps>(null);
 
 	const toggleExpanded = () => {
 		setExpanded(true);
@@ -163,7 +163,7 @@ Props) => {
 			<hr className='border-t dark:border-dark-border border-light-border absolute bottom-14 right-0 left-0' />
 			<div className='flex items-center justify-between mt-5'>
 				<div className='flex items-center gap-3 relative'>
-					<LoveIcon post_id={post_id} />
+					<LoveIcon react={reacts[0].react_type} post_id={post_id} />
 					<MessageCircle className='size-8 text-light-muted dark:text-dark-muted' />
 					<MessageSquareShare className='size-7 text-light-muted dark:text-dark-muted' />
 				</div>

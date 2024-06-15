@@ -5,22 +5,16 @@ import classes from './LoveIcon.module.css';
 
 type Props = {
 	post_id: string;
+	react: 'LIKE' | 'UNLIKE';
 };
 
-const LoveIcon: FC<Props> = ({ post_id }) => {
-	const [postReact, { data, isSuccess }] = usePostReactMutation();
-	const [liked, setLiked] = useState(false);
+const LoveIcon: FC<Props> = ({ post_id, react }) => {
+	const [postReact] = usePostReactMutation();
+	const [liked, setLiked] = useState(react === 'LIKE');
 
 	const toggleLike = async () => {
 		setLiked(!liked);
-
-		try {
-			const res = await postReact(post_id).unwrap();
-
-			console.log(res);
-		} catch (error) {
-			// console.log(error, '--e-');
-		}
+		postReact(post_id);
 	};
 
 	return (
@@ -31,9 +25,9 @@ const LoveIcon: FC<Props> = ({ post_id }) => {
 			}`}
 		>
 			{liked ? (
-				<Heart className='size-8 stroke-rose-500' />
-			) : (
 				<Heart className='size-8 stroke-rose-500 fill-rose-500' />
+			) : (
+				<Heart className='size-8 stroke-rose-500' />
 			)}
 		</button>
 	);
