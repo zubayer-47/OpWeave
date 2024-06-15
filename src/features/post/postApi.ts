@@ -6,6 +6,7 @@ import {
 	PendingPostRes,
 	Post,
 	PostCommunityIdType,
+	PostReactResType,
 } from './types';
 
 export const postApi = apiService.injectEndpoints({
@@ -72,6 +73,17 @@ export const postApi = apiService.injectEndpoints({
 				'Current_user_pending_posts',
 			],
 		}),
+
+		postReact: builder.mutation<PostReactResType, string>({
+			query: (post_id) => ({
+				url: '/communities/posts/react',
+				method: 'POST',
+				body: {
+					post_id,
+				},
+			}),
+		}),
+
 		deletePost: builder.mutation<
 			{
 				message: string;
@@ -179,6 +191,7 @@ export const {
 	useGetUserPostsQuery,
 	useGetFeedPostsQuery,
 	useCreatePostMutation,
+	usePostReactMutation,
 	useDeletePostMutation,
 	useGetCommunityPostsQuery,
 	useGetPendingPostsQuery,

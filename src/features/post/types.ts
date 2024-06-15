@@ -38,4 +38,9 @@ export type PendingPost = {
 	};
 };
 
+export type PostReactResType = {
+	message: string;
+	count: number;
+};
+
 export type PendingPostRes = { posts: PendingPost[]; role: MemberRole };

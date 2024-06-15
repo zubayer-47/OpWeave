@@ -1,6 +1,5 @@
 import {
 	Bookmark,
-	Heart,
 	MessageCircle,
 	MessageSquareShare,
 	MoreHorizontal,
@@ -16,6 +15,7 @@ import type { Post } from '../features/post/types';
 import { trunc } from '../libs/helpers';
 import Button from './Buttons/Button';
 import ClickableDropdown from './ClickableDropdown';
+import LoveIcon from './errors/LoveIcon';
 
 type Props = {
 	post: Post;
@@ -39,6 +39,7 @@ Props) => {
 	const [expanded, setExpanded] = useState(false);
 	const [deletePost] = useDeletePostMutation();
 	const [join] = useJoinMemberMutation();
+	// const loveRef = useRef<LottieRefCurrentProps>(null);
 
 	const toggleExpanded = () => {
 		setExpanded(true);
@@ -161,8 +162,8 @@ Props) => {
 
 			<hr className='border-t dark:border-dark-border border-light-border absolute bottom-14 right-0 left-0' />
 			<div className='flex items-center justify-between mt-5'>
-				<div className='flex items-center gap-3'>
-					<Heart className='size-8 text-light-muted dark:text-dark-muted' />
+				<div className='flex items-center gap-3 relative'>
+					<LoveIcon post_id={post_id} />
 					<MessageCircle className='size-8 text-light-muted dark:text-dark-muted' />
 					<MessageSquareShare className='size-7 text-light-muted dark:text-dark-muted' />
 				</div>
