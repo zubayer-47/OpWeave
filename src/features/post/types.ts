@@ -10,10 +10,12 @@ export type Post = {
 	updatedAt: string;
 	community: {
 		name: string;
+		members?: { role: MemberRole }[];
 	};
 	reacts: { react_type: 'LIKE' | 'UNLIKE' }[];
 	member: {
 		user: {
+			user_id: string;
 			fullname: string;
 			username: string;
 			avatar: string;

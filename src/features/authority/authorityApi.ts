@@ -23,6 +23,8 @@ export const authorityApi = apiService.injectEndpoints({
 				},
 			}),
 
+			invalidatesTags: [{ type: 'Community_posts', id: 'List' }],
+
 			async onQueryStarted(
 				{ community_id, post_id },
 				{ dispatch, queryFulfilled }
@@ -39,6 +41,7 @@ export const authorityApi = apiService.injectEndpoints({
 						}
 					)
 				);
+
 				try {
 					await queryFulfilled;
 				} catch (error) {

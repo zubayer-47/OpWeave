@@ -24,8 +24,6 @@ const ImagePreview = ({ alt, file }: Props) => {
 		}
 	}, [file]);
 
-	console.log(previewUrl);
-
 	return <img ref={imageRef} src={previewUrl} alt={alt} />;
 };
 

@@ -1,6 +1,11 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
-import { GripHorizontal, MoreHorizontal, Target } from 'lucide-react';
+import {
+	GripHorizontal,
+	MoreHorizontal,
+	Target,
+	UserMinus,
+} from 'lucide-react';
 import { ReactNode } from 'react';
 import ContentLoader from 'react-content-loader';
 import toast from 'react-hot-toast';
@@ -205,10 +210,7 @@ function Clickable({
 								className='flex items-center gap-3 py-2 px-3 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
 								onClick={handleLeaveMember}
 							>
-								<GripHorizontal
-									className='text-light-primary'
-									strokeWidth={1.5}
-								/>
+								<UserMinus className='text-light-primary' strokeWidth={1.5} />
 								<h3 className='title text-sm font-normal'>Leave</h3>
 							</button>
 						) : (

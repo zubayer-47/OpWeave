@@ -116,8 +116,19 @@ export const postApi = apiService.injectEndpoints({
 				try {
 					await queryFulfilled;
 				} catch (error) {
+					// if ('status' in error) {
+					// 	console.log(error.status);
+					// }
 					patchResult.undo();
 				}
+			},
+
+			async transformErrorResponse(error) {
+				if (error.status === 403) {
+					toast.error("You're not allowed to react this post!");
+				}
+
+				return error;
 			},
 		}),
 

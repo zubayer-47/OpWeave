@@ -43,7 +43,7 @@ export type LeaveCommunityResType = {
 };
 
 export type CommunityStateType = {
-	member_role: MemberRole;
+	// member_role: MemberRole;
 	isJoined: boolean;
 };
 
