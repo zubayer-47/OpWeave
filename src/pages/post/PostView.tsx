@@ -1,13 +1,13 @@
 import { skipToken } from '@reduxjs/toolkit/query';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Post from '../../components/Post';
 import RootLoader from '../../components/ui-placeholders/RootLoader';
 import { useGetPostQuery } from '../../features/post/postApi';
 
 const PostView = () => {
-	const { state } = useLocation();
+	const params = useParams();
 	const { data, isLoading, isSuccess, isError } = useGetPostQuery(
-		{ community_id: state?.community_id, post_id: state?.post_id } || skipToken
+		params?.postId || skipToken
 	);
 
 	if (isLoading) return <RootLoader />;

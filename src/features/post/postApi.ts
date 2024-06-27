@@ -11,9 +11,9 @@ import {
 
 export const postApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
-		getPost: builder.query<Post, PostCommunityIdType>({
-			query: ({ community_id, post_id }) => ({
-				url: `/communities/${community_id}/posts/${post_id}`,
+		getPost: builder.query<Post, string>({
+			query: (post_id) => ({
+				url: `/communities/posts/${post_id}`,
 			}),
 
 			transformErrorResponse(res) {
@@ -84,15 +84,18 @@ export const postApi = apiService.injectEndpoints({
 				body: payload,
 			}),
 
-			async onQueryStarted({ post_id }, { dispatch, queryFulfilled }) {
-				const patchResult = dispatch(
+			async onQueryStarted(
+				{ post_id, community_id },
+				{ dispatch, queryFulfilled }
+			) {
+				const feedPostsPatchResult = dispatch(
 					postApi.util.updateQueryData('getFeedPosts', undefined, (draft) => {
 						const modifiedPostsDraft = draft.posts.map(
 							(post): Post =>
 								post.post_id === post_id
 									? {
 											...post,
-											reacts: post.reacts.length
+											reacts: post.reacts?.length
 												? [
 														{
 															react_type:
@@ -113,13 +116,52 @@ export const postApi = apiService.injectEndpoints({
 					})
 				);
 
+				const communityPostsPatchRes = dispatch(
+					postApi.util.updateQueryData(
+						'getCommunityPosts',
+						community_id,
+						(draft) => ({
+							...draft,
+							posts: draft.posts.map((post) =>
+								post.post_id === post_id
+									? {
+											...post,
+											reacts: post.reacts?.length
+												? [
+														{
+															react_type:
+																post.reacts[0].react_type === 'LIKE'
+																	? 'UNLIKE'
+																	: 'LIKE',
+														},
+												  ]
+												: [{ react_type: 'LIKE' }],
+									  }
+									: post
+							),
+						})
+					)
+				);
+
+				const postViewPatchResult = dispatch(
+					postApi.util.updateQueryData('getPost', post_id, (draft) => ({
+						...draft,
+						reacts:
+							draft.reacts?.length && draft.reacts[0].react_type === 'LIKE'
+								? [{ react_type: 'UNLIKE' }]
+								: [{ react_type: 'LIKE' }],
+					}))
+				);
+
 				try {
 					await queryFulfilled;
 				} catch (error) {
 					// if ('status' in error) {
 					// 	console.log(error.status);
 					// }
-					patchResult.undo();
+					feedPostsPatchResult.undo();
+					communityPostsPatchRes.undo();
+					postViewPatchResult.undo();
 				}
 			},
 

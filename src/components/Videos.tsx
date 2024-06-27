@@ -13,7 +13,7 @@ const Videos: FC<Props> = ({ data }) => {
 			<div className='py-5 space-y-5'>
 				<h1 className='title text-2xl'>Videos</h1>
 
-				<div className='grid grid-cols-3 gap-5'>
+				<div className='grid grid-cols-2 md:grid-cols-3 gap-5'>
 					{data.map(({ id, avatar }) => (
 						// <Link to='' className='hover:shadow-2xl shadow-gray-200'>
 						<Link

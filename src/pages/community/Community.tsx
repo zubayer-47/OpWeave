@@ -36,8 +36,9 @@ const Community = () => {
 	const { data, isLoading } = useGetCommunityQuery(params?.id || skipToken);
 
 	let content: ReactNode;
-	if (!query.get('sec')) content = <Posts />;
-	else if (query.get('sec') === 'posts') content = <Posts />;
+	if (!query.get('sec')) content = <Posts role={(data as Community)?.role} />;
+	else if (query.get('sec') === 'posts')
+		content = <Posts role={(data as Community)?.role} />;
 	else if (query.get('sec') === 'info') content = <Info />;
 	else if (query.get('sec') === 'photos')
 		content = <Photos data={slicedData} />;

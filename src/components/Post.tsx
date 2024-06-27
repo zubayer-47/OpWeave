@@ -21,6 +21,7 @@ import LoveIcon from './errors/LoveIcon';
 
 type Props = {
 	post: Post;
+	role?: MemberRole;
 };
 
 const Post = ({
@@ -36,6 +37,7 @@ const Post = ({
 		},
 		hasJoined,
 	},
+	role,
 }: // El,
 
 Props) => {
@@ -44,7 +46,8 @@ Props) => {
 	const [join] = useJoinMemberMutation();
 	const uname = useAppSelector((state) => state.auth.user?.username);
 
-	const isMemberAdmin = members?.length && members[0].role === MemberRole.ADMIN;
+	const isMemberAdmin =
+		(members?.length && members[0].role !== MemberRole.MEMBER) || role;
 	const isUserPostOwner = username === uname;
 
 	const toggleExpanded = () => {

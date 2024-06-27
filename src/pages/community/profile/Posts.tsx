@@ -2,6 +2,7 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import { Frown } from 'lucide-react';
+import { FC } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Button from '../../../components/Buttons/Button';
 import CreatePost from '../../../components/CreatePost';
@@ -14,12 +15,17 @@ import {
 import {
 	Community,
 	GuestCommunityViewType,
+	MemberRole,
 } from '../../../features/community/types';
 import { useGetCommunityPostsQuery } from '../../../features/post/postApi';
 import OutletLayout from '../../../layouts/OutletLayout';
 import { trunc } from '../../../libs/helpers';
 
-const Posts = () => {
+type Props = {
+	role?: MemberRole;
+};
+
+const Posts: FC<Props> = ({ role }) => {
 	const params = useParams();
 	const { data } = useGetCommunityQuery(params?.id || skipToken);
 	const { data: membersData, isSuccess } = useGetMembersQuery({
@@ -96,7 +102,7 @@ const Posts = () => {
 							</h1>
 						) : (
 							communityPostsData.posts.map((post) => (
-								<Post key={post.post_id} post={post} />
+								<Post key={post.post_id} post={post} role={role} />
 							))
 						)}
 					</div>
