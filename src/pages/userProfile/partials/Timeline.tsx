@@ -2,7 +2,7 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import { useParams } from 'react-router-dom';
 import { useAppSelector } from '../../../app/hooks';
 import CreatePost from '../../../components/CreatePost';
-import Post from '../../../components/Post';
+import Post from '../../../components/Post/Post';
 import PostPlaceholder from '../../../components/ui-placeholders/PostPlaceholder';
 import { useGetUserPostsQuery } from '../../../features/post/postApi';
 import CenterLayout from '../../../layouts/CenterLayout';

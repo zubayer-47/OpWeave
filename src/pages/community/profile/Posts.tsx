@@ -6,7 +6,7 @@ import { FC } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Button from '../../../components/Buttons/Button';
 import CreatePost from '../../../components/CreatePost';
-import Post from '../../../components/Post';
+import Post from '../../../components/Post/Post';
 import PostPlaceholder from '../../../components/ui-placeholders/PostPlaceholder';
 import {
 	useGetCommunityQuery,

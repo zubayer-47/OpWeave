@@ -1,6 +1,6 @@
 import { Frown } from 'lucide-react';
 import CreatePost from '../../components/CreatePost';
-import Post from '../../components/Post';
+import Post from '../../components/Post/Post';
 import PostPlaceholder from '../../components/ui-placeholders/PostPlaceholder';
 import { useGetFeedPostsQuery } from '../../features/post/postApi';
 

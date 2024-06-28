@@ -1,6 +1,6 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import { useParams } from 'react-router-dom';
-import Post from '../../components/Post';
+import Post from '../../components/Post/Post';
 import RootLoader from '../../components/ui-placeholders/RootLoader';
 import { useGetPostQuery } from '../../features/post/postApi';
 
