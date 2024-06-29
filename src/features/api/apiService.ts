@@ -57,5 +57,8 @@ export const apiService = createApi({
 		'Current_user_pending_posts',
 		'Rule',
 		// 'Post',
+
+		'Comments',
+		'Replies',
 	],
 });

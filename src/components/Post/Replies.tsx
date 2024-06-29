@@ -1,75 +1,107 @@
+import { skipToken } from '@reduxjs/toolkit/query';
+import clsx from 'clsx';
+import { CornerDownLeft } from 'lucide-react';
+import { FC } from 'react';
 import profile from '../../assets/profile.webp';
+import {
+	useCreateCommentReplyMutation,
+	useGetCommentRepliesQuery,
+} from '../../features/comment/commentApi';
+import { formatTime } from '../../libs/helpers';
+import { FormHandler } from '../../types/custom';
 
-const Replies = () => {
-	const replies = [
-		{
-			comment_id: 'd1b55b3c-542b-4664-b8e8-1462826d96d4',
-			body: 'this is first testing comment reply',
-			createdAt: '2024-06-27T20:08:05.572Z',
-			updatedAt: '2024-06-27T20:08:05.572Z',
-			deletedAt: null,
-			member_id: 'd4397974-b70b-4f00-8e39-5719a8adf56d',
-			post_id: '3e0ea6ba-7c8c-4992-9337-47c3741c046f',
-			parent_comment_id: 'b4529ec4-0568-4ee0-93d5-d6c0719fb739',
-		},
-		{
-			comment_id: '03fdc2a4-7208-4e43-8f84-54eef51c8ed4',
-			body: 'Earum tempora qui dolore aliquid dolore repudiandae similique nobis.',
-			createdAt: '2024-06-27T20:20:15.128Z',
-			updatedAt: '2024-06-27T20:20:15.128Z',
-			deletedAt: null,
-			member_id: 'd4397974-b70b-4f00-8e39-5719a8adf56d',
-			post_id: '3e0ea6ba-7c8c-4992-9337-47c3741c046f',
-			parent_comment_id: 'b4529ec4-0568-4ee0-93d5-d6c0719fb739',
-		},
-		{
-			comment_id: '4cb84b93-0721-4985-a157-56c670caba9f',
-			body: 'Aut error vel numquam esse deserunt autem.',
-			createdAt: '2024-06-27T20:20:17.930Z',
-			updatedAt: '2024-06-27T20:20:17.930Z',
-			deletedAt: null,
-			member_id: 'd4397974-b70b-4f00-8e39-5719a8adf56d',
-			post_id: '3e0ea6ba-7c8c-4992-9337-47c3741c046f',
-			parent_comment_id: 'b4529ec4-0568-4ee0-93d5-d6c0719fb739',
-		},
-	];
+type Props = {
+	comment_id: string;
+	member_id: string;
+};
+const Replies: FC<Props> = ({ comment_id, member_id }) => {
+	const { data, isSuccess } = useGetCommentRepliesQuery(
+		comment_id || skipToken
+	);
+	const [createCommentReply] = useCreateCommentReplyMutation();
+
+	const handleCommentSubmit: FormHandler = (e) => {
+		e.preventDefault();
+
+		const formData = new FormData(e.currentTarget);
+
+		const data = {
+			comment: formData.get('comment'),
+		};
+
+		createCommentReply({ body: data.comment, member_id, comment_id });
+
+		e.currentTarget.reset();
+	};
 
 	return (
-		<div className='ps-10'>
-			{replies.map(() => (
-				<div className='bg-dark-border/30 hover:bg-dark-border/50 p-2 rounded-md mt-5'>
-					<div className='flex items-stretch justify-start gap-2'>
-						<img src={profile} className='profile' alt='' />
-						<h1 className='title '>A B M Zubayer</h1>
-						<h1 className='title font-normal text-sm text-dark-muted bg-dark-border h-fit px-1.5 py-0.5 rounded-full select-none'>
-							Member
-						</h1>
-					</div>
-					<p className='title font-normal font-Inter'>
-						Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus
-						natus vitae fugiat omnis officia delectus, asperiores praesentium
-						accusamus nobis unde nesciunt dolorem! Quisquam, cupiditate
-						obcaecati? Blanditiis corporis eos laborum. Praesentium sint minus
-						eaque deserunt ea adipisci. Molestiae atque dolores iure fuga quia
-						reprehenderit a laborum corrupti eos mollitia, maiores voluptatum.
-						Velit vel quaerat exercitationem fugiat accusamus est placeat porro
-						accusantium sit harum, sequi magnam consequuntur ad voluptates a
-						ipsam temporibus nihil similique? Harum est dolore hic officiis
-						beatae, sint obcaecati. Perferendis dolorum eveniet porro quisquam
-						cum perspiciatis vel? Soluta itaque ipsum mollitia id ex, nemo nulla
-						qui aperiam exercitationem odio?
-					</p>
-					{/* <h3 className='title font-normal mt-5 bg-blue-primary w-fit rounded-full px-2 py-1'>
-						replies
-					</h3> */}
-					{/* <button
-						type='button'
-						className='title font-normal text-dark-muted border border-dark-border h-fit px-2 py-0.5 rounded-full mt-5'
+		<div className='ps-8'>
+			{isSuccess && !data.replies.length ? (
+				<h1 className='title text-dark-muted text-sm my-2 text-center'>
+					No Replies
+				</h1>
+			) : (
+				isSuccess &&
+				data.replies.map(
+					({
+						body,
+						comment_id,
+						createdAt,
+						member: {
+							role,
+							user: { fullname },
+						},
+					}) => (
+						<div
+							key={comment_id}
+							className='bg-dark-border/30 hover:bg-dark-border/50 p-2 rounded-md mt-5'
+						>
+							<div className='flex items-stretch justify-start gap-2'>
+								<img src={profile} className='profile' alt='' />
+								<div>
+									<div className='flex gap-2'>
+										<h1 className='title '>{fullname}</h1>
+										<small className='text-dark-muted'>
+											{formatTime(createdAt)}
+										</small>
+									</div>
+									<small className='font-Poppins capitalize tracking-wider font-normal text-dark-muted bg-dark-border w-fit h-fit px-1.5 py-0.5 rounded-full select-none'>
+										{role.toLowerCase()}
+									</small>
+								</div>
+							</div>
+							<p className='title font-normal font-Inter mt-3'>{body}</p>
+						</div>
+					)
+				)
+			)}
+
+			<form className='relative mt-3' onSubmit={handleCommentSubmit}>
+				<input
+					type='text'
+					name='comment'
+					id='comment'
+					className={clsx(
+						'block w-full px-3 py-2.5 text-sm rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all'
+						// {
+						// 	'dark:border-red': !!error,
+						// }
+					)}
+					placeholder='Write comment reply'
+					required
+					// disabled={isLoading}
+				/>
+
+				<div className='absolute inset-y-0.5 end-0.5 flex items-center'>
+					<button
+						type='submit'
+						// disabled={isLoading}
+						className='bg-blue-primary/80 disabled:bg-blue-primary/60 w-10 h-full rounded-e-md'
 					>
-						{10 > 1 ? '10 Replies' : '1 Reply'}
-					</button> */}
+						<CornerDownLeft className='w-full h-5 dark:text-light-primary' />
+					</button>
 				</div>
-			))}
+			</form>
 		</div>
 	);
 };

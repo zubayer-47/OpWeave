@@ -5,11 +5,11 @@ import { MemberType } from '../../../../features/community/types';
 
 type Props = MemberType;
 
-const MemberItem = ({ user_id, user: { fullname, avatar }, role }: Props) => {
+const MemberItem = ({ user: { fullname, username, avatar }, role }: Props) => {
 	const navigate = useNavigate();
 
 	const handleVisitProfile = () => {
-		navigate(`/profile/${user_id}?sec=timeline`);
+		navigate(`/profile/${username}?sec=timeline`);
 	};
 
 	return (

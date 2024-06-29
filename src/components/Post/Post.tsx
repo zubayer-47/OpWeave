@@ -1,5 +1,8 @@
+import { skipToken } from '@reduxjs/toolkit/query';
+import clsx from 'clsx';
 import {
 	Bookmark,
+	CornerDownLeft,
 	MessageCircle,
 	MessageSquareShare,
 	MoreHorizontal,
@@ -10,11 +13,16 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../app/hooks';
+import {
+	useCreateCommentMutation,
+	useGetCommentsQuery,
+} from '../../features/comment/commentApi';
 import { useJoinMemberMutation } from '../../features/community/communityApi';
 import { MemberRole } from '../../features/community/types';
 import { useDeletePostMutation } from '../../features/post/postApi';
 import type { Post } from '../../features/post/types';
 import { trunc } from '../../libs/helpers';
+import { FormHandler } from '../../types/custom';
 import Button from '../Buttons/Button';
 import ClickableDropdown from '../ClickableDropdown';
 import LoveIcon from '../errors/LoveIcon';
@@ -28,6 +36,7 @@ type Props = {
 const Post = ({
 	post: {
 		post_id,
+		member_id,
 		body,
 		community: { name, members },
 		community_id,
@@ -45,26 +54,13 @@ Props) => {
 	const [expanded, setExpanded] = useState(false);
 	const [deletePost] = useDeletePostMutation();
 	const [join] = useJoinMemberMutation();
+	const {
+		data: comments,
+		isSuccess,
+		// isError,
+	} = useGetCommentsQuery(post_id || skipToken);
+	const [createComment, { isLoading }] = useCreateCommentMutation();
 	const uname = useAppSelector((state) => state.auth.user?.username);
-
-	const comments = [
-		{
-			comment_id: 'b4529ec4-0568-4ee0-93d5-d6c0719fb739',
-			body: 'this is first testing comment.',
-			parent_comment_id: null,
-			createdAt: '2024-06-27T19:51:56.571Z',
-			updatedAt: '2024-06-27T19:51:56.571Z',
-			replyCount: 3,
-		},
-		{
-			comment_id: 'df72f9b0-e2dd-4cc3-8796-c0c46fa6796a',
-			body: 'this is first testing comment.',
-			parent_comment_id: null,
-			createdAt: '2024-06-27T08:32:31.156Z',
-			updatedAt: '2024-06-27T08:32:31.156Z',
-			replyCount: 0,
-		},
-	];
 
 	const isMemberAdmin =
 		(members?.length && members[0].role !== MemberRole.MEMBER) || role;
@@ -92,6 +88,20 @@ Props) => {
 		}
 	};
 
+	const handleCommentSubmit: FormHandler = (e) => {
+		e.preventDefault();
+
+		const formData = new FormData(e.currentTarget);
+
+		const data = {
+			comment: formData.get('comment'),
+		};
+
+		createComment({ body: data.comment, member_id, post_id });
+
+		e.currentTarget.reset();
+	};
+
 	let renderShowHide;
 	let renderBody;
 
@@ -117,7 +127,7 @@ Props) => {
 	}
 
 	return (
-		<div className='post px-2 sm:px-7 pt-5 pb-3 relative'>
+		<div className='post px-2 sm:px-7 pt-5 relative'>
 			<div className='flex-group justify-between'>
 				<div className='flex-group'>
 					<Link to={`/profile/${username}?sec=timeline`}>
@@ -176,19 +186,22 @@ Props) => {
 				</div>
 			</div>
 
-			<div className='title font-Inter font-normal text-base mt-5 mb-5 hyphens-auto text-ellipsis'>
-				<p>{renderBody}</p>
-			</div>
+			<Link
+				to={`/posts/${post_id}`}
+				className='title w-full font-Inter font-normal text-base hyphens-auto text-ellipsis'
+			>
+				{renderBody}
+			</Link>
 
 			{renderShowHide}
 
 			{!!image_url && (
-				<Link to={`/posts/${post_id}`} state={{ community_id, post_id }}>
+				<Link to={`/posts/${post_id}`}>
 					<img src={image_url} alt='Post Image' />
 				</Link>
 			)}
 
-			<div className='flex items-center justify-between mt-10 relative'>
+			<div className='flex items-center justify-between mt-5 mb-3 relative'>
 				<hr className='border-t dark:border-dark-border border-light-border absolute -top-3 right-0 left-0' />
 				<div className='flex items-center gap-3 relative'>
 					<LoveIcon
@@ -200,16 +213,50 @@ Props) => {
 					<MessageSquareShare className='size-7 text-light-muted dark:text-dark-muted' />
 				</div>
 				<Bookmark className='size-8 text-light-muted dark:text-dark-muted' />
-				<hr className='border-t dark:border-dark-border border-light-border absolute -bottom-3 right-0 left-0' />
+				{members?.length ? (
+					<hr className='border-t dark:border-dark-border border-light-border absolute -bottom-3 right-0 left-0' />
+				) : null}
 			</div>
 
 			{members?.length ? (
-				<div className='my-10'>
-					<h1 className='title text-xl'>2 Comments</h1>
+				<div className='my-5'>
+					<h1 className='title text-xl mb-2'>
+						{comments?.totalComments}{' '}
+						{(comments?.totalComments ?? 0) > 1 ? 'Comments' : 'Comment'}
+					</h1>
 
-					{comments.map(() => (
-						<Comments />
-					))}
+					<form className='relative' onSubmit={handleCommentSubmit}>
+						<input
+							type='text'
+							name='comment'
+							id='comment'
+							className={clsx(
+								'block w-full px-3 py-2.5 text-sm rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all'
+								// {
+								// 	'dark:border-red': !!error,
+								// }
+							)}
+							placeholder='Write comment'
+							required
+							disabled={isLoading}
+						/>
+
+						<div className='absolute inset-y-0.5 end-0.5 flex items-center'>
+							<button
+								type='submit'
+								disabled={isLoading}
+								className='bg-blue-primary/80 disabled:bg-blue-primary/60 w-10 h-full rounded-e-md'
+							>
+								<CornerDownLeft className='w-full h-5 dark:text-light-primary' />
+							</button>
+						</div>
+					</form>
+
+					{isSuccess
+						? comments.comments.map((comment) => (
+								<Comments key={comment.comment_id} {...comment} />
+						  ))
+						: null}
 				</div>
 			) : null}
 		</div>

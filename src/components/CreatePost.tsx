@@ -27,7 +27,7 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 	const communityIdRef = useRef<HTMLSelectElement | null>(null);
 	const params = useParams();
 	// const { data: profileData } = useGetUserProfileQuery(
-	// 	params.userId! || skipToken
+	// 	params.username! || skipToken
 	// );
 
 	const profileData = useAppSelector((state) => state.auth.user);

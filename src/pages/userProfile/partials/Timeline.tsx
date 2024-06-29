@@ -10,14 +10,14 @@ import CenterLayout from '../../../layouts/CenterLayout';
 const Timeline = () => {
 	const params = useParams();
 	const { data, isSuccess, isLoading } = useGetUserPostsQuery(
-		params.userId! || skipToken
+		params.username! || skipToken
 	);
-	const userId = useAppSelector((state) => state.auth.user?.id);
+	const username = useAppSelector((state) => state.auth.user?.username);
 
 	return (
 		<CenterLayout className='max-w-102 w-full my-10'>
 			<div className='space-y-10'>
-				{userId === params.userId! ? <CreatePost /> : null}
+				{username === params.username! ? <CreatePost /> : null}
 
 				{isLoading ? (
 					<>

@@ -82,45 +82,6 @@ const Info = () => {
 						) : (
 							membersData.members.map((member) => <MemberItem {...member} />)
 						)}
-
-						{/* <div className='flex justify-between items-center'>
-							<div className='flex items-center gap-3'>
-								<img src={profile} className='profile' alt="Member's Profile" />
-
-								<div>
-									<h1 className='title'>A B M Zubayer</h1>
-									<button type='button' className='muted'>
-										Member
-									</button>
-								</div>
-							</div>
-
-							<Button
-								text='View Profile'
-								icon={<User2 className='size-5' />}
-								size='small'
-								variant='outline'
-							/>
-						</div>
-						<div className='flex justify-between items-center'>
-							<div className='flex items-center gap-3'>
-								<img src={profile} className='profile' alt="Member's Profile" />
-
-								<div>
-									<h1 className='title'>A B M Zubayer</h1>
-									<button type='button' className='muted'>
-										Member
-									</button>
-								</div>
-							</div>
-							
-							<Button
-								text='View Profile'
-								icon={<User2 className='size-5' />}
-								size='small'
-								variant='outline'
-							/>
-						</div> */}
 					</div>
 
 					<Button text='See more' fullWidth size='small' onClick={handleMore} />

@@ -65,6 +65,11 @@ export const communityApi = apiService.injectEndpoints({
 					  ]
 					: [{ type: 'User_assigned_communities', id: 'List' }],
 		}),
+
+		getUserProfileCommunities: builder.query<CommunitiesResType, string>({
+			query: (username) => `/communities/${username}/assigned`,
+		}),
+
 		createCommunity: builder.mutation<CommunityItemResType, unknown>({
 			query: (payload) => ({
 				url: '/communities',
@@ -228,6 +233,7 @@ export const {
 	useGetCommunityQuery,
 	useGetCommunitiesQuery,
 	useGetUserAssignedCommunitiesQuery,
+	useGetUserProfileCommunitiesQuery,
 	useCreateCommunityMutation,
 	useGetCommunityRulesQuery,
 	useGetMembersQuery,

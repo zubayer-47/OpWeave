@@ -1,9 +1,14 @@
-import { useGetUserAssignedCommunitiesQuery } from '../../../features/community/communityApi';
+import { skipToken } from '@reduxjs/toolkit/query';
+import { useParams } from 'react-router-dom';
+import { useGetUserProfileCommunitiesQuery } from '../../../features/community/communityApi';
 import CenterLayout from '../../../layouts/CenterLayout';
 import CommunityItem from '../../communities/partials/CommunityItem';
 
 const Communities = () => {
-	const { data, isLoading } = useGetUserAssignedCommunitiesQuery();
+	const params = useParams();
+	const { data, isLoading } = useGetUserProfileCommunitiesQuery(
+		params.username || skipToken
+	);
 
 	return (
 		<CenterLayout className='max-w-102 w-full my-10'>

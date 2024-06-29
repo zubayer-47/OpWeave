@@ -51,7 +51,7 @@ function App() {
 						<Route path='rules' element={<ManageRules />} />
 						<Route path='pending_posts' element={<PendingPosts />} />
 					</Route>
-					<Route path='profile/:userId' element={<UserProfile />} />
+					<Route path='profile/:username' element={<UserProfile />} />
 
 					<Route path='settings' element={<Settings />} />
 

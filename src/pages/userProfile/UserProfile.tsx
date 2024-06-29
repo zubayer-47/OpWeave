@@ -16,7 +16,7 @@ const slicedData = data.slice(10, 20);
 
 const UserProfile = () => {
 	const params = useParams();
-	const { data } = useGetUserProfileQuery(params.userId! || skipToken);
+	const { data } = useGetUserProfileQuery(params.username || skipToken);
 	const query = useQueryParams();
 
 	let content: ReactNode;

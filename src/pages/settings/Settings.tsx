@@ -143,13 +143,9 @@ const Settings = () => {
 					</label>
 					<textarea
 						name='bio'
-						// ref={textAreaRef}
-						// onChange={onChange}
-						// value={text}
 						defaultValue={user?.bio}
 						cols={10}
 						rows={5}
-						// defaultValue={user.}
 						className={clsx(
 							'block w-full px-3 py-2.5 text-sm text-dark-text rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all'
 						)}
@@ -160,7 +156,7 @@ const Settings = () => {
 				<Button
 					type='submit'
 					text='Update'
-					className='bg-green hover:bg-green/80 dark:focus:ring-2 dark:focus:ring-green/70 dark:focus:ring-offset-2 dark:focus:ring-offset-dark-primary'
+					className='bg-green hover:bg-green/80 dark:focus:ring-2 dark:focus:ring-green/70 border-green/80 dark:focus:ring-offset-2 dark:focus:ring-offset-dark-primary'
 					size='small'
 				/>
 			</form>
