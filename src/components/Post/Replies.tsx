@@ -14,9 +14,10 @@ import ClickableDropdown from '../ClickableDropdown';
 
 type Props = {
 	comment_id: string;
+	post_id: string;
 };
 
-const Replies: FC<Props> = ({ comment_id }) => {
+const Replies: FC<Props> = ({ comment_id, post_id }) => {
 	const { data, isSuccess } = useGetCommentRepliesQuery(
 		comment_id || skipToken
 	);
@@ -43,7 +44,14 @@ const Replies: FC<Props> = ({ comment_id }) => {
 			comment: formData.get('comment'),
 		};
 
-		createCommentReply({ body: data.comment, comment_id });
+		toast.promise(
+			createCommentReply({ body: data.comment, comment_id, post_id }).unwrap(),
+			{
+				loading: 'Replying...',
+				success: <strong>Replied Successfully</strong>,
+				error: <strong>Could not reply</strong>,
+			}
+		);
 
 		e.currentTarget.reset();
 	};

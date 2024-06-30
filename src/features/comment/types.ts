@@ -18,6 +18,7 @@ export type CommentCreationRes = {
 
 export type Comment = {
 	comment_id: string;
+	post_id: string;
 	body: string;
 	createdAt: string;
 	updatedAt: string;
@@ -57,5 +58,6 @@ export type CommentReplyCreationResType = {
 
 export type CommentReplyCreationPayload = {
 	comment_id: string;
+	post_id: string;
 	body: FormDataEntryValue | null;
 };

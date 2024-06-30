@@ -21,7 +21,9 @@ export type Post = {
 			avatar: string;
 		};
 	};
-	hasJoined: boolean | undefined;
+	// these two only comes with feed posts that's why they are optional
+	hasAccess?: boolean;
+	hasJoined?: boolean;
 };
 
 export type PostCommunityIdType = { community_id: string; post_id: string };

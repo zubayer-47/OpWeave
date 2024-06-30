@@ -10,6 +10,7 @@ import Replies from './Replies';
 type Props = Comment;
 
 const Comments: FC<Props> = ({
+	post_id,
 	comment_id,
 	body,
 	member: {
@@ -87,7 +88,9 @@ const Comments: FC<Props> = ({
 				</button>
 			</div>
 
-			{showReplies ? <Replies comment_id={comment_id} /> : null}
+			{showReplies ? (
+				<Replies comment_id={comment_id} post_id={post_id} />
+			) : null}
 		</>
 	);
 };

@@ -141,7 +141,7 @@ export const communityApi = apiService.injectEndpoints({
 						posts: draft.posts.map(
 							(post): Post =>
 								post.community_id === community_id
-									? { ...post, hasJoined: true }
+									? { ...post, hasAccess: true }
 									: post
 						),
 					}))

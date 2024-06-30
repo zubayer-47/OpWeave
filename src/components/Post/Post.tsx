@@ -1,5 +1,6 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
+import datekit from 'datekit';
 import {
 	Bookmark,
 	CornerDownLeft,
@@ -44,6 +45,8 @@ const Post = ({
 		member: {
 			user: { avatar, fullname, username },
 		},
+		createdAt,
+		hasAccess,
 		hasJoined,
 	},
 	role,
@@ -54,16 +57,12 @@ Props) => {
 	const [deletePost] = useDeletePostMutation();
 	const [join] = useJoinMemberMutation();
 	const {
-		data: comments,
+		data,
 		isSuccess,
 		// isError,
 	} = useGetCommentsQuery(post_id || skipToken);
 	const [createComment, { isLoading }] = useCreateCommentMutation();
 	const uname = useAppSelector((state) => state.auth.user?.username);
-
-	const isMemberAdmin =
-		(members?.length && members[0].role !== MemberRole.MEMBER) || role;
-	const isUserPostOwner = username === uname;
 
 	const toggleExpanded = () => {
 		setExpanded(true);
@@ -96,7 +95,11 @@ Props) => {
 			comment: formData.get('comment'),
 		};
 
-		createComment({ body: data.comment, post_id });
+		toast.promise(createComment({ body: data.comment, post_id }).unwrap(), {
+			loading: 'Creating...',
+			success: 'Comment successfully created',
+			error: 'Could not create',
+		});
 
 		e.currentTarget.reset();
 	};
@@ -133,8 +136,14 @@ Props) => {
 						<img className='profile' src={avatar} alt='profile picture' />
 					</Link>
 					<div>
-						<Link to={`/profile/${username}?sec=timeline`}>
+						<Link
+							to={`/profile/${username}?sec=timeline`}
+							className='flex items-center gap-2'
+						>
 							<h1 className='title'>{fullname}</h1>
+							<small className='text-dark-muted'>
+								{datekit(createdAt).status()}
+							</small>
 						</Link>
 						<span className='muted'>@{username}</span>
 					</div>
@@ -143,14 +152,14 @@ Props) => {
 				<div className='flex flex-col items-end'>
 					<Link
 						to={`/communities/${community_id}?sec=posts`}
-						className='flex-group'
+						className='flex-group gap-1'
 					>
-						<Users2 className='icon size-6' />
+						<Users2 className='icon size-5' />
 						<span className='title text-sm'>{name}</span>
 					</Link>
 
 					<div className='flex-group'>
-						{hasJoined || hasJoined === undefined ? null : (
+						{hasJoined ?? hasJoined ? null : (
 							<Button
 								text='Join'
 								onClick={handleJoin}
@@ -159,7 +168,7 @@ Props) => {
 							/>
 						)}
 
-						{isMemberAdmin || isUserPostOwner ? (
+						{hasAccess ? (
 							<ClickableDropdown
 								button={
 									<button type='button'>
@@ -220,8 +229,8 @@ Props) => {
 			{members?.length ? (
 				<div className='my-5'>
 					<h1 className='title text-xl mb-2'>
-						{comments?.totalComments}{' '}
-						{(comments?.totalComments ?? 0) > 1 ? 'Comments' : 'Comment'}
+						{data?.totalComments}{' '}
+						{(data?.totalComments ?? 0) > 1 ? 'Comments' : 'Comment'}
 					</h1>
 
 					<form className='relative' onSubmit={handleCommentSubmit}>
@@ -252,7 +261,7 @@ Props) => {
 					</form>
 
 					{isSuccess
-						? comments.comments.map((comment) => (
+						? data.comments.map((comment) => (
 								<Comments key={comment.comment_id} {...comment} />
 						  ))
 						: null}
