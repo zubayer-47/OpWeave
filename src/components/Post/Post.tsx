@@ -36,7 +36,6 @@ type Props = {
 const Post = ({
 	post: {
 		post_id,
-		member_id,
 		body,
 		community: { name, members },
 		community_id,
@@ -97,7 +96,7 @@ Props) => {
 			comment: formData.get('comment'),
 		};
 
-		createComment({ body: data.comment, member_id, post_id });
+		createComment({ body: data.comment, post_id });
 
 		e.currentTarget.reset();
 	};

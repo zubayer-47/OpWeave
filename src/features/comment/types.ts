@@ -2,7 +2,6 @@ import { MemberRole } from '../community/types';
 
 export type CommentCreationPayload = {
 	post_id: string;
-	member_id: string;
 	body: FormDataEntryValue | null;
 };
 
@@ -28,9 +27,11 @@ export type Comment = {
 		member_id: string;
 		user: {
 			fullname: string;
+			avatar: string;
 		};
 	};
 	replyCount: number;
+	hasAccess: boolean;
 };
 
 export type CommentsRes = {
@@ -56,6 +57,5 @@ export type CommentReplyCreationResType = {
 
 export type CommentReplyCreationPayload = {
 	comment_id: string;
-	member_id: string;
 	body: FormDataEntryValue | null;
 };

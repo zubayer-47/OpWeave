@@ -1,24 +1,38 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import datekit from 'datekit';
-import { CornerDownLeft } from 'lucide-react';
+import { CornerDownLeft, MoreHorizontal, Trash2 } from 'lucide-react';
 import { FC } from 'react';
-import profile from '../../assets/profile.webp';
+import toast from 'react-hot-toast';
 import {
 	useCreateCommentReplyMutation,
+	useDeleteCommentMutation,
 	useGetCommentRepliesQuery,
 } from '../../features/comment/commentApi';
 import { FormHandler } from '../../types/custom';
+import ClickableDropdown from '../ClickableDropdown';
 
 type Props = {
 	comment_id: string;
-	member_id: string;
 };
-const Replies: FC<Props> = ({ comment_id, member_id }) => {
+
+const Replies: FC<Props> = ({ comment_id }) => {
 	const { data, isSuccess } = useGetCommentRepliesQuery(
 		comment_id || skipToken
 	);
 	const [createCommentReply] = useCreateCommentReplyMutation();
+
+	const [deleteComment] = useDeleteCommentMutation();
+
+	const handleDeletePost = () => {
+		if (confirm('Are you sure! You want to delete this?')) {
+			toast.promise(deleteComment(comment_id).unwrap(), {
+				loading: 'Deleting...',
+				success: 'Comment successfully deleted.',
+				error: 'Could not delete.',
+			});
+		}
+	};
 
 	const handleCommentSubmit: FormHandler = (e) => {
 		e.preventDefault();
@@ -29,7 +43,7 @@ const Replies: FC<Props> = ({ comment_id, member_id }) => {
 			comment: formData.get('comment'),
 		};
 
-		createCommentReply({ body: data.comment, member_id, comment_id });
+		createCommentReply({ body: data.comment, comment_id });
 
 		e.currentTarget.reset();
 	};
@@ -49,26 +63,56 @@ const Replies: FC<Props> = ({ comment_id, member_id }) => {
 						createdAt,
 						member: {
 							role,
-							user: { fullname },
+							user: { fullname, avatar },
 						},
+						hasAccess,
 					}) => (
 						<div
 							key={comment_id}
 							className='bg-dark-border/30 hover:bg-dark-border/50 p-2 rounded-md mt-5'
 						>
-							<div className='flex items-stretch justify-start gap-2'>
-								<img src={profile} className='profile' alt='' />
-								<div>
-									<div className='flex gap-2'>
-										<h1 className='title '>{fullname}</h1>
-										<small className='text-dark-muted'>
-											{datekit(createdAt).status()}
+							<div className='flex items-center justify-between gap-2 relative'>
+								<div className='flex items-stretch gap-2'>
+									<img src={avatar} className='profile' alt='' />
+									<div>
+										<div className='flex gap-2'>
+											<h1 className='title '>{fullname}</h1>
+											<small className='text-dark-muted'>
+												{datekit(createdAt).status()}
+											</small>
+										</div>
+										<small className='font-Poppins capitalize tracking-wider font-normal text-dark-muted bg-dark-border w-fit h-fit px-1.5 py-0.5 rounded-full select-none'>
+											{role.toLowerCase()}
 										</small>
 									</div>
-									<small className='font-Poppins capitalize tracking-wider font-normal text-dark-muted bg-dark-border w-fit h-fit px-1.5 py-0.5 rounded-full select-none'>
-										{role.toLowerCase()}
-									</small>
 								</div>
+
+								{hasAccess ? (
+									<ClickableDropdown
+										button={
+											<button type='button'>
+												<MoreHorizontal className='dark:text-light-lighter dark:hover:text-light-primary transition-colors' />
+											</button>
+										}
+									>
+										<div className='dark:bg-dark-primary px-1 absolute right-3 top-8 flex flex-col border dark:border-dark-border rounded-xl z-10'>
+											<button
+												onClick={handleDeletePost}
+												className='flex items-center gap-2 py-1.5 px-2 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
+												type='button'
+											>
+												<Trash2
+													className='text-red'
+													strokeWidth={1.5}
+													size={18}
+												/>
+												<small className='font-normal text-red'>
+													Delete Post
+												</small>
+											</button>
+										</div>
+									</ClickableDropdown>
+								) : null}
 							</div>
 							<p className='title font-normal font-Inter mt-3'>{body}</p>
 						</div>

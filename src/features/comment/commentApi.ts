@@ -47,6 +47,40 @@ export const commentApi = apiService.injectEndpoints({
 			query: (comment_id) => `/comments/${comment_id}/reply`,
 			providesTags: ['Replies'],
 		}),
+
+		deleteComment: builder.mutation<{ message: string }, string>({
+			query: (comment_id) => ({
+				url: `comments/${comment_id}`,
+				method: 'DELETE',
+			}),
+
+			// async onQueryStarted(comment_id, { dispatch, queryFulfilled }) {
+			// 	const patchRes = dispatch(
+			// 		commentApi.util.updateQueryData(
+			// 			'getCommentReplies',
+			// 			comment_id,
+			// 			(draft) => {
+			// 				console.log(comment_id, draft.replies);
+			// 				const replies = draft.replies.filter(
+			// 					(reply) => reply.comment_id !== comment_id
+			// 				);
+
+			// 				console.log(replies);
+
+			// 				return {
+			// 					replies: replies,
+			// 				};
+			// 			}
+			// 		)
+			// 	);
+
+			// 	try {
+			// 		await queryFulfilled;
+			// 	} catch (error) {
+			// 		patchRes.undo();
+			// 	}
+			// },
+		}),
 	}),
 });
 
@@ -55,4 +89,5 @@ export const {
 	useCreateCommentReplyMutation,
 	useGetCommentsQuery,
 	useGetCommentRepliesQuery,
+	useDeleteCommentMutation,
 } = commentApi;
