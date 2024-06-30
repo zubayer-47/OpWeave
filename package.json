@@ -13,6 +13,7 @@
 		"@reduxjs/toolkit": "^2.2.3",
 		"@types/react-redux": "^7.1.33",
 		"clsx": "^2.1.0",
+		"datekit": "https://github.com/Rasel-Dev/datekit.git",
 		"immutability-helper": "^3.1.1",
 		"lodash": "^4.17.21",
 		"lucide-react": "^0.378.0",

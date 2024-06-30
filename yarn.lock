@@ -807,6 +807,10 @@ csstype@^3.0.2:
   resolved "https://registry.npmjs.org/csstype/-/csstype-3.1.2.tgz"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
+"datekit@https://github.com/Rasel-Dev/datekit.git":
+  version "1.0.0"
+  resolved "https://github.com/Rasel-Dev/datekit.git#eca2273dd98cf1de9444ff4b0744d2636e8a9030"
+
 debug@^4.3.1, debug@^4.3.2, debug@^4.3.4:
   version "4.3.4"
   resolved "https://registry.npmjs.org/debug/-/debug-4.3.4.tgz"

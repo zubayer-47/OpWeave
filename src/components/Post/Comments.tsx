@@ -1,7 +1,7 @@
+import datekit from 'datekit';
 import { FC, useState } from 'react';
 import profile from '../../assets/profile2.jpg';
 import { Comment } from '../../features/comment/types';
-import { formatTime } from '../../libs/helpers';
 import Replies from './Replies';
 
 type Props = Comment;
@@ -27,7 +27,9 @@ const Comments: FC<Props> = ({
 					<div>
 						<div className='flex gap-2'>
 							<h1 className='title '>{fullname}</h1>
-							<small className='text-dark-muted'>{formatTime(createdAt)}</small>
+							<small className='text-dark-muted'>
+								{datekit(createdAt).status()}
+							</small>
 						</div>
 						<small className='font-Poppins capitalize tracking-wider font-normal text-dark-muted bg-dark-border w-fit h-fit px-1.5 py-0.5 rounded-full select-none'>
 							{role.toLowerCase()}
@@ -40,7 +42,7 @@ const Comments: FC<Props> = ({
 					</h3> */}
 				<button
 					type='button'
-					className='title font-normal text-dark-muted border border-dark-border h-fit px-2 py-0.5 rounded-full mt-3'
+					className='title font-Inter font-normal text-dark-muted border border-dark-border h-fit px-2 py-0.5 rounded-full mt-3'
 					onClick={() => setShowReplies((prev) => !prev)}
 				>
 					{replyCount > 0 ? replyCount : null}{' '}

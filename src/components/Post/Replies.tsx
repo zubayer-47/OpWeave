@@ -1,5 +1,6 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
+import datekit from 'datekit';
 import { CornerDownLeft } from 'lucide-react';
 import { FC } from 'react';
 import profile from '../../assets/profile.webp';
@@ -7,7 +8,6 @@ import {
 	useCreateCommentReplyMutation,
 	useGetCommentRepliesQuery,
 } from '../../features/comment/commentApi';
-import { formatTime } from '../../libs/helpers';
 import { FormHandler } from '../../types/custom';
 
 type Props = {
@@ -62,7 +62,7 @@ const Replies: FC<Props> = ({ comment_id, member_id }) => {
 									<div className='flex gap-2'>
 										<h1 className='title '>{fullname}</h1>
 										<small className='text-dark-muted'>
-											{formatTime(createdAt)}
+											{datekit(createdAt).status()}
 										</small>
 									</div>
 									<small className='font-Poppins capitalize tracking-wider font-normal text-dark-muted bg-dark-border w-fit h-fit px-1.5 py-0.5 rounded-full select-none'>
