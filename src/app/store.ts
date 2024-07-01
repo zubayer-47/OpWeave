@@ -8,6 +8,7 @@ import modalSlice from '../features/modal/modalSlice';
 export const store = configureStore({
 	reducer: {
 		[apiService.reducerPath]: apiService.reducer,
+		// postApi: postApi.reducer,
 		auth: authSlice,
 		modal: modalSlice,
 		controller: controllerSlice,

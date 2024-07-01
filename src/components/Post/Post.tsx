@@ -19,7 +19,10 @@ import { trunc } from '../../libs/helpers';
 import Button from '../Buttons/Button';
 import ClickableDropdown from '../ClickableDropdown';
 import LoveIcon from '../errors/LoveIcon';
-// import Comments from './Comments';
+// import CommentSection from './partials/CommentSection';
+
+//? lazy imports
+const CommentSection = lazy(() => import('./partials/CommentSection'));
 
 type Props = {
 	post: Post;
@@ -46,9 +49,6 @@ Props) => {
 	const [expanded, setExpanded] = useState(false);
 	const [deletePost] = useDeletePostMutation();
 	const [join] = useJoinMemberMutation();
-
-	//? lazy imports
-	const CommentSection = lazy(() => import('./partials/CommentSection'));
 
 	const toggleExpanded = () => {
 		setExpanded(true);

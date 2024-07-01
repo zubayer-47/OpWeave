@@ -22,29 +22,27 @@ import RootLayout from './layouts/RootLayout';
 // import Settings from './pages/settings/Settings';
 // import UserProfile from './pages/userProfile/UserProfile';
 
+// lazy imports
+const Login = lazy(() => import('./pages/auth/Login'));
+const RegisterPage = lazy(() => import('./pages/auth/Register'));
+const ForgetPass = lazy(() => import('./pages/auth/ForgetPass'));
+const Bookmarks = lazy(() => import('./pages/bookmarks/Bookmarks'));
+const Communities = lazy(() => import('./pages/communities/Communities'));
+const Community = lazy(() => import('./pages/community/Community'));
+const PendingPosts = lazy(() => import('./pages/community/PendingPosts'));
+const Manage = lazy(() => import('./pages/community/manage'));
+const PostView = lazy(() => import('./pages/post/PostView'));
+const Settings = lazy(() => import('./pages/settings/Settings'));
+const UserProfile = lazy(() => import('./pages/userProfile/UserProfile'));
+const NotFound = lazy(() => import('./components/errors/NotFound'));
+const Home = lazy(() => import('./pages/home/Home'));
+const ManageRules = lazy(() => import('./pages/community/manage/ManageRules'));
+const ManageCommunity = lazy(
+	() => import('./pages/community/manage/ManageCommunity')
+);
+
 function App() {
 	const isLoading = useAuthCheck();
-
-	// lazy imports
-	const Login = lazy(() => import('./pages/auth/Login'));
-	const RegisterPage = lazy(() => import('./pages/auth/Register'));
-	const ForgetPass = lazy(() => import('./pages/auth/ForgetPass'));
-	const Bookmarks = lazy(() => import('./pages/bookmarks/Bookmarks'));
-	const Communities = lazy(() => import('./pages/communities/Communities'));
-	const Community = lazy(() => import('./pages/community/Community'));
-	const PendingPosts = lazy(() => import('./pages/community/PendingPosts'));
-	const Manage = lazy(() => import('./pages/community/manage'));
-	const PostView = lazy(() => import('./pages/post/PostView'));
-	const Settings = lazy(() => import('./pages/settings/Settings'));
-	const UserProfile = lazy(() => import('./pages/userProfile/UserProfile'));
-	const NotFound = lazy(() => import('./components/errors/NotFound'));
-	const Home = lazy(() => import('./pages/home/Home'));
-	const ManageRules = lazy(
-		() => import('./pages/community/manage/ManageRules')
-	);
-	const ManageCommunity = lazy(
-		() => import('./pages/community/manage/ManageCommunity')
-	);
 
 	if (isLoading) {
 		return <RootLoader />;
@@ -188,7 +186,21 @@ function App() {
 						}
 					/>
 
-					<Route path='posts/:postId' element={<PostView />} />
+					<Route
+						path='posts/:postId'
+						element={
+							<Suspense
+								fallback={
+									// <h1 className='title text-dark-muted'>
+									// 	Post View Loading...
+									// </h1>
+									<RootLoader />
+								}
+							>
+								<PostView />
+							</Suspense>
+						}
+					/>
 				</Route>
 			</Route>
 
