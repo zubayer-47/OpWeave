@@ -1,37 +1,28 @@
-import { skipToken } from '@reduxjs/toolkit/query';
-import clsx from 'clsx';
 import datekit from 'datekit';
 import {
 	Bookmark,
-	CornerDownLeft,
 	MessageCircle,
 	MessageSquareShare,
 	MoreHorizontal,
 	Trash2,
 	Users2,
 } from 'lucide-react';
-import { useState } from 'react';
+import { lazy, useState } from 'react';
 import toast from 'react-hot-toast';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link } from 'react-router-dom';
-import { useAppSelector } from '../../app/hooks';
-import {
-	useCreateCommentMutation,
-	useGetCommentsQuery,
-} from '../../features/comment/commentApi';
 import { useJoinMemberMutation } from '../../features/community/communityApi';
-import { MemberRole } from '../../features/community/types';
 import { useDeletePostMutation } from '../../features/post/postApi';
 import type { Post } from '../../features/post/types';
 import { trunc } from '../../libs/helpers';
-import { FormHandler } from '../../types/custom';
 import Button from '../Buttons/Button';
 import ClickableDropdown from '../ClickableDropdown';
 import LoveIcon from '../errors/LoveIcon';
-import Comments from './Comments';
+// import Comments from './Comments';
 
 type Props = {
 	post: Post;
-	role?: MemberRole;
 };
 
 const Post = ({
@@ -49,20 +40,15 @@ const Post = ({
 		hasAccess,
 		hasJoined,
 	},
-	role,
 }: // El,
 
 Props) => {
 	const [expanded, setExpanded] = useState(false);
 	const [deletePost] = useDeletePostMutation();
 	const [join] = useJoinMemberMutation();
-	const {
-		data,
-		isSuccess,
-		// isError,
-	} = useGetCommentsQuery(post_id || skipToken);
-	const [createComment, { isLoading }] = useCreateCommentMutation();
-	const uname = useAppSelector((state) => state.auth.user?.username);
+
+	//? lazy imports
+	const CommentSection = lazy(() => import('./partials/CommentSection'));
 
 	const toggleExpanded = () => {
 		setExpanded(true);
@@ -84,24 +70,6 @@ Props) => {
 				error: 'Could not delete.',
 			});
 		}
-	};
-
-	const handleCommentSubmit: FormHandler = (e) => {
-		e.preventDefault();
-
-		const formData = new FormData(e.currentTarget);
-
-		const data = {
-			comment: formData.get('comment'),
-		};
-
-		toast.promise(createComment({ body: data.comment, post_id }).unwrap(), {
-			loading: 'Creating...',
-			success: 'Comment successfully created',
-			error: 'Could not create',
-		});
-
-		e.currentTarget.reset();
 	};
 
 	let renderShowHide;
@@ -133,7 +101,12 @@ Props) => {
 			<div className='flex-group justify-between'>
 				<div className='flex-group'>
 					<Link to={`/profile/${username}?sec=timeline`}>
-						<img className='profile' src={avatar} alt='profile picture' />
+						<LazyLoadImage
+							className='profile'
+							src={avatar}
+							alt='profile picture'
+							effect='blur'
+						/>
 					</Link>
 					<div>
 						<Link
@@ -205,7 +178,7 @@ Props) => {
 
 			{!!image_url && (
 				<Link to={`/posts/${post_id}`}>
-					<img src={image_url} alt='Post Image' />
+					<LazyLoadImage src={image_url} alt='Post Image' effect='blur' />
 				</Link>
 			)}
 
@@ -226,47 +199,7 @@ Props) => {
 				) : null}
 			</div>
 
-			{members?.length ? (
-				<div className='my-5'>
-					<h1 className='title text-xl mb-2'>
-						{data?.totalComments}{' '}
-						{(data?.totalComments ?? 0) > 1 ? 'Comments' : 'Comment'}
-					</h1>
-
-					<form className='relative' onSubmit={handleCommentSubmit}>
-						<input
-							type='text'
-							name='comment'
-							id='comment'
-							className={clsx(
-								'block w-full px-3 py-2.5 text-sm rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all'
-								// {
-								// 	'dark:border-red': !!error,
-								// }
-							)}
-							placeholder='Write comment'
-							required
-							disabled={isLoading}
-						/>
-
-						<div className='absolute inset-y-0.5 end-0.5 flex items-center'>
-							<button
-								type='submit'
-								disabled={isLoading}
-								className='bg-blue-primary/80 disabled:bg-blue-primary/60 w-10 h-full rounded-e-md'
-							>
-								<CornerDownLeft className='w-full h-5 dark:text-light-primary' />
-							</button>
-						</div>
-					</form>
-
-					{isSuccess
-						? data.comments.map((comment) => (
-								<Comments key={comment.comment_id} {...comment} />
-						  ))
-						: null}
-				</div>
-			) : null}
+			{members?.length ? <CommentSection post_id={post_id} /> : null}
 		</div>
 	);
 };

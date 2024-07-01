@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import Button from '../../../components/Buttons/Button';
 import {
 	useApprovePostMutation,
@@ -89,7 +91,12 @@ const PendingPost = ({
 	return (
 		<div className='post px-7 pt-5 pb-3 max-w-100 w-full'>
 			<div className='flex-group'>
-				<img className='profile' src={avatar} alt='profile picture' />
+				<LazyLoadImage
+					className='profile'
+					src={avatar}
+					alt='profile picture'
+					effect='blur'
+				/>
 				<div>
 					<h1 className='title'>{fullname}</h1>
 				</div>
@@ -102,7 +109,12 @@ const PendingPost = ({
 			{renderShowHide}
 
 			{!!image_url && (
-				<img src={image_url} className='w-full h-full' alt='Post Image' />
+				<LazyLoadImage
+					src={image_url}
+					className='w-full h-full'
+					alt='Post Image'
+					effect='blur'
+				/>
 			)}
 
 			<div className='flex w-full items-center gap-3 mt-3'>

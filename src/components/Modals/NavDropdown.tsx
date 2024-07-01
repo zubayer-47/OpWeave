@@ -1,7 +1,8 @@
 import { Bolt, LogOut, User2, Users2 } from 'lucide-react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import defaultProfile from '../../assets/default.jpg';
 import { userLoggedOut } from '../../features/auth/authSlice';
 
 const NavDropdown = () => {
@@ -24,10 +25,11 @@ const NavDropdown = () => {
 					to={`/profile/${user?.username}?sec=timeline`}
 					className='flex items-center gap-3 px-4 py-2 dark:hover:bg-normal-primary/15 w-full rounded-xl transition-colors mb-3'
 				>
-					<img
+					<LazyLoadImage
+						src={user?.avatar}
 						className='profile size-10'
-						src={user?.avatar || defaultProfile}
 						alt='profile image'
+						effect='blur'
 					/>
 
 					<div className='flex flex-col justify-start items-start'>

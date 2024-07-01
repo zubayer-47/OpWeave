@@ -1,4 +1,6 @@
 import { MoreHorizontal } from 'lucide-react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link } from 'react-router-dom';
 import profile from '../assets/profile2.jpg';
 
@@ -9,12 +11,13 @@ const CommunityList = () => {
 			className='flex justify-between items-center hover:dark:bg-dark-bg transition-all px-4'
 		>
 			<div className='flex justify-start items-center gap-2'>
-				<img
+				<LazyLoadImage
 					className='profile size-8 lg:size-10'
-					// src='https://loremflickr.com/640/480/nature'
 					src={profile}
 					alt='Community logo'
+					effect='blur'
 				/>
+
 				<div>
 					<button className='title text-sm lg:text-base leading-4 font-normal block'>
 						Dev Community

@@ -1,4 +1,6 @@
 import { User2 } from 'lucide-react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../../../components/Buttons/Button';
 import { MemberType } from '../../../../features/community/types';
@@ -15,8 +17,12 @@ const MemberItem = ({ user: { fullname, username, avatar }, role }: Props) => {
 	return (
 		<div className='flex justify-between items-center'>
 			<div className='flex items-center gap-2'>
-				<img src={avatar} className='profile' alt="Member's Profile" />
-
+				<LazyLoadImage
+					src={avatar}
+					className='profile'
+					alt="Member's Profile"
+					effect='blur'
+				/>
 				<div>
 					<h1 className='title font-normal'>{fullname}</h1>
 					<span className='muted'>{role}</span>

@@ -2,7 +2,8 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import { Frown } from 'lucide-react';
-import { FC } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Button from '../../../components/Buttons/Button';
 import CreatePost from '../../../components/CreatePost';
@@ -15,17 +16,12 @@ import {
 import {
 	Community,
 	GuestCommunityViewType,
-	MemberRole,
 } from '../../../features/community/types';
 import { useGetCommunityPostsQuery } from '../../../features/post/postApi';
 import OutletLayout from '../../../layouts/OutletLayout';
 import { trunc } from '../../../libs/helpers';
 
-type Props = {
-	role?: MemberRole;
-};
-
-const Posts: FC<Props> = ({ role }) => {
+const Posts = () => {
 	const params = useParams();
 	const { data } = useGetCommunityQuery(params?.id || skipToken);
 	const { data: membersData, isSuccess } = useGetMembersQuery({
@@ -102,7 +98,7 @@ const Posts: FC<Props> = ({ role }) => {
 							</h1>
 						) : (
 							communityPostsData.posts.map((post) => (
-								<Post key={post.post_id} post={post} role={role} />
+								<Post key={post.post_id} post={post} />
 							))
 						)}
 					</div>
@@ -138,10 +134,12 @@ const Posts: FC<Props> = ({ role }) => {
 								? membersData.members
 										.slice(0, 5)
 										.map(({ member_id, user: { avatar } }) => (
-											<img
+											<LazyLoadImage
 												key={member_id}
 												src={avatar}
 												className={membersProfileStyles}
+												alt='Member profile image'
+												effect='blur'
 											/>
 										))
 								: null}

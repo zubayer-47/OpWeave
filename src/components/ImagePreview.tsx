@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
 interface Props {
 	file: File;
@@ -7,7 +9,6 @@ interface Props {
 
 const ImagePreview = ({ alt, file }: Props) => {
 	const [previewUrl, setPreviewUrl] = useState<string>('');
-	const imageRef = useRef<HTMLImageElement>(null);
 
 	// Generate preview when the component mounts
 	useEffect(() => {
@@ -24,7 +25,7 @@ const ImagePreview = ({ alt, file }: Props) => {
 		}
 	}, [file]);
 
-	return <img ref={imageRef} src={previewUrl} alt={alt} />;
+	return <LazyLoadImage src={previewUrl} alt={alt} effect='blur' />;
 };
 
 export default ImagePreview;

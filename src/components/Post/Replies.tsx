@@ -4,6 +4,8 @@ import datekit from 'datekit';
 import { CornerDownLeft, MoreHorizontal, Trash2 } from 'lucide-react';
 import { FC } from 'react';
 import toast from 'react-hot-toast';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import {
 	useCreateCommentReplyMutation,
 	useDeleteCommentMutation,
@@ -81,7 +83,12 @@ const Replies: FC<Props> = ({ comment_id, post_id }) => {
 						>
 							<div className='flex items-center justify-between gap-2 relative'>
 								<div className='flex items-stretch gap-2'>
-									<img src={avatar} className='profile' alt='' />
+									<LazyLoadImage
+										src={avatar}
+										className='profile'
+										alt="Commented member's profile"
+										effect='blur'
+									/>
 									<div>
 										<div className='flex gap-2'>
 											<h1 className='title '>{fullname}</h1>

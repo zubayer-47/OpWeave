@@ -1,5 +1,7 @@
 import { Bell, Compass, MoreHorizontal } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link } from 'react-router-dom';
 import defaultAvatar from '../../../assets/default.jpg';
 import Button from '../../../components/Buttons/Button';
@@ -32,10 +34,11 @@ const CommunityItem = ({
 		<div className='snap-center dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all py-3 px-4 flex justify-between items-center rounded-2xl relative'>
 			<div className='flex justify-center items-center gap-3 md:gap-5'>
 				<Link to={`/communities/${community_id}?sec=posts`}>
-					<img
+					<LazyLoadImage
 						className='profile size-12 md:size-14'
 						src={avatar || defaultAvatar}
 						alt='community profile'
+						effect='blur'
 					/>
 				</Link>
 				<div>

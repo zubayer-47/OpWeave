@@ -1,4 +1,6 @@
 import { FC } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link } from 'react-router-dom';
 import CenterLayout from '../layouts/CenterLayout';
 
@@ -17,14 +19,15 @@ const Photos: FC<Props> = ({ data }) => {
 					{data.map(({ id, avatar }) => (
 						// <Link to='' className='hover:shadow-2xl shadow-gray-200'>
 						<Link
+							key={id}
 							to=''
 							className='w-full h-56 rounded-md overflow-hidden hover:scale-110 hover:opacity-75 transition-all'
 						>
-							<img
-								key={id}
+							<LazyLoadImage
 								className='size-full object-cover'
 								src={avatar}
 								alt='post photo'
+								effect='blur'
 							/>
 						</Link>
 						// </Link>

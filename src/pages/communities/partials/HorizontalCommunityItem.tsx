@@ -1,3 +1,5 @@
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link } from 'react-router-dom';
 import profile from '../../../assets/profile2.jpg';
 import { Community } from '../../../features/community/types';
@@ -7,10 +9,11 @@ const HorizontalCommunityItem = ({ avatar, bio, name }: Partial<Community>) => {
 		<div className='snap-center min-w-72 community_suggestions rounded-2xl dark:hover:opacity-80 border dark:border-dark-border transition-all p-2 select-none'>
 			<div className='space-y-4'>
 				<Link to='/'>
-					<img
+					<LazyLoadImage
 						className='profile rounded-t-md rounded-b-none w-full h-28 object-cover'
 						src={avatar || profile}
 						alt='community profile'
+						effect='blur'
 					/>
 				</Link>
 				<div>

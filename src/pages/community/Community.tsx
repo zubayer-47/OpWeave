@@ -9,6 +9,8 @@ import {
 import { ReactNode } from 'react';
 import ContentLoader from 'react-content-loader';
 import toast from 'react-hot-toast';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link, useParams } from 'react-router-dom';
 import data from '../../../data.json';
 import Button from '../../components/Buttons/Button';
@@ -36,9 +38,8 @@ const Community = () => {
 	const { data, isLoading } = useGetCommunityQuery(params?.id || skipToken);
 
 	let content: ReactNode;
-	if (!query.get('sec')) content = <Posts role={(data as Community)?.role} />;
-	else if (query.get('sec') === 'posts')
-		content = <Posts role={(data as Community)?.role} />;
+	if (!query.get('sec')) content = <Posts />;
+	else if (query.get('sec') === 'posts') content = <Posts />;
 	else if (query.get('sec') === 'info') content = <Info />;
 	else if (query.get('sec') === 'photos')
 		content = <Photos data={slicedData} />;
@@ -79,10 +80,11 @@ const Community = () => {
 					{/* // <div className='flex items-center justify-between px-14 relative'> */}
 					<div className='grid grid-cols-8 items-center px-14 relative'>
 						<div className='col-span-full md:col-span-7 flex flex-col items-center md:flex-row md:items-end gap-5'>
-							<img
+							<LazyLoadImage
 								className='size-36 object-cover rounded-full'
 								src={data?.avatar}
 								alt='community profile'
+								effect='blur'
 							/>
 
 							<div className='mb-3 text-center md:text-left'>

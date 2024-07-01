@@ -2,6 +2,8 @@ import clsx from 'clsx';
 import { Image, MapPin, Smile } from 'lucide-react';
 import { ChangeEvent, FC, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../app/hooks';
 import { useGetUserAssignedCommunitiesQuery } from '../features/community/communityApi';
@@ -111,10 +113,11 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 		>
 			<div className='flex justify-between items-start'>
 				<div className='flex items-center gap-3'>
-					<img
+					<LazyLoadImage
 						className='profile'
 						src={profileData?.avatar}
 						alt='profile picture'
+						effect='blur'
 					/>
 					<div>
 						<h1 className='title'>{profileData?.fullname}</h1>

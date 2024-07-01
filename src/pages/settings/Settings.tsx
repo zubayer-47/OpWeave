@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 import { PencilLine } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { useAppSelector } from '../../app/hooks';
-import defaultProfile from '../../assets/default.jpg';
 import Button from '../../components/Buttons/Button';
 import {
 	useUpdateProfilePictureMutation,
@@ -67,11 +68,11 @@ const Settings = () => {
 		// <div className='2xl:mx-96 my-20'>
 		<div className='max-w-100 mx-auto'>
 			<div className='w-fit relative group'>
-				<img
-					src={user?.avatar || defaultProfile}
+				<LazyLoadImage
+					src={user?.avatar}
 					className='size-36 lg:size-48 object-cover rounded-full'
-					alt=''
-					loading='lazy'
+					alt='Post Image'
+					effect='blur'
 				/>
 
 				<form encType='multipart/form-data'>

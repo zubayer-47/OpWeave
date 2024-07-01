@@ -1,7 +1,8 @@
 import { ChevronDown, Home, LucideIcon, Menu } from 'lucide-react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../app/hooks';
-import defaultAvatar from '../assets/default.jpg';
 import logo from '../assets/opweave.webp';
 import { updateModal } from '../features/modal/modalSlice';
 import Button from './Buttons/Button';
@@ -38,7 +39,12 @@ const Nav = () => {
 			<div className='flex justify-between items-center'>
 				<div className='flex items-center gap-2 lg:gap-5 mr-2 lg:mr-0'>
 					<Link to='/'>
-						<img src={logo} className='profile size-12' alt='OpWeave logo' />
+						<LazyLoadImage
+							src={logo}
+							className='profile size-12'
+							alt='OpWeave logo'
+							effect='blur'
+						/>
 					</Link>
 
 					<form>
@@ -115,11 +121,13 @@ const Nav = () => {
 								className='px-4 py-2 dark:hover:bg-normal-primary/15 w-full rounded-xl transition-colors dropdown-btn'
 							>
 								<div className='pointer-events-none flex items-center gap-3'>
-									<img
+									<LazyLoadImage
+										src={user?.avatar}
 										className='profile size-10'
-										src={user?.avatar || defaultAvatar}
 										alt='user profile'
+										effect='blur'
 									/>
+
 									<h1 className='title'>{user?.fullname}</h1>
 									<ChevronDown className='text-dark-muted' />
 								</div>

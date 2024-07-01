@@ -6,6 +6,8 @@ import Communities from './partials/Communities';
 import Timeline from './partials/Timeline';
 
 import { skipToken } from '@reduxjs/toolkit/query';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import data from '../../../data.json';
 import Photos from '../../components/Photos';
 import Videos from '../../components/Videos';
@@ -34,10 +36,11 @@ const UserProfile = () => {
 		<div className='mt-28'>
 			<div className='flex justify-center items-center'>
 				<div className='flex flex-col justify-center items-center'>
-					<img
-						className='size-36 md:size-52 object-cover rounded-full'
+					<LazyLoadImage
 						src={data?.avatar}
+						className='size-36 md:size-52 object-cover rounded-full'
 						alt='user profile'
+						effect='blur'
 					/>
 
 					<h1 className='title text-xl md:text-2xl mt-5'>{data?.fullname}</h1>
