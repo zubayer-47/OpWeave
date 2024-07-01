@@ -97,7 +97,7 @@ const Comments: FC<Props> = ({
 			</div>
 
 			{showReplies ? (
-				<Replies comment_id={comment_id} post_id={post_id} />
+				<Replies parent_comment_id={comment_id} post_id={post_id} />
 			) : null}
 		</>
 	);

@@ -15,19 +15,19 @@ import { FormHandler } from '../../types/custom';
 import ClickableDropdown from '../ClickableDropdown';
 
 type Props = {
-	comment_id: string;
+	parent_comment_id: string;
 	post_id: string;
 };
 
-const Replies: FC<Props> = ({ comment_id, post_id }) => {
+const Replies: FC<Props> = ({ parent_comment_id, post_id }) => {
 	const { data, isSuccess } = useGetCommentRepliesQuery(
-		comment_id || skipToken
+		parent_comment_id || skipToken
 	);
 	const [createCommentReply] = useCreateCommentReplyMutation();
 
 	const [deleteComment] = useDeleteCommentMutation();
 
-	const handleDeletePost = () => {
+	const handleDeletePost = (comment_id: string) => {
 		if (confirm('Are you sure! You want to delete this?')) {
 			toast.promise(deleteComment(comment_id).unwrap(), {
 				loading: 'Deleting...',
@@ -47,7 +47,11 @@ const Replies: FC<Props> = ({ comment_id, post_id }) => {
 		};
 
 		toast.promise(
-			createCommentReply({ body: data.comment, comment_id, post_id }).unwrap(),
+			createCommentReply({
+				body: data.comment,
+				comment_id: parent_comment_id,
+				post_id,
+			}).unwrap(),
 			{
 				loading: 'Replying...',
 				success: <strong>Replied Successfully</strong>,
@@ -112,7 +116,7 @@ const Replies: FC<Props> = ({ comment_id, post_id }) => {
 									>
 										<div className='dark:bg-dark-primary px-1 absolute right-3 top-8 flex flex-col border dark:border-dark-border rounded-xl z-10'>
 											<button
-												onClick={handleDeletePost}
+												onClick={() => handleDeletePost(comment_id)}
 												className='flex items-center gap-2 py-1.5 px-2 rounded-lg my-1.5 hover:bg-normal-primary/20 cursor-pointer transition-all'
 												type='button'
 											>

@@ -22,6 +22,7 @@ export const commentApi = apiService.injectEndpoints({
 				invalidatesTags: ['Comments'],
 			}
 		),
+
 		createCommentReply: builder.mutation<
 			CommentReplyCreationResType,
 			CommentReplyCreationPayload

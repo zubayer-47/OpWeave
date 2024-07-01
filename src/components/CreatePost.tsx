@@ -123,10 +123,14 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 						<h1 className='title'>{profileData?.fullname}</h1>
 						{singleCommunity ? null : (
 							<div>
-								<span className='title text-sm font-DM-Sans font-medium text-light-muted dark:text-dark-muted'>
+								<label
+									htmlFor='community_id'
+									className='title text-sm font-DM-Sans font-medium text-light-muted dark:text-dark-muted'
+								>
 									Post to:{' '}
-								</span>
+								</label>
 								<select
+									id='community_id'
 									name='community_id'
 									className='cursor-pointer outline-none bg-transparent border border-light-muted/70 dark:border-dark-border rounded-full py-0.5 px-2 title text-sm font-DM-Sans font-medium text-light-muted dark:text-dark-muted max-w-fit'
 									ref={communityIdRef}

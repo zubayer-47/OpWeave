@@ -137,7 +137,7 @@ Props) => {
 								text='Join'
 								onClick={handleJoin}
 								size='small'
-								className='!py-1.5'
+								className='!py-1.5 my-2'
 							/>
 						)}
 
