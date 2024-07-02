@@ -1,11 +1,28 @@
 import { Frown } from 'lucide-react';
+import { useState } from 'react';
 import CreatePost from '../../components/CreatePost';
 import Post from '../../components/Post/Post';
 import PostPlaceholder from '../../components/ui-placeholders/PostPlaceholder';
 import { useGetFeedPostsQuery } from '../../features/post/postApi';
 
 const Home = () => {
-	const { data, isLoading } = useGetFeedPostsQuery();
+	const [page, setPage] = useState(1);
+	const { data, isLoading, refetch } = useGetFeedPostsQuery({});
+	const hasMore = data?.posts.length;
+
+	const loadMoreItems = async () => {
+		if (isLoading || !hasMore) return;
+
+		// setLoading(true);
+		try {
+			// const data = await postApi.endpoints.getFeedPosts.initiate({page: })
+			// setItems((prevItems) => [...prevItems, ...data]);
+			// setPage((prevPage) => prevPage + 1);
+			// setHasMore(data.length > 0);
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		}
+	};
 
 	return (
 		<div className='py-10 space-y-10'>

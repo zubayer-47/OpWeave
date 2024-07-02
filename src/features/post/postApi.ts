@@ -43,8 +43,21 @@ export const postApi = apiService.injectEndpoints({
 					  ]
 					: [{ type: 'User_posts', id: 'List' }],
 		}),
-		getFeedPosts: builder.query<{ posts: Post[] }, void>({
-			query: () => `/communities/posts/feed`,
+
+		getFeedPosts: builder.query<
+			{ posts: Post[]; totalCount: number },
+			{ page?: number; limit?: number }
+		>({
+			query: ({ page = 1, limit = 5 }) =>
+				`/communities/posts/feed?page=${page}&limit=${limit}`,
+			transformResponse(res: { posts: Post[] }, meta) {
+				const totalCountString = meta?.response?.headers.get('X-Total-Count');
+				const totalCount = totalCountString
+					? parseInt(totalCountString, 10)
+					: 0;
+
+				return { posts: res.posts, totalCount };
+			},
 			providesTags: (res) =>
 				res
 					? [
@@ -89,7 +102,7 @@ export const postApi = apiService.injectEndpoints({
 				{ dispatch, queryFulfilled }
 			) {
 				const feedPostsPatchResult = dispatch(
-					postApi.util.updateQueryData('getFeedPosts', undefined, (draft) => {
+					postApi.util.updateQueryData('getFeedPosts', {}, (draft) => {
 						const modifiedPostsDraft = draft.posts.map(
 							(post): Post =>
 								post.post_id === post_id
@@ -205,13 +218,10 @@ export const postApi = apiService.injectEndpoints({
 					);
 
 					dispatch(
-						postApi.util.updateQueryData(
-							'getFeedPosts',
-							undefined,
-							(draft) => ({
-								posts: draft.posts.filter((p) => p.post_id !== post_id),
-							})
-						)
+						postApi.util.updateQueryData('getFeedPosts', {}, (draft) => ({
+							...draft,
+							posts: draft.posts.filter((p) => p.post_id !== post_id),
+						}))
 					);
 
 					dispatch(
