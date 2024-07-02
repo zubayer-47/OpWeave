@@ -107,7 +107,7 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 	return (
 		<form
 			onSubmit={handleSubmit}
-			className={clsx('post h-fit px-4 pt-6 relative')}
+			className={clsx('post h-fit px-4 pt-6 mt-5 relative')}
 			// onFocus={() => console.log('focus')}
 			// onBlur={() => console.log('blur')}
 		>

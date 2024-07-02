@@ -43,8 +43,20 @@ export const postApi = apiService.injectEndpoints({
 					  ]
 					: [{ type: 'User_posts', id: 'List' }],
 		}),
-		getFeedPosts: builder.query<{ posts: Post[] }, void>({
-			query: () => `/communities/posts/feed`,
+
+		getFeedPosts: builder.query<
+			{ posts: Post[]; totalCount: number },
+			number | void
+		>({
+			query: (page = 1) => `/communities/posts/feed?page=${page}`,
+			transformResponse(res: { posts: Post[] }, meta) {
+				const totalCountString = meta?.response?.headers.get('X-Total-Count');
+				const totalCount = totalCountString
+					? parseInt(totalCountString, 10)
+					: 0;
+
+				return { posts: res.posts, totalCount };
+			},
 			providesTags: (res) =>
 				res
 					? [
@@ -209,6 +221,7 @@ export const postApi = apiService.injectEndpoints({
 							'getFeedPosts',
 							undefined,
 							(draft) => ({
+								...draft,
 								posts: draft.posts.filter((p) => p.post_id !== post_id),
 							})
 						)

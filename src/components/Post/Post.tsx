@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import datekit from 'datekit';
 import {
 	Bookmark,
@@ -35,6 +36,7 @@ const Post = ({
 		community: { name, members },
 		community_id,
 		image_url,
+		image_height,
 		reacts,
 		member: {
 			user: { avatar, fullname, username },
@@ -97,9 +99,9 @@ Props) => {
 	}
 
 	return (
-		<div className='post px-2 sm:px-7 pt-5 relative'>
-			<div className='flex-group justify-between'>
-				<div className='flex-group'>
+		<div className='post px-2 sm:px-7 pt-5 relative' id='post'>
+			<div className='flex-group justify-between' id='post_header'>
+				<div className='flex-group' id='user_info'>
 					<Link to={`/profile/${username}?sec=timeline`}>
 						<LazyLoadImage
 							className='profile'
@@ -122,7 +124,7 @@ Props) => {
 					</div>
 				</div>
 
-				<div className='flex flex-col items-end'>
+				<div className='flex flex-col items-end' id='post_options'>
 					<Link
 						to={`/communities/${community_id}?sec=posts`}
 						className='flex-group gap-1'
@@ -167,20 +169,30 @@ Props) => {
 				</div>
 			</div>
 
-			<Link
-				to={`/posts/${post_id}`}
-				className='title w-full font-Inter font-normal text-base hyphens-auto text-ellipsis'
-			>
-				{renderBody}
-			</Link>
-
-			{renderShowHide}
-
-			{!!image_url && (
-				<Link to={`/posts/${post_id}`}>
-					<LazyLoadImage src={image_url} alt='Post Image' effect='blur' />
+			<div className='flex-grow flex flex-col items-center gap-2'>
+				<Link
+					id='post_body'
+					to={`/posts/${post_id}`}
+					className='title w-full font-Inter font-normal text-base hyphens-auto text-ellipsis'
+				>
+					{renderBody}
 				</Link>
-			)}
+
+				{renderShowHide}
+
+				{!!image_url && (
+					<Link to={`/posts/${post_id}`} id='image_container'>
+						<LazyLoadImage
+							className={clsx('w-full max-h-[30rem] object-cover', {
+								'!max-h-full': members?.length,
+							})}
+							src={image_url}
+							alt='Post Image'
+							effect='blur'
+						/>
+					</Link>
+				)}
+			</div>
 
 			<div className='flex items-center justify-between mt-5 mb-3 relative'>
 				<hr className='border-t dark:border-dark-border border-light-border absolute -top-3 right-0 left-0' />

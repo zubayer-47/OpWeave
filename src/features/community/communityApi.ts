@@ -138,6 +138,7 @@ export const communityApi = apiService.injectEndpoints({
 			async onQueryStarted(community_id, { dispatch, queryFulfilled }) {
 				const patchResult = dispatch(
 					postApi.util.updateQueryData('getFeedPosts', undefined, (draft) => ({
+						...draft,
 						posts: draft.posts.map(
 							(post): Post =>
 								post.community_id === community_id
