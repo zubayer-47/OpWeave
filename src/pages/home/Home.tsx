@@ -1,3 +1,4 @@
+import { Loader } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {
@@ -16,12 +17,12 @@ const Home = () => {
 		posts: Post[];
 		totalCount: number;
 	}>({ posts: [], totalCount: 0 });
-	const [hasMore, setHasMore] = useState(true);
+	// const [hasMore, setHasMore] = useState(true);
 	const [page, setPage] = useState(1);
 	const listRef = useRef<List>(null);
 	const dispatch = useAppDispatch();
 
-	const hasMoree = useMemo(() => {
+	const hasMore = useMemo(() => {
 		console.log(postsState.posts.length, '---length');
 		return Math.floor(postsState.totalCount / (page * 10)) === 0 &&
 			postsState.totalCount === postsState.posts.length
@@ -29,9 +30,7 @@ const Home = () => {
 			: true;
 	}, [postsState.totalCount, page]);
 
-	console.log(hasMoree, Math.floor(postsState.totalCount / (page * 10)), {
-		page,
-	});
+	console.log({ hasMore });
 
 	const fetchMoreData = useCallback(async () => {
 		console.log('rendering fetchMoreData');
@@ -43,9 +42,11 @@ const Home = () => {
 			// setHasMore(false);
 		} else {
 			if (isSuccess) {
+				console.log([...new Set([...postsState.posts, ...data.posts])]);
 				setPostsState((prevItems) => ({
 					totalCount: data.totalCount,
-					posts: [...new Set([...prevItems.posts, ...data.posts])],
+					posts: [...prevItems.posts, ...data.posts],
+					// posts: [...new Set([...prevItems.posts, ...data.posts])],
 				}));
 
 				setPage((prev) => prev + 1);
@@ -70,8 +71,6 @@ const Home = () => {
 		);
 	};
 
-	const getItemSize = (index: number) => 300;
-
 	return (
 		<div className='flex flex-col gap-5'>
 			<CreatePost />
@@ -79,20 +78,24 @@ const Home = () => {
 			<InfiniteScroll
 				dataLength={postsState.posts.length}
 				next={fetchMoreData}
-				hasMore={hasMoree}
-				loader={hasMoree ? <h4 className='text-red'>Loading...</h4> : null}
+				hasMore={hasMore}
+				loader={
+					hasMore ? (
+						<Loader className='size-8 text-dark-muted animate-spin w-full' />
+					) : null
+				}
+				endMessage={
+					<p style={{ textAlign: 'center' }}>
+						<b className='text-dark-muted'>Yay! You have seen it all</b>
+					</p>
+				}
 				scrollableTarget='scrollableDiv'
+				className='flex flex-col gap-8 h-full'
+				scrollThreshold='10px'
 			>
-				<List
-					className='scrollbar-none'
-					ref={listRef}
-					height={postsState.posts.length * 500} // Adjust dynamically based on item size
-					itemCount={postsState.posts.length}
-					itemSize={getItemSize}
-					width='100%'
-				>
-					{renderRow}
-				</List>
+				{postsState.posts.map((post) => (
+					<Post key={post.post_id} post={post} />
+				))}
 			</InfiniteScroll>
 		</div>
 	);
