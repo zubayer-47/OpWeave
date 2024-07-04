@@ -28,7 +28,7 @@ const LoveIcon: FC<Props> = ({ post_id, react, community_id }) => {
 			{liked ? (
 				<Heart className='size-8 stroke-rose-500 fill-rose-500' />
 			) : (
-				<Heart className='size-8 stroke-rose-500' />
+				<Heart className='size-8 stroke-dark-muted' />
 			)}
 		</button>
 	);

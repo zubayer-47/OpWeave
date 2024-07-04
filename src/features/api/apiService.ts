@@ -4,6 +4,7 @@ import { userLoggedOut } from '../auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: 'http://localhost:8000/api/v1',
+	// baseUrl: 'http://128.199.82.206/api/v1',
 	prepareHeaders: async (headers, { getState }) => {
 		const access_token = (getState() as RootState).auth.access_token;
 		const auth = JSON.parse(localStorage.getItem('auth') || '{}');

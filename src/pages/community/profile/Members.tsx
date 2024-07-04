@@ -3,14 +3,14 @@ import clsx from 'clsx';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetMembersQuery } from '../../../features/community/communityApi';
 import { FilterBy } from '../../../features/community/types';
-import useQuery from '../../../hooks/useQueryParams';
+import useQueryParams from '../../../hooks/useQueryParams';
 import CenterLayout from '../../../layouts/CenterLayout';
 import MemberItem from './partials/MemberItem';
 
 const Members = () => {
 	const params = useParams();
 
-	const query = useQuery();
+	const query = useQueryParams();
 	const filterByQuery = query.get('filterBy');
 
 	const { data, isSuccess } = useGetMembersQuery({

@@ -5,23 +5,31 @@ import Nav from '../components/Nav';
 
 interface Props extends React.ButtonHTMLAttributes<HTMLDivElement> {
 	scroll?: boolean;
+	hasNav?: boolean;
 	// children?: ReactNode
 }
 
-const CenterLayout = ({ className, scroll, children, ...rest }: Props) => {
+const CenterLayout = ({
+	className,
+	scroll,
+	hasNav,
+	children,
+	...rest
+}: Props) => {
 	// console.log('center layout');
+	// TODO:  check what is it for?
 	const hasChildren = isValidElement(children);
 	// console.log('hasChildren :', hasChildren);
 
 	return (
 		<>
-			{!hasChildren && <Nav />}
+			{(!hasChildren || hasNav) && <Nav />}
 			<div
 				className={clsx(
-					'container mx-auto mt-[4.76rem]',
-					className,
-					scroll &&
-						'w-full height_without_nav overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'
+					'container mx-auto mt-20',
+					className
+					// scroll &&
+					// 	'w-full height_without_nav overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'
 				)}
 				{...rest}
 			>
