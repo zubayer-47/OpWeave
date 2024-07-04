@@ -2,6 +2,7 @@
 import toast from 'react-hot-toast';
 import { apiService } from '../api/apiService';
 import {
+	FeedResType,
 	PendingPost,
 	PendingPostRes,
 	Post,
@@ -44,18 +45,15 @@ export const postApi = apiService.injectEndpoints({
 					: [{ type: 'User_posts', id: 'List' }],
 		}),
 
-		getFeedPosts: builder.query<
-			{ posts: Post[]; totalCount: number },
-			number | void
-		>({
+		getFeedPosts: builder.query<FeedResType, number | void>({
 			query: (page = 1) => `/communities/posts/feed?page=${page}`,
-			transformResponse(res: { posts: Post[] }, meta) {
+			transformResponse(res: FeedResType, meta) {
 				const totalCountString = meta?.response?.headers.get('X-Total-Count');
 				const totalCount = totalCountString
 					? parseInt(totalCountString, 10)
 					: 0;
 
-				return { posts: res.posts, totalCount };
+				return { ...res, totalCount };
 			},
 			providesTags: (res) =>
 				res

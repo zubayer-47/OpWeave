@@ -6,6 +6,7 @@ import RootLoader from './components/ui-placeholders/RootLoader';
 import useAuthCheck from './hooks/useAuthCheck';
 import CenterLayout from './layouts/CenterLayout';
 import RootLayout from './layouts/RootLayout';
+import HomeCp from './pages/home/Home copy';
 // import ForgetPass from './pages/auth/ForgetPass';
 // import Login from './pages/auth/Login';
 // import RegisterPage from './pages/auth/Register';
@@ -58,7 +59,7 @@ function App() {
 							<Suspense
 								fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
 							>
-								<Home />
+								<HomeCp />
 							</Suspense>
 						}
 					/>
