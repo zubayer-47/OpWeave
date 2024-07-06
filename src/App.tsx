@@ -5,6 +5,7 @@ import PrivateWrapper from './Routes/PrivateWrapper';
 import RootLoader from './components/ui-placeholders/RootLoader';
 import useAuthCheck from './hooks/useAuthCheck';
 import RootLayout from './layouts/RootLayout';
+import ResetPass from './pages/auth/ResetPass';
 // import ForgetPass from './pages/auth/ForgetPass';
 // import Login from './pages/auth/Login';
 // import RegisterPage from './pages/auth/Register';
@@ -224,6 +225,16 @@ function App() {
 							fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
 						>
 							<ForgetPass />
+						</Suspense>
+					}
+				/>
+				<Route
+					path='reset-pass'
+					element={
+						<Suspense
+							fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
+						>
+							<ResetPass />
 						</Suspense>
 					}
 				/>

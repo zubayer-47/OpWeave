@@ -3,8 +3,8 @@ import datekit from 'datekit';
 import {
 	Bookmark,
 	MessageCircle,
-	MessageSquareShare,
 	MoreHorizontal,
+	Share2,
 	Trash2,
 	Users2,
 } from 'lucide-react';
@@ -19,7 +19,7 @@ import type { Post } from '../../features/post/types';
 import ModalLayout from '../../layouts/ModalLayouts/ModalLayout';
 import { trunc } from '../../libs/helpers';
 import Button from '../Buttons/Button';
-import CopyButton from '../Buttons/CopyButton';
+import CopyPostLink from '../Buttons/CopyButton';
 import ClickableDropdown from '../ClickableDropdown';
 import LoveIcon from '../errors/LoveIcon';
 // import CommentSection from './partials/CommentSection';
@@ -214,14 +214,21 @@ const Post = forwardRef<Ref, Props>(
 					</div>
 
 					<div className='flex items-center gap-5'>
-						<Bookmark className='size-8 text-light-muted dark:text-dark-muted' />
+						<button type='button'>
+							<Bookmark className='size-8 text-light-muted dark:text-dark-muted' />
+						</button>
+
 						{members?.length ? (
 							<hr className='border-t dark:border-dark-border border-light-border absolute -bottom-3 right-0 left-0' />
 						) : null}
-						<MessageSquareShare
+						{/* <MessageSquareShare
 							onClick={() => setShareModalOpen(true)}
 							className='size-7 text-light-muted dark:text-dark-muted'
-						/>
+						/> */}
+
+						<button type='button' onClick={() => setShareModalOpen(true)}>
+							<Share2 className='size-7 text-light-muted dark:text-dark-muted' />
+						</button>
 					</div>
 				</div>
 
@@ -234,26 +241,9 @@ const Post = forwardRef<Ref, Props>(
 						setShareModalOpen(false);
 					}}
 				>
-					{/* <div className='absolute inset-y-0 end-0 flex items-center pe-3'> */}
-					<CopyButton
-						url={`${
-							import.meta.env.VITE_CLIENT_URI + '/#' + location.pathname
-						}`}
+					<CopyPostLink
+						url={`${import.meta.env.VITE_CLIENT_URI + `/#/posts/${post_id}`}`}
 					/>
-					{/* </div> */}
-
-					{/* <input
-							type='text'
-							// name=''
-							// id={name}
-							className={clsx(
-								'block w-full px-3 py-2.5 text-sm rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all'
-							)}
-							value={value || ''}
-							onChange={handler}
-							disabled={isLoading}
-							required={isRequired}
-						/> */}
 				</ModalLayout>
 			</div>
 		);

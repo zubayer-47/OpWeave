@@ -106,7 +106,7 @@ const ManageRules = () => {
 				) : (
 					<>
 						<div className='flex justify-between items-center w-full bg-dark-muted/20 p-3 rounded-lg shadow-md shadow-dark-active'>
-							<h1 className='title text-2xl'>Community Rules</h1>
+							<h1 className='title text-lg md:text-2xl'>Community Rules</h1>
 							<Button
 								text='Create'
 								size='small'

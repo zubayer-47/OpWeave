@@ -96,7 +96,34 @@ export const authApi = apiService.injectEndpoints({
 				}
 			},
 		}),
+
+		forgetPassword: builder.mutation<
+			{ token: string },
+			FormDataEntryValue | null
+		>({
+			query: (email) => ({
+				url: `/auth/forget-password`,
+				method: 'POST',
+				body: { email },
+			}),
+		}),
+
+		resetPassword: builder.mutation<
+			{ token: string },
+			{ token: string; password: FormDataEntryValue | null }
+		>({
+			query: (payload) => ({
+				url: `/auth/reset-password`,
+				method: 'POST',
+				body: payload,
+			}),
+		}),
 	}),
 });
 
-export const { useLoginMutation, useRegisterMutation } = authApi;
+export const {
+	useLoginMutation,
+	useRegisterMutation,
+	useForgetPasswordMutation,
+	useResetPasswordMutation,
+} = authApi;

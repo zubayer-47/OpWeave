@@ -1,8 +1,10 @@
 import { Check, ChevronLeft } from 'lucide-react';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Buttons/Button';
 import Input from '../../components/Inputs/Input';
+import { useForgetPasswordMutation } from '../../features/auth/authApi';
 import { FormHandler } from '../../types/custom';
 
 type ForgetStateType = {
@@ -19,27 +21,31 @@ const ForgetPass = () => {
 		error: '',
 		isSuccess: false,
 	});
+	const [forgetPassword, { data, isSuccess, isLoading }] =
+		useForgetPasswordMutation();
 	const navigate = useNavigate();
 
 	const onSubmit: FormHandler = async (e) => {
 		e.preventDefault();
 
-		setForgetState((prev) => ({
-			...prev,
-			loading: true,
-		}));
+		const formData = new FormData(e.currentTarget);
+		const inputData = {
+			email: formData.get('email'),
+		};
 
 		try {
-			setTimeout(() => {
-				setForgetState((prev) => ({
-					...prev,
-					loading: false,
-					email: forgetState.email,
-					isSuccess: true,
-				}));
-			}, 2000);
+			const res = await toast.promise(
+				forgetPassword(inputData.email).unwrap(),
+				{
+					loading: 'loading...',
+					success: 'sent',
+					error: "couldn't send",
+				}
+			);
+
+			navigate(`/auth/reset-pass?token=${res.token}`);
 		} catch (error) {
-			// TODO: 9/5 forget pwd
+			//
 		}
 	};
 
@@ -48,7 +54,7 @@ const ForgetPass = () => {
 			<button
 				onClick={() => {
 					// setIsForgetPass(false);
-					navigate('/signin');
+					navigate('/auth/signin');
 				}}
 				type='button'
 				className='-ml-2 flex items-center text-nav-selected hover:text-nav-selected/80'
@@ -94,11 +100,7 @@ const ForgetPass = () => {
 				/>
 
 				<br />
-				<Button
-					text='Send Mail'
-					isLoading={forgetState.loading}
-					type='submit'
-				/>
+				<Button text='Send Mail' isLoading={isLoading} type='submit' />
 			</form>
 		</div>
 	);

@@ -1,32 +1,34 @@
-// CopyButton.tsx
 import clsx from 'clsx';
 import React, { useState } from 'react';
+import { trunc } from '../../libs/helpers';
 
-interface CopyButtonProps {
+interface CopyPostLinkProps {
 	url: string;
 }
 
-const CopyButton: React.FC<CopyButtonProps> = ({ url }) => {
+const CopyPostLink: React.FC<CopyPostLinkProps> = ({ url }) => {
 	const [copied, setCopied] = useState(false);
 
 	const handleCopy = async () => {
 		try {
 			await navigator.clipboard.writeText(url);
 			setCopied(true);
-			setTimeout(() => setCopied(false), 2000); // Reset the copied state after 2 seconds
+			setTimeout(() => setCopied(false), 2000);
 		} catch (err) {
 			console.error('Failed to copy text:', err);
 		}
 	};
 
 	return (
-		<div className='flex justify-between gap-2 items-stretch'>
-			<p className='text-dark-muted bg-dark-border p-1 rounded-lg'>{url}</p>
+		<div className='flex justify-between items-stretch'>
+			<p className='text-dark-muted bg-dark-border p-1 rounded-lg'>
+				{trunc(url, 40)}
+			</p>
 
 			<button
 				type='button'
 				className={clsx(
-					'text-dark-muted flex items-center gap-1',
+					'text-dark-muted text-sm flex items-center gap-1',
 					'bg-dark-primary border border-dark-border px-2 rounded-lg hover:bg-dark-border transition-colors',
 					{
 						'text-emerald-400': copied,
@@ -42,7 +44,7 @@ const CopyButton: React.FC<CopyButtonProps> = ({ url }) => {
 							viewBox='0 0 24 24'
 							strokeWidth={1.5}
 							stroke='currentColor'
-							className='size-6'
+							className='size-5'
 						>
 							<path
 								strokeLinecap='round'
@@ -62,7 +64,7 @@ const CopyButton: React.FC<CopyButtonProps> = ({ url }) => {
 								viewBox='0 0 24 24'
 								strokeWidth={1.5}
 								stroke='currentColor'
-								className='size-6'
+								className='size-5'
 							>
 								<path
 									strokeLinecap='round'
@@ -80,4 +82,4 @@ const CopyButton: React.FC<CopyButtonProps> = ({ url }) => {
 	);
 };
 
-export default CopyButton;
+export default CopyPostLink;
