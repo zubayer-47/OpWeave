@@ -1,10 +1,10 @@
-import { Loader } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 // import { FixedSizeList } from 'react-window';
 import { useAppDispatch } from '../../app/hooks';
 import Button from '../../components/Buttons/Button';
 import CreatePost from '../../components/CreatePost';
 import Post from '../../components/Post/Post';
+import PostPlaceholder from '../../components/ui-placeholders/PostPlaceholder';
 import { postApi } from '../../features/post/postApi';
 import { PostStateType } from '../../types/custom';
 
@@ -91,7 +91,11 @@ const Home = () => {
 			<CreatePost />
 
 			{postsState.hasMore && isLoading && (
-				<Loader className='size-8 text-dark-muted animate-spin w-full' />
+				// <Loader className='size-8 text-dark-muted animate-spin w-full' />
+				<>
+					<PostPlaceholder />
+					<PostPlaceholder />
+				</>
 			)}
 
 			{currentPagePosts.map((post) => (

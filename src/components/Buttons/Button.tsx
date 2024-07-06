@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 import { RefreshCw } from 'lucide-react';
+import { ReactNode } from 'react';
 
 type ButtonProps = {
-	text: string;
+	text: string | ReactNode;
 	type?: 'button' | 'submit' | 'reset';
 	variant?: 'primary' | 'secondary' | 'outline' | 'transparent';
 	onClick?: () => void;

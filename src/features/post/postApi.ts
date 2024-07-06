@@ -30,9 +30,21 @@ export const postApi = apiService.injectEndpoints({
 			// 	res ? ['Post', { type: 'Post', id: args.post_id }] : ['Post'],
 		}),
 
-		getUserPosts: builder.query<{ posts: Post[] }, string>({
-			query: (userId) => `/users/${userId}/posts`,
-			// TODO: 26/4
+		getUserPosts: builder.query<
+			FeedResType,
+			{ username: string; page?: number }
+		>({
+			query: ({ username, page = 1 }) =>
+				`/users/${username}/posts?page=${page}`,
+
+			transformResponse(res: FeedResType, meta) {
+				const totalCountString = meta?.response?.headers.get('X-Total-Count');
+				const totalCount = totalCountString
+					? parseInt(totalCountString, 10)
+					: 0;
+
+				return { ...res, totalCount };
+			},
 
 			providesTags: (res) =>
 				res

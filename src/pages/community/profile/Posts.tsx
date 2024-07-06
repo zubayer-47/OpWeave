@@ -76,7 +76,7 @@ const Posts: FC<Props> = ({
 		'grid grid-cols-2 gap-2 2xl:gap-20 px-0 2xl:px-20 mt-10';
 	const basePostStyles = 'col-span-full md:col-span-1';
 	const membersProfileStyles =
-		'size-7 -ml-1 border-2 dark:border-dark-muted rounded-full';
+		'size-7 ms-1 border-2 dark:border-dark-muted rounded-full';
 
 	return (
 		<div className={postGridStyles}>

@@ -1,28 +1,27 @@
 import clsx from 'clsx';
 import { X } from 'lucide-react';
 import { FC, ReactNode } from 'react';
-import { useAppSelector } from '../../app/hooks';
 import Hr from '../../components/Hr';
 
 interface Props {
 	heading: string;
 	onClose: () => void;
+	isOpen: boolean;
 	children: ReactNode;
 	size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }
 
 const ModalLayout: FC<Props> = ({
 	heading,
+	isOpen,
 	onClose,
 	children,
 	size = 'md',
 }) => {
-	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
-
-	if (!isVisibleModal) return;
+	if (!isOpen) return;
 
 	return (
-		<div className='fixed inset-0 flex items-center justify-center overflow-y-auto mx-2'>
+		<div className='fixed inset-0 flex items-center justify-center overflow-y-auto mx-2 px-2'>
 			<button
 				type='button'
 				onClick={onClose}
@@ -30,7 +29,7 @@ const ModalLayout: FC<Props> = ({
 			></button>
 			<div
 				className={clsx(
-					'bg-dark-primary rounded-lg shadow-lg p-4 md:p-8 w-full',
+					'bg-dark-primary rounded-lg shadow-lg p-3 w-full',
 					{
 						'max-w-sm': size === 'sm',
 						'max-w-md': size === 'md',

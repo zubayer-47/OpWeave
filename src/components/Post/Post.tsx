@@ -12,12 +12,14 @@ import { forwardRef, lazy, useState } from 'react';
 import toast from 'react-hot-toast';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useJoinMemberMutation } from '../../features/community/communityApi';
 import { useDeletePostMutation } from '../../features/post/postApi';
 import type { Post } from '../../features/post/types';
+import ModalLayout from '../../layouts/ModalLayouts/ModalLayout';
 import { trunc } from '../../libs/helpers';
 import Button from '../Buttons/Button';
+import CopyButton from '../Buttons/CopyButton';
 import ClickableDropdown from '../ClickableDropdown';
 import LoveIcon from '../errors/LoveIcon';
 // import CommentSection from './partials/CommentSection';
@@ -55,6 +57,8 @@ const Post = forwardRef<Ref, Props>(
 		const [expanded, setExpanded] = useState(false);
 		const [deletePost] = useDeletePostMutation();
 		const [join] = useJoinMemberMutation();
+		const [isShareModalOpen, setShareModalOpen] = useState(false);
+		const location = useLocation();
 
 		const toggleExpanded = () => {
 			setExpanded(true);
@@ -214,11 +218,43 @@ const Post = forwardRef<Ref, Props>(
 						{members?.length ? (
 							<hr className='border-t dark:border-dark-border border-light-border absolute -bottom-3 right-0 left-0' />
 						) : null}
-						<MessageSquareShare className='size-7 text-light-muted dark:text-dark-muted' />
+						<MessageSquareShare
+							onClick={() => setShareModalOpen(true)}
+							className='size-7 text-light-muted dark:text-dark-muted'
+						/>
 					</div>
 				</div>
 
 				{members?.length ? <CommentSection post_id={post_id} /> : null}
+
+				<ModalLayout
+					heading='Copy Share Link'
+					isOpen={isShareModalOpen}
+					onClose={() => {
+						setShareModalOpen(false);
+					}}
+				>
+					{/* <div className='absolute inset-y-0 end-0 flex items-center pe-3'> */}
+					<CopyButton
+						url={`${
+							import.meta.env.VITE_CLIENT_URI + '/#' + location.pathname
+						}`}
+					/>
+					{/* </div> */}
+
+					{/* <input
+							type='text'
+							// name=''
+							// id={name}
+							className={clsx(
+								'block w-full px-3 py-2.5 text-sm rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary dark:placeholder-dark-muted dark:text-light-primary dark:focus:border-blue-500 transition-all'
+							)}
+							value={value || ''}
+							onChange={handler}
+							disabled={isLoading}
+							required={isRequired}
+						/> */}
+				</ModalLayout>
 			</div>
 		);
 	}

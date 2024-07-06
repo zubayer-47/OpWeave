@@ -34,7 +34,7 @@ import {
 import type { Community } from '../../features/community/types';
 import { MemberRole } from '../../features/community/types';
 import { postApi } from '../../features/post/postApi';
-import { CommunityPostsResType, Post } from '../../features/post/types';
+import type { CommunityPostsResType, Post } from '../../features/post/types';
 import useQuery from '../../hooks/useQueryParams';
 import CenterLayout from '../../layouts/CenterLayout';
 import Info from './profile/Info';
@@ -184,7 +184,8 @@ const Community = () => {
 			<div
 				className={clsx(
 					// 'mt-0 md:mt-28 mb-10',
-					'w-full height_without_nav py-5 overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'
+					'w-full height_without_nav py-5 overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary',
+					'px-2 md:px-0'
 				)}
 				ref={scrollDivRef}
 			>
