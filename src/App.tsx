@@ -4,9 +4,8 @@ import GuestWrapper from './Routes/GuestWrapper';
 import PrivateWrapper from './Routes/PrivateWrapper';
 import RootLoader from './components/ui-placeholders/RootLoader';
 import useAuthCheck from './hooks/useAuthCheck';
-import CenterLayout from './layouts/CenterLayout';
 import RootLayout from './layouts/RootLayout';
-import HomeCp from './pages/home/Home copy';
+import ResetPass from './pages/auth/ResetPass';
 // import ForgetPass from './pages/auth/ForgetPass';
 // import Login from './pages/auth/Login';
 // import RegisterPage from './pages/auth/Register';
@@ -59,7 +58,7 @@ function App() {
 							<Suspense
 								fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
 							>
-								<HomeCp />
+								<Home />
 							</Suspense>
 						}
 					/>
@@ -85,31 +84,69 @@ function App() {
 					/>
 				</Route>
 
+				{/* <Route element={<CenterLayout scroll />}> */}
 				<Route
-					element={<CenterLayout scroll className='pt-20 px-5 lg:px-20' />}
+					path='communities/:id'
+					element={
+						<Suspense
+							fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
+						>
+							<Community />
+						</Suspense>
+					}
+				/>
+				<Route
+					path='communities/:id/me/pending'
+					element={
+						<Suspense
+							fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
+						>
+							<PendingPosts title='Your Pending Posts' />
+						</Suspense>
+					}
+				/>
+				<Route
+					path='communities/:id/pending'
+					element={
+						<Suspense
+							fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
+						>
+							<PendingPosts />
+						</Suspense>
+					}
+				/>
+				<Route
+					path='communities/:id/manage'
+					element={
+						<Suspense
+							fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
+						>
+							<ManageCommunity />
+						</Suspense>
+					}
 				>
 					<Route
-						path='communities/:id'
+						index
 						element={
 							<Suspense
 								fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
 							>
-								<Community />
+								<Manage />
 							</Suspense>
 						}
 					/>
 					<Route
-						path='communities/:id/me/pending'
+						path='rules'
 						element={
 							<Suspense
 								fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
 							>
-								<PendingPosts title='Your Pending Posts' />
+								<ManageRules />
 							</Suspense>
 						}
 					/>
 					<Route
-						path='communities/:id/pending'
+						path='pending_posts'
 						element={
 							<Suspense
 								fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
@@ -118,92 +155,46 @@ function App() {
 							</Suspense>
 						}
 					/>
-					<Route
-						path='communities/:id/manage'
-						element={
-							<Suspense
-								fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
-							>
-								<ManageCommunity />
-							</Suspense>
-						}
-					>
-						<Route
-							index
-							element={
-								<Suspense
-									fallback={
-										<h1 className='title text-dark-muted'>Loading...</h1>
-									}
-								>
-									<Manage />
-								</Suspense>
-							}
-						/>
-						<Route
-							path='rules'
-							element={
-								<Suspense
-									fallback={
-										<h1 className='title text-dark-muted'>Loading...</h1>
-									}
-								>
-									<ManageRules />
-								</Suspense>
-							}
-						/>
-						<Route
-							path='pending_posts'
-							element={
-								<Suspense
-									fallback={
-										<h1 className='title text-dark-muted'>Loading...</h1>
-									}
-								>
-									<PendingPosts />
-								</Suspense>
-							}
-						/>
-					</Route>
-					<Route
-						path='profile/:username'
-						element={
-							<Suspense
-								fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
-							>
-								<UserProfile />
-							</Suspense>
-						}
-					/>
-
-					<Route
-						path='settings'
-						element={
-							<Suspense
-								fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
-							>
-								<Settings />
-							</Suspense>
-						}
-					/>
-
-					<Route
-						path='posts/:postId'
-						element={
-							<Suspense
-								fallback={
-									// <h1 className='title text-dark-muted'>
-									// 	Post View Loading...
-									// </h1>
-									<RootLoader />
-								}
-							>
-								<PostView />
-							</Suspense>
-						}
-					/>
 				</Route>
+				<Route
+					path='profile/:username'
+					element={
+						<Suspense
+							fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
+						>
+							<UserProfile />
+						</Suspense>
+					}
+				/>
+
+				<Route
+					path='settings'
+					element={
+						<Suspense
+							fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
+						>
+							<Settings />
+						</Suspense>
+					}
+				/>
+
+				<Route
+					path='posts/:postId'
+					element={
+						<Suspense
+							fallback={
+								// <h1 className='title text-dark-muted'>
+								// 	Post View Loading...
+								// </h1>
+								<RootLoader />
+							}
+						>
+							<PostView />
+						</Suspense>
+					}
+				/>
 			</Route>
+			{/* </Route> */}
 
 			{/* <Route element={<CenterLayout className='grid place-items-center' scroll />}> */}
 			<Route path='auth' element={<GuestWrapper />}>
@@ -234,6 +225,16 @@ function App() {
 							fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
 						>
 							<ForgetPass />
+						</Suspense>
+					}
+				/>
+				<Route
+					path='reset-pass'
+					element={
+						<Suspense
+							fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
+						>
+							<ResetPass />
 						</Suspense>
 					}
 				/>

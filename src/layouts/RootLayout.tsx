@@ -1,12 +1,10 @@
 import { Outlet } from 'react-router-dom';
-import { useAppSelector } from '../app/hooks';
 import CommunitySuggestions from '../components/CommunitySuggestions';
-import CreatePost from '../components/CreatePost';
 import Nav from '../components/Nav';
 
 const RootLayout = () => {
 	// console.log('RootLayout');
-	const isPostModalOpen = useAppSelector((state) => state.modal.isVisibleModal);
+	// const isPostModalOpen = useAppSelector((state) => state.modal.isVisibleModal);
 
 	return (
 		<>
@@ -20,7 +18,7 @@ const RootLayout = () => {
 				</div>
 				<CommunitySuggestions />
 			</div>
-			{isPostModalOpen ? <CreatePost singleCommunity /> : null}
+			{/* {isPostModalOpen ? <CreatePost singleCommunity /> : null} */}
 		</>
 	);
 };

@@ -2,6 +2,7 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import { Frown } from 'lucide-react';
+import { FC } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -17,27 +18,49 @@ import {
 	Community,
 	GuestCommunityViewType,
 } from '../../../features/community/types';
-import { useGetCommunityPostsQuery } from '../../../features/post/postApi';
+import type {
+	CommunityPostsResType,
+	Post as PostType,
+} from '../../../features/post/types';
 import OutletLayout from '../../../layouts/OutletLayout';
 import { trunc } from '../../../libs/helpers';
+import { StatusStateType } from '../Community';
 
-const Posts = () => {
+type Props = {
+	page: number;
+	statusState: StatusStateType;
+	postsState: CommunityPostsResType;
+	currentPagePosts: PostType[];
+	fetchNext: () => void;
+	fetchPrev: () => void;
+};
+
+const Posts: FC<Props> = ({
+	page,
+	currentPagePosts,
+	postsState,
+	statusState,
+	fetchNext,
+	fetchPrev,
+}) => {
+	const navigate = useNavigate();
+
 	const params = useParams();
 	const { data } = useGetCommunityQuery(params?.id || skipToken);
 	const { data: membersData, isSuccess } = useGetMembersQuery({
 		community_id: params.id ?? skipToken,
 	});
 
-	const memberId = (data as Community)?.member_id;
-	const isFetchPosts = !!(typeof memberId === 'string');
+	// const memberId = (data as Community)?.member_id;
+	// const isFetchPosts = !!(typeof memberId === 'string');
 
-	const {
-		data: communityPostsData,
-		isLoading,
-		isError,
-	} = useGetCommunityPostsQuery(isFetchPosts ? params.id! : skipToken);
-	const navigate = useNavigate();
+	// const {
+	// 	data: communityPostsData,
+	// isLoading,
+	// 	isError,
+	// } = useGetCommunityPostsQuery(isFetchPosts ? params.id! : skipToken);
 	const location = useLocation();
+
 	const communityData = data as Community;
 
 	// if (isError) {
@@ -53,7 +76,7 @@ const Posts = () => {
 		'grid grid-cols-2 gap-2 2xl:gap-20 px-0 2xl:px-20 mt-10';
 	const basePostStyles = 'col-span-full md:col-span-1';
 	const membersProfileStyles =
-		'size-7 -ml-1 border-2 dark:border-dark-muted rounded-full';
+		'size-7 ms-1 border-2 dark:border-dark-muted rounded-full';
 
 	return (
 		<div className={postGridStyles}>
@@ -63,19 +86,19 @@ const Posts = () => {
 					<CreatePost singleCommunity />
 				</div>
 
-				{isLoading ? (
+				{statusState.isLoading ? (
 					<>
 						<PostPlaceholder />
 						<PostPlaceholder />
 					</>
-				) : (data as GuestCommunityViewType)?.message || isError ? (
+				) : (data as GuestCommunityViewType)?.message || statusState.isError ? (
 					<h1 className='title flex flex-col items-center'>
 						{' '}
 						<Frown className='text-red size-14' /> You don't have access
 					</h1>
 				) : (
 					<div className='flex flex-col gap-8'>
-						{communityPostsData?.totalPendingPost ? (
+						{postsState.totalPendingPost ? (
 							<Link
 								to={`${location.pathname}/me/pending`}
 								className='flex justify-between items-center w-full bg-dark-muted/20 p-3 rounded-lg'
@@ -84,23 +107,38 @@ const Posts = () => {
 								<div className='relative w-7 h-7 rounded-full ring-2 ring-blue-primary flex justify-center items-center'>
 									<div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
 										<span className='title text-blue-primary'>
-											{communityPostsData?.totalPendingPost || 0}
+											{postsState.totalPendingPost || 0}
 										</span>
 									</div>
 								</div>
 							</Link>
 						) : null}
 
-						{!communityPostsData?.posts.length ? (
+						{!postsState.posts.length ? (
 							<h1 className='title flex flex-col items-center'>
 								{' '}
 								<Frown className='text-red size-14' /> No Post Exist
 							</h1>
 						) : (
-							communityPostsData.posts.map((post) => (
+							currentPagePosts.map((post) => (
 								<Post key={post.post_id} post={post} />
 							))
 						)}
+
+						<div className='flex justify-between items-center'>
+							<Button
+								onClick={fetchPrev}
+								text='Prev'
+								size='small'
+								disabled={page === 1}
+							/>
+							<Button
+								onClick={fetchNext}
+								text='Next'
+								size='small'
+								disabled={!postsState.hasMore}
+							/>
+						</div>
 					</div>
 				)}
 			</div>

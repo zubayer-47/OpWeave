@@ -3,8 +3,8 @@ import datekit from 'datekit';
 import {
 	Bookmark,
 	MessageCircle,
-	MessageSquareShare,
 	MoreHorizontal,
+	Share2,
 	Trash2,
 	Users2,
 } from 'lucide-react';
@@ -12,12 +12,14 @@ import { forwardRef, lazy, useState } from 'react';
 import toast from 'react-hot-toast';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useJoinMemberMutation } from '../../features/community/communityApi';
 import { useDeletePostMutation } from '../../features/post/postApi';
 import type { Post } from '../../features/post/types';
+import ModalLayout from '../../layouts/ModalLayouts/ModalLayout';
 import { trunc } from '../../libs/helpers';
 import Button from '../Buttons/Button';
+import CopyPostLink from '../Buttons/CopyButton';
 import ClickableDropdown from '../ClickableDropdown';
 import LoveIcon from '../errors/LoveIcon';
 // import CommentSection from './partials/CommentSection';
@@ -55,6 +57,8 @@ const Post = forwardRef<Ref, Props>(
 		const [expanded, setExpanded] = useState(false);
 		const [deletePost] = useDeletePostMutation();
 		const [join] = useJoinMemberMutation();
+		const [isShareModalOpen, setShareModalOpen] = useState(false);
+		const location = useLocation();
 
 		const toggleExpanded = () => {
 			setExpanded(true);
@@ -138,7 +142,7 @@ const Post = forwardRef<Ref, Props>(
 						</Link>
 
 						<div className='flex-group'>
-							{hasJoined ?? hasJoined ? null : (
+							{hasJoined ? null : (
 								<Button
 									text='Join'
 									onClick={handleJoin}
@@ -200,22 +204,47 @@ const Post = forwardRef<Ref, Props>(
 
 				<div className='flex items-center justify-between mt-5 mb-3 relative'>
 					<hr className='border-t dark:border-dark-border border-light-border absolute -top-3 right-0 left-0' />
-					<div className='flex items-center gap-3 relative'>
+					<div className='flex items-center gap-5 relative'>
 						<LoveIcon
 							react={reacts?.length ? reacts[0].react_type : 'UNLIKE'}
 							community_id={community_id}
 							post_id={post_id}
 						/>
 						<MessageCircle className='size-8 text-light-muted dark:text-dark-muted' />
-						<MessageSquareShare className='size-7 text-light-muted dark:text-dark-muted' />
 					</div>
-					<Bookmark className='size-8 text-light-muted dark:text-dark-muted' />
-					{members?.length ? (
-						<hr className='border-t dark:border-dark-border border-light-border absolute -bottom-3 right-0 left-0' />
-					) : null}
+
+					<div className='flex items-center gap-5'>
+						<button type='button'>
+							<Bookmark className='size-8 text-light-muted dark:text-dark-muted' />
+						</button>
+
+						{members?.length ? (
+							<hr className='border-t dark:border-dark-border border-light-border absolute -bottom-3 right-0 left-0' />
+						) : null}
+						{/* <MessageSquareShare
+							onClick={() => setShareModalOpen(true)}
+							className='size-7 text-light-muted dark:text-dark-muted'
+						/> */}
+
+						<button type='button' onClick={() => setShareModalOpen(true)}>
+							<Share2 className='size-7 text-light-muted dark:text-dark-muted' />
+						</button>
+					</div>
 				</div>
 
 				{members?.length ? <CommentSection post_id={post_id} /> : null}
+
+				<ModalLayout
+					heading='Copy Share Link'
+					isOpen={isShareModalOpen}
+					onClose={() => {
+						setShareModalOpen(false);
+					}}
+				>
+					<CopyPostLink
+						url={`${import.meta.env.VITE_CLIENT_URI + `/#/posts/${post_id}`}`}
+					/>
+				</ModalLayout>
 			</div>
 		);
 	}

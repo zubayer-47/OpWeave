@@ -1,3 +1,5 @@
+import { Post } from '../features/post/types';
+
 export type InputType = React.ChangeEvent<HTMLInputElement>;
 export type FormHandler = React.FormEventHandler<HTMLFormElement>;
 export type BooleanSetStateType = React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,4 +24,10 @@ export enum NavId {
 export const ItemTypes = {
 	RULE: 'rule',
 	CARD: 'card',
+};
+
+export type PostStateType = {
+	posts: Post[];
+	hasMore: boolean;
+	totalCount: number;
 };

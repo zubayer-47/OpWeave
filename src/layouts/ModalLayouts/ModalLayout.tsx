@@ -1,36 +1,35 @@
 import clsx from 'clsx';
 import { X } from 'lucide-react';
 import { FC, ReactNode } from 'react';
-import { useAppSelector } from '../../app/hooks';
 import Hr from '../../components/Hr';
 
 interface Props {
 	heading: string;
 	onClose: () => void;
+	isOpen: boolean;
 	children: ReactNode;
 	size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }
 
 const ModalLayout: FC<Props> = ({
 	heading,
+	isOpen,
 	onClose,
 	children,
 	size = 'md',
 }) => {
-	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
-
-	if (!isVisibleModal) return;
+	if (!isOpen) return;
 
 	return (
-		<div className='fixed inset-0 flex items-center justify-center overflow-y-auto mx-2'>
+		<div className='fixed inset-0 z-10 flex items-center justify-center overflow-y-auto mx-2 px-2'>
 			<button
 				type='button'
 				onClick={onClose}
-				className='bg-black absolute inset-0 cursor-pointer opacity-50'
+				className='bg-black absolute inset-0 cursor-pointer opacity-70'
 			></button>
 			<div
 				className={clsx(
-					'bg-dark-primary rounded-lg shadow-lg p-4 md:p-8 w-full',
+					'bg-dark-primary rounded-lg shadow-lg p-3 w-full',
 					{
 						'max-w-sm': size === 'sm',
 						'max-w-md': size === 'md',
@@ -38,7 +37,7 @@ const ModalLayout: FC<Props> = ({
 						'max-w-xl': size === 'xl',
 						'max-w-2xl': size === '2xl',
 					},
-					'focus:outline-none z-10 relative'
+					'focus:outline-none relative'
 				)}
 			>
 				<div className='flex justify-between items-center mb-3'>

@@ -33,6 +33,13 @@ export type FeedResType = {
 	totalCount: number;
 };
 
+export type CommunityPostsResType = {
+	posts: Post[];
+	hasMore: boolean;
+	totalCount: number;
+	totalPendingPost: number;
+};
+
 export type PostCommunityIdType = { community_id: string; post_id: string };
 
 export type PendingPost = {

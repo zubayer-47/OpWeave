@@ -13,7 +13,7 @@ const Communities = () => {
 	return (
 		<CenterLayout className='max-w-102 w-full my-10'>
 			<div className='py-5 space-y-5'>
-				<h1 className='title text-2xl'>Communities you're in</h1>
+				<h1 className='title text-2xl'>Assigned Communities</h1>
 				{isLoading ? (
 					<h1 className='title'>Loading...</h1>
 				) : (

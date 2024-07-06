@@ -14,40 +14,9 @@ import {
 } from '../../../features/authority/authorityApi';
 import { RuleType } from '../../../features/authority/types';
 import { useGetCommunityRulesQuery } from '../../../features/community/communityApi';
-import { updateModal } from '../../../features/modal/modalSlice';
 import ModalLayout from '../../../layouts/ModalLayouts/ModalLayout';
 import { FormHandler, ItemTypes } from '../../../types/custom';
 import Rule from './partials/Rule';
-
-// const Rules = [
-// 	{
-// 		rule_id: 'f5893072-3b04-47ca-9a0e-1e82f7dea650',
-// 		title: 'Hey, Rules creation testing',
-// 		body: 'Sapiente beatae amet sit. Est voluptas voluptatem quasi cumque rem fuga. Qui voluptates quis itaque numquam quia. Vero facilis aliquam architecto et sit recusandae molestiae soluta. A quia adipisci qui ipsa excepturi est commodi. Dolore fugit laudantium reprehenderit et.',
-// 		order: 1,
-// 		community_id: 'c07131dd-bc6a-4927-aa5f-a3374988698d',
-// 		createdAt: '2024-06-05T01:59:26.336Z',
-// 		updatedAt: '2024-06-05T01:59:26.336Z',
-// 	},
-// 	{
-// 		rule_id: '94690a66-b8db-4f25-bb1f-2d830011d76c',
-// 		title: 'Hey, Rules creation',
-// 		body: 'Nam et dolorum iste. Quis blanditiis ut quo ipsum consequuntur id. Voluptas consequatur temporibus dolorem iusto similique explicabo quo. Aut commodi iste eos. Aut omnis nesciunt nihil aspernatur asperiores minus veritatis sed. Non aut distinctio nobis earum autem quidem aspernatur.',
-// 		order: 2,
-// 		community_id: 'c07131dd-bc6a-4927-aa5f-a3374988698d',
-// 		createdAt: '2024-06-05T02:05:28.140Z',
-// 		updatedAt: '2024-06-05T02:05:28.140Z',
-// 	},
-// 	{
-// 		rule_id: '197e4328-5116-4ac0-8351-a7e8bb925188',
-// 		title: 'New Title',
-// 		body: 'In optio dolor explicabo. Tempora architecto quae rerum. Sint facilis ipsum esse corporis non eum. Nisi necessitatibus at sed distinctio illum illum recusandae labore quisquam. Velit quisquam minus.',
-// 		order: 3,
-// 		community_id: 'c07131dd-bc6a-4927-aa5f-a3374988698d',
-// 		createdAt: '2024-06-05T02:16:33.584Z',
-// 		updatedAt: '2024-06-05T02:16:33.584Z',
-// 	},
-// ];
 
 const ManageRules = () => {
 	const params = useParams();
@@ -57,6 +26,7 @@ const ManageRules = () => {
 	const [reorderRules] = useReorderRulesMutation();
 	const [createRule] = useCreateRuleMutation();
 	const [rules, setRules] = useState<RuleType[]>([]);
+	const [isRuleCreationModalOpen, setRuleCreationModalOpen] = useState(false);
 	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
 	const dispatch = useAppDispatch();
 
@@ -125,7 +95,7 @@ const ManageRules = () => {
 			error: "Couldn't create.",
 		});
 
-		dispatch(updateModal());
+		setRuleCreationModalOpen(true);
 	};
 
 	return (
@@ -136,11 +106,11 @@ const ManageRules = () => {
 				) : (
 					<>
 						<div className='flex justify-between items-center w-full bg-dark-muted/20 p-3 rounded-lg shadow-md shadow-dark-active'>
-							<h1 className='title text-2xl'>Community Rules</h1>
+							<h1 className='title text-lg md:text-2xl'>Community Rules</h1>
 							<Button
 								text='Create'
 								size='small'
-								onClick={() => dispatch(updateModal())}
+								onClick={() => setRuleCreationModalOpen(true)}
 							/>
 						</div>
 						{!rules.length ? (
@@ -177,8 +147,8 @@ const ManageRules = () => {
 
 			<ModalLayout
 				heading='Create Rule'
-				isOpen={isVisibleModal}
-				onClose={() => dispatch(updateModal())}
+				isOpen={isRuleCreationModalOpen}
+				onClose={() => setRuleCreationModalOpen(false)}
 			>
 				<RuleCreationForm onSubmit={handleCreateRule} />
 			</ModalLayout>
