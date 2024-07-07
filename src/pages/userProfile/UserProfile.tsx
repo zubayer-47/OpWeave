@@ -25,6 +25,7 @@ import { useGetUserProfileQuery } from '../../features/user/userApi';
 import useQueryParams from '../../hooks/useQueryParams';
 import CenterLayout from '../../layouts/CenterLayout';
 import { StatusStateType } from '../community/Community';
+import Bookmarks from './partials/Bookmarks';
 
 const slicedData = data.slice(10, 20);
 const POSTS_PER_PAGE = 10;
@@ -171,6 +172,8 @@ const UserProfile = () => {
 			/>
 		);
 	else if (query.get('sec') === 'communities') content = <Communities />;
+	else if (query.get('sec') === 'bookmarks')
+		content = <Bookmarks scrollDivRef={scrollDivRef} />;
 	else if (query.get('sec') === 'photos')
 		content = <Photos data={slicedData} />;
 	else if (query.get('sec') === 'videos')
@@ -223,6 +226,16 @@ const UserProfile = () => {
 						)}
 					>
 						Communities
+					</Link>
+					<Link
+						to={`/profile/${data?.username}?sec=bookmarks`}
+						type='button'
+						className={clsx(
+							'title transition-all',
+							query.get('sec') === 'bookmarks' && navLinkStyles
+						)}
+					>
+						Bookmarks
 					</Link>
 					<Link
 						to={`/profile/${data?.username}?sec=photos`}

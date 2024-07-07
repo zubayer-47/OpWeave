@@ -1,3 +1,4 @@
+import { Comment } from '../comment/types';
 import { MemberRole } from '../community/types';
 
 export type Post = {
@@ -14,6 +15,7 @@ export type Post = {
 		members?: { role: MemberRole }[];
 	};
 	reacts: { react_type: 'LIKE' | 'UNLIKE' }[];
+	comments: Comment[];
 	member: {
 		user: {
 			user_id: string;

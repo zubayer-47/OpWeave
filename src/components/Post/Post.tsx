@@ -44,6 +44,7 @@ const Post = forwardRef<Ref, Props>(
 				image_url,
 				// image_height,
 				reacts,
+				comments,
 				member: {
 					user: { avatar, fullname, username },
 				},
@@ -232,7 +233,9 @@ const Post = forwardRef<Ref, Props>(
 					</div>
 				</div>
 
-				{members?.length ? <CommentSection post_id={post_id} /> : null}
+				{members?.length || comments?.length ? (
+					<CommentSection comments={comments} post_id={post_id} />
+				) : null}
 
 				<ModalLayout
 					heading='Copy Share Link'

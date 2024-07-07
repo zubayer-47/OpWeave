@@ -61,5 +61,7 @@ export const apiService = createApi({
 
 		'Comments',
 		'Replies',
+
+		'Bookmarks',
 	],
 });

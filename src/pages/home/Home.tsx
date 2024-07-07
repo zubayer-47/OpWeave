@@ -81,8 +81,6 @@ const Home = () => {
 		return postsState.posts.slice(startIndex, endIndex);
 	}, [postsState]);
 
-	console.log(currentPagePosts);
-
 	return (
 		<div
 			className='flex flex-col gap-8 px-2 lg:px-10 xl:px-28 h-full overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'

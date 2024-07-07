@@ -7,6 +7,7 @@ import {
 	useCreateCommentMutation,
 	useGetCommentsQuery,
 } from '../../../features/comment/commentApi';
+import { Comment } from '../../../features/comment/types';
 import { FormHandler } from '../../../types/custom';
 
 //? lazy imports
@@ -14,14 +15,17 @@ const Comments = lazy(() => import('./Comments'));
 
 type Props = {
 	post_id: string;
+	comments: Comment[];
 };
 
-const CommentSection: FC<Props> = ({ post_id }) => {
+const CommentSection: FC<Props> = ({ post_id, comments }) => {
 	const {
 		data,
 		isSuccess,
 		// isError,
-	} = useGetCommentsQuery(post_id || skipToken);
+	} = useGetCommentsQuery(post_id || skipToken, {
+		skip: !!comments?.length,
+	});
 	const [createComment, { isLoading }] = useCreateCommentMutation();
 
 	const handleCommentSubmit: FormHandler = (e) => {
@@ -81,6 +85,10 @@ const CommentSection: FC<Props> = ({ post_id }) => {
 						<Comments key={comment.comment_id} {...comment} />
 				  ))
 				: null}
+
+			{comments?.map((comment) => (
+				<Comments key={comment.comment_id} {...comment} />
+			))}
 		</section>
 	);
 };
