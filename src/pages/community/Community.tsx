@@ -143,6 +143,9 @@ const Community = () => {
 		return postsState.posts.slice(startIndex, endIndex);
 	}, [postsState]);
 
+	console.log(currentPagePosts, '--current');
+	console.log(postsState.posts, '--current posts');
+
 	// Pagination--------------
 
 	let content: ReactNode;

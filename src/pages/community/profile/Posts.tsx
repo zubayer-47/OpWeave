@@ -68,6 +68,8 @@ const Posts: FC<Props> = ({
 	// 	return <h1 className='text-2xl text-red'>Something is wrong</h1>;
 	// }
 
+	console.log(currentPagePosts, '---community_posts');
+
 	const handleInfoNavigation = () => {
 		navigate(`/communities/${params.id}?sec=info`);
 	};

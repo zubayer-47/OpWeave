@@ -1,11 +1,15 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import { apiService } from '../api/apiService';
-import { Bookmark, BookmarkQueryResType } from './types';
+import { BookmarkQueryResType, BookmarkType } from './types';
 
 export const bookmarkApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
-		getBookmarks: builder.query<BookmarkQueryResType, string>({
-			query: (userId) => `/posts/bookmarks/${userId}`,
+		getBookmarks: builder.query<
+			BookmarkQueryResType,
+			{ username: string; page: number }
+		>({
+			query: ({ username, page }) =>
+				`/posts/bookmarks/${username}?page=${page}`,
 
 			transformResponse(res: BookmarkQueryResType, meta) {
 				const totalCountString = meta?.response?.headers.get('X-Total-Count');
@@ -28,7 +32,7 @@ export const bookmarkApi = apiService.injectEndpoints({
 					: ['Bookmarks'],
 		}),
 
-		createBookmark: builder.mutation<Bookmark, string>({
+		addToBookmark: builder.mutation<BookmarkType, string>({
 			query: (post_id) => {
 				// const user_id = store.getState().auth.user?.id
 				return {
@@ -37,8 +41,7 @@ export const bookmarkApi = apiService.injectEndpoints({
 					body: { post_id },
 				};
 			},
-
-			invalidatesTags: ['Bookmarks'],
+			invalidatesTags: ['Bookmarks', 'Community_posts', 'Feed', 'User_posts'],
 		}),
 
 		deleteBookmark: builder.mutation<
@@ -46,16 +49,16 @@ export const bookmarkApi = apiService.injectEndpoints({
 			string
 		>({
 			query: (bookmark_id) => ({
-				url: `/bookmarks/${bookmark_id}`,
+				url: `/posts/bookmarks/${bookmark_id}`,
 				method: 'DELETE',
 			}),
-			invalidatesTags: ['Bookmarks'],
+			invalidatesTags: ['Bookmarks', 'Community_posts', 'Feed', 'User_posts'],
 		}),
 	}),
 });
 
 export const {
 	useGetBookmarksQuery,
-	useCreateBookmarkMutation,
+	useAddToBookmarkMutation,
 	useDeleteBookmarkMutation,
 } = bookmarkApi;

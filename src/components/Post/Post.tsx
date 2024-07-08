@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import datekit from 'datekit';
 import {
-	Bookmark,
 	MessageCircle,
 	MoreHorizontal,
 	Share2,
@@ -12,7 +11,7 @@ import { forwardRef, lazy, useState } from 'react';
 import toast from 'react-hot-toast';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useJoinMemberMutation } from '../../features/community/communityApi';
 import { useDeletePostMutation } from '../../features/post/postApi';
 import type { Post } from '../../features/post/types';
@@ -22,13 +21,14 @@ import Button from '../Buttons/Button';
 import CopyPostLink from '../Buttons/CopyButton';
 import ClickableDropdown from '../ClickableDropdown';
 import LoveIcon from '../errors/LoveIcon';
+import Bookmark from './partials/Bookmark';
 // import CommentSection from './partials/CommentSection';
 
 //? lazy imports
 const CommentSection = lazy(() => import('./partials/CommentSection'));
 
 type Props = {
-	post: Post;
+	post: Post & { bookmark?: { bookmark_id: string } };
 };
 
 export type Ref = HTMLDivElement;
@@ -37,6 +37,7 @@ const Post = forwardRef<Ref, Props>(
 	(
 		{
 			post: {
+				bookmark,
 				post_id,
 				body,
 				community: { name, members },
@@ -58,12 +59,14 @@ const Post = forwardRef<Ref, Props>(
 		const [expanded, setExpanded] = useState(false);
 		const [deletePost] = useDeletePostMutation();
 		const [join] = useJoinMemberMutation();
+
 		const [isShareModalOpen, setShareModalOpen] = useState(false);
-		const location = useLocation();
 
 		const toggleExpanded = () => {
 			setExpanded(true);
 		};
+
+		console.log(bookmark?.bookmark_id, '---post');
 
 		const handleJoin = () => {
 			toast.promise(join(community_id).unwrap(), {
@@ -215,9 +218,10 @@ const Post = forwardRef<Ref, Props>(
 					</div>
 
 					<div className='flex items-center gap-5'>
-						<button type='button'>
-							<Bookmark className='size-8 text-light-muted dark:text-dark-muted' />
-						</button>
+						<Bookmark
+							bookmark_id={bookmark?.bookmark_id || ''}
+							post_id={post_id}
+						/>
 
 						{members?.length ? (
 							<hr className='border-t dark:border-dark-border border-light-border absolute -bottom-3 right-0 left-0' />
