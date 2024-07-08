@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { Bell, Compass, MoreHorizontal } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -11,6 +12,7 @@ import { CommunityItemResType } from '../../../features/community/types';
 
 interface Props extends CommunityItemResType {
 	isSuggested?: boolean;
+	isSuggestedBox?: boolean;
 }
 
 const CommunityItem = ({
@@ -19,6 +21,7 @@ const CommunityItem = ({
 	bio,
 	name,
 	isSuggested,
+	isSuggestedBox,
 }: Props) => {
 	const [joinMember] = useJoinMemberMutation();
 
@@ -31,18 +34,31 @@ const CommunityItem = ({
 	};
 
 	return (
-		<div className='snap-center dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all py-3 px-4 flex justify-between items-center rounded-2xl relative'>
+		<div
+			className={clsx(
+				'snap-center dark:bg-dark-primary dark:hover:bg-dark-primary/50 border dark:border-dark-border transition-all py-3 px-4 flex justify-between items-center rounded-2xl relative',
+				{
+					'snap-center !bg-transparent transition-colors !p-2 !border-none flex justify-between items-center':
+						isSuggestedBox,
+				}
+			)}
+		>
 			<div className='flex justify-center items-center gap-3 md:gap-5'>
 				<Link to={`/communities/${community_id}?sec=posts`}>
 					<LazyLoadImage
-						className='profile size-12 md:size-14'
+						className={clsx('profile size-12 md:size-14', {
+							'!size-10': isSuggestedBox,
+						})}
 						src={avatar || defaultAvatar}
 						alt='community profile'
 						effect='blur'
 					/>
 				</Link>
 				<div>
-					<Link to={`/communities/${community_id}?sec=posts`} className='title'>
+					<Link
+						to={`/communities/${community_id}?sec=posts`}
+						className={clsx('title', { 'font-normal': isSuggestedBox })}
+					>
 						{name}
 					</Link>
 					<p className='title font-normal text-sm text-dark-muted'>{bio}</p>

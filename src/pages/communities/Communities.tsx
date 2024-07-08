@@ -3,17 +3,20 @@
 import CommunityItem from './partials/CommunityItem';
 
 import { Plus } from 'lucide-react';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import CommunityCreationForm from '../../components/Forms/CommunityCreationForm';
 import {
 	useGetCommunitiesQuery,
 	useGetUserAssignedCommunitiesQuery,
 } from '../../features/community/communityApi';
 import { updateModal } from '../../features/modal/modalSlice';
+import ModalLayout from '../../layouts/ModalLayouts/ModalLayout';
 
 const Communities = () => {
 	const { data: userAssignedData, isLoading: userAssignedCommunitiesLoading } =
 		useGetUserAssignedCommunitiesQuery();
-	const { data } = useGetCommunitiesQuery();
+	const { data } = useGetCommunitiesQuery({});
+	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
 	const dispatch = useAppDispatch();
 
 	if (userAssignedCommunitiesLoading) {
@@ -74,6 +77,14 @@ const Communities = () => {
 					))
 				)}
 			</div>
+
+			<ModalLayout
+				heading='Create Community'
+				isOpen={isVisibleModal}
+				onClose={() => dispatch(updateModal())}
+			>
+				<CommunityCreationForm />
+			</ModalLayout>
 		</div>
 	);
 };

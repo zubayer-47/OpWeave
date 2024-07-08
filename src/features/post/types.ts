@@ -15,6 +15,7 @@ export type Post = {
 		members?: { role: MemberRole }[];
 	};
 	reacts: { react_type: 'LIKE' | 'UNLIKE' }[];
+	reactCount: number;
 	comments: Comment[];
 	member: {
 		user: {
@@ -24,6 +25,7 @@ export type Post = {
 			avatar: string;
 		};
 	};
+	_count: { reacts: number; comments: number };
 	// these two only comes with feed posts that's why they are optional
 	hasAccess?: boolean;
 	hasJoined?: boolean;

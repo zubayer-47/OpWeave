@@ -72,10 +72,6 @@ export default {
 				auth: '0px 4px 10px 4px #262F40',
 			},
 			keyframes: {
-				'navlink-open': {
-					'0%, 100%': { transform: 'rotate(-2deg)' },
-					'50%': { transform: 'rotate(3deg)' },
-				},
 				'auth-switch': {
 					'0%': {
 						transform: 'translateX(0%)',
@@ -84,25 +80,15 @@ export default {
 					'20%': { transform: 'translateX(1%)' },
 					'100%': { transform: 'translateX(0%)' },
 				},
-				'submodal-open': {
-					'0%': {
-						right: '-20%',
-						// transition: 'all .4s',
-					},
-					'80%': { right: '4.5rem' },
-					'100%': { right: '3rem' },
+
+				'react-switch': {
+					'0%': { transform: 'translateY(-50%)' },
+					'100%': { transform: 'translateY(0%)' },
 				},
-				// 'auth-switch': {
-				// 	'0%': { transform: 'scale(1)' },
-				// 	'20%': { transform: 'scale(.7)' },
-				// 	// '50%': { transform: 'scale(.5)' },
-				// 	'100%': { transform: 'scale(1)' },
-				// },
 			},
 			animation: {
-				'navlink-open': 'navlink-open 1s ease-in-out forwards',
 				'auth-switch': 'auth-switch .5s ease-in-out forwards',
-				'submodal-open': 'submodal-open .4s ease-in-out forwards',
+				'react-switch': 'react-switch .3s ease-in-out forwards',
 			},
 
 			fontSize: {

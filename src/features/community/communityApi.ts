@@ -39,8 +39,17 @@ export const communityApi = apiService.injectEndpoints({
 				}
 			},
 		}),
-		getCommunities: builder.query<CommunitiesResType, void>({
-			query: () => `/communities`,
+
+		getCommunities: builder.query<
+			CommunitiesResType,
+			{ page?: number; limit?: number }
+		>({
+			query: ({ page, limit }) => ({
+				url:
+					page || (page && limit)
+						? `/communities?page=${page}&limit=${limit}`
+						: '/communities',
+			}),
 			providesTags: (res) =>
 				res
 					? [
@@ -52,6 +61,7 @@ export const communityApi = apiService.injectEndpoints({
 					  ]
 					: [{ type: 'Communities', id: 'List' }],
 		}),
+
 		getUserAssignedCommunities: builder.query<CommunitiesResType, void>({
 			query: () => '/communities/assigned',
 			providesTags: (res) =>
@@ -154,17 +164,13 @@ export const communityApi = apiService.injectEndpoints({
 					// dispatch(join());
 
 					dispatch(
-						communityApi.util.updateQueryData(
-							'getCommunities',
-							undefined,
-							(draft) => {
-								const updatedDraft = draft.communities.filter(
-									(d) => d.community_id !== community_id
-								);
+						communityApi.util.updateQueryData('getCommunities', {}, (draft) => {
+							const updatedDraft = draft.communities.filter(
+								(d) => d.community_id !== community_id
+							);
 
-								return { communities: updatedDraft };
-							}
-						)
+							return { communities: updatedDraft };
+						})
 					);
 
 					dispatch(

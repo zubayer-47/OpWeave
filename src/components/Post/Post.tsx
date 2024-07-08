@@ -3,7 +3,7 @@ import datekit from 'datekit';
 import {
 	MessageCircle,
 	MoreHorizontal,
-	Share2,
+	SendHorizonal,
 	Trash2,
 	Users2,
 } from 'lucide-react';
@@ -49,6 +49,7 @@ const Post = forwardRef<Ref, Props>(
 				member: {
 					user: { avatar, fullname, username },
 				},
+				_count,
 				createdAt,
 				hasAccess,
 				hasJoined,
@@ -208,11 +209,22 @@ const Post = forwardRef<Ref, Props>(
 					<hr className='border-t dark:border-dark-border border-light-border absolute -top-3 right-0 left-0' />
 					<div className='flex items-center gap-5 relative'>
 						<LoveIcon
+							like_count={_count.reacts}
 							react={reacts?.length ? reacts[0].react_type : 'UNLIKE'}
 							community_id={community_id}
 							post_id={post_id}
 						/>
-						<MessageCircle className='size-8 text-light-muted dark:text-dark-muted' />
+						<button
+							// onClick={toggleLike}
+							className={clsx(
+								'focus:outline-none bg-dark-border rounded-full flex justify-center items-center gap-2 px-3 py-1'
+							)}
+						>
+							<MessageCircle className='size-6 text-light-muted dark:text-dark-muted' />
+							{!_count.comments ? null : (
+								<span className={'text-dark-muted'}>{_count.comments}</span>
+							)}
+						</button>
 					</div>
 
 					<div className='flex items-center gap-5'>
@@ -224,13 +236,14 @@ const Post = forwardRef<Ref, Props>(
 						{members?.length ? (
 							<hr className='border-t dark:border-dark-border border-light-border absolute -bottom-3 right-0 left-0' />
 						) : null}
-						{/* <MessageSquareShare
-							onClick={() => setShareModalOpen(true)}
-							className='size-7 text-light-muted dark:text-dark-muted'
-						/> */}
 
-						<button type='button' onClick={() => setShareModalOpen(true)}>
-							<Share2 className='size-7 text-light-muted dark:text-dark-muted' />
+						<button
+							type='button'
+							className=' bg-dark-border rounded-full px-2.5 py-1'
+							onClick={() => setShareModalOpen(true)}
+						>
+							<SendHorizonal className='size-6 text-light-muted dark:text-dark-muted' />
+							{/* <Share2 /> */}
 						</button>
 					</div>
 				</div>

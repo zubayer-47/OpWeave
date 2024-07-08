@@ -16,7 +16,6 @@ const CommunityCreationForm = () => {
 		const data = {
 			name: formData.get('name'),
 			bio: formData.get('bio'),
-			rules: formData.get('rules'),
 			description: formData.get('description'),
 		};
 
@@ -66,23 +65,6 @@ const CommunityCreationForm = () => {
 						'w-full border border-dark-border rounded-md px-3 py-2 bg-dark-primary text-light-primary focus:outline-none dark:focus:ring-2 dark:focus:ring-blue-primary/50 dark:focus:ring-offset-2 dark:focus:ring-offset-dark-primary'
 					}
 					name='description'
-					cols={30}
-					rows={2}
-				></textarea>
-			</div>
-			<div className={'flex flex-col'}>
-				<label
-					htmlFor='rules'
-					className="title mb-2 after:content-['*'] after:text-red"
-				>
-					Rules
-				</label>
-				<textarea
-					id='rules'
-					className={
-						'w-full border border-dark-border rounded-md px-3 py-2 bg-dark-primary text-light-primary focus:outline-none dark:focus:ring-2 dark:focus:ring-blue-primary/50 dark:focus:ring-offset-2 dark:focus:ring-offset-dark-primary'
-					}
-					name='rules'
 					cols={30}
 					rows={2}
 				></textarea>

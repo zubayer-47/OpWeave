@@ -55,9 +55,15 @@ const Bookmark: FC<Props> = ({ bookmark_id, post_id }) => {
 	}, []);
 
 	return (
-		<button type='button' onClick={toggleBookmark}>
+		<button
+			type='button'
+			className={clsx('bg-dark-border rounded-full px-2.5 py-1', {
+				'!bg-blue-primary/30': bookmarked,
+			})}
+			onClick={toggleBookmark}
+		>
 			<BookmarkIcon
-				className={clsx('size-8 text-light-muted dark:text-dark-muted', {
+				className={clsx('size-6 text-light-muted dark:text-dark-muted', {
 					'fill-blue-primary stroke-blue-primary': bookmarked,
 				})}
 			/>
