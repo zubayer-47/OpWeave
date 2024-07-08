@@ -66,8 +66,6 @@ const Post = forwardRef<Ref, Props>(
 			setExpanded(true);
 		};
 
-		console.log(bookmark?.bookmark_id, '---post');
-
 		const handleJoin = () => {
 			toast.promise(join(community_id).unwrap(), {
 				loading: 'Joining...',

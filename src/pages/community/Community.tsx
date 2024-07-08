@@ -6,21 +6,13 @@ import {
 	Target,
 	UserMinus,
 } from 'lucide-react';
-import {
-	ReactNode,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import ContentLoader from 'react-content-loader';
 import toast from 'react-hot-toast';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link, useParams } from 'react-router-dom';
 import data from '../../../data.json';
-import { useAppDispatch } from '../../app/hooks';
 import Button from '../../components/Buttons/Button';
 import ClickableDropdown from '../../components/ClickableDropdown';
 import Hr from '../../components/Hr';
@@ -33,8 +25,7 @@ import {
 } from '../../features/community/communityApi';
 import type { Community } from '../../features/community/types';
 import { MemberRole } from '../../features/community/types';
-import { postApi } from '../../features/post/postApi';
-import type { CommunityPostsResType, Post } from '../../features/post/types';
+import { useGetCommunityPostsQuery } from '../../features/post/postApi';
 import useQuery from '../../hooks/useQueryParams';
 import CenterLayout from '../../layouts/CenterLayout';
 import Info from './profile/Info';
@@ -52,79 +43,121 @@ const Community = () => {
 	const { data: communityData, isLoading } = useGetCommunityQuery(
 		params?.id || skipToken
 	);
-
-	// Pagination------------------
-	const [postsState, setPostsState] = useState<CommunityPostsResType>({
-		posts: [],
-		hasMore: false,
-		totalCount: 0,
-		totalPendingPost: 0,
-	});
-	const [statusState, setStatusState] = useState<StatusStateType>({
-		isError: false,
-		isLoading: false,
-	});
-	const queryPage = parseInt(query.get('page') as string, 10);
-
-	const [page, setPage] = useState(queryPage || 1);
-
-	const dispatch = useAppDispatch();
-	// const navigate = useNavigate();
-	// const location = useLocation();
-	const scrollDivRef = useRef<HTMLDivElement>(null);
-
-	const fetchMoreData = useCallback(
-		async (pageNum: number = page) => {
-			try {
-				setStatusState(() => ({
-					isError: false,
-					isLoading: true,
-				}));
-
-				const { data, isSuccess } = await dispatch(
-					postApi.endpoints.getCommunityPosts.initiate({
-						community_id: params.id!,
-						page: pageNum,
-					})
-				);
-
-				if (data?.posts.length === 0) {
-					// setHasMore(false);
-				} else {
-					if (isSuccess) {
-						setPostsState((prevItems) => ({
-							posts: [...new Set([...prevItems.posts, ...data.posts])],
-							hasMore: data.hasMore,
-							totalCount: data.totalCount,
-							totalPendingPost: data.totalPendingPost,
-						}));
-					}
-				}
-				setStatusState((prev) => ({
-					...prev,
-					isLoading: false,
-				}));
-			} catch (error) {
-				setStatusState((prev) => ({
-					...prev,
-					isError: true,
-				}));
-			}
-		},
-		[page, postsState.hasMore]
-	);
+	const [page, setPage] = useState(1);
+	const {
+		data: postsData,
+		isLoading: isPostsLoading,
+		isError,
+	} = useGetCommunityPostsQuery({ community_id: params.id!, page });
 
 	useEffect(() => {
-		fetchMoreData(page);
-	}, [page]);
+		setPage((prev) => prev);
+	}, [page, postsData]);
+
+	console.log('yeah rendering');
+
+	// Pagination------------------
+	// const [postsState, setPostsState] = useState<CommunityPostsResType>({
+	// 	posts: [],
+	// 	hasMore: false,
+	// 	totalCount: 0,
+	// 	totalPendingPost: 0,
+	// });
+	// const [statusState, setStatusState] = useState<StatusStateType>({
+	// 	isError: false,
+	// 	isLoading: false,
+	// });
+	// const queryPage = parseInt(query.get('page') as string, 10);
+
+	// const [page, setPage] = useState(queryPage || 1);
+
+	// const dispatch = useAppDispatch();
+	// // const navigate = useNavigate();
+	// // const location = useLocation();
+	// const scrollDivRef = useRef<HTMLDivElement>(null);
+
+	// const fetchMoreData = useCallback(
+	// 	async (pageNum: number = page) => {
+	// 		try {
+	// 			setStatusState(() => ({
+	// 				isError: false,
+	// 				isLoading: true,
+	// 			}));
+
+	// 			const { data, isSuccess } = await dispatch(
+	// 				postApi.endpoints.getCommunityPosts.initiate({
+	// 					community_id: params.id!,
+	// 					page: pageNum,
+	// 				})
+	// 			);
+
+	// 			if (data?.posts.length === 0) {
+	// 				// setHasMore(false);
+	// 			} else {
+	// 				if (isSuccess) {
+	// 					setPostsState((prevItems) => ({
+	// 						posts: [...new Set([...prevItems.posts, ...data.posts])],
+	// 						hasMore: data.hasMore,
+	// 						totalCount: data.totalCount,
+	// 						totalPendingPost: data.totalPendingPost,
+	// 					}));
+	// 				}
+	// 			}
+	// 			setStatusState((prev) => ({
+	// 				...prev,
+	// 				isLoading: false,
+	// 			}));
+	// 		} catch (error) {
+	// 			setStatusState((prev) => ({
+	// 				...prev,
+	// 				isError: true,
+	// 			}));
+	// 		}
+	// 	},
+	// 	[page, postsState.hasMore]
+	// );
+
+	// useEffect(() => {
+	// 	fetchMoreData(page);
+	// }, [page]);
+
+	// const fetchNext = () => {
+	// 	if (postsState.hasMore) {
+	// 		setPage((prev) => prev + 1);
+
+	// 		if (scrollDivRef.current) {
+	// 			scrollDivRef.current.scrollTop = 0;
+	// 		}
+
+	// 		// navigate(`${location.pathname}/?sec=posts&page=${page + 1}`);
+	// 	}
+	// };
+
+	// const fetchPrev = () => {
+	// 	if (page > 1) {
+	// 		setPage((prev) => prev - 1);
+	// 		// navigate(`${location.pathname}/?sec=posts&page=${page + 1}`);
+	// 	}
+	// };
+
+	// const currentPagePosts: Post[] = useMemo(() => {
+	// 	const startIndex = (page - 1) * POSTS_PER_PAGE;
+	// 	const endIndex = startIndex + POSTS_PER_PAGE;
+	// 	return postsState.posts.slice(startIndex, endIndex);
+	// }, [postsState]);
+
+	// console.log(currentPagePosts, '--current');
+	// console.log(postsState.posts, '--current posts');
+
+	// Pagination--------------
 
 	const fetchNext = () => {
-		if (postsState.hasMore) {
+		if (postsData?.hasMore) {
 			setPage((prev) => prev + 1);
 
-			if (scrollDivRef.current) {
-				scrollDivRef.current.scrollTop = 0;
-			}
+			// if (scrollDivRef.current) {
+			// 	scrollDivRef.current.scrollTop = 0;
+			// }
 
 			// navigate(`${location.pathname}/?sec=posts&page=${page + 1}`);
 		}
@@ -137,38 +170,37 @@ const Community = () => {
 		}
 	};
 
-	const currentPagePosts: Post[] = useMemo(() => {
-		const startIndex = (page - 1) * POSTS_PER_PAGE;
-		const endIndex = startIndex + POSTS_PER_PAGE;
-		return postsState.posts.slice(startIndex, endIndex);
-	}, [postsState]);
-
-	console.log(currentPagePosts, '--current');
-	console.log(postsState.posts, '--current posts');
-
-	// Pagination--------------
-
 	let content: ReactNode;
 	if (!query.get('sec'))
 		content = (
 			<Posts
+				posts={postsData?.posts ?? []}
+				totalPendingPost={postsData?.totalPendingPost ?? 0}
 				page={page}
-				currentPagePosts={currentPagePosts}
-				postsState={postsState}
-				statusState={statusState}
+				// currentPagePosts={currentPagePosts}
+				// postsState={postsState}
+				// statusState={statusState}
 				fetchNext={fetchNext}
 				fetchPrev={fetchPrev}
+				isLoading={isPostsLoading}
+				isError={isError}
+				hasMore={!!postsData?.hasMore}
 			/>
 		);
 	else if (query.get('sec') === 'posts')
 		content = (
 			<Posts
+				posts={postsData?.posts ?? []}
+				totalPendingPost={postsData?.totalPendingPost ?? 0}
 				page={page}
-				currentPagePosts={currentPagePosts}
-				postsState={postsState}
-				statusState={statusState}
+				// currentPagePosts={currentPagePosts}
+				// postsState={postsState}
+				// statusState={statusState}
 				fetchNext={fetchNext}
 				fetchPrev={fetchPrev}
+				isLoading={isPostsLoading}
+				isError={isError}
+				hasMore={!!postsData?.hasMore}
 			/>
 		);
 	else if (query.get('sec') === 'info') content = <Info />;
@@ -190,7 +222,7 @@ const Community = () => {
 					'w-full height_without_nav py-5 overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary',
 					'px-2 md:px-0'
 				)}
-				ref={scrollDivRef}
+				// ref={scrollDivRef}
 			>
 				{isLoading ? (
 					<ContentLoader

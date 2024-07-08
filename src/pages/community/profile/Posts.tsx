@@ -18,28 +18,38 @@ import {
 	Community,
 	GuestCommunityViewType,
 } from '../../../features/community/types';
-import type {
-	CommunityPostsResType,
-	Post as PostType,
-} from '../../../features/post/types';
+import type { Post as PostType } from '../../../features/post/types';
 import OutletLayout from '../../../layouts/OutletLayout';
 import { trunc } from '../../../libs/helpers';
-import { StatusStateType } from '../Community';
 
 type Props = {
+	// statusState: StatusStateType;
+	// postsState: CommunityPostsResType;
+	// currentPagePosts: PostType[];
+
 	page: number;
-	statusState: StatusStateType;
-	postsState: CommunityPostsResType;
-	currentPagePosts: PostType[];
+	posts: PostType[];
+	totalPendingPost: number;
+	hasMore: boolean;
+	isLoading: boolean;
+	isError: boolean;
 	fetchNext: () => void;
 	fetchPrev: () => void;
 };
 
 const Posts: FC<Props> = ({
+	// page,
+	// currentPagePosts,
+	// postsState,
+	// statusState,
+	// fetchNext,
+	// fetchPrev,
 	page,
-	currentPagePosts,
-	postsState,
-	statusState,
+	posts,
+	isLoading,
+	isError,
+	totalPendingPost,
+	hasMore,
 	fetchNext,
 	fetchPrev,
 }) => {
@@ -68,8 +78,6 @@ const Posts: FC<Props> = ({
 	// 	return <h1 className='text-2xl text-red'>Something is wrong</h1>;
 	// }
 
-	console.log(currentPagePosts, '---community_posts');
-
 	const handleInfoNavigation = () => {
 		navigate(`/communities/${params.id}?sec=info`);
 	};
@@ -88,19 +96,19 @@ const Posts: FC<Props> = ({
 					<CreatePost singleCommunity />
 				</div>
 
-				{statusState.isLoading ? (
+				{isLoading ? (
 					<>
 						<PostPlaceholder />
 						<PostPlaceholder />
 					</>
-				) : (data as GuestCommunityViewType)?.message || statusState.isError ? (
+				) : (data as GuestCommunityViewType)?.message || isError ? (
 					<h1 className='title flex flex-col items-center'>
 						{' '}
 						<Frown className='text-red size-14' /> You don't have access
 					</h1>
 				) : (
 					<div className='flex flex-col gap-8'>
-						{postsState.totalPendingPost ? (
+						{totalPendingPost ? (
 							<Link
 								to={`${location.pathname}/me/pending`}
 								className='flex justify-between items-center w-full bg-dark-muted/20 p-3 rounded-lg'
@@ -109,22 +117,20 @@ const Posts: FC<Props> = ({
 								<div className='relative w-7 h-7 rounded-full ring-2 ring-blue-primary flex justify-center items-center'>
 									<div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
 										<span className='title text-blue-primary'>
-											{postsState.totalPendingPost || 0}
+											{totalPendingPost || 0}
 										</span>
 									</div>
 								</div>
 							</Link>
 						) : null}
 
-						{!postsState.posts.length ? (
+						{!posts.length ? (
 							<h1 className='title flex flex-col items-center'>
 								{' '}
 								<Frown className='text-red size-14' /> No Post Exist
 							</h1>
 						) : (
-							currentPagePosts.map((post) => (
-								<Post key={post.post_id} post={post} />
-							))
+							posts.map((post) => <Post key={post.post_id} post={post} />)
 						)}
 
 						<div className='flex justify-between items-center'>
@@ -138,7 +144,7 @@ const Posts: FC<Props> = ({
 								onClick={fetchNext}
 								text='Next'
 								size='small'
-								disabled={!postsState.hasMore}
+								disabled={!hasMore}
 							/>
 						</div>
 					</div>
