@@ -233,6 +233,17 @@ export const communityApi = apiService.injectEndpoints({
 				}
 			},
 		}),
+
+		updateCommunityLogo: builder.mutation<
+			{},
+			{ community_id: string; formData: FormData }
+		>({
+			query: ({ community_id, formData }) => ({
+				url: `/communities/${community_id}/logo`,
+				method: 'PATCH',
+				body: formData,
+			}),
+		}),
 	}),
 });
 
@@ -246,4 +257,5 @@ export const {
 	useGetMembersQuery,
 	useJoinMemberMutation,
 	useLeaveMemberMutation,
+	useUpdateCommunityLogoMutation,
 } = communityApi;

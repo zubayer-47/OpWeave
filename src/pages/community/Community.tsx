@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import {
 	GripHorizontal,
 	MoreHorizontal,
+	PencilLine,
 	Target,
 	UserMinus,
 } from 'lucide-react';
@@ -22,12 +23,14 @@ import {
 	useGetCommunityQuery,
 	useJoinMemberMutation,
 	useLeaveMemberMutation,
+	useUpdateCommunityLogoMutation,
 } from '../../features/community/communityApi';
 import type { Community } from '../../features/community/types';
 import { MemberRole } from '../../features/community/types';
 import { useGetCommunityPostsQuery } from '../../features/post/postApi';
 import useQuery from '../../hooks/useQueryParams';
 import CenterLayout from '../../layouts/CenterLayout';
+import { InputType } from '../../types/custom';
 import Info from './profile/Info';
 import Members from './profile/Members';
 import Posts from './profile/Posts';
@@ -35,7 +38,6 @@ import Posts from './profile/Posts';
 const slicedData = data.slice(10, 20);
 
 export type StatusStateType = { isLoading: boolean; isError: boolean };
-const POSTS_PER_PAGE = 10;
 
 const Community = () => {
 	const query = useQuery();
@@ -49,12 +51,11 @@ const Community = () => {
 		isLoading: isPostsLoading,
 		isError,
 	} = useGetCommunityPostsQuery({ community_id: params.id!, page });
+	const [updateCommunityLogo] = useUpdateCommunityLogoMutation();
 
 	useEffect(() => {
 		setPage((prev) => prev);
 	}, [page, postsData]);
-
-	console.log('yeah rendering');
 
 	// Pagination------------------
 	// const [postsState, setPostsState] = useState<CommunityPostsResType>({
@@ -214,6 +215,28 @@ const Community = () => {
 
 	const isJoined = !!(communityData as Community)?.member_id;
 
+	const handleFile = async (e: InputType) => {
+		if (e.target?.files) {
+			const file = e.target.files[0];
+
+			console.log(file);
+
+			const formData = new FormData();
+			formData.append('avatar', file);
+
+			const promise = updateCommunityLogo({
+				community_id: params.id!,
+				formData,
+			}).unwrap();
+
+			toast.promise(promise, {
+				loading: 'saving...',
+				success: 'successfully saved!',
+				error: 'Cloud not save.',
+			});
+		}
+	};
+
 	return (
 		<CenterLayout hasNav>
 			<div
@@ -251,12 +274,50 @@ const Community = () => {
 						{/* // <div className='flex items-center justify-between px-14 relative'> */}
 						<div className='grid grid-cols-8 items-center px-14 relative'>
 							<div className='col-span-full md:col-span-7 flex flex-col items-center md:flex-row md:items-end gap-5'>
-								<LazyLoadImage
+								{/* <LazyLoadImage
 									className='size-36 object-cover rounded-full'
 									src={communityData?.avatar}
 									alt='community profile'
 									effect='blur'
-								/>
+								/> */}
+								{isJoined &&
+								(communityData as Community)?.role !== MemberRole.MEMBER ? (
+									<div className='w-fit relative group'>
+										<LazyLoadImage
+											className='size-36 object-cover rounded-full'
+											src={communityData?.avatar}
+											alt='community profile'
+											effect='blur'
+										/>
+
+										<form encType='multipart/form-data'>
+											<label htmlFor='upload_profile'>
+												<div className='absolute left-0 bottom-2  rounded-lg focus:outline-none border dark:border-dark-border dark:bg-dark-primary px-2 md:px-3 py-1.5 md:py-2 dark:text-light-primary text-xs flex justify-center items-center overflow-hidden cursor-pointer'>
+													<PencilLine
+														className='mr-2 size-4'
+														strokeWidth={1.8}
+													/>
+													<span className='title text-sm'>Edit</span>
+												</div>
+												<input
+													type='file'
+													name=''
+													id='upload_profile'
+													className='hidden'
+													onChange={handleFile}
+													accept='image/png, image/jpg, image/webp'
+												/>
+											</label>
+										</form>
+									</div>
+								) : (
+									<LazyLoadImage
+										className='size-36 object-cover rounded-full'
+										src={communityData?.avatar}
+										alt='community profile'
+										effect='blur'
+									/>
+								)}
 
 								<div className='mb-3 text-center md:text-left'>
 									<h1 className='title text-xl'>{communityData?.name}</h1>

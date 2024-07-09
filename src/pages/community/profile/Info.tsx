@@ -80,7 +80,9 @@ const Info = () => {
 						{!membersData?.members.length ? (
 							<h1 className='title text-red'>No Member Exist</h1>
 						) : (
-							membersData.members.map((member) => <MemberItem {...member} />)
+							membersData.members.map((member) => (
+								<MemberItem key={member.member_id} {...member} />
+							))
 						)}
 					</div>
 

@@ -43,7 +43,11 @@ const CommunityItem = ({
 				}
 			)}
 		>
-			<div className='flex justify-center items-center gap-3 md:gap-5'>
+			<div
+				className={clsx('flex justify-center items-center gap-3 md:gap-5', {
+					'!gap-2': isSuggestedBox,
+				})}
+			>
 				<Link to={`/communities/${community_id}?sec=posts`}>
 					<LazyLoadImage
 						className={clsx('profile size-12 md:size-14', {
