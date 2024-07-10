@@ -12,7 +12,11 @@ const CommunitySuggestions = () => {
 	};
 
 	return (
-		<OutletLayout title='Community Suggestions' className='mx-5'>
+		<OutletLayout
+			title='Community Suggestions'
+			className='mx-5'
+			childGap='!gap-1'
+		>
 			{!data?.communities.length ? (
 				<h1 className='title text-xs md:text-base'>No community exist</h1>
 			) : (

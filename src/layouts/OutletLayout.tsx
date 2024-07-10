@@ -6,9 +6,10 @@ interface Props extends PropsWithChildren {
 	title: string;
 	sub?: string;
 	className?: string;
+	childGap?: '!gap-1' | '!gap-2';
 }
 
-const OutletLayout = ({ title, sub, children, className }: Props) => {
+const OutletLayout = ({ title, sub, children, className, childGap }: Props) => {
 	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
 
 	return (
@@ -28,7 +29,9 @@ const OutletLayout = ({ title, sub, children, className }: Props) => {
 					{sub ? <h2 className='muted'>{sub}</h2> : null}
 				</div>
 
-				<div className='flex flex-col gap-3.5'>{children}</div>
+				<div className={clsx('flex flex-col gap-3.5', childGap)}>
+					{children}
+				</div>
 			</div>
 		</div>
 	);
