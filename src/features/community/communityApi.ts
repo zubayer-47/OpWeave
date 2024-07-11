@@ -1,4 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
+import toast from 'react-hot-toast';
 import { apiService } from '../api/apiService';
 import { postApi } from '../post/postApi';
 import { Post } from '../post/types';
@@ -187,6 +188,15 @@ export const communityApi = apiService.injectEndpoints({
 				} catch (error) {
 					patchResult.undo();
 				}
+			},
+
+			async transformErrorResponse(error) {
+				if (error.status === 403) {
+					const message = (error.data as { message: string })?.message;
+					toast.error(message || "You're not allowed to Join!");
+				}
+
+				return error;
 			},
 		}),
 

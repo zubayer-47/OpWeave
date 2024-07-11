@@ -190,7 +190,8 @@ export const postApi = apiService.injectEndpoints({
 
 			async transformErrorResponse(error) {
 				if (error.status === 403) {
-					toast.error("You're not allowed to react this post!");
+					const message = (error.data as { message: string })?.message;
+					toast.error(message || "You're not allowed to react this post!");
 				}
 
 				return error;

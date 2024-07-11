@@ -32,3 +32,5 @@ export type UpdateRulesOrderResultType = {
 	message: string;
 	rules: RuleType[];
 };
+
+export type BanPayloadType = { member_id: string; community_id: string };

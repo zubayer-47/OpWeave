@@ -3,6 +3,7 @@ import { apiService } from '../api/apiService';
 import { communityApi } from '../community/communityApi';
 import { postApi } from '../post/postApi';
 import {
+	BanPayloadType,
 	CreateRulePayloadType,
 	CreateRuleResultType,
 	DeleteRuleResultType,
@@ -165,6 +166,22 @@ export const authorityApi = apiService.injectEndpoints({
 				body: payload,
 			}),
 		}),
+
+		banMember: builder.mutation<{ message: string }, BanPayloadType>({
+			query: ({ member_id, community_id }) => ({
+				url: `/authority/members/${member_id}/ban`,
+				method: 'PATCH',
+				body: { community_id },
+			}),
+		}),
+
+		unBanMember: builder.mutation({
+			query: ({ member_id, community_id }) => ({
+				url: `/authority/members/${member_id}/unban`,
+				method: 'PATCH',
+				body: { community_id },
+			}),
+		}),
 	}),
 });
 
@@ -174,4 +191,6 @@ export const {
 	useCreateRuleMutation,
 	useDeleteRuleMutation,
 	useReorderRulesMutation,
+	useBanMemberMutation,
+	useUnBanMemberMutation,
 } = authorityApi;

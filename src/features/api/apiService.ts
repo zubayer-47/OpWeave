@@ -34,7 +34,8 @@ export const apiService = createApi({
 			// 	return retryResult;
 			// }
 
-			if (result?.error?.status === 401 || result.error?.status === 404) {
+			// if (result?.error?.status === 401 || result.error?.status === 404) {
+			if (result?.error?.status === 401) {
 				api.dispatch(userLoggedOut());
 				localStorage.clear();
 				console.log('clearning', result);

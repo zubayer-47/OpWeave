@@ -25,8 +25,8 @@ const CommunityItem = ({
 }: Props) => {
 	const [joinMember] = useJoinMemberMutation();
 
-	const handleJoinMember = () => {
-		toast.promise(joinMember(community_id).unwrap(), {
+	const handleJoinMember = async () => {
+		await toast.promise(joinMember(community_id).unwrap(), {
 			loading: 'Joining...',
 			success: 'Member Joined.',
 			error: 'Could not join.',
