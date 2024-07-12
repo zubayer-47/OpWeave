@@ -24,12 +24,10 @@ const Communities = () => {
 	}
 
 	return (
-		<div className='py-5 h-screen space-y-8'>
+		<div className='flex flex-col gap-8 px-2 lg:px-10 xl:px-28 h-full overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'>
 			{/* // TODO: customize it */}
 			{/* <FavCommunities /> */}
 			{/* <ItemContainer /> */}
-
-			<h1 className='title'>Make it</h1>
 
 			<div className='py-5 space-y-5'>
 				<div className='flex justify-between items-center'>
