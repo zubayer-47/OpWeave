@@ -68,6 +68,8 @@ export type MemberType = {
 		username: string;
 		avatar: string;
 	};
+	restricts: MemberRestrictions;
+	banUntil: Date;
 	role: string;
 };
 
@@ -82,4 +84,10 @@ export enum MemberRole {
 	ADMIN = 'ADMIN',
 	MODERATOR = 'MODERATOR',
 	MEMBER = 'MEMBER',
+}
+
+export enum MemberRestrictions {
+	BAN = 'BAN',
+	MUTE = 'MUTE',
+	PUBLIC = 'PUBLIC',
 }

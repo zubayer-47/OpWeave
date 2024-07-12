@@ -1,4 +1,5 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
+import toast from 'react-hot-toast';
 import { apiService } from '../api/apiService';
 import {
 	Comment,
@@ -20,6 +21,15 @@ export const commentApi = apiService.injectEndpoints({
 				}),
 
 				invalidatesTags: ['Comments'],
+
+				async transformErrorResponse(error) {
+					if (error.status === 403) {
+						const message = (error.data as { message: string })?.message;
+						toast.error(message || "You're not allowed to react this post!");
+					}
+
+					return error;
+				},
 			}
 		),
 

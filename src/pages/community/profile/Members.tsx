@@ -1,13 +1,18 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
+import { FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetMembersQuery } from '../../../features/community/communityApi';
-import { FilterBy } from '../../../features/community/types';
+import { FilterBy, MemberRole } from '../../../features/community/types';
 import useQueryParams from '../../../hooks/useQueryParams';
 import CenterLayout from '../../../layouts/CenterLayout';
 import MemberItem from './partials/MemberItem';
 
-const Members = () => {
+type Props = {
+	current_user_role: MemberRole;
+};
+
+const Members: FC<Props> = ({ current_user_role }) => {
 	const params = useParams();
 
 	const query = useQueryParams();
@@ -58,7 +63,11 @@ const Members = () => {
 				<div className='flex flex-col gap-5 my-5'>
 					{isSuccess
 						? data.members.map((member) => (
-								<MemberItem key={member.member_id} {...member} />
+								<MemberItem
+									key={member.member_id}
+									{...member}
+									current_user_role={current_user_role}
+								/>
 								// eslint-disable-next-line no-mixed-spaces-and-tabs
 						  ))
 						: null}

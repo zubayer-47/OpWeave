@@ -209,7 +209,14 @@ const Community = () => {
 		content = <Photos data={slicedData} />;
 	else if (query.get('sec') === 'videos')
 		content = <Videos data={slicedData} />;
-	else if (query.get('sec') === 'members') content = <Members />;
+	else if (query.get('sec') === 'members')
+		content = (
+			<Members
+				current_user_role={
+					(communityData as Community)?.role || MemberRole.MEMBER
+				}
+			/>
+		);
 
 	const navLinkStyles = 'border-b-[3px] rounded-sm px-3 border-blue-primary';
 

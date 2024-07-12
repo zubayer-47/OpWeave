@@ -1,18 +1,26 @@
+import clsx from 'clsx';
 import { Ban, MoreHorizontal, User2 } from 'lucide-react';
+import toast from 'react-hot-toast';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Button from '../../../../components/Buttons/Button';
 import ClickableDropdown from '../../../../components/ClickableDropdown';
 import { useBanMemberMutation } from '../../../../features/authority/authorityApi';
-import { MemberRole, MemberType } from '../../../../features/community/types';
-import toast from 'react-hot-toast';
+import {
+	MemberRestrictions,
+	MemberRole,
+	MemberType,
+} from '../../../../features/community/types';
 
-type Props = MemberType;
+type Props = MemberType & { current_user_role: MemberRole };
 
 const MemberItem = ({
 	member_id,
 	user: { fullname, username, avatar },
+	current_user_role,
+	restricts,
+	banUntil,
 	role,
 }: Props) => {
 	const [banMember] = useBanMemberMutation();
@@ -45,7 +53,22 @@ const MemberItem = ({
 
 				<div>
 					<Link to={`/profile/${username}?sec=timeline`}>
-						<h1 className='title font-normal'>{fullname}</h1>
+						<h1
+							className={clsx(
+								'title font-normal relative'
+								// {
+								// "dark:text-dark-muted after:content-['*'] after:text-rose-500":
+								// 	restricts === MemberRestrictions.BAN &&
+								// 	new Date() < new Date(banUntil),
+								// }
+							)}
+						>
+							{restricts === MemberRestrictions.BAN &&
+							new Date() < new Date(banUntil) ? (
+								<Ban className='absolute -top-1 -right-5 text-red size-4' />
+							) : null}
+							{fullname}
+						</h1>
 					</Link>
 					<span className='muted'>{role}</span>
 				</div>
@@ -59,7 +82,7 @@ const MemberItem = ({
 				variant='outline'
 			/> */}
 
-			{role !== MemberRole.MEMBER ? (
+			{current_user_role !== MemberRole.MEMBER ? (
 				<ClickableDropdown
 					button={
 						<button type='button'>

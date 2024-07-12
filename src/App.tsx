@@ -26,7 +26,6 @@ import ResetPass from './pages/auth/ResetPass';
 const Login = lazy(() => import('./pages/auth/Login'));
 const RegisterPage = lazy(() => import('./pages/auth/Register'));
 const ForgetPass = lazy(() => import('./pages/auth/ForgetPass'));
-const Bookmarks = lazy(() => import('./pages/bookmarks/Bookmarks'));
 const Communities = lazy(() => import('./pages/communities/Communities'));
 const Community = lazy(() => import('./pages/community/Community'));
 const PendingPosts = lazy(() => import('./pages/community/PendingPosts'));
@@ -69,16 +68,6 @@ function App() {
 								fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
 							>
 								<Communities />
-							</Suspense>
-						}
-					/>
-					<Route
-						path='bookmarks'
-						element={
-							<Suspense
-								fallback={<h1 className='title text-dark-muted'>Loading...</h1>}
-							>
-								<Bookmarks />
 							</Suspense>
 						}
 					/>

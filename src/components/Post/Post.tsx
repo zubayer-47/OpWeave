@@ -253,7 +253,7 @@ const Post = forwardRef<Ref, Props>(
 				) : null}
 
 				<ModalLayout
-					heading='Copy Share Link'
+					heading='Copy Shareable Link'
 					isOpen={isShareModalOpen}
 					onClose={() => {
 						setShareModalOpen(false);

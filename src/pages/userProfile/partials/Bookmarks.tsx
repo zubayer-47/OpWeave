@@ -58,14 +58,14 @@ const Bookmarks: FC<Props> = ({ scrollDivRef }) => {
 				);
 
 				if (isSuccess) {
-					console.log(
-						params.username,
-						prevUsername,
-						'username from fetchMoreData'
-					);
+					// console.log(
+					// 	params.username,
+					// 	prevUsername,
+					// 	'username from fetchMoreData'
+					// );
 
 					setBookmarksState((prevItems) => {
-						console.log({ isEqualUsername });
+						// console.log({ isEqualUsername });
 
 						return {
 							bookmarks: isEqualUsername

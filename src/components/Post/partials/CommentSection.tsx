@@ -2,7 +2,6 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import { CornerDownLeft } from 'lucide-react';
 import { FC, lazy } from 'react';
-import toast from 'react-hot-toast';
 import {
 	useCreateCommentMutation,
 	useGetCommentsQuery,
@@ -28,7 +27,7 @@ const CommentSection: FC<Props> = ({ post_id, comments }) => {
 	});
 	const [createComment, { isLoading }] = useCreateCommentMutation();
 
-	const handleCommentSubmit: FormHandler = (e) => {
+	const handleCommentSubmit: FormHandler = async (e) => {
 		e.preventDefault();
 
 		const formData = new FormData(e.currentTarget);
@@ -37,13 +36,18 @@ const CommentSection: FC<Props> = ({ post_id, comments }) => {
 			comment: formData.get('comment'),
 		};
 
-		toast.promise(createComment({ body: data.comment, post_id }).unwrap(), {
-			loading: 'Creating...',
-			success: 'Comment successfully created',
-			error: 'Could not create',
-		});
+		try {
+			const res = await createComment({ body: data.comment, post_id }).unwrap();
+			e.currentTarget.reset();
 
-		e.currentTarget.reset();
+			console.log(res);
+		} catch (error) {}
+
+		// toast.promise(createComment({ body: data.comment, post_id }).unwrap(), {
+		// 	loading: 'Creating...',
+		// 	success: 'Comment successfully created',
+		// 	error: 'Could not create',
+		// });
 	};
 
 	return (
