@@ -1,8 +1,12 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetMembersQuery } from '../../../features/community/communityApi';
+import Button from '../../../components/Buttons/Button';
+import {
+	useGetMembersQuery,
+	useLazyGetMembersQuery,
+} from '../../../features/community/communityApi';
 import { FilterBy, MemberRole } from '../../../features/community/types';
 import useQueryParams from '../../../hooks/useQueryParams';
 import CenterLayout from '../../../layouts/CenterLayout';
@@ -13,20 +17,57 @@ type Props = {
 };
 
 const Members: FC<Props> = ({ current_user_role }) => {
+	const [page, setPage] = useState(1);
 	const params = useParams();
-
 	const query = useQueryParams();
 	const filterByQuery = query.get('filterBy');
 
-	const { data, isSuccess } = useGetMembersQuery({
+	const { data, isSuccess: membersSuccess } = useGetMembersQuery({
 		community_id: params.id ?? skipToken,
 		filterBy: (filterByQuery ?? 'all') as FilterBy,
 	});
+	const [trigger, result] = useLazyGetMembersQuery();
+
+	const membersData = result.data ?? data;
+	const isSuccess = result.isSuccess || membersSuccess;
+
 	const navigate = useNavigate();
+
+	const fetchNext = () => {
+		if (data?.hasMore) {
+			trigger(
+				{
+					community_id: params.id ?? skipToken,
+					filterBy: (filterByQuery ?? 'all') as FilterBy,
+					page: page + 1,
+				},
+				true
+			);
+
+			setPage((prev) => prev + 1);
+		}
+	};
+
+	const fetchPrev = () => {
+		if (page > 1) {
+			trigger(
+				{
+					community_id: params.id ?? skipToken,
+					filterBy: (filterByQuery ?? 'all') as FilterBy,
+					page: page - 1,
+				},
+				true
+			);
+
+			setPage((prev) => prev - 1);
+		}
+	};
 
 	const handleFilterType = (filterBy: 'all' | 'authority'): void => {
 		navigate(`/communities/${params.id}?sec=members&filterBy=${filterBy}`);
 	};
+
+	const disableNextButton = result.data?.hasMore ?? data?.hasMore;
 
 	return (
 		<CenterLayout className='max-w-102 w-full my-10 h-screen'>
@@ -62,7 +103,7 @@ const Members: FC<Props> = ({ current_user_role }) => {
 
 				<div className='flex flex-col gap-5 my-5'>
 					{isSuccess
-						? data.members.map((member) => (
+						? membersData?.members.map((member) => (
 								<MemberItem
 									key={member.member_id}
 									{...member}
@@ -71,6 +112,21 @@ const Members: FC<Props> = ({ current_user_role }) => {
 								// eslint-disable-next-line no-mixed-spaces-and-tabs
 						  ))
 						: null}
+				</div>
+
+				<div className='flex justify-between items-center'>
+					<Button
+						onClick={fetchPrev}
+						text='Prev'
+						size='small'
+						disabled={page === 1}
+					/>
+					<Button
+						onClick={fetchNext}
+						text='Next'
+						size='small'
+						disabled={!disableNextButton}
+					/>
 				</div>
 			</div>
 		</CenterLayout>

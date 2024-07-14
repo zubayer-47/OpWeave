@@ -274,6 +274,7 @@ export const {
 	useCreateCommunityMutation,
 	useGetCommunityRulesQuery,
 	useGetMembersQuery,
+	useLazyGetMembersQuery,
 	useJoinMemberMutation,
 	useLeaveMemberMutation,
 	useUpdateCommunityLogoMutation,
