@@ -75,7 +75,8 @@ export type MemberType = {
 
 export type MembersResType = {
 	members: MemberType[];
-	total: number;
+	totalCount: number;
+	hasMore: boolean;
 };
 
 export type FilterBy = 'authority' | 'all';

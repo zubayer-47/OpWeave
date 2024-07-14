@@ -129,6 +129,15 @@ export const communityApi = apiService.injectEndpoints({
 		>({
 			query: ({ community_id, page = 1, limit = 10, filterBy = 'all' }) =>
 				`/communities/${community_id.toString()}/members?page=${page}&limit=${limit}&filterBy=${filterBy}`,
+
+			transformResponse(res: MembersResType, meta) {
+				const totalCountString = meta?.response?.headers.get('X-Total-Count');
+				const totalCount = totalCountString
+					? parseInt(totalCountString, 10)
+					: 0;
+
+				return { ...res, totalCount };
+			},
 		}),
 
 		joinMember: builder.mutation<
