@@ -60,6 +60,7 @@ export const postApi = apiService.injectEndpoints({
 
 		getFeedPosts: builder.query<FeedResType, number | void>({
 			query: (page = 1) => `/communities/posts/feed?page=${page}`,
+
 			transformResponse(res: FeedResType, meta) {
 				const totalCountString = meta?.response?.headers.get('X-Total-Count');
 				const totalCount = totalCountString
@@ -68,6 +69,7 @@ export const postApi = apiService.injectEndpoints({
 
 				return { ...res, totalCount };
 			},
+
 			providesTags: (res) =>
 				res
 					? [
@@ -316,10 +318,12 @@ export const {
 	useGetPostQuery,
 	useGetUserPostsQuery,
 	useGetFeedPostsQuery,
+	useLazyGetFeedPostsQuery,
 	useCreatePostMutation,
 	usePostReactMutation,
 	useDeletePostMutation,
 	useGetCommunityPostsQuery,
+	useLazyGetCommunityPostsQuery,
 	useGetPendingPostsQuery,
 	useGetCurrentUserPendingPostsQuery,
 } = postApi;

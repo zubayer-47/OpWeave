@@ -33,8 +33,10 @@ const Members: FC<Props> = ({ current_user_role }) => {
 
 	const navigate = useNavigate();
 
+	const hasMore = result.data?.hasMore ?? data?.hasMore;
+
 	const fetchNext = () => {
-		if (data?.hasMore) {
+		if (hasMore) {
 			trigger(
 				{
 					community_id: params.id ?? skipToken,
@@ -66,8 +68,6 @@ const Members: FC<Props> = ({ current_user_role }) => {
 	const handleFilterType = (filterBy: 'all' | 'authority'): void => {
 		navigate(`/communities/${params.id}?sec=members&filterBy=${filterBy}`);
 	};
-
-	const disableNextButton = result.data?.hasMore ?? data?.hasMore;
 
 	return (
 		<CenterLayout className='max-w-102 w-full my-10 h-screen'>
@@ -125,7 +125,7 @@ const Members: FC<Props> = ({ current_user_role }) => {
 						onClick={fetchNext}
 						text='Next'
 						size='small'
-						disabled={!disableNextButton}
+						disabled={!hasMore}
 					/>
 				</div>
 			</div>

@@ -2,10 +2,10 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import { Frown } from 'lucide-react';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Button from '../../../components/Buttons/Button';
 import CreatePost from '../../../components/CreatePost';
 import Post from '../../../components/Post/Post';
@@ -18,7 +18,10 @@ import {
 	Community,
 	GuestCommunityViewType,
 } from '../../../features/community/types';
-import type { Post as PostType } from '../../../features/post/types';
+import {
+	useGetCommunityPostsQuery,
+	useLazyGetCommunityPostsQuery,
+} from '../../../features/post/postApi';
 import OutletLayout from '../../../layouts/OutletLayout';
 import { trunc } from '../../../libs/helpers';
 
@@ -26,57 +29,74 @@ type Props = {
 	// statusState: StatusStateType;
 	// postsState: CommunityPostsResType;
 	// currentPagePosts: PostType[];
-
-	page: number;
-	posts: PostType[];
-	totalPendingPost: number;
-	hasMore: boolean;
-	isLoading: boolean;
-	isError: boolean;
-	fetchNext: () => void;
-	fetchPrev: () => void;
+	// page: number;
+	// posts: PostType[];
+	// totalPendingPost: number;
+	// hasMore: boolean;
+	// isLoading: boolean;
+	// isError: boolean;
+	// fetchNext: () => void;
+	// fetchPrev: () => void;
 };
 
-const Posts: FC<Props> = ({
-	// page,
-	// currentPagePosts,
-	// postsState,
-	// statusState,
-	// fetchNext,
-	// fetchPrev,
-	page,
-	posts,
-	isLoading,
-	isError,
-	totalPendingPost,
-	hasMore,
-	fetchNext,
-	fetchPrev,
-}) => {
+const Posts: FC<Props> = ({}) => {
+	const [page, setPage] = useState(1);
 	const navigate = useNavigate();
 
 	const params = useParams();
-	const { data } = useGetCommunityQuery(params?.id || skipToken);
+	const { data: communityData } = useGetCommunityQuery(params?.id || skipToken);
 	const { data: membersData, isSuccess } = useGetMembersQuery({
 		community_id: params.id ?? skipToken,
+		limit: 5,
 	});
 
-	// const memberId = (data as Community)?.member_id;
-	// const isFetchPosts = !!(typeof memberId === 'string');
-
-	// const {
-	// 	data: communityPostsData,
-	// isLoading,
-	// 	isError,
-	// } = useGetCommunityPostsQuery(isFetchPosts ? params.id! : skipToken);
+	const {
+		data,
+		isLoading: isPostsLoading,
+		isSuccess: postsSuccess,
+		isError,
+	} = useGetCommunityPostsQuery({ community_id: params.id! });
 	const location = useLocation();
+	const [trigger, result] = useLazyGetCommunityPostsQuery();
 
-	const communityData = data as Community;
+	const postsData = result.data ?? data;
+	const postsIsSuccess = result.isSuccess || postsSuccess;
 
-	// if (isError) {
-	// 	// TODO: 8/5 add a placeholder error UI
-	// 	return <h1 className='text-2xl text-red'>Something is wrong</h1>;
-	// }
+	const communityInfo = communityData as Community;
+
+	const hasMore = result.data?.hasMore ?? postsData?.hasMore;
+
+	// -------------- pagination
+
+	const fetchNext = () => {
+		if (hasMore) {
+			trigger(
+				{
+					community_id: params.id! ?? skipToken,
+					page: page + 1,
+				},
+				true
+			);
+
+			setPage((prev) => prev + 1);
+		}
+	};
+
+	const fetchPrev = () => {
+		if (page > 1) {
+			trigger(
+				{
+					community_id: params.id! ?? skipToken,
+					page: page - 1,
+				},
+				true
+			);
+
+			setPage((prev) => prev - 1);
+		}
+	};
+
+	// -------------- pagination
 
 	const handleInfoNavigation = () => {
 		navigate(`/communities/${params.id}?sec=info`);
@@ -96,19 +116,20 @@ const Posts: FC<Props> = ({
 					<CreatePost singleCommunity />
 				</div>
 
-				{isLoading ? (
+				{isPostsLoading ? (
 					<>
 						<PostPlaceholder />
 						<PostPlaceholder />
 					</>
-				) : (data as GuestCommunityViewType)?.message || isError ? (
+				) : (communityData as GuestCommunityViewType)?.message || isError ? (
 					<h1 className='title flex flex-col items-center'>
 						{' '}
 						<Frown className='text-red size-14' /> You don't have access
 					</h1>
 				) : (
 					<div className='flex flex-col gap-8'>
-						{totalPendingPost ? (
+						{/* // TODO:  */}
+						{/* {totalPendingPost ? (
 							<Link
 								to={`${location.pathname}/me/pending`}
 								className='flex justify-between items-center w-full bg-dark-muted/20 p-3 rounded-lg'
@@ -122,15 +143,17 @@ const Posts: FC<Props> = ({
 									</div>
 								</div>
 							</Link>
-						) : null}
+						) : null} */}
 
-						{!posts.length ? (
+						{!postsData?.posts.length ? (
 							<h1 className='title flex flex-col items-center'>
 								{' '}
 								<Frown className='text-red size-14' /> No Post Exist
 							</h1>
 						) : (
-							posts.map((post) => <Post key={post.post_id} post={post} />)
+							postsData.posts.map((post) => (
+								<Post key={post.post_id} post={post} />
+							))
 						)}
 
 						<div className='flex justify-between items-center'>
@@ -162,9 +185,9 @@ const Posts: FC<Props> = ({
 							'px-4'
 						)}
 					>
-						{communityData?.description?.length > 200
-							? trunc(communityData?.description, 200)
-							: communityData?.description}
+						{communityInfo?.description?.length > 200
+							? trunc(communityInfo?.description, 200)
+							: communityInfo?.description}
 					</p>
 					<div className='flex items-center gap-4 pl-5 pr-4 z-10'>
 						<div className='flex items-center'>
@@ -177,17 +200,15 @@ const Posts: FC<Props> = ({
 							<span className={membersProfileStyles}></span> */}
 
 							{isSuccess
-								? membersData.members
-										.slice(0, 5)
-										.map(({ member_id, user: { avatar } }) => (
-											<LazyLoadImage
-												key={member_id}
-												src={avatar}
-												className={membersProfileStyles}
-												alt='Member profile image'
-												effect='blur'
-											/>
-										))
+								? membersData.members.map(({ member_id, user: { avatar } }) => (
+										<LazyLoadImage
+											key={member_id}
+											src={avatar}
+											className={membersProfileStyles}
+											alt='Member profile image'
+											effect='blur'
+										/>
+								  ))
 								: null}
 
 							<span
