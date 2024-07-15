@@ -7,7 +7,7 @@ import {
 	Target,
 	UserMinus,
 } from 'lucide-react';
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode } from 'react';
 import ContentLoader from 'react-content-loader';
 import toast from 'react-hot-toast';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
@@ -27,7 +27,6 @@ import {
 } from '../../features/community/communityApi';
 import type { Community } from '../../features/community/types';
 import { MemberRole } from '../../features/community/types';
-import { useGetCommunityPostsQuery } from '../../features/post/postApi';
 import useQuery from '../../hooks/useQueryParams';
 import CenterLayout from '../../layouts/CenterLayout';
 import { InputType } from '../../types/custom';
@@ -45,17 +44,7 @@ const Community = () => {
 	const { data: communityData, isLoading } = useGetCommunityQuery(
 		params?.id || skipToken
 	);
-	const [page, setPage] = useState(1);
-	const {
-		data: postsData,
-		isLoading: isPostsLoading,
-		isError,
-	} = useGetCommunityPostsQuery({ community_id: params.id!, page });
 	const [updateCommunityLogo] = useUpdateCommunityLogoMutation();
-
-	useEffect(() => {
-		setPage((prev) => prev);
-	}, [page, postsData]);
 
 	let content: ReactNode;
 	if (!query.get('sec')) content = <Posts />;
@@ -81,8 +70,6 @@ const Community = () => {
 	const handleFile = async (e: InputType) => {
 		if (e.target?.files) {
 			const file = e.target.files[0];
-
-			console.log(file);
 
 			const formData = new FormData();
 			formData.append('avatar', file);
@@ -137,12 +124,6 @@ const Community = () => {
 						{/* // <div className='flex items-center justify-between px-14 relative'> */}
 						<div className='grid grid-cols-8 items-center px-14 relative'>
 							<div className='col-span-full md:col-span-7 flex flex-col items-center md:flex-row md:items-end gap-5'>
-								{/* <LazyLoadImage
-									className='size-36 object-cover rounded-full'
-									src={communityData?.avatar}
-									alt='community profile'
-									effect='blur'
-								/> */}
 								{isJoined &&
 								(communityData as Community)?.role !== MemberRole.MEMBER ? (
 									<div className='w-fit relative group'>

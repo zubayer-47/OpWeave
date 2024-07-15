@@ -5,7 +5,7 @@ import { Frown } from 'lucide-react';
 import { FC, useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Button from '../../../components/Buttons/Button';
 import CreatePost from '../../../components/CreatePost';
 import Post from '../../../components/Post/Post';
@@ -53,20 +53,18 @@ const Posts: FC<Props> = ({}) => {
 	const {
 		data,
 		isLoading: isPostsLoading,
-		isSuccess: postsSuccess,
+		// isSuccess: postsSuccess,
 		isError,
 	} = useGetCommunityPostsQuery({ community_id: params.id! });
-	const location = useLocation();
 	const [trigger, result] = useLazyGetCommunityPostsQuery();
+	const location = useLocation();
 
 	const postsData = result.data ?? data;
-	const postsIsSuccess = result.isSuccess || postsSuccess;
+	// const postsIsSuccess = result.isSuccess || postsSuccess;
 
 	const communityInfo = communityData as Community;
 
 	const hasMore = result.data?.hasMore ?? postsData?.hasMore;
-
-	// -------------- pagination
 
 	const fetchNext = () => {
 		if (hasMore) {
@@ -95,8 +93,6 @@ const Posts: FC<Props> = ({}) => {
 			setPage((prev) => prev - 1);
 		}
 	};
-
-	// -------------- pagination
 
 	const handleInfoNavigation = () => {
 		navigate(`/communities/${params.id}?sec=info`);
@@ -129,7 +125,7 @@ const Posts: FC<Props> = ({}) => {
 				) : (
 					<div className='flex flex-col gap-8'>
 						{/* // TODO:  */}
-						{/* {totalPendingPost ? (
+						{postsData?.totalPendingPost ? (
 							<Link
 								to={`${location.pathname}/me/pending`}
 								className='flex justify-between items-center w-full bg-dark-muted/20 p-3 rounded-lg'
@@ -138,12 +134,12 @@ const Posts: FC<Props> = ({}) => {
 								<div className='relative w-7 h-7 rounded-full ring-2 ring-blue-primary flex justify-center items-center'>
 									<div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
 										<span className='title text-blue-primary'>
-											{totalPendingPost || 0}
+											{postsData?.totalPendingPost || 0}
 										</span>
 									</div>
 								</div>
 							</Link>
-						) : null} */}
+						) : null}
 
 						{!postsData?.posts.length ? (
 							<h1 className='title flex flex-col items-center'>
