@@ -15,14 +15,13 @@ type ForgetStateType = {
 };
 
 const ForgetPass = () => {
-	const [forgetState, setForgetState] = useState<ForgetStateType>({
+	const [forgetState] = useState<ForgetStateType>({
 		email: '',
 		loading: false,
 		error: '',
 		isSuccess: false,
 	});
-	const [forgetPassword, { data, isSuccess, isLoading }] =
-		useForgetPasswordMutation();
+	const [forgetPassword, { isLoading }] = useForgetPasswordMutation();
 	const navigate = useNavigate();
 
 	const onSubmit: FormHandler = async (e) => {

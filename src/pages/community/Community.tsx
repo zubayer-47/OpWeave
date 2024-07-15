@@ -49,7 +49,14 @@ const Community = () => {
 	let content: ReactNode;
 	if (!query.get('sec')) content = <Posts />;
 	else if (query.get('sec') === 'posts') content = <Posts />;
-	else if (query.get('sec') === 'info') content = <Info />;
+	else if (query.get('sec') === 'info')
+		content = (
+			<Info
+				current_user_role={
+					(communityData as Community)?.role || MemberRole.MEMBER
+				}
+			/>
+		);
 	else if (query.get('sec') === 'photos')
 		content = <Photos data={slicedData} />;
 	else if (query.get('sec') === 'videos')

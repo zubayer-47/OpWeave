@@ -1,5 +1,6 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import { Calendar } from 'lucide-react';
+import { FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '../../../components/Buttons/Button';
 import {
@@ -7,10 +8,15 @@ import {
 	useGetCommunityRulesQuery,
 	useGetMembersQuery,
 } from '../../../features/community/communityApi';
+import { MemberRole } from '../../../features/community/types';
 import CenterLayout from '../../../layouts/CenterLayout';
 import MemberItem from './partials/MemberItem';
 
-const Info = () => {
+type Props = {
+	current_user_role: MemberRole;
+};
+
+const Info: FC<Props> = ({ current_user_role }) => {
 	const params = useParams();
 	const { data, isSuccess } = useGetCommunityRulesQuery(
 		params.id! ?? skipToken
@@ -81,7 +87,11 @@ const Info = () => {
 							<h1 className='title text-red'>No Member Exist</h1>
 						) : (
 							membersData.members.map((member) => (
-								<MemberItem key={member.member_id} {...member} />
+								<MemberItem
+									key={member.member_id}
+									{...member}
+									current_user_role={current_user_role}
+								/>
 							))
 						)}
 					</div>

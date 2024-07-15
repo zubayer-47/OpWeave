@@ -5,7 +5,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import Button from '../../../components/Buttons/Button';
 import Input from '../../../components/Inputs/Input';
 import {
@@ -27,8 +26,8 @@ const ManageRules = () => {
 	const [createRule] = useCreateRuleMutation();
 	const [rules, setRules] = useState<RuleType[]>([]);
 	const [isRuleCreationModalOpen, setRuleCreationModalOpen] = useState(false);
-	const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
-	const dispatch = useAppDispatch();
+	// const isVisibleModal = useAppSelector((state) => state.modal.isVisibleModal);
+	// const dispatch = useAppDispatch();
 
 	useEffect(() => {
 		refetch()
