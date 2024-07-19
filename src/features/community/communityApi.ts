@@ -251,6 +251,15 @@ export const communityApi = apiService.injectEndpoints({
 					// dispatch(join());
 				}
 			},
+
+			async transformErrorResponse(error) {
+				if (error.status === 403) {
+					const message = (error.data as { message: string })?.message;
+					toast.error(message || "You're not allowed to react this post!");
+				}
+
+				return error;
+			},
 		}),
 
 		updateCommunityLogo: builder.mutation<

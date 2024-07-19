@@ -6,7 +6,6 @@ import { useDrag, useDrop } from 'react-dnd';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import ClickableDropdown from '../../../../components/ClickableDropdown';
-import Hr from '../../../../components/Hr';
 import { useDeleteRuleMutation } from '../../../../features/authority/authorityApi';
 import { ItemTypes } from '../../../../types/custom';
 
@@ -84,7 +83,7 @@ const Rule: FC<RuleProps> = ({
 	};
 
 	return (
-		<li>
+		<li className='cursor-pointer'>
 			<div
 				ref={(node) => drag(drop(node))}
 				className={clsx(
@@ -108,7 +107,7 @@ const Rule: FC<RuleProps> = ({
 						<p className='title text-sm text-dark-muted font-DM-Sans'>{text}</p>
 					</div>
 				</div>
-				<Hr className='absolute left-0 right-0 bottom-0 border-2 border-dark-muted' />
+				{/* <Hr className='absolute left-0 right-0 bottom-0 border-2 border-dark-muted' /> */}
 
 				<ClickableDropdown
 					button={

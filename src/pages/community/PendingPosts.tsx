@@ -27,30 +27,32 @@ const PendingPosts = ({ title }: { title?: string }) => {
 	}
 
 	return (
-		<div className='flex flex-col gap-8 w-full justify-center items-center'>
-			<div className='mb-10'>
-				<h1 className='title text-xl md:text-2xl'>
-					{title || 'Pending Posts'}
-				</h1>
-				<hr className='w-full border border-dark-border' />
-			</div>
-			{isPendingPostsSuccess &&
-				(!pendingPostsData.posts.length ? (
-					<h1 className='title text-light-lighter'>No post exist</h1>
-				) : (
-					pendingPostsData.posts.map((post) => (
-						<PendingPost key={post.post_id} post={post} />
-					))
-				))}
+		<div className='h-screen py-5 overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'>
+			<div className='max-w-100 mx-auto px-2 flex flex-col gap-8'>
+				<div className='flex  flex-col justify-center items-center'>
+					<h1 className='title text-xl md:text-2xl'>
+						{title || 'Pending Posts'}
+					</h1>
+					<hr className='w-2/4 border border-dark-border' />
+				</div>
+				{isPendingPostsSuccess &&
+					(!pendingPostsData.posts.length ? (
+						<h1 className='title text-light-lighter'>No post exist</h1>
+					) : (
+						pendingPostsData.posts.map((post) => (
+							<PendingPost key={post.post_id} post={post} />
+						))
+					))}
 
-			{isSuccess &&
-				(!data.posts.length ? (
-					<h1 className='title text-light-lighter'>No post exist</h1>
-				) : (
-					data.posts.map((post) => (
-						<PendingPost key={post.post_id} isOwnPost post={post} />
-					))
-				))}
+				{isSuccess &&
+					(!data.posts.length ? (
+						<h1 className='title text-light-lighter'>No post exist</h1>
+					) : (
+						data.posts.map((post) => (
+							<PendingPost key={post.post_id} isOwnPost post={post} />
+						))
+					))}
+			</div>
 		</div>
 	);
 };

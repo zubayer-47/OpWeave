@@ -43,7 +43,7 @@ const Home = () => {
 
 	return (
 		<div
-			className='flex flex-col gap-8 px-2 lg:px-10 xl:px-28 h-full overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'
+			className='flex flex-col gap-8 px-2 pb-4 lg:px-10 xl:px-28 h-full overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'
 			ref={scrollDivRef}
 		>
 			<CreatePost />

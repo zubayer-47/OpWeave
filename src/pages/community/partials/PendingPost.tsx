@@ -89,7 +89,7 @@ const PendingPost = ({
 		renderShowHide = null;
 	}
 	return (
-		<div className='post px-7 pt-5 pb-3 max-w-100 w-full'>
+		<div className='post px-7 pt-5 pb-3 w-full'>
 			<div className='flex-group'>
 				<LazyLoadImage
 					className='profile'

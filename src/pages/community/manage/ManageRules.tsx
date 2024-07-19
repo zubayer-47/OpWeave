@@ -117,7 +117,7 @@ const ManageRules = () => {
 						) : null}
 						<ul
 							className={clsx(
-								'bg-dark-muted/20 rounded-lg shadow-md shadow-dark-active',
+								'bg-dark-muted/20 rounded-lg shadow-md shadow-dark-active w-full divide-y-2 divide-dark-muted',
 								'list-decimal text-light-primary/80 font-bold ps-10',
 								{
 									'p-2': !!rules.length,

@@ -270,11 +270,12 @@ function Clickable({
 
 	const handleLeaveMember = () => {
 		if (data) {
-			toast.promise(leaveMember(data.community_id).unwrap(), {
-				loading: 'Leaving...',
-				success: 'Leaved Successfully.',
-				error: "Couldn't leave.",
-			});
+			leaveMember(data.community_id);
+			// toast.promise(leaveMember(data.community_id).unwrap(), {
+			// 	loading: 'Leaving...',
+			// 	success: 'Leaved Successfully.',
+			// 	error: "Couldn't leave.",
+			// });
 		}
 	};
 
@@ -290,7 +291,7 @@ function Clickable({
 						</button>
 					}
 				>
-					<div className='dark:bg-dark-primary px-1 absolute right-10 md:right-20 top-44 md:top-20 flex flex-col border dark:border-dark-border rounded-xl z-10'>
+					<div className='dark:bg-dark-primary px-1 absolute right-10 md:right-20 top-32 md:top-20 flex flex-col border dark:border-dark-border rounded-xl z-10'>
 						{data?.role === MemberRole.MEMBER ? (
 							<button
 								type='button'

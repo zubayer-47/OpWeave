@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import { Image, MapPin, Smile } from 'lucide-react';
 import { ChangeEvent, FC, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { useParams } from 'react-router-dom';
@@ -46,17 +45,22 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 		reqFormData.append('content', postState.content);
 
 		if (params?.id) {
-			await toast.promise(
-				createPost({
-					community_id: params.id,
-					formData: reqFormData,
-				}).unwrap(),
-				{
-					loading: 'Post creating...',
-					success: 'Post Created Successfully.',
-					error: 'Post could not create.',
-				}
-			);
+			createPost({
+				community_id: params.id,
+				formData: reqFormData,
+			});
+
+			// await toast.promise(
+			// 	createPost({
+			// 		community_id: params.id,
+			// 		formData: reqFormData,
+			// 	}).unwrap(),
+			// 	{
+			// 		loading: 'Post creating...',
+			// 		success: 'Post Created Successfully.',
+			// 		error: 'Post could not create.',
+			// 	}
+			// );
 
 			setPostState({ content: '', selectedFile: undefined });
 			dispatch(updateModal());
@@ -67,17 +71,26 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 		// const community_id = communityIdRef.current?.value;
 		const formData = new FormData(e.currentTarget);
 
-		await toast.promise(
-			createPost({
-				community_id: formData.get('community_id'),
-				formData: reqFormData,
-			}).unwrap(),
-			{
-				loading: 'Post creating...',
-				success: 'Post Created Successfully.',
-				error: 'Post could not create.',
-			}
-		);
+		const res = await createPost({
+			community_id: formData.get('community_id'),
+			formData: reqFormData,
+		});
+
+		console.log(res);
+
+		// await toast.promise(
+		// 	createPost({
+		// 		community_id: formData.get('community_id'),
+		// 		formData: reqFormData,
+		// 	}).unwrap(),
+		// 	{
+		// 		loading: 'Post creating...',
+		// 		success: 'Post Created Successfully.',
+		// 		error: 'Post could not create.',
+		// 	}
+		// );
+
+		if ('error' in res) return;
 
 		if (communityIdRef.current) {
 			communityIdRef.current.value = '';

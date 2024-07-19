@@ -97,6 +97,15 @@ export const postApi = apiService.injectEndpoints({
 				{ type: 'Feed', id: 'List' },
 				'Current_user_pending_posts',
 			],
+
+			async transformErrorResponse(error) {
+				if (error.status === 403) {
+					const message = (error.data as { message: string })?.message;
+					toast.error(message || "You're not allowed to react this post!");
+				}
+
+				return error;
+			},
 		}),
 
 		postReact: builder.mutation<
