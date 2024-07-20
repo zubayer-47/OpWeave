@@ -2,7 +2,7 @@
 import { skipToken } from '@reduxjs/toolkit/query';
 import clsx from 'clsx';
 import { Frown } from 'lucide-react';
-import { FC, useState } from 'react';
+import { useState } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -25,21 +25,7 @@ import {
 import OutletLayout from '../../../layouts/OutletLayout';
 import { trunc } from '../../../libs/helpers';
 
-type Props = {
-	// statusState: StatusStateType;
-	// postsState: CommunityPostsResType;
-	// currentPagePosts: PostType[];
-	// page: number;
-	// posts: PostType[];
-	// totalPendingPost: number;
-	// hasMore: boolean;
-	// isLoading: boolean;
-	// isError: boolean;
-	// fetchNext: () => void;
-	// fetchPrev: () => void;
-};
-
-const Posts: FC<Props> = ({}) => {
+const Posts = () => {
 	const [page, setPage] = useState(1);
 	const navigate = useNavigate();
 

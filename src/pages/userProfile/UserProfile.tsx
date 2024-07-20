@@ -1,12 +1,5 @@
 import clsx from 'clsx';
-import {
-	ReactNode,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from 'react';
+import { ReactNode, useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import Hr from '../../components/Hr';
 import Communities from './partials/Communities';
@@ -16,161 +9,25 @@ import { skipToken } from '@reduxjs/toolkit/query';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import data from '../../../data.json';
-import { useAppDispatch } from '../../app/hooks';
 import Photos from '../../components/Photos';
 import Videos from '../../components/Videos';
-import { postApi } from '../../features/post/postApi';
-import { FeedResType, Post } from '../../features/post/types';
 import { useGetUserProfileQuery } from '../../features/user/userApi';
 import useQueryParams from '../../hooks/useQueryParams';
 import CenterLayout from '../../layouts/CenterLayout';
-import { StatusStateType } from '../community/Community';
 import Bookmarks from './partials/Bookmarks';
 
 const slicedData = data.slice(10, 20);
-const POSTS_PER_PAGE = 10;
 
 const UserProfile = () => {
 	const params = useParams();
 	const { data } = useGetUserProfileQuery(params.username || skipToken);
 	const query = useQueryParams();
-
-	// Pagination------------------
-	const [postsState, setPostsState] = useState<FeedResType>({
-		posts: [],
-		hasMore: false,
-		totalCount: 0,
-	});
-	const [statusState, setStatusState] = useState<StatusStateType>({
-		isError: false,
-		isLoading: false,
-	});
-	const queryPage = parseInt(query.get('page') as string, 10);
-
-	const [page, setPage] = useState(queryPage || 1);
-
-	const dispatch = useAppDispatch();
-	// const navigate = useNavigate();
-	// const location = useLocation();
 	const scrollDivRef = useRef<HTMLDivElement>(null);
-	const prevUsername = useRef<string>();
-
-	const fetchMoreData = useCallback(
-		async (pageNum: number = page) => {
-			// console.log(params.username, 'username from fetchMoreData');
-			try {
-				setStatusState(() => ({
-					isError: false,
-					isLoading: true,
-				}));
-
-				const isEqualUsername = prevUsername.current === params.username;
-
-				setPage((prev) => (isEqualUsername ? prev : 1));
-
-				const { data, isSuccess } = await dispatch(
-					postApi.endpoints.getUserPosts.initiate({
-						username: params.username!,
-						page: isEqualUsername ? pageNum : 1,
-					})
-				);
-
-				if (isSuccess) {
-					console.log(
-						params.username,
-						prevUsername,
-						'username from fetchMoreData'
-					);
-
-					setPostsState((prevItems) => {
-						console.log({ isEqualUsername });
-
-						return {
-							posts: isEqualUsername
-								? [...new Set([...prevItems.posts, ...data.posts])]
-								: data.posts,
-							hasMore: data.hasMore,
-							totalCount: data.totalCount,
-						};
-					});
-				}
-
-				prevUsername.current = params.username!;
-
-				setStatusState((prev) => ({
-					...prev,
-					isLoading: false,
-				}));
-			} catch (error) {
-				setStatusState((prev) => ({
-					...prev,
-					isError: true,
-				}));
-			}
-		},
-		[page, postsState.hasMore, params.username]
-	);
-
-	useEffect(() => {
-		if (!prevUsername.current) {
-			prevUsername.current = params.username;
-		}
-
-		fetchMoreData(page);
-	}, [page, params.username]);
-
-	const fetchNext = () => {
-		if (postsState.hasMore) {
-			setPage((prev) => prev + 1);
-
-			if (scrollDivRef.current) {
-				scrollDivRef.current.scrollTop = 0;
-			}
-
-			// navigate(`${location.pathname}/?sec=posts&page=${page + 1}`);
-		}
-	};
-
-	const fetchPrev = () => {
-		if (page > 1) {
-			setPage((prev) => prev - 1);
-			// navigate(`${location.pathname}/?sec=posts&page=${page + 1}`);
-		}
-	};
-
-	const currentPagePosts: Post[] = useMemo(() => {
-		const startIndex = (page - 1) * POSTS_PER_PAGE;
-		const endIndex = startIndex + POSTS_PER_PAGE;
-		return postsState.posts.slice(startIndex, endIndex);
-	}, [postsState]);
-
-	// Pagination--------------
-
-	// console.log(postsState.posts);
 
 	let content: ReactNode;
-	if (!query.get('sec'))
-		content = (
-			<Timeline
-				page={page}
-				currentPagePosts={currentPagePosts}
-				postsState={postsState}
-				statusState={statusState}
-				fetchNext={fetchNext}
-				fetchPrev={fetchPrev}
-			/>
-		);
+	if (!query.get('sec')) content = <Timeline scrollDivRef={scrollDivRef} />;
 	else if (query.get('sec') === 'timeline')
-		content = (
-			<Timeline
-				page={page}
-				currentPagePosts={currentPagePosts}
-				postsState={postsState}
-				statusState={statusState}
-				fetchNext={fetchNext}
-				fetchPrev={fetchPrev}
-			/>
-		);
+		content = <Timeline scrollDivRef={scrollDivRef} />;
 	else if (query.get('sec') === 'communities') content = <Communities />;
 	else if (query.get('sec') === 'bookmarks')
 		content = <Bookmarks scrollDivRef={scrollDivRef} />;

@@ -326,6 +326,7 @@ export const postApi = apiService.injectEndpoints({
 export const {
 	useGetPostQuery,
 	useGetUserPostsQuery,
+	useLazyGetUserPostsQuery,
 	useGetFeedPostsQuery,
 	useLazyGetFeedPostsQuery,
 	useCreatePostMutation,
