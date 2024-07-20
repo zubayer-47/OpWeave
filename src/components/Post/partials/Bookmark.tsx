@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { BookmarkIcon } from 'lucide-react';
-import { FC, useCallback, useState } from 'react';
+import { FC, useState } from 'react';
 import toast from 'react-hot-toast';
 import {
 	useAddToBookmarkMutation,
@@ -17,16 +17,19 @@ const Bookmark: FC<Props> = ({ bookmark_id, post_id }) => {
 	const [addToBookmark] = useAddToBookmarkMutation();
 	const [deleteBookmark] = useDeleteBookmarkMutation();
 
-	const toggleBookmark = useCallback(async () => {
+	// console.log({ bookmark_id });
+
+	const toggleBookmark = async () => {
 		setBookmarked((prev) => !prev);
 
 		try {
-			console.log({ bookmark_id });
-			if (bookmark_id) {
-				const res = await deleteBookmark(bookmark_id);
-				console.log(res);
+			console.log(!bookmark_id, bookmark_id);
+			if (!bookmark_id) {
+				const res = await addToBookmark(post_id);
 
 				if ('error' in res) {
+					setBookmarked((prev) => !prev);
+
 					if ('status' in res.error) {
 						toast.error(`${res.error.data}`);
 					}
@@ -34,13 +37,15 @@ const Bookmark: FC<Props> = ({ bookmark_id, post_id }) => {
 					return;
 				}
 
-				toast.success('Bookmark deleted');
+				toast.success('Bookmark added');
 				return;
 			}
 
-			const res = await addToBookmark(post_id);
+			const res = await deleteBookmark(bookmark_id);
+			console.log(res);
 
 			if ('error' in res) {
+				setBookmarked((prev) => !prev);
 				if ('status' in res.error) {
 					toast.error(`${res.error.data}`);
 				}
@@ -48,11 +53,11 @@ const Bookmark: FC<Props> = ({ bookmark_id, post_id }) => {
 				return;
 			}
 
-			toast.success('Bookmark added');
+			toast.success('Bookmark deleted');
 		} catch (error) {
 			// toast.error('Bookmark action fail');
 		}
-	}, []);
+	};
 
 	return (
 		<button

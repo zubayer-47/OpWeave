@@ -6,9 +6,9 @@ export const bookmarkApi = apiService.injectEndpoints({
 	endpoints: (builder) => ({
 		getBookmarks: builder.query<
 			BookmarkQueryResType,
-			{ username: string; page: number }
+			{ username: string; page?: number }
 		>({
-			query: ({ username, page }) =>
+			query: ({ username, page = 1 }) =>
 				`/posts/bookmarks/${username}?page=${page}`,
 
 			transformResponse(res: BookmarkQueryResType, meta) {
@@ -59,6 +59,7 @@ export const bookmarkApi = apiService.injectEndpoints({
 
 export const {
 	useGetBookmarksQuery,
+	useLazyGetBookmarksQuery,
 	useAddToBookmarkMutation,
 	useDeleteBookmarkMutation,
 } = bookmarkApi;
