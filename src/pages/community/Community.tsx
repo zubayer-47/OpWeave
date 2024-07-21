@@ -36,8 +36,6 @@ import Posts from './profile/Posts';
 
 const slicedData = data.slice(10, 20);
 
-export type StatusStateType = { isLoading: boolean; isError: boolean };
-
 const Community = () => {
 	const query = useQuery();
 	const params = useParams();

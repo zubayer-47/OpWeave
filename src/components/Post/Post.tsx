@@ -29,6 +29,7 @@ const CommentSection = lazy(() => import('./partials/CommentSection'));
 
 type Props = {
 	post: Post & { bookmark?: { bookmark_id: string } };
+	insider?: boolean;
 };
 
 export type Ref = HTMLDivElement;
@@ -110,7 +111,11 @@ const Post = forwardRef<Ref, Props>(
 		}
 
 		return (
-			<div className='post px-2 sm:px-7 pt-5 relative' id='post' ref={ref}>
+			<div
+				className='post px-2 sm:px-7 pt-3 sm:pt-5 relative'
+				id='post'
+				ref={ref}
+			>
 				<div className='flex-group justify-between' id='post_header'>
 					<div className='flex-group' id='user_info'>
 						<Link to={`/profile/${username}?sec=timeline`}>
@@ -126,9 +131,9 @@ const Post = forwardRef<Ref, Props>(
 								to={`/profile/${username}?sec=timeline`}
 								className='flex items-center gap-2'
 							>
-								<h1 className='title'>{fullname}</h1>
+								<h1 className='title'>{trunc(fullname, 8)}</h1>
 								<small className='text-dark-muted'>
-									{datekit(createdAt).status()}
+									{datekit(createdAt).status('narrow')}
 								</small>
 							</Link>
 							<span className='muted'>@{username}</span>
@@ -136,13 +141,15 @@ const Post = forwardRef<Ref, Props>(
 					</div>
 
 					<div className='flex flex-col items-end' id='post_options'>
+						{/* {!insider ? ( */}
 						<Link
 							to={`/communities/${community_id}?sec=posts`}
 							className='flex-group gap-1'
 						>
 							<Users2 className='icon size-5' />
-							<span className='title text-sm'>{name}</span>
+							<span className='title text-sm'>{trunc(name, 10)}</span>
 						</Link>
+						{/* ) : null} */}
 
 						<div className='flex-group'>
 							{hasJoined ? null : (

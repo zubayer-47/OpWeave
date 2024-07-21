@@ -52,7 +52,7 @@ const Comments: FC<Props> = ({
 							<div className='flex gap-2'>
 								<h1 className='title '>{fullname}</h1>
 								<small className='text-dark-muted'>
-									{datekit(createdAt).status()}
+									{datekit(createdAt).status('narrow')}
 								</small>
 							</div>
 							<small className='font-Poppins capitalize tracking-wider font-normal text-dark-muted bg-dark-border w-fit h-fit px-1.5 py-0.5 rounded-full select-none'>
