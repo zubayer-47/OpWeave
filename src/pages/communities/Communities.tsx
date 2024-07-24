@@ -41,7 +41,9 @@ const Communities = () => {
 					</button>
 				</div>
 				{!userAssignedData?.communities.length ? (
-					<h1 className='title text-xs md:text-base'>No community exist</h1>
+					<h1 className='title text-xs font-medium text-dark-muted'>
+						You're not joined any of communities. Please Join
+					</h1>
 				) : (
 					userAssignedData.communities.map(
 						({ community_id, name, bio, avatar }) => (

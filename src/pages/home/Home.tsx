@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-// import { FixedSizeList } from 'react-window';
 import Button from '../../components/Buttons/Button';
 import CreatePost from '../../components/CreatePost';
 import Post from '../../components/Post/Post';
