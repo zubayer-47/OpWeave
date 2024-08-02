@@ -30,7 +30,8 @@ const Bookmark: FC<Props> = ({ bookmark_id, post_id }) => {
 				if ('error' in res) {
 					setBookmarked((prev) => !prev);
 
-					if ('status' in res.error) {
+					// eslint-disable-next-line no-unsafe-optional-chaining
+					if ('status' in res.error!) {
 						toast.error(`${res.error.data}`);
 					}
 
@@ -46,7 +47,7 @@ const Bookmark: FC<Props> = ({ bookmark_id, post_id }) => {
 
 			if ('error' in res) {
 				setBookmarked((prev) => !prev);
-				if ('status' in res.error) {
+				if ('status' in res.error!) {
 					toast.error(`${res.error.data}`);
 				}
 
