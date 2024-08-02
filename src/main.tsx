@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import React from 'react';
 import { DndProvider } from 'react-dnd';
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 						<Toaster />
 						<App />
 						<SpeedInsights />
+						<Analytics />
 					</Provider>
 				</HashRouter>
 			</ErrorBoundary>
