@@ -76,8 +76,6 @@ const CreatePost: FC<Props> = ({ singleCommunity }) => {
 			formData: reqFormData,
 		});
 
-		console.log(res);
-
 		// await toast.promise(
 		// 	createPost({
 		// 		community_id: formData.get('community_id'),
