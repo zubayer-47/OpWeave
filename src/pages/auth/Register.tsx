@@ -47,7 +47,7 @@ const RegisterPage = () => {
 	return (
 		<div className='auth animate-auth-switch h-fit overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'>
 			<div className='text-center space-y-1'>
-				<h1 className='title text-xl font-Inter'>Sign Up</h1>
+				<h1 className='title text-xl font-Inter'>Register</h1>
 				<p className='sub-title'>Hey, Enter Your Details to Create Account</p>
 			</div>
 
