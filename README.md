@@ -10,7 +10,7 @@ can build your community and manage it efficiently.
 ## Register
 |              Desktop              |              Mobile              |
 | :-------------------------------: | :------------------------------: |
-| ![sign-up](https://github.com/user-attachments/assets/a5ffd8f1-c5cd-45a7-914c-e3a60c5c0313) | ![sign-up_mobile](https://github.com/user-attachments/assets/a617e8a8-28cd-40b7-9d42-d06453b87bd5) |
+| ![register](https://github.com/user-attachments/assets/b85df6c1-e809-4d34-a923-e5a963c63daf) | ![register_mobile](https://github.com/user-attachments/assets/c8282c80-7f92-447d-8a2c-868b151936e6) |
 
 ## Login
 |              Desktop              |              Mobile              |
@@ -25,7 +25,7 @@ can build your community and manage it efficiently.
 ## User Settings
 |              Desktop              |              Mobile              |
 | :-------------------------------: | :------------------------------: |
-| ![Settings_mobile](https://github.com/user-attachments/assets/737874b0-8e79-492b-abbb-5ecad6e8b06d) | ![Settings_mobile](https://github.com/user-attachments/assets/737874b0-8e79-492b-abbb-5ecad6e8b06d) |
+| ![Settings](https://github.com/user-attachments/assets/d3f0f680-d64c-41fa-9870-3e5e71e1bb91) | ![Settings_mobile](https://github.com/user-attachments/assets/737874b0-8e79-492b-abbb-5ecad6e8b06d) |
 
 ## Communities
 |              Desktop              |              Mobile              |
