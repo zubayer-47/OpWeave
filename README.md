@@ -6,8 +6,7 @@ OpWeave is a dynamic social community platform designed to foster connections an
 
 ## I designed and developed this application, from its initial concept in Figma to its complete implementation, encompassing both the front-end and back-end functionalities.
 #### [Figma File](https://www.figma.com/design/kiy0PFjzgP3wXUFkXIi2IO/OpWeave?node-id=0-1&t=FvPS8uQgmeVGksef-1)
-
-#### $${\color{#FF5555} It's \space under \space development. \space This \space is \space the \space Alpha \space release \space of \space this \space application. }$$
+#### $${\color{#FF5555} It's \space under \space development. \color{#4D7DF8} \space This \space is \space the \space Alpha \space release \space of \space this \space application. }$$
 
 # Screenshots
 
