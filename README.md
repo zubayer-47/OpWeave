@@ -1,9 +1,13 @@
-![Logo](https://i.ibb.co/nktjcgC/opweave-high-resolution-logo-transparent.webp)
+![logo](https://github.com/user-attachments/assets/47b69683-c83a-448b-980c-431a1ab0a4a3)
 
 # OpWeave
 
-Weave Your Community Faster. Open Weave is a Social Community Platform where you
-can build your community and manage it efficiently.
+OpWeave is a dynamic social community platform designed to foster connections and empower shared interests. It allows users to seamlessly authenticate and dive into a world of diverse communities, each dedicated to a unique passion, hobby, or cause.
+
+## I designed and developed this application, from its initial concept in Figma to its complete implementation, encompassing both the front-end and back-end functionalities.
+#### [Figma File](https://www.figma.com/design/kiy0PFjzgP3wXUFkXIi2IO/OpWeave?node-id=0-1&t=FvPS8uQgmeVGksef-1)
+
+#### <p color="red">It's under development. This is the Alpha release of this application.</p>
 
 # Screenshots
 
