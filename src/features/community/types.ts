@@ -59,6 +59,26 @@ export type CommunityCreationAndJoiningResType = {
 	role?: string;
 };
 
+export type CommunityLogoResType = {
+	message: string;
+	community: {
+		community_id: string;
+		name: string;
+		bio: string;
+		description: string;
+		avatar: string;
+		createdAt: string;
+		members: [
+			{
+				member_id: string;
+				role: MemberRole;
+			}
+		];
+		member_id: string;
+		role: MemberRole;
+	};
+};
+
 export type MemberType = {
 	community_id: string;
 	member_id: string;

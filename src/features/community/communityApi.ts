@@ -8,6 +8,7 @@ import {
 	CommunitiesResType,
 	Community,
 	CommunityItemResType,
+	CommunityLogoResType,
 	CommunityRulesType,
 	FilterBy,
 	GuestCommunityViewType,
@@ -153,6 +154,7 @@ export const communityApi = apiService.injectEndpoints({
 				'Community',
 				{ type: 'Community_posts', id: 'List' },
 				{ type: 'Feed', id: 'List' },
+				{ type: 'Communities', id: 'List' },
 			],
 
 			async onQueryStarted(community_id, { dispatch, queryFulfilled }) {
@@ -215,8 +217,8 @@ export const communityApi = apiService.injectEndpoints({
 				method: 'DELETE',
 			}),
 			invalidatesTags: [
-				'Communities',
 				'Community',
+				{ type: 'Communities', id: 'List' },
 				{ type: 'Community_posts', id: 'List' },
 				{ type: 'Feed', id: 'List' },
 			],
@@ -263,7 +265,7 @@ export const communityApi = apiService.injectEndpoints({
 		}),
 
 		updateCommunityLogo: builder.mutation<
-			{},
+			CommunityLogoResType,
 			{ community_id: string; formData: FormData }
 		>({
 			query: ({ community_id, formData }) => ({
