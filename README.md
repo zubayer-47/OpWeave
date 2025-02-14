@@ -37,3 +37,20 @@ OpWeave is a dynamic social community platform designed to foster connections an
 |              Desktop              |              Mobile              |
 | :-------------------------------: | :------------------------------: |
 | ![Community_Settings](https://github.com/user-attachments/assets/aa7fe51c-4bd6-43fb-865d-fdcc7829cefd) | ![Community_Settings_mobile](https://github.com/user-attachments/assets/31ba22ac-2159-48ef-8a98-e899b82ab3ba) |
+
+
+## Run the application
+
+### Create a .env.local file and add these environment variables 
+
+```bash
+VITE_API_URI=https://example.com/api/v1
+VITE_CLIENT_URI=https://example.com
+```
+
+### Run the application
+
+```bash
+pnpm install --frozen-lockfile --ignore-scripts
+pnpm dev
+```

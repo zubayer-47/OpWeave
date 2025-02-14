@@ -1,4 +1,4 @@
-import { TouchEventHandler, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import Button from '../../components/Buttons/Button';
 import CreatePost from '../../components/CreatePost';
 import Post from '../../components/Post/Post';
@@ -18,25 +18,25 @@ const Home = () => {
 
 	const hasMore = result.data?.hasMore ?? data?.hasMore;
 
-	const [pullChange, setPullChange] = useState(0);
+	// const [pullChange, setPullChange] = useState(0);
 
-	const initializeLoading = () => {
-		setTimeout(() => {
-			window.location.reload();
-		}, 300);
-	};
+	// const initializeLoading = () => {
+	// 	setTimeout(() => {
+	// 		window.location.reload();
+	// 	}, 300);
+	// };
 
-	const pull: TouchEventHandler<HTMLDivElement> = (e) => {
-		const touch = e.targetTouches[0];
+	// const pull: TouchEventHandler<HTMLDivElement> = (e) => {
+	// 	const touch = e.targetTouches[0];
 
-		let { clientY } = touch;
+	// 	let { clientY } = touch;
 
-		let pullLength = Math.abs(clientY) || 0;
-		// console.log({ pullLength });
-		setPullChange(pullLength);
+	// 	let pullLength = Math.abs(clientY) || 0;
+	// 	// console.log({ pullLength });
+	// 	setPullChange(pullLength);
 
-		if (pullLength > 200) initializeLoading();
-	};
+	// 	if (pullLength > 200) initializeLoading();
+	// };
 
 	const fetchNext = () => {
 		if (hasMore) {
@@ -64,12 +64,12 @@ const Home = () => {
 		<div
 			className='flex flex-col gap-8 px-2 pb-4 lg:px-10 xl:px-28 h-full overflow-y-auto scrollbar-thin scrollbar-track-dark-primary scrollbar-thumb-normal-primary'
 			ref={scrollDivRef}
-			onTouchMove={pull}
-			style={{
-				marginTop: pullChange ? `${pullChange / 4}px` : '-2rem',
-			}}
+			// onTouchMove={pull}
+			// style={{
+			// 	marginTop: pullChange ? `${pullChange / 4}px` : '-2rem',
+			// }}
 		>
-			<div
+			{/* <div
 				className='w-full flex justify-center -mb-5'
 				// style={{
 				// 	marginTop: `${pullChange / 4}px`,
@@ -90,7 +90,7 @@ const Home = () => {
 						d='M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99'
 					/>
 				</svg>
-			</div>
+			</div> */}
 
 			<CreatePost />
 

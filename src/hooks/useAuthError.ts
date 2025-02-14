@@ -45,6 +45,7 @@ const useAuthError = ({
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				const err = 'error' in error ? error.error : (error.data as any);
 
+					// console.log({err, error}, 'from useAuthError');
 				if (typeof err === 'object') {
 					const possibleErrorProps = [
 						'fullname',
@@ -55,6 +56,7 @@ const useAuthError = ({
 					];
 
 					// Get the actual properties present in the error object
+
 					const presentErrorProps = Object.keys(err).filter((prop) =>
 						possibleErrorProps.includes(prop)
 					);
